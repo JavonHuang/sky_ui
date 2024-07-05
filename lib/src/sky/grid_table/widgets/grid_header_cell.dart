@@ -10,7 +10,7 @@ class SkyGridHeaderCell<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: column.width,
+      width: column.cellWidth,
       decoration: BoxDecoration(
         border: Border(
           right: BorderSide(

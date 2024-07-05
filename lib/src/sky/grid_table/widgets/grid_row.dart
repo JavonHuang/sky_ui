@@ -6,11 +6,12 @@ class SkyGridRow<T> extends StatelessWidget {
     required this.rowRecord,
     required this.columns,
     required this.rowIndex,
+    required this.rowOnTab,
   });
   final T rowRecord;
   final List<SkyGridTableColumn<T>> columns;
   final int rowIndex;
-
+  final Function(T e)? rowOnTab;
   @override
   Widget build(BuildContext context) {
     List<Widget> result = [];
@@ -24,18 +25,24 @@ class SkyGridRow<T> extends StatelessWidget {
       }
     }
     return IntrinsicHeight(
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: SkyColors().baseBorder,
-              width: 1,
+      child: GestureDetector(
+        onTap: () {
+          rowOnTab?.call(rowRecord);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: rowIndex % 2 != 0 ? SkyColors().tableRowBg : null,
+            border: Border(
+              bottom: BorderSide(
+                color: SkyColors().baseBorder,
+                width: 1,
+              ),
             ),
           ),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: result,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: result,
+          ),
         ),
       ),
     );

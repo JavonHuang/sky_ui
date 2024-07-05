@@ -7,7 +7,7 @@ import 'package:sky_ui/src/styles/styles.dart';
 
 part 'models/grid_table_column.dart';
 part 'grid_table_default.dart';
-
+part 'grid_table_fixed.dart';
 part './widgets/grid_row.dart';
 part './widgets/grid_cell.dart';
 part './widgets/grid_header_row.dart';
@@ -36,65 +36,21 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
   double get totalWidth {
     double result = 0;
     for (SkyGridTableColumn<T> item in widget.columns) {
-      result = result + (item.width ?? 0);
+      result = result + (item.cellWidth ?? 0);
     }
     return result;
   }
 
-  final innerController = ScrollController();
-
-  Widget renderTable() {
-    return Column(
-      children: [
-        SkyGridHeader(
-          columns: widget.columns,
-          rowNum: 1,
-        ),
-        Expanded(
-          child: InfiniteScroll(
-              loadFinish: widget.loadFinish,
-              data: widget.data,
-              itemBuilder: (context, index) {
-                return SkyGridRow<T>(
-                  rowRecord: widget.data[index],
-                  columns: widget.columns,
-                  rowIndex: index,
-                );
-              }),
-        ),
-      ],
-    );
+  bool get hasRightFixed {
+    return widget.columns.any((e) {
+      return e.rightFixed;
+    });
   }
 
-  Widget renderTable2() {
-    List<SkyGridTableColumn<T>> o = [];
-    for (SkyGridTableColumn<T> item in widget.columns) {
-      o.add(SkyGridTableColumn<T>(
-        headerTitle: item.headerTitle,
-        width: 50,
-        itemBuilder: item.itemBuilder,
-      ));
-    }
-    return Column(
-      children: [
-        SkyGridHeader(
-          columns: o,
-          rowNum: 1,
-        ),
-        Expanded(
-          child: InfiniteScroll(
-              loadFinish: widget.loadFinish,
-              data: widget.data,
-              itemBuilder: (context, index) {
-                return SkyGridRow<T>(
-                  rowRecord: widget.data[index],
-                  columns: o,
-                  rowIndex: index,
-                );
-              }),
-        ),
-      ],
-    );
+  bool get hasLeftFixed {
+    return widget.columns.any((e) {
+      return e.leftFixed;
+    });
   }
 
   @override
@@ -107,6 +63,16 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
         ),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
+        if (hasLeftFixed || hasRightFixed) {
+          return SkyTableFixed<T>(
+            data: widget.data,
+            loadFinish: widget.loadFinish,
+            columns: widget.columns,
+            rowOnTab: widget.rowOnTab,
+            widthOverflow: constraints.maxWidth < totalWidth,
+            totalWidth: totalWidth,
+          );
+        }
         return SkyGridTableDefault<T>(
           data: widget.data,
           loadFinish: widget.loadFinish,
@@ -115,34 +81,6 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
           widthOverflow: constraints.maxWidth < totalWidth,
           totalWidth: totalWidth,
         );
-        // if (constraints.maxWidth > totalWidth) {
-        //   return renderTable();
-        // } else {
-        //   return Stack(
-        //     children: [
-        //       Scrollbar(
-        //         controller: innerController,
-        //         child: SingleChildScrollView(
-        //           scrollDirection: Axis.horizontal,
-        //           controller: innerController,
-        //           child: SizedBox(width: totalWidth * 1.2, child: renderTable()),
-        //         ),
-        //       ),
-        //       Positioned(
-        //         top: 0,
-        //         bottom: 0,
-        //         right: 0,
-        //         width: 200,
-        //         child: Scrollbar(
-        //           child: SingleChildScrollView(
-        //             scrollDirection: Axis.horizontal,
-        //             child: SizedBox(width: totalWidth * 1, child: renderTable2()),
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   );
-        // }
       }),
     );
   }

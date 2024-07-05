@@ -21,11 +21,12 @@ class HeaderTitle {
 class SkyGridTableColumn<T> {
   final HeaderTitle headerTitle;
   final Widget Function(T value, int index) itemBuilder;
-  final double? width;
+  late double? width;
   final bool flex;
   final bool rightFixed;
   final bool leftFixed;
   final Function(T e)? cellOnTab;
+  late double? cellWidth;
   SkyGridTableColumn({
     required this.headerTitle,
     required this.itemBuilder,
@@ -34,5 +35,5 @@ class SkyGridTableColumn<T> {
     this.rightFixed = false,
     this.leftFixed = false,
     this.cellOnTab,
-  });
+  }) : cellWidth = !flex && width == null ? 32 : width;
 }

@@ -44,6 +44,8 @@ class SkyColors {
 
   ///底色
   static const Color _defaultBg = Color(0xFFf5f7fa);
+  static const Color _tableRowBg = Color(0xFFfafafa);
 
   Color get defaultBg => _defaultBg;
+  Color get tableRowBg => _tableRowBg;
 }
