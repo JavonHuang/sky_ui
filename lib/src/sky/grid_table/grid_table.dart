@@ -1,9 +1,11 @@
 library sky_grid_table;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sky_ui/src/sky/infinite_scroll/infinite_scroll.dart';
 import 'package:sky_ui/src/styles/styles.dart';
+
+import 'controller/scroll_controller.dart';
+import 'notifier/height_notifier.dart';
 
 part 'models/grid_table_column.dart';
 part 'grid_table_default.dart';
@@ -83,5 +85,11 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
         );
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    GridListViewScrollController().dispose();
+    super.dispose();
   }
 }

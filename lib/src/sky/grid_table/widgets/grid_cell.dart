@@ -6,22 +6,26 @@ class SkyGridCell<T> extends StatelessWidget {
     required this.column,
     required this.rowRecord,
     required this.rowIndex,
+    required this.lastRowCell,
   });
   final SkyGridTableColumn<T> column;
   final T rowRecord;
   final int rowIndex;
+  final bool lastRowCell;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: column.cellWidth,
       decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: SkyColors().baseBorder,
-            width: 1,
-          ),
-        ),
+        border: !lastRowCell
+            ? Border(
+                right: BorderSide(
+                  color: SkyColors().baseBorder,
+                  width: 1,
+                ),
+              )
+            : null,
       ),
       child: column.itemBuilder(rowRecord, rowIndex),
     );

@@ -17,7 +17,7 @@ class SkyTableFixed<T> extends StatelessWidget {
   final bool widthOverflow;
   final double totalWidth;
 
-  Widget renderTable(List<SkyGridTableColumn<T>> defaultColumns) {
+  Widget renderTable(List<SkyGridTableColumn<T>> defaultColumns, HeightNotifier heightNotifier, bool isFixed) {
     return Column(
       children: [
         SkyGridHeader(
@@ -28,12 +28,15 @@ class SkyTableFixed<T> extends StatelessWidget {
           child: InfiniteScroll(
               loadFinish: loadFinish,
               data: data,
+              controller: GridListViewScrollController().createScrollController(),
               itemBuilder: (context, index) {
                 return SkyGridRow<T>(
                   rowRecord: data[index],
                   columns: defaultColumns,
                   rowIndex: index,
                   rowOnTab: rowOnTab,
+                  heightNotifier: heightNotifier,
+                  isFixed: isFixed,
                 );
               }),
         ),
@@ -41,7 +44,7 @@ class SkyTableFixed<T> extends StatelessWidget {
     );
   }
 
-  List<Widget> renderFixed(List<SkyGridTableColumn<T>> rightFixedColumns, double rightWidth, List<SkyGridTableColumn<T>> leftFixedColumns, double leftWidth) {
+  List<Widget> renderFixed(List<SkyGridTableColumn<T>> rightFixedColumns, double rightWidth, List<SkyGridTableColumn<T>> leftFixedColumns, double leftWidth, HeightNotifier heightNotifier) {
     Widget rightFixedWidget = Positioned(
       top: 0,
       right: 0,
@@ -52,7 +55,7 @@ class SkyTableFixed<T> extends StatelessWidget {
           color: Colors.white,
           boxShadow: [SkyShadows.tbFixedRight],
         ),
-        child: renderTable(rightFixedColumns),
+        child: renderTable(rightFixedColumns, heightNotifier, true),
       ),
     );
     Widget leftFixedWidget = Positioned(
@@ -65,7 +68,7 @@ class SkyTableFixed<T> extends StatelessWidget {
           color: Colors.white,
           boxShadow: [SkyShadows.tbFixedLeft],
         ),
-        child: renderTable(leftFixedColumns),
+        child: renderTable(leftFixedColumns, heightNotifier, true),
       ),
     );
     if (rightFixedColumns.isNotEmpty && leftFixedColumns.isNotEmpty) {
@@ -87,7 +90,9 @@ class SkyTableFixed<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HeightNotifier heightNotifier = HeightNotifier();
     final innerController = ScrollController();
+
     List<SkyGridTableColumn<T>> rightFixedColumns = [];
     double rightFixedColumnsWidth = 0;
     List<SkyGridTableColumn<T>> leftFixedColumns = [];
@@ -97,12 +102,11 @@ class SkyTableFixed<T> extends StatelessWidget {
 
     for (SkyGridTableColumn<T> e in columns) {
       if (e.rightFixed) {
-        e.width ??= 80;
-        rightFixedColumnsWidth += e.width!;
+        rightFixedColumnsWidth += e.cellWidth!;
         rightFixedColumns.add(e);
       } else if (e.leftFixed) {
         e.width ??= 80;
-        leftFixedColumnsWidth += e.width!;
+        leftFixedColumnsWidth += e.cellWidth!;
         leftFixedColumns.add(e);
       } else {
         defaultColumns.add(e);
@@ -114,22 +118,46 @@ class SkyTableFixed<T> extends StatelessWidget {
     if (!widthOverflow) {
       return Stack(
         children: [
-          renderTable(defaultColumns),
-          ...renderFixed(rightFixedColumns, rightFixedColumnsWidth, leftFixedColumns, leftFixedColumnsWidth),
+          Column(
+            children: [
+              SizedBox(
+                width: leftFixedColumnsWidth,
+              ),
+              Expanded(
+                child: renderTable(defaultColumns, heightNotifier, false),
+              ),
+              SizedBox(
+                width: rightFixedColumnsWidth,
+              ),
+            ],
+          ),
+          ...renderFixed(rightFixedColumns, rightFixedColumnsWidth, leftFixedColumns, leftFixedColumnsWidth, heightNotifier),
         ],
       );
     } else {
       return Stack(
         children: [
-          Scrollbar(
-            controller: innerController,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              controller: innerController,
-              child: SizedBox(width: totalWidth * 1.2, child: renderTable(defaultColumns)),
-            ),
+          Row(
+            children: [
+              SizedBox(
+                width: leftFixedColumnsWidth,
+              ),
+              Expanded(
+                child: Scrollbar(
+                  controller: innerController,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    controller: innerController,
+                    child: SizedBox(width: totalWidth, child: renderTable(defaultColumns, heightNotifier, false)),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: rightFixedColumnsWidth,
+              ),
+            ],
           ),
-          ...renderFixed(rightFixedColumns, rightFixedColumnsWidth, leftFixedColumns, leftFixedColumnsWidth),
+          ...renderFixed(rightFixedColumns, rightFixedColumnsWidth, leftFixedColumns, leftFixedColumnsWidth, heightNotifier),
         ],
       );
     }

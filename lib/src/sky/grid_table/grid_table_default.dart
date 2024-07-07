@@ -34,6 +34,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
                   columns: columns,
                   rowIndex: index,
                   rowOnTab: rowOnTab,
+                  isFixed: false,
                 );
               }),
         ),
@@ -55,7 +56,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               controller: innerController,
-              child: SizedBox(width: totalWidth * 1.2, child: renderTable()),
+              child: SizedBox(width: totalWidth, child: renderTable()),
             ),
           ),
         ],
