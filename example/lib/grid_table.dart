@@ -42,7 +42,11 @@ class _GridTableState extends State<GridTable> {
       loadFinish: true,
       columns: [
         SkyGridTableColumn<Person>(
-          headerTitle: HeaderTitle(text: '姓名'),
+          headerTitle: HeaderTitle(
+              widgetTitle: Container(
+            height: 60,
+            child: Text('姓名'),
+          )),
           width: 200,
           itemBuilder: (row, index) {
             return Container(
@@ -52,7 +56,11 @@ class _GridTableState extends State<GridTable> {
           },
         ),
         SkyGridTableColumn<Person>(
-          headerTitle: HeaderTitle(text: '年龄'),
+          headerTitle: HeaderTitle(
+              widgetTitle: Container(
+            height: 60,
+            child: Text('年龄'),
+          )),
           width: 300,
           leftFixed: true,
           itemBuilder: (row, index) {

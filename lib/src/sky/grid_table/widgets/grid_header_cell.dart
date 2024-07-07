@@ -23,7 +23,7 @@ class SkyGridHeaderCell<T> extends StatelessWidget {
               )
             : null,
       ),
-      child: Text(column.headerTitle.text ?? ''),
+      child: column.headerTitle.text != null ? Text(column.headerTitle.text ?? '') : column.headerTitle.widgetTitle,
     );
   }
 }

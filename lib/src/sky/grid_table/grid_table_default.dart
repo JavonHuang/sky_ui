@@ -23,6 +23,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
         SkyGridHeader(
           columns: columns,
           rowNum: 1,
+          isFixed: false,
         ),
         Expanded(
           child: InfiniteScroll(

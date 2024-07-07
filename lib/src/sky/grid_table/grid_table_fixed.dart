@@ -23,6 +23,8 @@ class SkyTableFixed<T> extends StatelessWidget {
         SkyGridHeader(
           columns: defaultColumns,
           rowNum: 1,
+          heightNotifier: heightNotifier,
+          isFixed: isFixed,
         ),
         Expanded(
           child: InfiniteScroll(
@@ -112,8 +114,6 @@ class SkyTableFixed<T> extends StatelessWidget {
         defaultColumns.add(e);
       }
     }
-
-    defaultColumns = [...leftFixedColumns, ...defaultColumns];
 
     if (!widthOverflow) {
       return Stack(
