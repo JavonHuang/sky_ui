@@ -40,11 +40,16 @@ class _GridTableState extends State<GridTable> {
     return SkyInfiniteGridTable<Person>(
       data: data,
       loadFinish: true,
+      mergeHeaderColumn: [
+        GridMergeHeaderColumn(headerTitle: HeaderTitle(text: '测试'), start: [1, 1], end: [1, 3])
+      ],
+      headerRowNum: 2,
       columns: [
         SkyGridTableColumn<Person>(
+          leftFixed: true,
           headerTitle: HeaderTitle(
               widgetTitle: Container(
-            height: 60,
+            // height: 60,
             child: Text('姓名'),
           )),
           width: 200,
@@ -58,11 +63,11 @@ class _GridTableState extends State<GridTable> {
         SkyGridTableColumn<Person>(
           headerTitle: HeaderTitle(
               widgetTitle: Container(
-            height: 60,
+            height: 30,
             child: Text('年龄'),
           )),
           width: 300,
-          leftFixed: true,
+          // leftFixed: true,
           itemBuilder: (row, index) {
             return Container(
               child: Text(row.age.toString()),

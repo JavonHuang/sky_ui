@@ -9,6 +9,8 @@ class SkyGridTableDefault<T> extends StatelessWidget {
     this.rowOnTab,
     required this.widthOverflow,
     required this.totalWidth,
+    required this.mergeHeaderColumn,
+    required this.headerRowNum,
   });
   final List<T> data;
   final bool loadFinish;
@@ -16,14 +18,18 @@ class SkyGridTableDefault<T> extends StatelessWidget {
   final Function(T e)? rowOnTab;
   final bool widthOverflow;
   final double totalWidth;
+  final List<GridMergeHeaderColumn> mergeHeaderColumn;
+  final int headerRowNum;
 
   Widget renderTable() {
     return Column(
       children: [
         SkyGridHeader(
           columns: columns,
-          rowNum: 1,
+          headerRowNum: headerRowNum,
           isFixed: false,
+          mergeHeaderColumn: mergeHeaderColumn,
+          headerBoxSizeNotifier: HeaderBoxSizeNotifier(),
         ),
         Expanded(
           child: InfiniteScroll(
@@ -38,6 +44,13 @@ class SkyGridTableDefault<T> extends StatelessWidget {
                   isFixed: false,
                 );
               }),
+        ),
+        SkyGridFoot(
+          columns: columns,
+          headerRowNum: headerRowNum,
+          isFixed: false,
+          mergeHeaderColumn: mergeHeaderColumn,
+          headerBoxSizeNotifier: HeaderBoxSizeNotifier(),
         ),
       ],
     );

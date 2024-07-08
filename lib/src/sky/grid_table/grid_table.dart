@@ -6,8 +6,12 @@ import 'package:sky_ui/src/styles/styles.dart';
 
 import 'controller/scroll_controller.dart';
 import 'notifier/height_notifier.dart';
+import 'notifier/header_box_size_notifier.dart';
 
 part 'models/grid_table_column.dart';
+part 'models/grid_merge_header_column.dart';
+
+part 'styles.dart';
 part 'grid_table_default.dart';
 part 'grid_table_fixed.dart';
 part './widgets/grid_row.dart';
@@ -15,6 +19,10 @@ part './widgets/grid_cell.dart';
 part './widgets/grid_header_row.dart';
 part './widgets/grid_header_cell.dart';
 part './widgets/grid_header.dart';
+part './widgets/hover_row.dart';
+part './widgets/grid_foot.dart';
+part './widgets/grid_foot_row.dart';
+part './widgets/grid_foot_cell.dart';
 
 class SkyInfiniteGridTable<T> extends StatefulWidget {
   const SkyInfiniteGridTable({
@@ -23,13 +31,16 @@ class SkyInfiniteGridTable<T> extends StatefulWidget {
     required this.loadFinish,
     required this.columns,
     this.rowOnTab,
+    this.mergeHeaderColumn,
+    this.headerRowNum = 1,
   });
 
   final List<T> data;
   final bool loadFinish;
   final List<SkyGridTableColumn<T>> columns;
   final Function(T e)? rowOnTab;
-
+  final List<GridMergeHeaderColumn>? mergeHeaderColumn;
+  final int headerRowNum;
   @override
   SkyInfiniteGridTableState<T> createState() => SkyInfiniteGridTableState<T>();
 }
@@ -73,6 +84,8 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
             rowOnTab: widget.rowOnTab,
             widthOverflow: constraints.maxWidth < totalWidth,
             totalWidth: totalWidth,
+            mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
+            headerRowNum: widget.headerRowNum,
           );
         }
         return SkyGridTableDefault<T>(
@@ -82,6 +95,8 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
           rowOnTab: widget.rowOnTab,
           widthOverflow: constraints.maxWidth < totalWidth,
           totalWidth: totalWidth,
+          mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
+          headerRowNum: widget.headerRowNum,
         );
       }),
     );

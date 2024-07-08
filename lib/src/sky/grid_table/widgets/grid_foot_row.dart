@@ -1,7 +1,7 @@
 part of '../grid_table.dart';
 
-class SkyGridHeaderRow<T> extends StatefulWidget {
-  const SkyGridHeaderRow({
+class SkyGridFootRow<T> extends StatefulWidget {
+  const SkyGridFootRow({
     super.key,
     required this.rowIndex,
     required this.columns,
@@ -19,10 +19,10 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
   final bool merge;
 
   @override
-  _SkyGridHeaderRow<T> createState() => _SkyGridHeaderRow<T>();
+  _SkyGridFootRowState<T> createState() => _SkyGridFootRowState<T>();
 }
 
-class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
+class _SkyGridFootRowState<T> extends State<SkyGridFootRow<T>> {
   double? height;
 
   final GlobalKey _key = GlobalKey();
@@ -61,7 +61,7 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
       SkyGridTableColumn<T> item = widget.columns[i];
       if (item.flex) {
         rowList.add(Expanded(
-          child: SkyGridHeaderCell<T>(
+          child: SkyGridFootCell<T>(
             column: item,
             lastRowCell: i == widget.columns.length - 1,
             headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
@@ -71,7 +71,7 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
           ),
         ));
       } else {
-        rowList.add(SkyGridHeaderCell<T>(
+        rowList.add(SkyGridFootCell<T>(
           column: item,
           lastRowCell: i == widget.columns.length - 1,
           headerBoxSizeNotifier: widget.headerBoxSizeNotifier,

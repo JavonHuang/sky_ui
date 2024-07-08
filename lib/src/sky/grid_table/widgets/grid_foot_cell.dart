@@ -1,7 +1,7 @@
 part of '../grid_table.dart';
 
-class SkyGridHeaderCell<T> extends StatefulWidget {
-  const SkyGridHeaderCell({
+class SkyGridFootCell<T> extends StatefulWidget {
+  const SkyGridFootCell({
     super.key,
     required this.rowIndex,
     required this.cellIndex,
@@ -17,10 +17,10 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool merge;
   @override
-  _SkyGridHeaderCell<T> createState() => _SkyGridHeaderCell<T>();
+  _SkyGridFootCell<T> createState() => _SkyGridFootCell<T>();
 }
 
-class _SkyGridHeaderCell<T> extends State<SkyGridHeaderCell<T>> {
+class _SkyGridFootCell<T> extends State<SkyGridFootCell<T>> {
   final GlobalKey _key = GlobalKey();
 
   void getBoxSize() {

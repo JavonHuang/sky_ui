@@ -12,12 +12,6 @@ class Scroll {
 }
 
 class GridListViewScrollController {
-  GridListViewScrollController._privateConstructor();
-
-  static final GridListViewScrollController _instance = GridListViewScrollController._privateConstructor();
-
-  factory GridListViewScrollController() => _instance;
-
   late final List<Scroll> _listScrollController = [];
 
   Function() _listener(ScrollController e, int index) {
@@ -29,7 +23,7 @@ class GridListViewScrollController {
       }
       _listScrollController[index].touch = true;
       for (Scroll item in _listScrollController) {
-        if (current != item.controller) {
+        if (current != item.controller && item.controller.positions.isNotEmpty) {
           item.controller.jumpTo(current.offset);
         }
       }

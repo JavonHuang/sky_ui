@@ -1,7 +1,7 @@
 part of '../grid_table.dart';
 
-class SkyGridHeader<T> extends StatefulWidget {
-  const SkyGridHeader({
+class SkyGridFoot<T> extends StatefulWidget {
+  const SkyGridFoot({
     super.key,
     required this.headerRowNum,
     required this.columns,
@@ -18,10 +18,10 @@ class SkyGridHeader<T> extends StatefulWidget {
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
 
   @override
-  _SkyGridHeader<T> createState() => _SkyGridHeader<T>();
+  _SkyGridFootState<T> createState() => _SkyGridFootState<T>();
 }
 
-class _SkyGridHeader<T> extends State<SkyGridHeader<T>> {
+class _SkyGridFootState<T> extends State<SkyGridFoot<T>> {
   late List<Widget> mergeWidget = [];
 
   @override

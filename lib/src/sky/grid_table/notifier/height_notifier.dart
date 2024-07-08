@@ -11,4 +11,8 @@ class HeightNotifier extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  double getRowHeiht(int rowIndex) {
+    return rowHeightMap[rowIndex]!;
+  }
 }
