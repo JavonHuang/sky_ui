@@ -27,6 +27,8 @@ class SkyGridTableColumn<T> {
   final bool leftFixed;
   final Function(T e)? cellOnTab;
   late double? cellWidth;
+  final Widget? Function(int index)? itemFooterBuilder;
+
   SkyGridTableColumn({
     required this.headerTitle,
     required this.itemBuilder,
@@ -35,5 +37,6 @@ class SkyGridTableColumn<T> {
     this.rightFixed = false,
     this.leftFixed = false,
     this.cellOnTab,
+    this.itemFooterBuilder,
   }) : cellWidth = !flex && width == null ? 32 : width;
 }

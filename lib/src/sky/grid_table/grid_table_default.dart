@@ -10,7 +10,10 @@ class SkyGridTableDefault<T> extends StatelessWidget {
     required this.widthOverflow,
     required this.totalWidth,
     required this.mergeHeaderColumn,
+    required this.mergeFooterColumn,
     required this.headerRowNum,
+    required this.footerRowNum,
+    this.loadMore,
   });
   final List<T> data;
   final bool loadFinish;
@@ -19,7 +22,10 @@ class SkyGridTableDefault<T> extends StatelessWidget {
   final bool widthOverflow;
   final double totalWidth;
   final List<GridMergeHeaderColumn> mergeHeaderColumn;
+  final List<GridMergeFooterColumn> mergeFooterColumn;
   final int headerRowNum;
+  final int footerRowNum;
+  final Function()? loadMore;
 
   Widget renderTable() {
     return Column(
@@ -28,6 +34,8 @@ class SkyGridTableDefault<T> extends StatelessWidget {
           columns: columns,
           headerRowNum: headerRowNum,
           isFixed: false,
+          leftFixed: false,
+          rightFixed: false,
           mergeHeaderColumn: mergeHeaderColumn,
           headerBoxSizeNotifier: HeaderBoxSizeNotifier(),
         ),
@@ -35,6 +43,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
           child: InfiniteScroll(
               loadFinish: loadFinish,
               data: data,
+              loadMore: loadMore,
               itemBuilder: (context, index) {
                 return SkyGridRow<T>(
                   rowRecord: data[index],
@@ -47,10 +56,12 @@ class SkyGridTableDefault<T> extends StatelessWidget {
         ),
         SkyGridFoot(
           columns: columns,
-          headerRowNum: headerRowNum,
+          footerRowNum: footerRowNum,
           isFixed: false,
-          mergeHeaderColumn: mergeHeaderColumn,
-          headerBoxSizeNotifier: HeaderBoxSizeNotifier(),
+          leftFixed: false,
+          rightFixed: false,
+          mergeFooterColumn: mergeFooterColumn,
+          footBoxSizeNotifier: FootBoxSizeNotifier(),
         ),
       ],
     );

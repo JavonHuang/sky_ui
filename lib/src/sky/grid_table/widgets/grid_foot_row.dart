@@ -6,17 +6,21 @@ class SkyGridFootRow<T> extends StatefulWidget {
     required this.rowIndex,
     required this.columns,
     this.heightNotifier,
-    required this.isFixed,
-    required this.headerBoxSizeNotifier,
+    required this.footBoxSizeNotifier,
     this.merge = false,
+    required this.leftFixed,
+    required this.rightFixed,
+    required this.isFixed,
   });
   final int rowIndex;
 
   final List<SkyGridTableColumn<T>> columns;
   final HeightNotifier? heightNotifier;
-  final bool isFixed;
-  final HeaderBoxSizeNotifier headerBoxSizeNotifier;
+  final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool merge;
+  final bool leftFixed;
+  final bool rightFixed;
+  final bool isFixed;
 
   @override
   _SkyGridFootRowState<T> createState() => _SkyGridFootRowState<T>();
@@ -64,20 +68,26 @@ class _SkyGridFootRowState<T> extends State<SkyGridFootRow<T>> {
           child: SkyGridFootCell<T>(
             column: item,
             lastRowCell: i == widget.columns.length - 1,
-            headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
+            footBoxSizeNotifier: widget.footBoxSizeNotifier,
             merge: widget.merge,
             rowIndex: widget.rowIndex,
             cellIndex: i,
+            leftFixed: widget.leftFixed,
+            rightFixed: widget.rightFixed,
+            isFixed: widget.isFixed,
           ),
         ));
       } else {
         rowList.add(SkyGridFootCell<T>(
           column: item,
           lastRowCell: i == widget.columns.length - 1,
-          headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
+          footBoxSizeNotifier: widget.footBoxSizeNotifier,
           merge: widget.merge,
           rowIndex: widget.rowIndex,
           cellIndex: i,
+          leftFixed: widget.leftFixed,
+          rightFixed: widget.rightFixed,
+          isFixed: widget.isFixed,
         ));
       }
     }

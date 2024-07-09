@@ -7,15 +7,21 @@ class SkyGridFootCell<T> extends StatefulWidget {
     required this.cellIndex,
     required this.column,
     required this.lastRowCell,
-    required this.headerBoxSizeNotifier,
+    required this.footBoxSizeNotifier,
     required this.merge,
+    required this.leftFixed,
+    required this.rightFixed,
+    required this.isFixed,
   });
   final int rowIndex;
   final int cellIndex;
   final SkyGridTableColumn<T> column;
   final bool lastRowCell;
-  final HeaderBoxSizeNotifier headerBoxSizeNotifier;
+  final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool merge;
+  final bool leftFixed;
+  final bool rightFixed;
+  final bool isFixed;
   @override
   _SkyGridFootCell<T> createState() => _SkyGridFootCell<T>();
 }
@@ -23,9 +29,25 @@ class SkyGridFootCell<T> extends StatefulWidget {
 class _SkyGridFootCell<T> extends State<SkyGridFootCell<T>> {
   final GlobalKey _key = GlobalKey();
 
+  int get type {
+    if (widget.isFixed) {
+      return 0;
+    }
+    if (widget.leftFixed) {
+      return -1;
+    }
+    if (widget.rightFixed) {
+      return 1;
+    }
+    return 0;
+  }
+
   void getBoxSize() {
+    if (_key.currentContext == null) {
+      return;
+    }
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
-    widget.headerBoxSizeNotifier.setHeaderCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height);
+    widget.footBoxSizeNotifier.setfooterCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height, type);
   }
 
   @override
@@ -54,7 +76,9 @@ class _SkyGridFootCell<T> extends State<SkyGridFootCell<T>> {
               )
             : null,
       ),
-      child: widget.column.headerTitle.text != null ? Text(widget.column.headerTitle.text ?? '') : widget.column.headerTitle.widgetTitle,
+      child: widget.column.itemFooterBuilder != null
+          ? widget.column.itemFooterBuilder!(widget.cellIndex)
+          : (widget.column.headerTitle.text != null ? Text(widget.column.headerTitle.text ?? '') : widget.column.headerTitle.widgetTitle),
     );
   }
 }

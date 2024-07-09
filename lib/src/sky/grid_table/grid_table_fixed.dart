@@ -10,7 +10,10 @@ class SkyTableFixed<T> extends StatefulWidget {
     required this.widthOverflow,
     required this.totalWidth,
     required this.mergeHeaderColumn,
+    required this.mergeFooterColumn,
     required this.headerRowNum,
+    required this.footerRowNum,
+    this.loadMore,
   });
   final List<T> data;
   final bool loadFinish;
@@ -19,7 +22,11 @@ class SkyTableFixed<T> extends StatefulWidget {
   final bool widthOverflow;
   final double totalWidth;
   final List<GridMergeHeaderColumn> mergeHeaderColumn;
+  final List<GridMergeFooterColumn> mergeFooterColumn;
   final int headerRowNum;
+  final int footerRowNum;
+  final Function()? loadMore;
+
   @override
   _SkyTableFixedState<T> createState() => _SkyTableFixedState<T>();
 }
@@ -45,6 +52,8 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
     bool isFixed,
     ScrollController scrollController,
     bool scrollbars,
+    bool leftFixed,
+    bool rightFixed,
   ) {
     return Column(
       children: [
@@ -53,6 +62,8 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
           headerRowNum: widget.headerRowNum,
           heightNotifier: heightNotifier,
           isFixed: isFixed,
+          leftFixed: leftFixed,
+          rightFixed: rightFixed,
           mergeHeaderColumn: widget.mergeHeaderColumn,
           headerBoxSizeNotifier: headerBoxSizeNotifier,
         ),
@@ -62,6 +73,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
               data: widget.data,
               controller: scrollController,
               scrollbars: scrollbars,
+              loadMore: isFixed ? null : widget.loadMore,
               itemBuilder: (context, index) {
                 return SkyGridRow<T>(
                   rowRecord: widget.data[index],
@@ -75,11 +87,13 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
         ),
         SkyGridFoot(
           columns: defaultColumns,
-          headerRowNum: widget.headerRowNum,
+          footerRowNum: widget.footerRowNum,
           heightNotifier: heightNotifier,
           isFixed: isFixed,
-          mergeHeaderColumn: widget.mergeHeaderColumn,
-          headerBoxSizeNotifier: headerBoxSizeNotifier,
+          leftFixed: leftFixed,
+          rightFixed: rightFixed,
+          mergeFooterColumn: widget.mergeFooterColumn,
+          footBoxSizeNotifier: FootBoxSizeNotifier(),
         ),
       ],
     );
@@ -102,7 +116,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
           color: Colors.white,
           boxShadow: [SkyShadows.tbFixedRight],
         ),
-        child: renderTable(rightFixedColumns, heightNotifier, true, _rightScrollController, true),
+        child: renderTable(rightFixedColumns, heightNotifier, true, _rightScrollController, true, false, true),
       ),
     );
     Widget leftFixedWidget = Positioned(
@@ -115,7 +129,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
           color: Colors.white,
           boxShadow: [SkyShadows.tbFixedLeft],
         ),
-        child: renderTable(leftFixedColumns, heightNotifier, true, _leftScrollController, false),
+        child: renderTable(leftFixedColumns, heightNotifier, true, _leftScrollController, false, true, false),
       ),
     );
     if (rightFixedColumns.isNotEmpty && leftFixedColumns.isNotEmpty) {
@@ -165,14 +179,28 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
                 width: leftFixedColumnsWidth,
               ),
               Expanded(
-                child: renderTable(defaultColumns, heightNotifier, false, scrollController, rightFixedColumnsWidth == 0),
+                child: renderTable(
+                  defaultColumns,
+                  heightNotifier,
+                  false,
+                  scrollController,
+                  rightFixedColumnsWidth == 0,
+                  false,
+                  false,
+                ),
               ),
               SizedBox(
                 width: rightFixedColumnsWidth,
               ),
             ],
           ),
-          ...renderFixed(rightFixedColumns, rightFixedColumnsWidth, leftFixedColumns, leftFixedColumnsWidth, heightNotifier),
+          ...renderFixed(
+            rightFixedColumns,
+            rightFixedColumnsWidth,
+            leftFixedColumns,
+            leftFixedColumnsWidth,
+            heightNotifier,
+          ),
         ],
       );
     } else {
@@ -189,7 +217,18 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     controller: innerController,
-                    child: SizedBox(width: widget.totalWidth, child: renderTable(defaultColumns, heightNotifier, false, scrollController, rightFixedColumnsWidth == 0)),
+                    child: SizedBox(
+                      width: widget.totalWidth,
+                      child: renderTable(
+                        defaultColumns,
+                        heightNotifier,
+                        false,
+                        scrollController,
+                        rightFixedColumnsWidth == 0,
+                        false,
+                        false,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -198,7 +237,13 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
               ),
             ],
           ),
-          ...renderFixed(rightFixedColumns, rightFixedColumnsWidth, leftFixedColumns, leftFixedColumnsWidth, heightNotifier),
+          ...renderFixed(
+            rightFixedColumns,
+            rightFixedColumnsWidth,
+            leftFixedColumns,
+            leftFixedColumnsWidth,
+            heightNotifier,
+          ),
         ],
       );
     }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
@@ -26,12 +28,28 @@ class GridTable extends StatefulWidget {
 
 class _GridTableState extends State<GridTable> {
   List<Person> data = [];
+  late bool loadFinish = false;
+  late bool loading = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      data = List.generate(20, (index) => Person(name: 'Javon_$index', age: 20 + index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'));
+      data = List.generate(2, (index) => Person(name: 'Javon_$index', age: 20 + index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'));
+    });
+  }
+
+  void loadMore() async {
+    if (loading) {
+      return;
+    }
+    loading = true;
+    await Future.delayed(const Duration(seconds: 2), () {
+      loading = false;
+      data = [...data, ...List.generate(2, (index) => Person(name: 'Javon_${index + data.length}', age: 20 + index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'))];
+      setState(() {
+        loadFinish = data.length > 300;
+      });
     });
   }
 
@@ -39,10 +57,15 @@ class _GridTableState extends State<GridTable> {
   Widget build(BuildContext context) {
     return SkyInfiniteGridTable<Person>(
       data: data,
-      loadFinish: true,
+      loadFinish: loadFinish,
+      loadMore: loadMore,
       mergeHeaderColumn: [
         GridMergeHeaderColumn(headerTitle: HeaderTitle(text: '测试'), start: [1, 1], end: [1, 3])
       ],
+      mergeFooterColumn: [
+        GridMergeFooterColumn(footerTitle: HeaderTitle(text: 'javon'), start: [0, 1], end: [0, 3])
+      ],
+      footerRowNum: 1,
       headerRowNum: 2,
       columns: [
         SkyGridTableColumn<Person>(
@@ -77,6 +100,7 @@ class _GridTableState extends State<GridTable> {
         SkyGridTableColumn<Person>(
           headerTitle: HeaderTitle(text: '身高'),
           rightFixed: true,
+          width: 200,
           itemBuilder: (row, index) {
             return Container(
               child: Text(row.height.toString()),

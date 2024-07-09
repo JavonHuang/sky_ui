@@ -9,6 +9,9 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
     required this.lastRowCell,
     required this.headerBoxSizeNotifier,
     required this.merge,
+    required this.leftFixed,
+    required this.rightFixed,
+    required this.isFixed,
   });
   final int rowIndex;
   final int cellIndex;
@@ -16,16 +19,34 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
   final bool lastRowCell;
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool merge;
+  final bool leftFixed;
+  final bool rightFixed;
+  final bool isFixed;
   @override
   _SkyGridHeaderCell<T> createState() => _SkyGridHeaderCell<T>();
 }
 
 class _SkyGridHeaderCell<T> extends State<SkyGridHeaderCell<T>> {
   final GlobalKey _key = GlobalKey();
+  int get type {
+    if (widget.isFixed) {
+      return 0;
+    }
+    if (widget.leftFixed) {
+      return -1;
+    }
+    if (widget.rightFixed) {
+      return 1;
+    }
+    return 0;
+  }
 
   void getBoxSize() {
+    if (_key.currentContext == null) {
+      return;
+    }
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
-    widget.headerBoxSizeNotifier.setHeaderCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height);
+    widget.headerBoxSizeNotifier.setHeaderCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height, type);
   }
 
   @override

@@ -6,18 +6,21 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
     required this.rowIndex,
     required this.columns,
     this.heightNotifier,
-    required this.isFixed,
     required this.headerBoxSizeNotifier,
     this.merge = false,
+    required this.leftFixed,
+    required this.rightFixed,
+    required this.isFixed,
   });
   final int rowIndex;
 
   final List<SkyGridTableColumn<T>> columns;
   final HeightNotifier? heightNotifier;
-  final bool isFixed;
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool merge;
-
+  final bool leftFixed;
+  final bool rightFixed;
+  final bool isFixed;
   @override
   _SkyGridHeaderRow<T> createState() => _SkyGridHeaderRow<T>();
 }
@@ -68,6 +71,9 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
             merge: widget.merge,
             rowIndex: widget.rowIndex,
             cellIndex: i,
+            leftFixed: widget.leftFixed,
+            rightFixed: widget.rightFixed,
+            isFixed: widget.isFixed,
           ),
         ));
       } else {
@@ -78,6 +84,9 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
           merge: widget.merge,
           rowIndex: widget.rowIndex,
           cellIndex: i,
+          leftFixed: widget.leftFixed,
+          rightFixed: widget.rightFixed,
+          isFixed: widget.isFixed,
         ));
       }
     }

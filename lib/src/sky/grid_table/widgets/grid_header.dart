@@ -6,23 +6,38 @@ class SkyGridHeader<T> extends StatefulWidget {
     required this.headerRowNum,
     required this.columns,
     this.heightNotifier,
-    required this.isFixed,
     required this.mergeHeaderColumn,
     required this.headerBoxSizeNotifier,
+    required this.leftFixed,
+    required this.rightFixed,
+    required this.isFixed,
   });
   final int headerRowNum;
   final List<SkyGridTableColumn<T>> columns;
   final HeightNotifier? heightNotifier;
-  final bool isFixed;
   final List<GridMergeHeaderColumn> mergeHeaderColumn;
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
-
+  final bool leftFixed;
+  final bool rightFixed;
+  final bool isFixed;
   @override
   _SkyGridHeader<T> createState() => _SkyGridHeader<T>();
 }
 
 class _SkyGridHeader<T> extends State<SkyGridHeader<T>> {
   late List<Widget> mergeWidget = [];
+  int get type {
+    if (widget.isFixed) {
+      return 0;
+    }
+    if (widget.leftFixed) {
+      return -1;
+    }
+    if (widget.rightFixed) {
+      return 1;
+    }
+    return 0;
+  }
 
   @override
   void initState() {
@@ -45,17 +60,17 @@ class _SkyGridHeader<T> extends State<SkyGridHeader<T>> {
       double left = 0;
       double top = 0;
       for (int i = 0; i < item.start[0]; i++) {
-        top = top + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(i, item.start[1]).height;
+        top = top + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(i, item.start[1], type).height;
       }
       for (int i = 0; i < item.start[1]; i++) {
-        left = left + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(item.start[0], i).width;
+        left = left + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(item.start[0], i, type).width;
       }
 
       for (int i = item.start[0]; i <= item.end[0]; i++) {
-        rowHeight = rowHeight + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(i, item.start[1]).height;
+        rowHeight = rowHeight + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(i, item.start[1], type).height;
       }
       for (int j = item.start[1]; j <= item.end[1]; j++) {
-        cellWidth = cellWidth + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(item.start[0], j).width;
+        cellWidth = cellWidth + widget.headerBoxSizeNotifier.getHeaderCellBoxSize(item.start[0], j, type).width;
       }
       mergeWidget.add(Positioned(
         left: left,
@@ -82,10 +97,12 @@ class _SkyGridHeader<T> extends State<SkyGridHeader<T>> {
       rowList.add(SkyGridHeaderRow<T>(
         columns: widget.columns,
         heightNotifier: widget.heightNotifier,
-        isFixed: widget.isFixed,
         rowIndex: i,
         headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
         merge: widget.mergeHeaderColumn.isNotEmpty,
+        leftFixed: widget.leftFixed,
+        rightFixed: widget.rightFixed,
+        isFixed: widget.isFixed,
       ));
     }
     return Stack(
