@@ -5,6 +5,7 @@ class SkyTableFixed<T> extends StatefulWidget {
     super.key,
     required this.data,
     required this.loadFinish,
+    required this.loading,
     required this.columns,
     this.rowOnTab,
     required this.widthOverflow,
@@ -17,6 +18,7 @@ class SkyTableFixed<T> extends StatefulWidget {
   });
   final List<T> data;
   final bool loadFinish;
+  final bool loading;
   final List<SkyGridTableColumn<T>> columns;
   final Function(T e)? rowOnTab;
   final bool widthOverflow;
@@ -70,10 +72,12 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
         Expanded(
           child: InfiniteScroll(
               loadFinish: widget.loadFinish,
+              loading: widget.loading,
               data: widget.data,
               controller: scrollController,
               scrollbars: scrollbars,
               loadMore: isFixed ? null : widget.loadMore,
+              showTips: !isFixed,
               itemBuilder: (context, index) {
                 return SkyGridRow<T>(
                   rowRecord: widget.data[index],

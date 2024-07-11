@@ -5,6 +5,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
     super.key,
     required this.data,
     required this.loadFinish,
+    required this.loading,
     required this.columns,
     this.rowOnTab,
     required this.widthOverflow,
@@ -17,6 +18,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
   });
   final List<T> data;
   final bool loadFinish;
+  final bool loading;
   final List<SkyGridTableColumn<T>> columns;
   final Function(T e)? rowOnTab;
   final bool widthOverflow;
@@ -42,6 +44,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
         Expanded(
           child: InfiniteScroll(
               loadFinish: loadFinish,
+              loading: loading,
               data: data,
               loadMore: loadMore,
               itemBuilder: (context, index) {

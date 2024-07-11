@@ -43,12 +43,15 @@ class _GridTableState extends State<GridTable> {
     if (loading) {
       return;
     }
-    loading = true;
+    setState(() {
+      loading = true;
+    });
     await Future.delayed(const Duration(seconds: 2), () {
       loading = false;
       data = [...data, ...List.generate(2, (index) => Person(name: 'Javon_${index + data.length}', age: 20 + index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'))];
       setState(() {
-        loadFinish = data.length > 300;
+        loadFinish = data.length > 30;
+        loading = false;
       });
     });
   }
@@ -58,6 +61,7 @@ class _GridTableState extends State<GridTable> {
     return SkyInfiniteGridTable<Person>(
       data: data,
       loadFinish: loadFinish,
+      loading: loading,
       loadMore: loadMore,
       mergeHeaderColumn: [
         GridMergeHeaderColumn(headerTitle: HeaderTitle(text: '测试'), start: [1, 1], end: [1, 3])

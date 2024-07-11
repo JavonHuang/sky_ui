@@ -1,9 +1,9 @@
 library sky_grid_table;
 
 import 'package:flutter/material.dart';
-import 'package:sky_ui/src/sky/infinite_scroll/infinite_scroll.dart';
-import 'package:sky_ui/src/styles/styles.dart';
 
+import '../../styles/styles.dart';
+import '../infinite_scroll/infinite_scroll.dart';
 import 'controller/scroll_controller.dart';
 import 'notifier/foot_box_size_notifier.dart';
 import 'notifier/height_notifier.dart';
@@ -31,6 +31,7 @@ class SkyInfiniteGridTable<T> extends StatefulWidget {
     super.key,
     required this.data,
     required this.loadFinish,
+    required this.loading,
     required this.columns,
     this.rowOnTab,
     this.mergeHeaderColumn,
@@ -42,6 +43,7 @@ class SkyInfiniteGridTable<T> extends StatefulWidget {
 
   final List<T> data;
   final bool loadFinish;
+  final bool loading;
   final List<SkyGridTableColumn<T>> columns;
   final Function(T e)? rowOnTab;
   final List<GridMergeHeaderColumn>? mergeHeaderColumn;
@@ -89,6 +91,7 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
           return SkyTableFixed<T>(
             data: widget.data,
             loadFinish: widget.loadFinish,
+            loading: widget.loading,
             loadMore: widget.loadMore,
             columns: widget.columns,
             rowOnTab: widget.rowOnTab,
@@ -103,6 +106,7 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
         return SkyGridTableDefault<T>(
           data: widget.data,
           loadFinish: widget.loadFinish,
+          loading: widget.loading,
           loadMore: widget.loadMore,
           columns: widget.columns,
           rowOnTab: widget.rowOnTab,

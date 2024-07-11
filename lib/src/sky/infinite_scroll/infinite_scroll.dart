@@ -11,6 +11,8 @@ class InfiniteScroll<T> extends StatefulWidget {
     this.loadMore,
     this.controller,
     this.scrollbars = true,
+    required this.loading,
+    this.showTips = true,
   });
   final bool loadFinish;
   final List<T> data;
@@ -18,6 +20,8 @@ class InfiniteScroll<T> extends StatefulWidget {
   final Function()? loadMore;
   final ScrollController? controller;
   final bool scrollbars;
+  final bool loading;
+  final bool showTips;
 
   @override
   State<InfiniteScroll> createState() => _InfiniteScrollState();
@@ -30,10 +34,26 @@ class _InfiniteScrollState extends State<InfiniteScroll> {
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: widget.scrollbars),
       child: ListView.builder(
           controller: widget.controller,
-          itemCount: widget.data.length,
+          itemCount: widget.data.length + (widget.loadFinish || widget.loading ? 1 : 0),
           itemBuilder: (context, index) {
+            if (widget.loadFinish && index == widget.data.length) {
+              return SizedBox(
+                height: 50,
+                child: Center(child: Text(widget.showTips ? '没有更多了' : '')),
+              );
+            }
+            if (widget.loading && index == widget.data.length) {
+              return SizedBox(
+                height: 50,
+                child: Center(
+                  child: widget.showTips ? const CircularProgressIndicator() : const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.transparent)),
+                ),
+              );
+            }
             if (index == widget.data.length - 1 && widget.loadMore != null && !widget.loadFinish) {
-              widget.loadMore!.call();
+              Future.delayed(const Duration(seconds: 0), () {
+                widget.loadMore!.call();
+              });
             }
             return widget.itemBuilder(context, index);
           }),
