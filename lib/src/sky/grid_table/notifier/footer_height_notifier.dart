@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HeightNotifier extends ChangeNotifier {
+class FooterHeightNotifier extends ChangeNotifier {
   late Map<int, double> rowHeightMap = {};
 
   void setRowHeihtMap(int rowIndex, double height) {

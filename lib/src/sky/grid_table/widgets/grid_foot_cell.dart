@@ -1,13 +1,13 @@
 part of '../grid_table.dart';
 
-class SkyGridHeaderCell<T> extends StatefulWidget {
-  const SkyGridHeaderCell({
+class SkyGridFootCell<T> extends StatefulWidget {
+  const SkyGridFootCell({
     super.key,
     required this.rowIndex,
     required this.cellIndex,
     required this.column,
     required this.lastRowCell,
-    required this.headerBoxSizeNotifier,
+    required this.footBoxSizeNotifier,
     required this.merge,
     required this.leftFixed,
     required this.rightFixed,
@@ -17,17 +17,18 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
   final int cellIndex;
   final SkyGridTableColumn<T> column;
   final bool lastRowCell;
-  final HeaderBoxSizeNotifier headerBoxSizeNotifier;
+  final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool merge;
   final bool leftFixed;
   final bool rightFixed;
   final bool isFixed;
   @override
-  _SkyGridHeaderCell<T> createState() => _SkyGridHeaderCell<T>();
+  _SkyGridFootCell<T> createState() => _SkyGridFootCell<T>();
 }
 
-class _SkyGridHeaderCell<T> extends State<SkyGridHeaderCell<T>> {
+class _SkyGridFootCell<T> extends State<SkyGridFootCell<T>> {
   final GlobalKey _key = GlobalKey();
+
   int get type {
     if (widget.isFixed) {
       return 0;
@@ -46,7 +47,7 @@ class _SkyGridHeaderCell<T> extends State<SkyGridHeaderCell<T>> {
       return;
     }
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
-    widget.headerBoxSizeNotifier.setHeaderCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height, type);
+    widget.footBoxSizeNotifier.setfooterCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height, type);
   }
 
   @override
@@ -75,7 +76,9 @@ class _SkyGridHeaderCell<T> extends State<SkyGridHeaderCell<T>> {
               )
             : null,
       ),
-      child: widget.column.headerTitle.text != null ? Text(widget.column.headerTitle.text ?? '') : widget.column.headerTitle.widgetTitle,
+      child: widget.column.itemFooterBuilder != null
+          ? widget.column.itemFooterBuilder!(widget.cellIndex)
+          : (widget.column.headerTitle.text != null ? Text(widget.column.headerTitle.text ?? '') : widget.column.headerTitle.widgetTitle),
     );
   }
 }

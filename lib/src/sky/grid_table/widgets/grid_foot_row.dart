@@ -1,12 +1,12 @@
 part of '../grid_table.dart';
 
-class SkyGridHeaderRow<T> extends StatefulWidget {
-  const SkyGridHeaderRow({
+class SkyGridFootRow<T> extends StatefulWidget {
+  const SkyGridFootRow({
     super.key,
     required this.rowIndex,
     required this.columns,
-    this.headerHeightNotifier,
-    required this.headerBoxSizeNotifier,
+    this.footerHeightNotifier,
+    required this.footBoxSizeNotifier,
     this.merge = false,
     required this.leftFixed,
     required this.rightFixed,
@@ -15,17 +15,18 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
   final int rowIndex;
 
   final List<SkyGridTableColumn<T>> columns;
-  final HeaderHeightNotifier? headerHeightNotifier;
-  final HeaderBoxSizeNotifier headerBoxSizeNotifier;
+  final FooterHeightNotifier? footerHeightNotifier;
+  final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool merge;
   final bool leftFixed;
   final bool rightFixed;
   final bool isFixed;
+
   @override
-  _SkyGridHeaderRow<T> createState() => _SkyGridHeaderRow<T>();
+  _SkyGridFootRowState<T> createState() => _SkyGridFootRowState<T>();
 }
 
-class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
+class _SkyGridFootRowState<T> extends State<SkyGridFootRow<T>> {
   double? height;
 
   final GlobalKey _key = GlobalKey();
@@ -34,8 +35,8 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
     double h = renderBox.size.height;
     // if (widget.heightNotifier != null && !widget.isFixed)
-    if (widget.headerHeightNotifier != null) {
-      widget.headerHeightNotifier!.setRowHeihtMap(widget.rowIndex, h);
+    if (widget.footerHeightNotifier != null) {
+      widget.footerHeightNotifier!.setRowHeihtMap(widget.rowIndex, h);
     }
   }
 
@@ -43,11 +44,11 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
   void initState() {
     super.initState();
     //  if (widget.heightNotifier != null && widget.isFixed)
-    if (widget.headerHeightNotifier != null) {
-      widget.headerHeightNotifier!.addListener(() {
-        if (mounted && height != widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex]) {
+    if (widget.footerHeightNotifier != null) {
+      widget.footerHeightNotifier!.addListener(() {
+        if (mounted && height != widget.footerHeightNotifier!.rowHeightMap[widget.rowIndex]) {
           setState(() {
-            height = widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex];
+            height = widget.footerHeightNotifier!.rowHeightMap[widget.rowIndex];
           });
         }
       });
@@ -64,10 +65,10 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
       SkyGridTableColumn<T> item = widget.columns[i];
       if (item.flex) {
         rowList.add(Expanded(
-          child: SkyGridHeaderCell<T>(
+          child: SkyGridFootCell<T>(
             column: item,
             lastRowCell: i == widget.columns.length - 1,
-            headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
+            footBoxSizeNotifier: widget.footBoxSizeNotifier,
             merge: widget.merge,
             rowIndex: widget.rowIndex,
             cellIndex: i,
@@ -77,10 +78,10 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
           ),
         ));
       } else {
-        rowList.add(SkyGridHeaderCell<T>(
+        rowList.add(SkyGridFootCell<T>(
           column: item,
           lastRowCell: i == widget.columns.length - 1,
-          headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
+          footBoxSizeNotifier: widget.footBoxSizeNotifier,
           merge: widget.merge,
           rowIndex: widget.rowIndex,
           cellIndex: i,

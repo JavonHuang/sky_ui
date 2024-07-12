@@ -17,6 +17,7 @@ class SkyGridCell<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: column.cellWidth,
+      padding: SkyGridTableStyle.padding,
       decoration: BoxDecoration(
         border: !lastRowCell
             ? Border(
