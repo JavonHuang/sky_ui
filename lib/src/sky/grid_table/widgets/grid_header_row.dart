@@ -5,7 +5,7 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
     super.key,
     required this.rowIndex,
     required this.columns,
-    this.heightNotifier,
+    this.headerHeightNotifier,
     required this.headerBoxSizeNotifier,
     this.merge = false,
     required this.leftFixed,
@@ -15,7 +15,7 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
   final int rowIndex;
 
   final List<SkyGridTableColumn<T>> columns;
-  final HeightNotifier? heightNotifier;
+  final HeaderHeightNotifier? headerHeightNotifier;
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool merge;
   final bool leftFixed;
@@ -34,8 +34,8 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
     double h = renderBox.size.height;
     // if (widget.heightNotifier != null && !widget.isFixed)
-    if (widget.heightNotifier != null) {
-      widget.heightNotifier!.setRowHeihtMap(-widget.rowIndex, h);
+    if (widget.headerHeightNotifier != null) {
+      widget.headerHeightNotifier!.setRowHeihtMap(widget.rowIndex, h);
     }
   }
 
@@ -43,11 +43,11 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
   void initState() {
     super.initState();
     //  if (widget.heightNotifier != null && widget.isFixed)
-    if (widget.heightNotifier != null) {
-      widget.heightNotifier!.addListener(() {
-        if (mounted && height != widget.heightNotifier!.rowHeightMap[-widget.rowIndex]) {
+    if (widget.headerHeightNotifier != null) {
+      widget.headerHeightNotifier!.addListener(() {
+        if (mounted && height != widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex]) {
           setState(() {
-            height = widget.heightNotifier!.rowHeightMap[-widget.rowIndex];
+            height = widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex];
           });
         }
       });

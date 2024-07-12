@@ -5,7 +5,7 @@ class SkyGridFootRow<T> extends StatefulWidget {
     super.key,
     required this.rowIndex,
     required this.columns,
-    this.heightNotifier,
+    this.footerHeightNotifier,
     required this.footBoxSizeNotifier,
     this.merge = false,
     required this.leftFixed,
@@ -15,7 +15,7 @@ class SkyGridFootRow<T> extends StatefulWidget {
   final int rowIndex;
 
   final List<SkyGridTableColumn<T>> columns;
-  final HeightNotifier? heightNotifier;
+  final FooterHeightNotifier? footerHeightNotifier;
   final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool merge;
   final bool leftFixed;
@@ -35,8 +35,8 @@ class _SkyGridFootRowState<T> extends State<SkyGridFootRow<T>> {
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
     double h = renderBox.size.height;
     // if (widget.heightNotifier != null && !widget.isFixed)
-    if (widget.heightNotifier != null) {
-      widget.heightNotifier!.setRowHeihtMap(-widget.rowIndex, h);
+    if (widget.footerHeightNotifier != null) {
+      widget.footerHeightNotifier!.setRowHeihtMap(widget.rowIndex, h);
     }
   }
 
@@ -44,11 +44,11 @@ class _SkyGridFootRowState<T> extends State<SkyGridFootRow<T>> {
   void initState() {
     super.initState();
     //  if (widget.heightNotifier != null && widget.isFixed)
-    if (widget.heightNotifier != null) {
-      widget.heightNotifier!.addListener(() {
-        if (mounted && height != widget.heightNotifier!.rowHeightMap[-widget.rowIndex]) {
+    if (widget.footerHeightNotifier != null) {
+      widget.footerHeightNotifier!.addListener(() {
+        if (mounted && height != widget.footerHeightNotifier!.rowHeightMap[widget.rowIndex]) {
           setState(() {
-            height = widget.heightNotifier!.rowHeightMap[-widget.rowIndex];
+            height = widget.footerHeightNotifier!.rowHeightMap[widget.rowIndex];
           });
         }
       });

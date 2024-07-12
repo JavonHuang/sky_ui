@@ -48,9 +48,9 @@ class _GridTableState extends State<GridTable> {
     });
     await Future.delayed(const Duration(seconds: 2), () {
       loading = false;
-      data = [...data, ...List.generate(2, (index) => Person(name: 'Javon_${index + data.length}', age: 20 + index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'))];
+      data = [...data, ...List.generate(10, (index) => Person(name: 'Javon_${index + data.length}', age: 20 + index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'))];
       setState(() {
-        loadFinish = data.length > 30;
+        loadFinish = data.length > 300;
         loading = false;
       });
     });
@@ -82,7 +82,6 @@ class _GridTableState extends State<GridTable> {
           width: 200,
           itemBuilder: (row, index) {
             return Container(
-              height: 50,
               child: Text(row.name),
             );
           },
@@ -90,14 +89,13 @@ class _GridTableState extends State<GridTable> {
         SkyGridTableColumn<Person>(
           headerTitle: HeaderTitle(
               widgetTitle: Container(
-            height: 30,
             child: Text('年龄'),
           )),
           width: 300,
           // leftFixed: true,
           itemBuilder: (row, index) {
             return Container(
-              child: Text(row.age.toString()),
+              child: Text(row.age.toString() + (index % 2 == 0 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989' : '')),
             );
           },
         ),

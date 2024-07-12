@@ -5,7 +5,7 @@ class SkyGridFoot<T> extends StatefulWidget {
     super.key,
     required this.footerRowNum,
     required this.columns,
-    this.heightNotifier,
+    this.footerHeightNotifier,
     required this.mergeFooterColumn,
     required this.footBoxSizeNotifier,
     required this.leftFixed,
@@ -14,7 +14,7 @@ class SkyGridFoot<T> extends StatefulWidget {
   });
   final int footerRowNum;
   final List<SkyGridTableColumn<T>> columns;
-  final HeightNotifier? heightNotifier;
+  final FooterHeightNotifier? footerHeightNotifier;
   final List<GridMergeFooterColumn> mergeFooterColumn;
   final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool leftFixed;
@@ -97,7 +97,7 @@ class _SkyGridFootState<T> extends State<SkyGridFoot<T>> {
     for (int i = 0; i < widget.footerRowNum; i++) {
       rowList.add(SkyGridFootRow<T>(
         columns: widget.columns,
-        heightNotifier: widget.heightNotifier,
+        footerHeightNotifier: widget.footerHeightNotifier,
         rowIndex: i,
         footBoxSizeNotifier: widget.footBoxSizeNotifier,
         merge: widget.mergeFooterColumn.isNotEmpty,

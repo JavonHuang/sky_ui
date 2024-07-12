@@ -5,7 +5,7 @@ class SkyGridHeader<T> extends StatefulWidget {
     super.key,
     required this.headerRowNum,
     required this.columns,
-    this.heightNotifier,
+    this.headerHeightNotifier,
     required this.mergeHeaderColumn,
     required this.headerBoxSizeNotifier,
     required this.leftFixed,
@@ -14,7 +14,7 @@ class SkyGridHeader<T> extends StatefulWidget {
   });
   final int headerRowNum;
   final List<SkyGridTableColumn<T>> columns;
-  final HeightNotifier? heightNotifier;
+  final HeaderHeightNotifier? headerHeightNotifier;
   final List<GridMergeHeaderColumn> mergeHeaderColumn;
   final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool leftFixed;
@@ -96,7 +96,7 @@ class _SkyGridHeader<T> extends State<SkyGridHeader<T>> {
     for (int i = 0; i < widget.headerRowNum; i++) {
       rowList.add(SkyGridHeaderRow<T>(
         columns: widget.columns,
-        heightNotifier: widget.heightNotifier,
+        headerHeightNotifier: widget.headerHeightNotifier,
         rowIndex: i,
         headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
         merge: widget.mergeHeaderColumn.isNotEmpty,

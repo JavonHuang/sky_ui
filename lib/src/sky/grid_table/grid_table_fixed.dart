@@ -35,6 +35,9 @@ class SkyTableFixed<T> extends StatefulWidget {
 
 class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
   final HeightNotifier heightNotifier = HeightNotifier();
+  final FooterHeightNotifier footerHeightNotifier = FooterHeightNotifier();
+  final HeaderHeightNotifier headerHeightNotifier = HeaderHeightNotifier();
+
   final HeaderBoxSizeNotifier headerBoxSizeNotifier = HeaderBoxSizeNotifier();
 
   final innerController = ScrollController();
@@ -62,7 +65,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
         SkyGridHeader(
           columns: defaultColumns,
           headerRowNum: widget.headerRowNum,
-          heightNotifier: heightNotifier,
+          headerHeightNotifier: headerHeightNotifier,
           isFixed: isFixed,
           leftFixed: leftFixed,
           rightFixed: rightFixed,
@@ -92,7 +95,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
         SkyGridFoot(
           columns: defaultColumns,
           footerRowNum: widget.footerRowNum,
-          heightNotifier: heightNotifier,
+          footerHeightNotifier: footerHeightNotifier,
           isFixed: isFixed,
           leftFixed: leftFixed,
           rightFixed: rightFixed,
