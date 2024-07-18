@@ -31,8 +31,7 @@ class _SkyGridRow<T> extends State<SkyGridRow<T>> {
     }
     final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
     double h = renderBox.size.height;
-    // if (widget.heightNotifier != null && !widget.isFixed)
-    if (widget.heightNotifier != null) {
+    if (widget.heightNotifier != null && !widget.isFixed) {
       widget.heightNotifier!.setRowHeihtMap(widget.rowIndex, h);
     }
   }
@@ -40,8 +39,7 @@ class _SkyGridRow<T> extends State<SkyGridRow<T>> {
   @override
   void initState() {
     super.initState();
-    // if (widget.heightNotifier != null && widget.isFixed)
-    if (widget.heightNotifier != null) {
+    if (widget.heightNotifier != null && widget.isFixed) {
       widget.heightNotifier!.addListener(() {
         if (mounted && height != widget.heightNotifier!.rowHeightMap[widget.rowIndex]) {
           setState(() {

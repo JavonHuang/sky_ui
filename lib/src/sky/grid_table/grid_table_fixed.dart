@@ -41,10 +41,13 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
   final HeaderBoxSizeNotifier headerBoxSizeNotifier = HeaderBoxSizeNotifier();
 
   final innerController = ScrollController();
+
+  LinkedScrollControllerGroup _controllers = LinkedScrollControllerGroup();
+
   final GridListViewScrollController _gridListViewScrollController = GridListViewScrollController();
-  late ScrollController _leftScrollController = _gridListViewScrollController.createScrollController();
-  late ScrollController scrollController = _gridListViewScrollController.createScrollController();
-  late ScrollController _rightScrollController = _gridListViewScrollController.createScrollController();
+  late ScrollController _leftScrollController = _controllers.addAndGet(); // _gridListViewScrollController.createScrollController();
+  late ScrollController scrollController = _controllers.addAndGet(); //_gridListViewScrollController.createScrollController();
+  late ScrollController _rightScrollController = _controllers.addAndGet(); // _gridListViewScrollController.createScrollController();
 
   @override
   void initState() {
@@ -80,7 +83,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
               controller: scrollController,
               scrollbars: scrollbars,
               loadMore: isFixed ? null : widget.loadMore,
-              showTips: !isFixed,
+              // showTips: !isFixed,
               itemBuilder: (context, index) {
                 return SkyGridRow<T>(
                   rowRecord: widget.data[index],
