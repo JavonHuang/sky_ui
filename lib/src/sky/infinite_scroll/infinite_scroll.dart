@@ -19,13 +19,8 @@ class InfiniteScroll<T> extends StatefulWidget {
   final Widget? Function(BuildContext, int) itemBuilder;
   final Function()? loadMore;
   final ScrollController? controller;
-  final bool scrollbars;
-  final bool loading;
-  final bool showTips;
-
   @override
   State<InfiniteScroll> createState() => _InfiniteScrollState();
-}
 
 class _InfiniteScrollState extends State<InfiniteScroll> {
   @override
