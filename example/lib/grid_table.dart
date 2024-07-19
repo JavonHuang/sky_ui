@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:example/test2.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
@@ -35,7 +36,7 @@ class _GridTableState extends State<GridTable> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      data = List.generate(200, (index) => Person(name: 'Javon_$index', age: index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'));
+      data = List.generate(100, (index) => Person(name: 'Javon_$index', age: index, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'));
     });
   }
 
@@ -50,10 +51,10 @@ class _GridTableState extends State<GridTable> {
       loading = false;
       data = [
         ...data,
-        ...List.generate(10, (index) => Person(name: 'Javon_${index + data.length}', age: index + data.length, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'))
+        ...List.generate(1, (index) => Person(name: 'Javon_${index + data.length}', age: index + data.length, height: 168 + index, weight: 54 + index, address: '广州市天河区黄埔大道${39 + index}号'))
       ];
       setState(() {
-        loadFinish = data.length > 300;
+        loadFinish = data.length > 200;
         loading = false;
       });
     });
@@ -61,6 +62,20 @@ class _GridTableState extends State<GridTable> {
 
   @override
   Widget build(BuildContext context) {
+    // Widget e = Container(
+    //     color: Colors.black,
+    //     width: 10,
+    //     // height: 10,
+    //     child: Directionality(
+    //       textDirection: TextDirection.ltr, // 或者 TextDirection.rtl，根据你的需求设置
+    //       child: Text(
+    //         '7898989',
+    //         style: TextStyle(color: Colors.red),
+    //       ),
+    //     ));
+    // final measureHeight = MeasureUtil.measureWidget(e).height;
+    // print(measureHeight);
+    // return e;
     return SkyInfiniteGridTable<Person>(
       data: data,
       loadFinish: loadFinish,
@@ -85,6 +100,8 @@ class _GridTableState extends State<GridTable> {
           width: 200,
           itemBuilder: (row, index) {
             return Container(
+              height: 200,
+              color: Colors.blue,
               child: Text(row.name),
             );
           },
@@ -97,6 +114,7 @@ class _GridTableState extends State<GridTable> {
           width: 300,
           itemBuilder: (row, index) {
             return Container(
+              color: Colors.red,
               child: Text(row.age.toString() + (index % 2 == 0 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989' : '')),
             );
           },
@@ -106,27 +124,21 @@ class _GridTableState extends State<GridTable> {
           rightFixed: true,
           width: 200,
           itemBuilder: (row, index) {
-            return Container(
-              child: Text(row.height.toString()),
-            );
+            return Text(row.height.toString());
           },
         ),
         SkyGridTableColumn<Person>(
           headerTitle: HeaderTitle(text: '住址'),
           width: 200,
           itemBuilder: (row, index) {
-            return Container(
-              child: Text(row.address.toString()),
-            );
+            return Text(row.address.toString());
           },
         ),
         SkyGridTableColumn<Person>(
           headerTitle: HeaderTitle(text: '体重'),
           width: 300,
           itemBuilder: (row, index) {
-            return Container(
-              child: Text(row.weight.toString()),
-            );
+            return Text(row.weight.toString());
           },
         ),
       ],

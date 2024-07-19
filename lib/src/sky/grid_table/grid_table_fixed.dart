@@ -34,7 +34,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
 
   LinkedScrollControllerGroup _controllers = LinkedScrollControllerGroup();
 
-  final GridListViewScrollController _gridListViewScrollController = GridListViewScrollController();
+  // final GridListViewScrollController _gridListViewScrollController = GridListViewScrollController();
   late ScrollController _leftScrollController = _controllers.addAndGet(); // _gridListViewScrollController.createScrollController();
   late ScrollController scrollController = _controllers.addAndGet(); //_gridListViewScrollController.createScrollController();
   late ScrollController _rightScrollController = _controllers.addAndGet(); // _gridListViewScrollController.createScrollController();
@@ -75,7 +75,25 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
               loadMore: isFixed ? null : widget.loadMore,
               showTips: !isFixed,
               itemBuilder: (context, index) {
+                Widget a = Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: SkyGridRow<T>(
+                    rowRecord: widget.data[index],
+                    columns: widget.columns,
+                    rowIndex: index,
+                    rowOnTab: widget.rowOnTab,
+                    heightNotifier: heightNotifier,
+                    isFixed: isFixed,
+                    gridTableController: widget.gridTableController,
+                  ),
+                );
+
+                final measureHeight = MeasureUtil.measureWidget(a).height;
+                print(measureHeight);
+                widget.gridTableController.setRowHeihtMap(index, measureHeight);
+
                 return SkyGridRow<T>(
+                  height: widget.gridTableController.getRowHeiht(index),
                   rowRecord: widget.data[index],
                   columns: defaultColumns,
                   rowIndex: index,

@@ -117,7 +117,7 @@ class GridTableController<T> extends ChangeNotifier {
       _rowHeightMap[rowIndex] = _rowHeightMap[rowIndex]! < height ? height : _rowHeightMap[rowIndex]!;
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   void reloadHeightFixedContent() => reloadFixedColumnStreamController.add(true);

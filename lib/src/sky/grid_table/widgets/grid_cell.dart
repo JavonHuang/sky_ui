@@ -15,20 +15,23 @@ class SkyGridCell<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: column.cellWidth,
-      padding: SkyGridTableStyle.padding,
-      decoration: BoxDecoration(
-        border: !lastRowCell
-            ? Border(
-                right: BorderSide(
-                  color: SkyColors().baseBorder,
-                  width: 1,
-                ),
-              )
-            : null,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Container(
+        width: column.cellWidth,
+        padding: SkyGridTableStyle.padding,
+        decoration: BoxDecoration(
+          border: !lastRowCell
+              ? Border(
+                  right: BorderSide(
+                    color: SkyColors().baseBorder,
+                    width: 1,
+                  ),
+                )
+              : null,
+        ),
+        child: column.itemBuilder(rowRecord, rowIndex),
       ),
-      child: column.itemBuilder(rowRecord, rowIndex),
     );
   }
 }

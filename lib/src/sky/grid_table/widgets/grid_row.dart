@@ -10,6 +10,7 @@ class SkyGridRow<T> extends StatefulWidget {
     this.heightNotifier,
     required this.isFixed,
     required this.gridTableController,
+    this.height,
   });
   final T rowRecord;
   final List<SkyGridTableColumn<T>> columns;
@@ -18,13 +19,13 @@ class SkyGridRow<T> extends StatefulWidget {
   final HeightNotifier? heightNotifier;
   final bool isFixed;
   final GridTableController<T> gridTableController;
-
+  final double? height;
   @override
   _SkyGridRow<T> createState() => _SkyGridRow<T>();
 }
 
 class _SkyGridRow<T> extends State<SkyGridRow<T>> {
-  double? height;
+  // double? height;
   final GlobalKey _key = GlobalKey();
 
   void getHeight() {
@@ -54,9 +55,9 @@ class _SkyGridRow<T> extends State<SkyGridRow<T>> {
     //   getHeight();
     // });
 
-    widget.gridTableController.reloadFixedColumnStreamController.stream.listen(
-      (_) => setState(() {}),
-    );
+    // widget.gridTableController.reloadFixedColumnStreamController.stream.listen(
+    //   (_) => setState(() {}),
+    // );
   }
 
   @override
@@ -91,25 +92,20 @@ class _SkyGridRow<T> extends State<SkyGridRow<T>> {
       },
       child: IntrinsicHeight(
         key: _key,
-        child: GestureDetector(
-          onTap: () {
-            widget.rowOnTab?.call(widget.rowRecord);
-          },
-          child: Container(
-            height: widget.isFixed ? widget.gridTableController.getRowHeiht(widget.rowIndex) : null,
-            decoration: BoxDecoration(
-              color: widget.rowIndex % 2 != 0 ? SkyColors().tableRowBg : null,
-              border: Border(
-                bottom: BorderSide(
-                  color: SkyColors().baseBorder,
-                  width: 1,
-                ),
+        child: Container(
+          height: widget.height,
+          decoration: BoxDecoration(
+            color: widget.rowIndex % 2 != 0 ? SkyColors().tableRowBg : null,
+            border: Border(
+              bottom: BorderSide(
+                color: SkyColors().baseBorder,
+                width: 1,
               ),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: result,
-            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: result,
           ),
         ),
       ),

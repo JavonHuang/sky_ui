@@ -8,6 +8,7 @@ import '../../styles/styles.dart';
 import '../infinite_scroll/infinite_scroll.dart';
 import 'controller/grid_table_controller.dart';
 import 'controller/scroll_controller.dart';
+import 'core/measure_util.dart';
 import 'notifier/foot_box_size_notifier.dart';
 import 'notifier/height_notifier.dart';
 import 'notifier/footer_height_notifier.dart';
