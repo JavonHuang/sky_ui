@@ -66,7 +66,6 @@ List<DataTableColumn<DemoDataTableModel>> _columnsDemoDataTable = [
       showOnScreens,
     ) {
       return Container(
-        height: 100,
         alignment: Alignment.center,
         child: Text(
           rowData.age,

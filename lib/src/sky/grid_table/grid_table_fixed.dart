@@ -4,29 +4,19 @@ class SkyTableFixed<T> extends StatefulWidget {
   const SkyTableFixed({
     super.key,
     required this.data,
+    required this.gridTableController,
     required this.loadFinish,
     required this.loading,
     required this.columns,
     this.rowOnTab,
-    required this.widthOverflow,
-    required this.totalWidth,
-    required this.mergeHeaderColumn,
-    required this.mergeFooterColumn,
-    required this.headerRowNum,
-    required this.footerRowNum,
     this.loadMore,
   });
+  final GridTableController<T> gridTableController;
   final List<T> data;
   final bool loadFinish;
   final bool loading;
   final List<SkyGridTableColumn<T>> columns;
   final Function(T e)? rowOnTab;
-  final bool widthOverflow;
-  final double totalWidth;
-  final List<GridMergeHeaderColumn> mergeHeaderColumn;
-  final List<GridMergeFooterColumn> mergeFooterColumn;
-  final int headerRowNum;
-  final int footerRowNum;
   final Function()? loadMore;
 
   @override
@@ -67,12 +57,12 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
       children: [
         SkyGridHeader(
           columns: defaultColumns,
-          headerRowNum: widget.headerRowNum,
+          headerRowNum: widget.gridTableController.headerRowNum,
           headerHeightNotifier: headerHeightNotifier,
           isFixed: isFixed,
           leftFixed: leftFixed,
           rightFixed: rightFixed,
-          mergeHeaderColumn: widget.mergeHeaderColumn,
+          mergeHeaderColumn: widget.gridTableController.mergeHeaderColumn,
           headerBoxSizeNotifier: headerBoxSizeNotifier,
         ),
         Expanded(
@@ -83,7 +73,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
               controller: scrollController,
               scrollbars: scrollbars,
               loadMore: isFixed ? null : widget.loadMore,
-              // showTips: !isFixed,
+              showTips: !isFixed,
               itemBuilder: (context, index) {
                 return SkyGridRow<T>(
                   rowRecord: widget.data[index],
@@ -92,17 +82,18 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
                   rowOnTab: widget.rowOnTab,
                   heightNotifier: heightNotifier,
                   isFixed: isFixed,
+                  gridTableController: widget.gridTableController,
                 );
               }),
         ),
         SkyGridFoot(
           columns: defaultColumns,
-          footerRowNum: widget.footerRowNum,
+          footerRowNum: widget.gridTableController.footerRowNum,
           footerHeightNotifier: footerHeightNotifier,
           isFixed: isFixed,
           leftFixed: leftFixed,
           rightFixed: rightFixed,
-          mergeFooterColumn: widget.mergeFooterColumn,
+          mergeFooterColumn: widget.gridTableController.mergeFooterColumn,
           footBoxSizeNotifier: FootBoxSizeNotifier(),
         ),
       ],
@@ -180,7 +171,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
       }
     }
 
-    if (!widget.widthOverflow) {
+    if (!widget.gridTableController.widthOverflow) {
       return Stack(
         children: [
           Row(
@@ -228,7 +219,7 @@ class _SkyTableFixedState<T> extends State<SkyTableFixed<T>> {
                     scrollDirection: Axis.horizontal,
                     controller: innerController,
                     child: SizedBox(
-                      width: widget.totalWidth,
+                      width: widget.gridTableController.totalWidth,
                       child: renderTable(
                         defaultColumns,
                         heightNotifier,

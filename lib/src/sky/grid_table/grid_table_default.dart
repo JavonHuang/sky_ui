@@ -15,6 +15,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
     required this.headerRowNum,
     required this.footerRowNum,
     this.loadMore,
+    required this.gridTableController,
   });
   final List<T> data;
   final bool loadFinish;
@@ -28,6 +29,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
   final int headerRowNum;
   final int footerRowNum;
   final Function()? loadMore;
+  final GridTableController<T> gridTableController;
 
   Widget renderTable() {
     return Column(
@@ -54,6 +56,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
                   rowIndex: index,
                   rowOnTab: rowOnTab,
                   isFixed: false,
+                  gridTableController: gridTableController,
                 );
               }),
         ),

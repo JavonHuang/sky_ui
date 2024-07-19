@@ -9,6 +9,7 @@ class SkyGridRow<T> extends StatefulWidget {
     required this.rowOnTab,
     this.heightNotifier,
     required this.isFixed,
+    required this.gridTableController,
   });
   final T rowRecord;
   final List<SkyGridTableColumn<T>> columns;
@@ -16,6 +17,7 @@ class SkyGridRow<T> extends StatefulWidget {
   final Function(T e)? rowOnTab;
   final HeightNotifier? heightNotifier;
   final bool isFixed;
+  final GridTableController<T> gridTableController;
 
   @override
   _SkyGridRow<T> createState() => _SkyGridRow<T>();
@@ -39,18 +41,22 @@ class _SkyGridRow<T> extends State<SkyGridRow<T>> {
   @override
   void initState() {
     super.initState();
-    if (widget.heightNotifier != null && widget.isFixed) {
-      widget.heightNotifier!.addListener(() {
-        if (mounted && height != widget.heightNotifier!.rowHeightMap[widget.rowIndex]) {
-          setState(() {
-            height = widget.heightNotifier!.rowHeightMap[widget.rowIndex];
-          });
-        }
-      });
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getHeight();
-    });
+    // if (widget.heightNotifier != null && widget.isFixed) {
+    //   widget.heightNotifier!.addListener(() {
+    //     if (mounted && height != widget.heightNotifier!.rowHeightMap[widget.rowIndex]) {
+    //       setState(() {
+    //         height = widget.heightNotifier!.rowHeightMap[widget.rowIndex];
+    //       });
+    //     }
+    //   });
+    // }
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   getHeight();
+    // });
+
+    widget.gridTableController.reloadFixedColumnStreamController.stream.listen(
+      (_) => setState(() {}),
+    );
   }
 
   @override
@@ -77,26 +83,33 @@ class _SkyGridRow<T> extends State<SkyGridRow<T>> {
       }
     }
 
-    return IntrinsicHeight(
-      key: _key,
-      child: GestureDetector(
-        onTap: () {
-          widget.rowOnTab?.call(widget.rowRecord);
-        },
-        child: Container(
-          height: height,
-          decoration: BoxDecoration(
-            color: widget.rowIndex % 2 != 0 ? SkyColors().tableRowBg : null,
-            border: Border(
-              bottom: BorderSide(
-                color: SkyColors().baseBorder,
-                width: 1,
+    return TekMeasureSize(
+      onChange: (size) {
+        if (!widget.isFixed) {
+          widget.gridTableController.setRowHeihtMap(widget.rowIndex, size.height);
+        }
+      },
+      child: IntrinsicHeight(
+        key: _key,
+        child: GestureDetector(
+          onTap: () {
+            widget.rowOnTab?.call(widget.rowRecord);
+          },
+          child: Container(
+            height: widget.isFixed ? widget.gridTableController.getRowHeiht(widget.rowIndex) : null,
+            decoration: BoxDecoration(
+              color: widget.rowIndex % 2 != 0 ? SkyColors().tableRowBg : null,
+              border: Border(
+                bottom: BorderSide(
+                  color: SkyColors().baseBorder,
+                  width: 1,
+                ),
               ),
             ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: result,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: result,
+            ),
           ),
         ),
       ),

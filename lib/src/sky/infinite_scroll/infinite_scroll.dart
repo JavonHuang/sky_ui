@@ -33,6 +33,8 @@ class _InfiniteScrollState extends State<InfiniteScroll> {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: widget.scrollbars),
       child: ListView.builder(
+          shrinkWrap: true,
+          primary: false,
           controller: widget.controller,
           itemCount: widget.data.length + (widget.loadFinish || widget.loading ? 1 : 0),
           itemBuilder: (context, index) {

@@ -1,10 +1,12 @@
 library sky_grid_table;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
 import '../../styles/styles.dart';
 import '../infinite_scroll/infinite_scroll.dart';
+import 'controller/grid_table_controller.dart';
 import 'controller/scroll_controller.dart';
 import 'notifier/foot_box_size_notifier.dart';
 import 'notifier/height_notifier.dart';
@@ -28,6 +30,7 @@ part './widgets/hover_row.dart';
 part './widgets/grid_foot.dart';
 part './widgets/grid_foot_row.dart';
 part './widgets/grid_foot_cell.dart';
+part './widgets/measure_size.dart';
 
 class SkyInfiniteGridTable<T> extends StatefulWidget {
   const SkyInfiniteGridTable({
@@ -60,24 +63,21 @@ class SkyInfiniteGridTable<T> extends StatefulWidget {
 }
 
 class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
-  double get totalWidth {
-    double result = 0;
-    for (SkyGridTableColumn<T> item in widget.columns) {
-      result = result + (item.cellWidth ?? 0);
-    }
-    return result;
-  }
+  GridTableController<T> _gridTableController = GridTableController<T>();
 
-  bool get hasRightFixed {
-    return widget.columns.any((e) {
-      return e.rightFixed;
+  @override
+  void initState() {
+    _gridTableController.initTable(
+      columns: widget.columns,
+      mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
+      mergeFooterColumn: widget.mergeFooterColumn ?? [],
+      headerRowNum: widget.headerRowNum,
+      footerRowNum: widget.footerRowNum,
+    );
+    _gridTableController.addListener(() {
+      setState(() {});
     });
-  }
-
-  bool get hasLeftFixed {
-    return widget.columns.any((e) {
-      return e.leftFixed;
-    });
+    super.initState();
   }
 
   @override
@@ -90,20 +90,16 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
         ),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
-        if (hasLeftFixed || hasRightFixed) {
+        _gridTableController.setViewConstraints(constraints);
+        if (_gridTableController.hasLeftFixed || _gridTableController.hasRightFixed) {
           return SkyTableFixed<T>(
             data: widget.data,
+            gridTableController: _gridTableController,
             loadFinish: widget.loadFinish,
             loading: widget.loading,
             loadMore: widget.loadMore,
             columns: widget.columns,
             rowOnTab: widget.rowOnTab,
-            widthOverflow: constraints.maxWidth < totalWidth,
-            totalWidth: totalWidth,
-            mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
-            mergeFooterColumn: widget.mergeFooterColumn ?? [],
-            headerRowNum: widget.headerRowNum,
-            footerRowNum: widget.footerRowNum,
           );
         }
         return SkyGridTableDefault<T>(
@@ -113,12 +109,13 @@ class SkyInfiniteGridTableState<T> extends State<SkyInfiniteGridTable<T>> {
           loadMore: widget.loadMore,
           columns: widget.columns,
           rowOnTab: widget.rowOnTab,
-          widthOverflow: constraints.maxWidth < totalWidth,
-          totalWidth: totalWidth,
+          widthOverflow: _gridTableController.widthOverflow,
+          totalWidth: _gridTableController.totalWidth,
           mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
           mergeFooterColumn: widget.mergeFooterColumn ?? [],
           headerRowNum: widget.headerRowNum,
           footerRowNum: widget.footerRowNum,
+          gridTableController: _gridTableController,
         );
       }),
     );
