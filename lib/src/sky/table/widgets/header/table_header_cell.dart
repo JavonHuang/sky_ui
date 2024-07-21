@@ -1,0 +1,35 @@
+part of '../../sky_table.dart';
+
+class SkyTableHeaderCell<T> extends StatelessWidget {
+  const SkyTableHeaderCell({
+    super.key,
+    required this.column,
+    required this.rowIndex,
+    required this.lastRowCell,
+  });
+  final SkyTableColumn<T> column;
+  final int rowIndex;
+  final bool lastRowCell;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Container(
+        width: column.flex ? null : column.cellWidth,
+        padding: SkyGridTableStyle.padding,
+        decoration: BoxDecoration(
+          border: !lastRowCell
+              ? Border(
+                  right: BorderSide(
+                    color: SkyColors().baseBorder,
+                    width: 1,
+                  ),
+                )
+              : null,
+        ),
+        child: column.headerTitle.text != null ? Text(column.headerTitle.text ?? '') : column.headerTitle.widgetTitle,
+      ),
+    );
+  }
+}

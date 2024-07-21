@@ -1,16 +1,16 @@
 part of '../grid_table.dart';
 
 class SkyGridFoot<T> extends StatefulWidget {
-  SkyGridFoot({
+  const SkyGridFoot({
     super.key,
     required this.footerRowNum,
     required this.columns,
-    this.footerHeightNotifier,
     required this.mergeFooterColumn,
     required this.footBoxSizeNotifier,
     required this.leftFixed,
     required this.rightFixed,
     required this.isFixed,
+    this.footerHeightNotifier,
   });
   final int footerRowNum;
   final List<SkyGridTableColumn<T>> columns;
@@ -19,7 +19,7 @@ class SkyGridFoot<T> extends StatefulWidget {
   final FootBoxSizeNotifier footBoxSizeNotifier;
   final bool leftFixed;
   final bool rightFixed;
-  late bool isFixed;
+  final bool isFixed;
   @override
   _SkyGridFootState<T> createState() => _SkyGridFootState<T>();
 }

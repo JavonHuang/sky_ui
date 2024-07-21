@@ -1,0 +1,100 @@
+import 'package:flutter/material.dart';
+import 'package:linked_scroll_controller/linked_scroll_controller.dart';
+
+import '../../styles/styles.dart';
+import '../infinite_scroll/infinite_scroll.dart';
+import 'controller/scroll_controller.dart';
+import 'core/measure_util.dart';
+
+part './controller/table_controller.dart';
+
+part 'models/Widget_title.dart';
+part 'models/merge_column.dart';
+part 'models/table_column.dart';
+
+part 'widgets/header/table_header_cell.dart';
+part 'widgets/header/table_header_row.dart';
+part 'widgets/header/table_header.dart';
+
+part 'widgets/footer/table_footer_cell.dart';
+part 'widgets/footer/table_footer_row.dart';
+part 'widgets/footer/table_footer.dart';
+
+part 'widgets/body/table_cell.dart';
+part 'widgets/body/table_row.dart';
+part 'widgets/body/table_body.dart';
+
+part 'table_fixed.dart';
+part 'table_default.dart';
+
+part 'styles.dart';
+
+class SkyTable<T> extends StatefulWidget {
+  const SkyTable({
+    super.key,
+    required this.columns,
+    required this.data,
+    required this.loadFinish,
+    required this.loading,
+    this.loadMore,
+    required this.tableController,
+  });
+  final List<T> data;
+  final List<SkyTableColumn<T>> columns;
+  final bool loadFinish;
+  final bool loading;
+  final Function()? loadMore;
+  final TableController<T> tableController;
+
+  @override
+  SkyTableState<T> createState() => SkyTableState<T>();
+}
+
+class SkyTableState<T> extends State<SkyTable<T>> {
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  void init() {
+    widget.tableController.initTable(
+      columns: widget.columns,
+      mergeHeaderColumn: [],
+      mergeFooterColumn: [],
+      headerRowNum: 1,
+      footerRowNum: 1,
+      data: widget.data,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: SkyColors().baseBorder,
+          width: 1,
+        ),
+      ),
+      child: LayoutBuilder(builder: (context, constraints) {
+        widget.tableController.setViewConstraints(constraints);
+        if (widget.tableController.hasFixed) {
+          return TableFixed(
+            gridTableController: widget.tableController,
+            loadFinish: widget.loadFinish,
+            loading: widget.loading,
+            loadMore: widget.loadMore,
+          );
+        } else {
+          return TableDefault(
+            gridTableController: widget.tableController,
+            loadFinish: widget.loadFinish,
+            loading: widget.loading,
+            loadMore: widget.loadMore,
+          );
+        }
+      }),
+    );
+  }
+}

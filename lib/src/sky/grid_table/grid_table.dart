@@ -31,6 +31,9 @@ part './widgets/hover_row.dart';
 part './widgets/grid_foot.dart';
 part './widgets/grid_foot_row.dart';
 part './widgets/grid_foot_cell.dart';
+part './widgets/grid_table_fixed_left.dart';
+part './widgets/grid_table_fixed_right.dart';
+
 part './widgets/measure_size.dart';
 
 class SkyInfiniteGridTable<T> extends StatefulWidget {

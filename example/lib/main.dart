@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'grid_table.dart';
+import 'table.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Expanded(
-              child: GridTable(),
+              child: SkyGridTable(),
             ),
           ],
         ),

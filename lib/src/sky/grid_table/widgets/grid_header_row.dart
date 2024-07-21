@@ -5,8 +5,8 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
     super.key,
     required this.rowIndex,
     required this.columns,
-    this.headerHeightNotifier,
-    required this.headerBoxSizeNotifier,
+    // this.headerHeightNotifier,
+    // required this.headerBoxSizeNotifier,
     this.merge = false,
     required this.leftFixed,
     required this.rightFixed,
@@ -15,8 +15,8 @@ class SkyGridHeaderRow<T> extends StatefulWidget {
   final int rowIndex;
 
   final List<SkyGridTableColumn<T>> columns;
-  final HeaderHeightNotifier? headerHeightNotifier;
-  final HeaderBoxSizeNotifier headerBoxSizeNotifier;
+  // final HeaderHeightNotifier? headerHeightNotifier;
+  // final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool merge;
   final bool leftFixed;
   final bool rightFixed;
@@ -30,32 +30,32 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
 
   final GlobalKey _key = GlobalKey();
 
-  void getHeight() {
-    final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
-    double h = renderBox.size.height;
-    // if (widget.heightNotifier != null && !widget.isFixed)
-    if (widget.headerHeightNotifier != null) {
-      widget.headerHeightNotifier!.setRowHeihtMap(widget.rowIndex, h);
-    }
-  }
+  // void getHeight() {
+  //   final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
+  //   double h = renderBox.size.height;
+  //   // if (widget.heightNotifier != null && !widget.isFixed)
+  //   if (widget.headerHeightNotifier != null) {
+  //     widget.headerHeightNotifier!.setRowHeihtMap(widget.rowIndex, h);
+  //   }
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    //  if (widget.heightNotifier != null && widget.isFixed)
-    if (widget.headerHeightNotifier != null) {
-      widget.headerHeightNotifier!.addListener(() {
-        if (mounted && height != widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex]) {
-          setState(() {
-            height = widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex];
-          });
-        }
-      });
-    }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getHeight();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //  if (widget.heightNotifier != null && widget.isFixed)
+  //   if (widget.headerHeightNotifier != null) {
+  //     widget.headerHeightNotifier!.addListener(() {
+  //       if (mounted && height != widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex]) {
+  //         setState(() {
+  //           height = widget.headerHeightNotifier!.rowHeightMap[widget.rowIndex];
+  //         });
+  //       }
+  //     });
+  //   }
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     getHeight();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
           child: SkyGridHeaderCell<T>(
             column: item,
             lastRowCell: i == widget.columns.length - 1,
-            headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
+            // headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
             merge: widget.merge,
             rowIndex: widget.rowIndex,
             cellIndex: i,
@@ -80,7 +80,7 @@ class _SkyGridHeaderRow<T> extends State<SkyGridHeaderRow<T>> {
         rowList.add(SkyGridHeaderCell<T>(
           column: item,
           lastRowCell: i == widget.columns.length - 1,
-          headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
+          // headerBoxSizeNotifier: widget.headerBoxSizeNotifier,
           merge: widget.merge,
           rowIndex: widget.rowIndex,
           cellIndex: i,

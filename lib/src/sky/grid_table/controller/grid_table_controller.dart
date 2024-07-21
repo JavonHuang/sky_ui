@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sky_ui/src/sky/grid_table/grid_table.dart';
 
 import '../../../../sky_ui.dart';
 
 class GridTableController<T> extends ChangeNotifier {
+  late List<T> _data = [];
+  List<T> get data => _data;
   late List<SkyGridTableColumn<T>> _columns = [];
   late List<GridMergeHeaderColumn> _mergeHeaderColumn = [];
   List<GridMergeHeaderColumn> get mergeHeaderColumn => _mergeHeaderColumn;
@@ -21,9 +24,14 @@ class GridTableController<T> extends ChangeNotifier {
   late double _rightFixedColumnsWidth = 0;
   late List<SkyGridTableColumn<T>> _leftFixedColumns = [];
   late double _leftFixedColumnsWidth = 0;
+  List<SkyGridTableColumn<T>> _defaultColumns = [];
+
   late Map<int, double> _rowHeightMap = {};
 
   final reloadFixedColumnStreamController = StreamController<bool>.broadcast();
+
+  late Function(T e)? _rowOnTab;
+  Function(T e)? get rowOnTab => _rowOnTab;
 
   //设置栏信息
   void initTable({
@@ -108,6 +116,15 @@ class GridTableController<T> extends ChangeNotifier {
       }
     }
     return _leftFixedColumnsWidth;
+  }
+
+  List<SkyGridTableColumn<T>> get defaultColumns {
+    for (SkyGridTableColumn<T> e in _columns) {
+      if (!e.leftFixed && !e.rightFixed) {
+        _defaultColumns.add(e);
+      }
+    }
+    return _defaultColumns;
   }
 
   void setRowHeihtMap(int rowIndex, double height) {

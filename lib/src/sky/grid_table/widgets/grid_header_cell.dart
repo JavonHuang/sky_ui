@@ -7,7 +7,7 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
     required this.cellIndex,
     required this.column,
     required this.lastRowCell,
-    required this.headerBoxSizeNotifier,
+    // required this.headerBoxSizeNotifier,
     required this.merge,
     required this.leftFixed,
     required this.rightFixed,
@@ -17,7 +17,7 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
   final int cellIndex;
   final SkyGridTableColumn<T> column;
   final bool lastRowCell;
-  final HeaderBoxSizeNotifier headerBoxSizeNotifier;
+  // final HeaderBoxSizeNotifier headerBoxSizeNotifier;
   final bool merge;
   final bool leftFixed;
   final bool rightFixed;
@@ -28,36 +28,36 @@ class SkyGridHeaderCell<T> extends StatefulWidget {
 
 class _SkyGridHeaderCell<T> extends State<SkyGridHeaderCell<T>> {
   final GlobalKey _key = GlobalKey();
-  int get type {
-    if (widget.isFixed) {
-      return 0;
-    }
-    if (widget.leftFixed) {
-      return -1;
-    }
-    if (widget.rightFixed) {
-      return 1;
-    }
-    return 0;
-  }
+  // int get type {
+  //   if (widget.isFixed) {
+  //     return 0;
+  //   }
+  //   if (widget.leftFixed) {
+  //     return -1;
+  //   }
+  //   if (widget.rightFixed) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
 
-  void getBoxSize() {
-    if (_key.currentContext == null) {
-      return;
-    }
-    final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
-    widget.headerBoxSizeNotifier.setHeaderCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height, type);
-  }
+  // void getBoxSize() {
+  //   if (_key.currentContext == null) {
+  //     return;
+  //   }
+  //   final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
+  //   widget.headerBoxSizeNotifier.setHeaderCellBoxSizeMap(widget.rowIndex, widget.cellIndex, renderBox.size.width, renderBox.size.height, type);
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.merge) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        getBoxSize();
-      });
-    }
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   if (widget.merge) {
+  //     WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       getBoxSize();
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

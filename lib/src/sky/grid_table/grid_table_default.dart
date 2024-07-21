@@ -41,7 +41,7 @@ class SkyGridTableDefault<T> extends StatelessWidget {
           leftFixed: false,
           rightFixed: false,
           mergeHeaderColumn: mergeHeaderColumn,
-          headerBoxSizeNotifier: HeaderBoxSizeNotifier(),
+          // headerBoxSizeNotifier: HeaderBoxSizeNotifier(),
         ),
         Expanded(
           child: InfiniteScroll(
