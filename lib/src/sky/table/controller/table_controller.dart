@@ -48,6 +48,12 @@ class TableController<T> extends ChangeNotifier {
   late bool _hasFixed = false;
   bool get hasFixed => _hasFixed;
 
+  late Map<String, Size> _headerCellSizeMap = {};
+  Map<String, Size> get headerCellSizeMap => _headerCellSizeMap;
+
+  late Map<String, Size> _footerCellSizeMap = {};
+  Map<String, Size> get footerCellSizeMap => _footerCellSizeMap;
+
   //初始化信息
   void initTable({
     required List<SkyTableColumn<T>> columns,
@@ -91,6 +97,7 @@ class TableController<T> extends ChangeNotifier {
     _rightFixedColumnsWidth = 0;
     _mainColumns = [];
     _mainColumnsWidth = 0;
+    _headerCellSizeMap = {};
   }
 
   void setData(List<T> e) {
@@ -100,5 +107,21 @@ class TableController<T> extends ChangeNotifier {
 
   void setViewConstraints(BoxConstraints e) {
     _constraints = e;
+  }
+
+  void updateHeaderCellSize(String columnkey, int rowIndex, Size s) {
+    _headerCellSizeMap['$columnkey-($rowIndex)'] = s;
+  }
+
+  Size getHeaderCellSize(String columnkey, int rowIndex) {
+    return _headerCellSizeMap['$columnkey-($rowIndex)'] ?? const Size(0, 0);
+  }
+
+  void updateFooterCellSize(String columnkey, int rowIndex, Size s) {
+    _footerCellSizeMap['$columnkey-($rowIndex)'] = s;
+  }
+
+  Size getFooterCellSize(String columnkey, int rowIndex) {
+    return _footerCellSizeMap['$columnkey-($rowIndex)'] ?? const Size(0, 0);
   }
 }

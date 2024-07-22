@@ -63,62 +63,97 @@ class _SkyGridTableState extends State<SkyGridTable> {
 
   @override
   Widget build(BuildContext context) {
-    return SkyTable<Person>(
-      tableController: tableController,
-      data: data,
-      loadFinish: loadFinish,
-      loading: loading,
-      loadMore: loadMore,
-      columns: [
-        SkyTableColumn<Person>(
-          leftFixed: true,
-          headerTitle: WidgetTitle(
-              widgetTitle: Container(
-            height: 60,
-            child: Text('姓名'),
-          )),
-          width: 200,
-          itemBuilder: (row, index) {
-            return Container(
-              color: Colors.blue,
-              child: Text(row.name),
-            );
-          },
+    return Column(
+      children: [
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            // color: Colors.red,
+            child: ElevatedButton(
+              // hoverColor: Colors.blue, // 鼠标悬浮颜色
+              // onTap: () => print('Clicked!'), // 点击事件
+              onPressed: () => print('Clicked!'),
+              child: Text("测试后"),
+            ),
+          ),
         ),
-        SkyTableColumn<Person>(
-          headerTitle: WidgetTitle(
-              widgetTitle: Container(
-            child: Text('年龄'),
-          )),
-          width: 300,
-          itemBuilder: (row, index) {
-            return Container(
-              color: Colors.red,
-              child: Text(row.age.toString() + (index % 2 == 0 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989' : '')),
-            );
-          },
-        ),
-        SkyTableColumn<Person>(
-          headerTitle: WidgetTitle(text: '身高'),
-          rightFixed: true,
-          width: 200,
-          itemBuilder: (row, index) {
-            return Text(row.height.toString());
-          },
-        ),
-        SkyTableColumn<Person>(
-          headerTitle: WidgetTitle(text: '住址'),
-          width: 200,
-          itemBuilder: (row, index) {
-            return Text(row.address.toString());
-          },
-        ),
-        SkyTableColumn<Person>(
-          headerTitle: WidgetTitle(text: '体重'),
-          width: 300,
-          itemBuilder: (row, index) {
-            return Text(row.weight.toString());
-          },
+        TriangleColorChanger(),
+        Expanded(
+          child: SkyTable<Person>(
+            tableController: tableController,
+            data: data,
+            loadFinish: loadFinish,
+            loading: loading,
+            loadMore: loadMore,
+            mergeHeaderColumn: [
+              SkyMergeColumn(
+                  start: [0, 0],
+                  end: [0, 1],
+                  title: WidgetTitle(
+                    text: "yuyyui",
+                  )),
+            ],
+            mergeFooterColumn: [
+              SkyMergeColumn(
+                  start: [0, 0],
+                  end: [0, 1],
+                  title: WidgetTitle(
+                    text: "yuyyui",
+                  )),
+            ],
+            columns: [
+              SkyTableColumn<Person>(
+                // leftFixed: true,
+                headerTitle: WidgetTitle(
+                    widgetTitle: Container(
+                  height: 60,
+                  child: Text('姓名'),
+                )),
+                width: 200,
+                itemBuilder: (row, index) {
+                  return Container(
+                    color: Colors.blue,
+                    child: Text(row.name),
+                  );
+                },
+              ),
+              SkyTableColumn<Person>(
+                headerTitle: WidgetTitle(
+                    widgetTitle: Container(
+                  child: Text('年龄'),
+                )),
+                width: 300,
+                itemBuilder: (row, index) {
+                  return Container(
+                    color: Colors.red,
+                    child: Text(row.age.toString() + (index % 2 == 0 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989' : '')),
+                  );
+                },
+              ),
+              SkyTableColumn<Person>(
+                headerTitle: WidgetTitle(text: '身高'),
+                // rightFixed: true,
+                width: 200,
+                itemBuilder: (row, index) {
+                  return Text(row.height.toString());
+                },
+              ),
+              SkyTableColumn<Person>(
+                headerTitle: WidgetTitle(text: '住址'),
+                width: 200,
+                itemBuilder: (row, index) {
+                  return Text(row.address.toString());
+                },
+              ),
+              SkyTableColumn<Person>(
+                headerTitle: WidgetTitle(text: '体重'),
+                width: 300,
+                itemBuilder: (row, index) {
+                  return Text(row.weight.toString());
+                },
+              ),
+            ],
+          ),
         ),
       ],
     );

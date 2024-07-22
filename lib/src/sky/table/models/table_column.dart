@@ -8,6 +8,7 @@ part of './../sky_table.dart';
 /// * leftFixed 左悬浮
 /// * cellOnTab 单元格点击
 class SkyTableColumn<T> {
+  final String key;
   final WidgetTitle headerTitle;
   final WidgetTitle? footerTitle;
   final Widget Function(T value, int index) itemBuilder;
@@ -16,7 +17,7 @@ class SkyTableColumn<T> {
   final bool rightFixed;
   final bool leftFixed;
   final Function(T e)? cellOnTab;
-  late double cellWidth;
+  final double cellWidth;
   final Widget? Function(int index)? itemFooterBuilder;
   final Widget? Function(int index)? itemHeaderBuilder;
 
@@ -31,5 +32,6 @@ class SkyTableColumn<T> {
     this.cellOnTab,
     this.itemFooterBuilder,
     this.itemHeaderBuilder,
-  }) : cellWidth = !flex && width == null ? 32 : width ?? 0;
+  })  : cellWidth = !flex && width == null ? 32 : width ?? 0,
+        key = GenerateUuid.keyV1();
 }

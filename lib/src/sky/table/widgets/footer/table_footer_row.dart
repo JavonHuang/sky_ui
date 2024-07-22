@@ -30,6 +30,7 @@ class _SkyTableFooterRow<T> extends State<SkyTableFooterRow<T>> {
             column: item,
             lastRowCell: i == widget.columns.length - 1,
             rowIndex: widget.rowIndex,
+            gridTableController: widget.gridTableController,
           ),
         ));
       } else {
@@ -37,6 +38,7 @@ class _SkyTableFooterRow<T> extends State<SkyTableFooterRow<T>> {
           column: item,
           lastRowCell: i == widget.columns.length - 1,
           rowIndex: widget.rowIndex,
+          gridTableController: widget.gridTableController,
         ));
       }
     }

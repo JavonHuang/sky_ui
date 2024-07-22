@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:linked_scroll_controller/linked_scroll_controller.dart';
-
 import '../../styles/styles.dart';
+import '../common/generate_uuid.dart';
+import '../common/measure_size.dart';
 import '../infinite_scroll/infinite_scroll.dart';
-import 'controller/scroll_controller.dart';
+import 'controller/linked_scroll_controller.dart';
 import 'core/measure_util.dart';
 
 part './controller/table_controller.dart';
@@ -38,6 +38,8 @@ class SkyTable<T> extends StatefulWidget {
     required this.loading,
     this.loadMore,
     required this.tableController,
+    this.mergeHeaderColumn,
+    this.mergeFooterColumn,
   });
   final List<T> data;
   final List<SkyTableColumn<T>> columns;
@@ -45,7 +47,8 @@ class SkyTable<T> extends StatefulWidget {
   final bool loading;
   final Function()? loadMore;
   final TableController<T> tableController;
-
+  final List<SkyMergeColumn>? mergeHeaderColumn;
+  final List<SkyMergeColumn>? mergeFooterColumn;
   @override
   SkyTableState<T> createState() => SkyTableState<T>();
 }
@@ -60,9 +63,9 @@ class SkyTableState<T> extends State<SkyTable<T>> {
   void init() {
     widget.tableController.initTable(
       columns: widget.columns,
-      mergeHeaderColumn: [],
-      mergeFooterColumn: [],
-      headerRowNum: 1,
+      mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
+      mergeFooterColumn: widget.mergeFooterColumn ?? [],
+      headerRowNum: 2,
       footerRowNum: 1,
       data: widget.data,
     );

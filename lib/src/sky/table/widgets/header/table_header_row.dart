@@ -29,6 +29,7 @@ class _SkyTableHeaderRow<T> extends State<SkyTableHeaderRow<T>> {
             column: item,
             lastRowCell: i == widget.columns.length - 1,
             rowIndex: widget.rowIndex,
+            gridTableController: widget.gridTableController,
           ),
         ));
       } else {
@@ -36,8 +37,10 @@ class _SkyTableHeaderRow<T> extends State<SkyTableHeaderRow<T>> {
           column: item,
           lastRowCell: i == widget.columns.length - 1,
           rowIndex: widget.rowIndex,
+          gridTableController: widget.gridTableController,
         ));
       }
+      // print(widget.gridTableController.getHeaderCellSize(item.key, widget.rowIndex));
     }
     return IntrinsicHeight(
       child: Container(

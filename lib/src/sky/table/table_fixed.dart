@@ -18,10 +18,12 @@ class TableFixed<T> extends StatefulWidget {
 }
 
 class _TableFixedState<T> extends State<TableFixed<T>> {
-  final GridListViewScrollController _gridListViewScrollController = GridListViewScrollController();
-  late ScrollController _leftScrollController = _gridListViewScrollController.createScrollController();
-  late ScrollController _scrollController = _gridListViewScrollController.createScrollController();
-  late ScrollController _rightScrollController = _gridListViewScrollController.createScrollController();
+  LinkedScrollControllerGroup _controllers = LinkedScrollControllerGroup();
+
+  late ScrollController _leftScrollController = _controllers.addAndGet();
+  late ScrollController _scrollController = _controllers.addAndGet();
+  late ScrollController _rightScrollController = _controllers.addAndGet();
+
   final innerController = ScrollController();
 
   Widget renderMain() {
@@ -95,6 +97,7 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
                 SkyTableHeader(
                   gridTableController: widget.gridTableController,
                   columns: widget.gridTableController.rightFixedColumns,
+                  type: 1,
                 ),
                 SkyTableBody(
                   gridTableController: widget.gridTableController,
@@ -109,6 +112,7 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
                 SkyTableFooter(
                   gridTableController: widget.gridTableController,
                   columns: widget.gridTableController.rightFixedColumns,
+                  type: 1,
                 ),
               ],
             ),
@@ -129,6 +133,7 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
                 SkyTableHeader(
                   gridTableController: widget.gridTableController,
                   columns: widget.gridTableController.leftFixedColumns,
+                  type: -1,
                 ),
                 SkyTableBody(
                   gridTableController: widget.gridTableController,
@@ -143,6 +148,7 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
                 SkyTableFooter(
                   gridTableController: widget.gridTableController,
                   columns: widget.gridTableController.leftFixedColumns,
+                  type: -1,
                 ),
               ],
             ),
@@ -154,7 +160,6 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
 
   @override
   void dispose() {
-    _gridListViewScrollController.dispose();
     super.dispose();
   }
 }
