@@ -25,6 +25,28 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
   late ScrollController _rightScrollController = _controllers.addAndGet();
 
   final innerController = ScrollController();
+  List<BoxShadow> leftFixedBoxShadow = [];
+  List<BoxShadow> rightFixedBoxShadow = [];
+  late String pixels = 'min';
+
+  @override
+  void initState() {
+    super.initState();
+    innerController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (widget.gridTableController.widthOverflow) {
+      if (innerController.position.pixels == innerController.position.maxScrollExtent) {
+        pixels = 'max';
+      } else if (innerController.position.pixels == 0) {
+        pixels = 'min';
+      } else {
+        pixels = 'normal';
+      }
+      setState(() {});
+    }
+  }
 
   Widget renderMain() {
     Widget w = Column(
@@ -69,6 +91,21 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.gridTableController.widthOverflow) {
+      if (pixels == 'normal') {
+        leftFixedBoxShadow = [SkyShadows.tbFixedLeft];
+        rightFixedBoxShadow = [SkyShadows.tbFixedRight];
+      } else if (pixels == 'min') {
+        leftFixedBoxShadow = [];
+        rightFixedBoxShadow = [SkyShadows.tbFixedRight];
+      } else {
+        leftFixedBoxShadow = [SkyShadows.tbFixedLeft];
+        rightFixedBoxShadow = [];
+      }
+    } else {
+      leftFixedBoxShadow = [];
+      rightFixedBoxShadow = [];
+    }
     return Stack(
       children: [
         Row(
@@ -86,11 +123,17 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
           top: 0,
           right: 0,
           bottom: 0,
-          width: widget.gridTableController.rightFixedColumnsWidth,
+          width: widget.gridTableController.rightFixedColumnsWidth + 1,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [SkyShadows.tbFixedRight],
+              boxShadow: rightFixedBoxShadow,
+              border: Border(
+                left: BorderSide(
+                  color: rightFixedBoxShadow.isEmpty ? SkyColors().baseBorder : Colors.transparent,
+                  width: 1,
+                ),
+              ),
             ),
             child: Column(
               children: [
@@ -122,11 +165,17 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
           top: 0,
           left: 0,
           bottom: 0,
-          width: widget.gridTableController.leftFixedColumnsWidth,
+          width: widget.gridTableController.leftFixedColumnsWidth + 1,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [SkyShadows.tbFixedLeft],
+              boxShadow: leftFixedBoxShadow,
+              border: Border(
+                right: BorderSide(
+                  color: leftFixedBoxShadow.isEmpty ? SkyColors().baseBorder : Colors.transparent,
+                  width: 1,
+                ),
+              ),
             ),
             child: Column(
               children: [
@@ -160,6 +209,8 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
 
   @override
   void dispose() {
+    innerController.removeListener(_scrollListener);
+    innerController.dispose();
     super.dispose();
   }
 }

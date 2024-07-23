@@ -20,6 +20,29 @@ class SkyTableRow<T> extends StatefulWidget {
 }
 
 class _SkyTableRow<T> extends State<SkyTableRow<T>> {
+  Color? triangleColor;
+
+  late final StreamSubscription<SkyTableEvent> _listener;
+
+  @override
+  void initState() {
+    super.initState();
+    _listener = widget.gridTableController.skyTableEventStreamController.stream.listen((_) {
+      if (_.eventName == SkyTableEventType.rowHover && _.key == widget.rowIndex.toString()) {
+        setState(() {
+          triangleColor = _.value;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _listener.pause();
+    _listener.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> result = [];
@@ -45,20 +68,39 @@ class _SkyTableRow<T> extends State<SkyTableRow<T>> {
     }
 
     return IntrinsicHeight(
-      child: Container(
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: widget.rowIndex % 2 != 0 ? SkyColors().tableRowBg : null,
-          border: Border(
-            bottom: BorderSide(
-              color: SkyColors().baseBorder,
-              width: 1,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (e) {
+          widget.gridTableController.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: SkyColors().tableRowBg));
+        },
+        onExit: (e) {
+          widget.gridTableController.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: null));
+        },
+        child: Container(
+          height: widget.height,
+          decoration: BoxDecoration(
+            color: triangleColor,
+            border: Border(
+              bottom: BorderSide(
+                color: SkyColors().baseBorder,
+                width: 1,
+              ),
             ),
           ),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: result,
+          child: widget.gridTableController.rowOnTab != null
+              ? GestureDetector(
+                  onTap: () {
+                    widget.gridTableController.rowOnTab?.call(widget.gridTableController.data[widget.rowIndex], widget.rowIndex);
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: result,
+                  ),
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: result,
+                ),
         ),
       ),
     );

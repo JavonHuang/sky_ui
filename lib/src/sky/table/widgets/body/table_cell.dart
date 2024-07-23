@@ -15,23 +15,31 @@ class SkyTableCell<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget w = Container(
+      width: column.cellWidth,
+      padding: SkyGridTableStyle.padding,
+      decoration: BoxDecoration(
+        border: !lastRowCell
+            ? Border(
+                right: BorderSide(
+                  color: SkyColors().baseBorder,
+                  width: 1,
+                ),
+              )
+            : null,
+      ),
+      child: column.itemBuilder(rowRecord, rowIndex),
+    );
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: Container(
-        width: column.cellWidth,
-        padding: SkyGridTableStyle.padding,
-        decoration: BoxDecoration(
-          border: !lastRowCell
-              ? Border(
-                  right: BorderSide(
-                    color: SkyColors().baseBorder,
-                    width: 1,
-                  ),
-                )
-              : null,
-        ),
-        child: column.itemBuilder(rowRecord, rowIndex),
-      ),
+      child: column.cellOnTab != null
+          ? GestureDetector(
+              onTap: () {
+                column.cellOnTab?.call(rowRecord, rowIndex);
+              },
+              child: w,
+            )
+          : w,
     );
   }
 }

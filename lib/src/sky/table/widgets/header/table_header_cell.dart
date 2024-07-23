@@ -34,7 +34,23 @@ class SkyTableHeaderCell<T> extends StatelessWidget {
                   )
                 : null,
           ),
-          child: column.headerTitle.text != null ? Text(column.headerTitle.text ?? '') : column.headerTitle.widgetTitle,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              column.headerTitle.text != null ? Text(column.headerTitle.text ?? '') : column.headerTitle.widgetTitle!,
+              const SizedBox(
+                width: 4,
+              ),
+              if (column.onSort != null)
+                SortIcon(
+                  gridTableController: gridTableController,
+                  onSort: (e) {
+                    column.onSort?.call(e, column);
+                  },
+                ),
+            ],
+          ),
         ),
       ),
     );

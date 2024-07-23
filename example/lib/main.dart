@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(10),
+        color: Colors.white,
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,

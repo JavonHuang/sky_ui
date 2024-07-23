@@ -16,11 +16,11 @@ class SkyTableColumn<T> {
   final bool flex;
   final bool rightFixed;
   final bool leftFixed;
-  final Function(T e)? cellOnTab;
+  final Function(T e, int index)? cellOnTab;
   final double cellWidth;
   final Widget? Function(int index)? itemFooterBuilder;
   final Widget? Function(int index)? itemHeaderBuilder;
-
+  final Function(String orderBy, SkyTableColumn<T> e)? onSort;
   SkyTableColumn({
     required this.headerTitle,
     this.footerTitle,
@@ -32,6 +32,7 @@ class SkyTableColumn<T> {
     this.cellOnTab,
     this.itemFooterBuilder,
     this.itemHeaderBuilder,
+    this.onSort,
   })  : cellWidth = !flex && width == null ? 32 : width ?? 0,
         key = GenerateUuid.keyV1();
 }

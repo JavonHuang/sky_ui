@@ -1,13 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
 import '../../styles/styles.dart';
 import '../common/generate_uuid.dart';
 import '../common/measure_size.dart';
 import '../infinite_scroll/infinite_scroll.dart';
 import 'controller/linked_scroll_controller.dart';
 import 'core/measure_util.dart';
+import 'widgets/icon/sort_icon.dart';
 
 part './controller/table_controller.dart';
 
+part 'models/sky_table_event.dart';
 part 'models/Widget_title.dart';
 part 'models/merge_column.dart';
 part 'models/table_column.dart';
@@ -40,6 +45,9 @@ class SkyTable<T> extends StatefulWidget {
     required this.tableController,
     this.mergeHeaderColumn,
     this.mergeFooterColumn,
+    this.rowOnTab,
+    this.headerRowNum = 1,
+    this.footerRowNum = 0,
   });
   final List<T> data;
   final List<SkyTableColumn<T>> columns;
@@ -49,6 +57,9 @@ class SkyTable<T> extends StatefulWidget {
   final TableController<T> tableController;
   final List<SkyMergeColumn>? mergeHeaderColumn;
   final List<SkyMergeColumn>? mergeFooterColumn;
+  final Function(T e, int index)? rowOnTab;
+  final int headerRowNum;
+  final int footerRowNum;
   @override
   SkyTableState<T> createState() => SkyTableState<T>();
 }
@@ -65,10 +76,12 @@ class SkyTableState<T> extends State<SkyTable<T>> {
       columns: widget.columns,
       mergeHeaderColumn: widget.mergeHeaderColumn ?? [],
       mergeFooterColumn: widget.mergeFooterColumn ?? [],
-      headerRowNum: 2,
-      footerRowNum: 1,
+      headerRowNum: widget.headerRowNum,
+      footerRowNum: widget.footerRowNum,
       data: widget.data,
+      rowOnTab: widget.rowOnTab,
     );
+    widget.tableController.skyTableEventStreamController.add(SkyTableEvent(key: GenerateUuid.keyV1(), eventName: SkyTableEventType.sort, value: ""));
   }
 
   @override

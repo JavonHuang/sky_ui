@@ -77,7 +77,6 @@ class _SkyGridTableState extends State<SkyGridTable> {
             ),
           ),
         ),
-        TriangleColorChanger(),
         Expanded(
           child: SkyTable<Person>(
             tableController: tableController,
@@ -87,34 +86,50 @@ class _SkyGridTableState extends State<SkyGridTable> {
             loadMore: loadMore,
             mergeHeaderColumn: [
               SkyMergeColumn(
-                  start: [0, 0],
-                  end: [0, 1],
-                  title: WidgetTitle(
-                    text: "yuyyui",
-                  )),
+                start: [0, 0],
+                end: [0, 1],
+                title: WidgetTitle(
+                  text: "yuyyui",
+                ),
+                onSort: (orderBy, list) {
+                  print(orderBy);
+                  print(list);
+                },
+              ),
             ],
             mergeFooterColumn: [
               SkyMergeColumn(
-                  start: [0, 0],
-                  end: [0, 1],
-                  title: WidgetTitle(
-                    text: "yuyyui",
-                  )),
+                start: [0, 0],
+                end: [0, 1],
+                title: WidgetTitle(
+                  text: "yuyyui",
+                ),
+              ),
             ],
+            rowOnTab: (e, index) {
+              print(e);
+              print(index);
+            },
             columns: [
               SkyTableColumn<Person>(
-                // leftFixed: true,
+                leftFixed: true,
                 headerTitle: WidgetTitle(
                     widgetTitle: Container(
-                  height: 60,
                   child: Text('姓名'),
                 )),
                 width: 200,
+                cellOnTab: (e, index) {
+                  print(e);
+                  print(index);
+                },
                 itemBuilder: (row, index) {
                   return Container(
-                    color: Colors.blue,
                     child: Text(row.name),
                   );
+                },
+                onSort: (orderBy, e) {
+                  print(e);
+                  print(orderBy);
                 },
               ),
               SkyTableColumn<Person>(
@@ -125,14 +140,13 @@ class _SkyGridTableState extends State<SkyGridTable> {
                 width: 300,
                 itemBuilder: (row, index) {
                   return Container(
-                    color: Colors.red,
                     child: Text(row.age.toString() + (index % 2 == 0 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989' : '')),
                   );
                 },
               ),
               SkyTableColumn<Person>(
                 headerTitle: WidgetTitle(text: '身高'),
-                // rightFixed: true,
+                rightFixed: true,
                 width: 200,
                 itemBuilder: (row, index) {
                   return Text(row.height.toString());
@@ -148,6 +162,10 @@ class _SkyGridTableState extends State<SkyGridTable> {
               SkyTableColumn<Person>(
                 headerTitle: WidgetTitle(text: '体重'),
                 width: 300,
+                onSort: (orderBy, e) {
+                  print(e);
+                  print(orderBy);
+                },
                 itemBuilder: (row, index) {
                   return Text(row.weight.toString());
                 },

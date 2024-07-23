@@ -18,6 +18,7 @@ class SkyTableHeader<T> extends StatefulWidget {
 class _SkyTableHeader<T> extends State<SkyTableHeader<T>> {
   late List<Widget> mergeWidget = [];
   late double height = 0;
+  late List<SkyTableColumn<T>> columns = [];
   void renderMerge() {
     if (widget.type != 0) return;
     for (SkyMergeColumn item in widget.gridTableController.mergeHeaderColumn) {
@@ -35,6 +36,7 @@ class _SkyTableHeader<T> extends State<SkyTableHeader<T>> {
       for (int j = item.start[1]; j <= item.end[1]; j++) {
         SkyTableColumn<T> column = widget.gridTableController.mainColumns[j];
         cellWidth += widget.gridTableController.getHeaderCellSize(column.key, item.start[0]).width;
+        columns.add(column);
       }
       mergeWidget.add(Positioned(
         left: left,
@@ -47,7 +49,23 @@ class _SkyTableHeader<T> extends State<SkyTableHeader<T>> {
           decoration: BoxDecoration(
             color: SkyColors().defaultBg,
           ),
-          child: item.title.text != null ? Text(item.title.text ?? '') : item.title.widgetTitle,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              item.title.text != null ? Text(item.title.text ?? '') : item.title.widgetTitle!,
+              const SizedBox(
+                width: 4,
+              ),
+              if (item.onSort != null)
+                SortIcon(
+                  gridTableController: widget.gridTableController,
+                  onSort: (e) {
+                    item.onSort?.call(e, columns);
+                  },
+                ),
+            ],
+          ),
         ),
       ));
     }
