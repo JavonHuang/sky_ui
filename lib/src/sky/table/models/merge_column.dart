@@ -1,6 +1,7 @@
 part of './../sky_table.dart';
 
 class SkyMergeColumn<T> {
+  final String key;
   final WidgetTitle title;
   final List<int> start;
   final List<int> end;
@@ -11,5 +12,5 @@ class SkyMergeColumn<T> {
     required this.start,
     required this.end,
     this.onSort,
-  });
+  }) : key = GenerateUuid.keyV1();
 }

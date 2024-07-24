@@ -39,11 +39,14 @@ class _SkyTableBody<T> extends State<SkyTableBody<T>> {
         itemBuilder: (context, index) {
           Widget a = Directionality(
             textDirection: TextDirection.ltr,
-            child: SkyTableRow<T>(
-              rowRecord: widget.gridTableController.data[index],
-              columns: widget.gridTableController.columns,
-              rowIndex: index,
-              gridTableController: widget.gridTableController,
+            child: SizedBox(
+              width: widget.gridTableController.getRenderWidth(0),
+              child: SkyTableRow<T>(
+                rowRecord: widget.gridTableController.data[index],
+                columns: widget.gridTableController.columns,
+                rowIndex: index,
+                gridTableController: widget.gridTableController,
+              ),
             ),
           );
           final height = MeasureUtil.measureWidget(a).height;

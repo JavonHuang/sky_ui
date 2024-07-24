@@ -60,6 +60,17 @@ class TableController<T> extends ChangeNotifier {
   ///宽度超出视窗宽度
   bool get widthOverflow => _constraints.maxWidth < _totalWidth;
 
+  ///获取模拟渲染宽度 -1-left；0-main；1-right
+  double getRenderWidth(int type) {
+    if (type == -1) {
+      return _leftFixedColumnsWidth;
+    } else if (type == 0) {
+      return _mainColumnsWidth;
+    } else {
+      return _rightFixedColumnsWidth;
+    }
+  }
+
   ///是否存在冻结列
   late bool _hasFixed = false;
   bool get hasFixed => _hasFixed;
@@ -79,6 +90,14 @@ class TableController<T> extends ChangeNotifier {
   Function(T e, int index)? _rowOnTab;
   Function(T e, int index)? get rowOnTab => _rowOnTab;
 
+  ///排序信息
+  late Map<String, String> _sortMap = {};
+  Map<String, String> get sortMap => _sortMap;
+
+  ///列边框
+  late bool _border = true;
+  bool get border => _border;
+
   ///初始化信息
   void initTable({
     required List<SkyTableColumn<T>> columns,
@@ -88,6 +107,7 @@ class TableController<T> extends ChangeNotifier {
     required int footerRowNum,
     required List<T> data,
     required Function(T e, int index)? rowOnTab,
+    required bool border,
   }) {
     clearAll();
     _columns = columns;
@@ -97,6 +117,7 @@ class TableController<T> extends ChangeNotifier {
     _footerRowNum = footerRowNum;
     _data = data;
     _rowOnTab = rowOnTab;
+    _border = border;
     for (SkyTableColumn<T> item in _columns) {
       _totalWidth += item.cellWidth;
       if (item.leftFixed) {
@@ -115,6 +136,7 @@ class TableController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///清空所有信息
   void clearAll() {
     _columns = [];
     _mergeHeaderColumn = [];
@@ -132,30 +154,53 @@ class TableController<T> extends ChangeNotifier {
     _mainColumns = [];
     _mainColumnsWidth = 0;
     _headerCellSizeMap = {};
+    _sortMap = {};
+    _border = true;
   }
 
+  ///设置数据源
   void setData(List<T> e) {
     _data = e;
     notifyListeners();
   }
 
+  ///设置视窗盒子信息
   void setViewConstraints(BoxConstraints e) {
     _constraints = e;
   }
 
+  ///更新表头单元格盒子大小
   void updateHeaderCellSize(String columnkey, int rowIndex, Size s) {
     _headerCellSizeMap['$columnkey-($rowIndex)'] = s;
   }
 
+  ///获取表头单元格盒子大小
   Size getHeaderCellSize(String columnkey, int rowIndex) {
     return _headerCellSizeMap['$columnkey-($rowIndex)'] ?? const Size(0, 0);
   }
 
+  ///更新表尾单元格盒子大小
   void updateFooterCellSize(String columnkey, int rowIndex, Size s) {
     _footerCellSizeMap['$columnkey-($rowIndex)'] = s;
   }
 
+  ///获取表尾单元格盒子大小
   Size getFooterCellSize(String columnkey, int rowIndex) {
     return _footerCellSizeMap['$columnkey-($rowIndex)'] ?? const Size(0, 0);
+  }
+
+  ///更新排序信息
+  void updateSortMap(String columnkey, String orderBy) {
+    _sortMap[columnkey] = orderBy;
+  }
+
+  ///获取排序信息
+  String getSortMap(String columnkey) {
+    return _sortMap[columnkey] ?? '';
+  }
+
+  ///清空排序信息
+  void clearSort() {
+    skyTableEventStreamController.add(SkyTableEvent(key: GenerateUuid.keyV1(), eventName: SkyTableEventType.sort, value: ""));
   }
 }

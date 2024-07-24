@@ -55,6 +55,7 @@ class _SkyTableRow<T> extends State<SkyTableRow<T>> {
             rowRecord: widget.rowRecord,
             rowIndex: widget.rowIndex,
             lastRowCell: i == widget.columns.length - 1,
+            gridTableController: widget.gridTableController,
           ),
         ));
       } else {
@@ -63,6 +64,7 @@ class _SkyTableRow<T> extends State<SkyTableRow<T>> {
           rowRecord: widget.rowRecord,
           rowIndex: widget.rowIndex,
           lastRowCell: i == widget.columns.length - 1,
+          gridTableController: widget.gridTableController,
         ));
       }
     }
@@ -71,7 +73,7 @@ class _SkyTableRow<T> extends State<SkyTableRow<T>> {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (e) {
-          widget.gridTableController.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: SkyColors().tableRowBg));
+          widget.gridTableController.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: SkyColors().tableRowBgHover));
         },
         onExit: (e) {
           widget.gridTableController.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: null));
@@ -79,7 +81,7 @@ class _SkyTableRow<T> extends State<SkyTableRow<T>> {
         child: Container(
           height: widget.height,
           decoration: BoxDecoration(
-            color: triangleColor,
+            color: widget.rowIndex % 2 != 0 ? SkyColors().tableDefaultRowBg : SkyColors().tableRowBg,
             border: Border(
               bottom: BorderSide(
                 color: SkyColors().baseBorder,
@@ -87,20 +89,23 @@ class _SkyTableRow<T> extends State<SkyTableRow<T>> {
               ),
             ),
           ),
-          child: widget.gridTableController.rowOnTab != null
-              ? GestureDetector(
-                  onTap: () {
-                    widget.gridTableController.rowOnTab?.call(widget.gridTableController.data[widget.rowIndex], widget.rowIndex);
-                  },
-                  child: Row(
+          child: Container(
+            color: triangleColor,
+            child: widget.gridTableController.rowOnTab != null
+                ? GestureDetector(
+                    onTap: () {
+                      widget.gridTableController.rowOnTab?.call(widget.gridTableController.data[widget.rowIndex], widget.rowIndex);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: result,
+                    ),
+                  )
+                : Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: result,
                   ),
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: result,
-                ),
+          ),
         ),
       ),
     );

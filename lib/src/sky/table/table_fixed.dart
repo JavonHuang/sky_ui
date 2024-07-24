@@ -89,6 +89,30 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
     }
   }
 
+  BoxBorder? get rightBorder {
+    if (widget.gridTableController.border) {
+      return Border(
+        left: BorderSide(
+          color: rightFixedBoxShadow.isEmpty ? SkyColors().baseBorder : Colors.transparent,
+          width: 1,
+        ),
+      );
+    }
+    return null;
+  }
+
+  BoxBorder? get leftBorder {
+    if (widget.gridTableController.border) {
+      return Border(
+        right: BorderSide(
+          color: leftFixedBoxShadow.isEmpty ? SkyColors().baseBorder : Colors.transparent,
+          width: 1,
+        ),
+      );
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.gridTableController.widthOverflow) {
@@ -128,12 +152,7 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: rightFixedBoxShadow,
-              border: Border(
-                left: BorderSide(
-                  color: rightFixedBoxShadow.isEmpty ? SkyColors().baseBorder : Colors.transparent,
-                  width: 1,
-                ),
-              ),
+              border: rightBorder,
             ),
             child: Column(
               children: [
@@ -170,12 +189,7 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: leftFixedBoxShadow,
-              border: Border(
-                right: BorderSide(
-                  color: leftFixedBoxShadow.isEmpty ? SkyColors().baseBorder : Colors.transparent,
-                  width: 1,
-                ),
-              ),
+              border: leftBorder,
             ),
             child: Column(
               children: [

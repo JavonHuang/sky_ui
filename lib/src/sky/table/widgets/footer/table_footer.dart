@@ -58,10 +58,13 @@ class _SkyTableFooter<T> extends State<SkyTableFooter<T>> {
     List<Widget> rowList = [];
     Widget a = Directionality(
       textDirection: TextDirection.ltr,
-      child: SkyTableFooterRow<T>(
-        gridTableController: widget.gridTableController,
-        columns: widget.gridTableController.columns,
-        rowIndex: 0,
+      child: SizedBox(
+        width: widget.gridTableController.getRenderWidth(widget.type),
+        child: SkyTableFooterRow<T>(
+          gridTableController: widget.gridTableController,
+          columns: widget.gridTableController.columns,
+          rowIndex: 0,
+        ),
       ),
     );
     height = MeasureUtil.measureWidget(a).height;

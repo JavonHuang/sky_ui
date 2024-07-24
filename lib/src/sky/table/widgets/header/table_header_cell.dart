@@ -12,6 +12,17 @@ class SkyTableHeaderCell<T> extends StatelessWidget {
   final int rowIndex;
   final bool lastRowCell;
   final TableController<T> gridTableController;
+  BoxBorder? get border {
+    if (!lastRowCell && gridTableController.border) {
+      return Border(
+        right: BorderSide(
+          color: SkyColors().baseBorder,
+          width: 1,
+        ),
+      );
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,27 +36,25 @@ class SkyTableHeaderCell<T> extends StatelessWidget {
           width: column.flex ? null : column.cellWidth,
           padding: SkyGridTableStyle.padding,
           decoration: BoxDecoration(
-            border: !lastRowCell
-                ? Border(
-                    right: BorderSide(
-                      color: SkyColors().baseBorder,
-                      width: 1,
-                    ),
-                  )
-                : null,
+            border: border,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              column.headerTitle.text != null ? Text(column.headerTitle.text ?? '') : column.headerTitle.widgetTitle!,
+              DefaultTextStyle(
+                style: SkyGridTableStyle.headerStyle,
+                child: column.headerTitle.text != null ? Text(column.headerTitle.text ?? '') : column.headerTitle.widgetTitle!,
+              ),
               const SizedBox(
                 width: 4,
               ),
               if (column.onSort != null)
                 SortIcon(
+                  orderBy: gridTableController.getSortMap(column.key),
                   gridTableController: gridTableController,
                   onSort: (e) {
+                    gridTableController.updateSortMap(column.key, e);
                     column.onSort?.call(e, column);
                   },
                 ),

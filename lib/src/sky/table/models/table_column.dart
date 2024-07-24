@@ -33,6 +33,7 @@ class SkyTableColumn<T> {
     this.itemFooterBuilder,
     this.itemHeaderBuilder,
     this.onSort,
-  })  : cellWidth = !flex && width == null ? 32 : width ?? 0,
+  })  : assert(!(flex && width != null), 'When flex is true, width does not need to be assigned'),
+        cellWidth = !flex && width == null ? 80 : width ?? 80,
         key = GenerateUuid.keyV1();
 }

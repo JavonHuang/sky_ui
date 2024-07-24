@@ -48,6 +48,7 @@ class SkyTable<T> extends StatefulWidget {
     this.rowOnTab,
     this.headerRowNum = 1,
     this.footerRowNum = 0,
+    this.border = true,
   });
   final List<T> data;
   final List<SkyTableColumn<T>> columns;
@@ -60,6 +61,8 @@ class SkyTable<T> extends StatefulWidget {
   final Function(T e, int index)? rowOnTab;
   final int headerRowNum;
   final int footerRowNum;
+  final bool border;
+
   @override
   SkyTableState<T> createState() => SkyTableState<T>();
 }
@@ -80,6 +83,7 @@ class SkyTableState<T> extends State<SkyTable<T>> {
       footerRowNum: widget.footerRowNum,
       data: widget.data,
       rowOnTab: widget.rowOnTab,
+      border: widget.border,
     );
     widget.tableController.skyTableEventStreamController.add(SkyTableEvent(key: GenerateUuid.keyV1(), eventName: SkyTableEventType.sort, value: ""));
   }
@@ -88,10 +92,12 @@ class SkyTableState<T> extends State<SkyTable<T>> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: SkyColors().baseBorder,
-          width: 1,
-        ),
+        border: widget.tableController.border
+            ? Border.all(
+                color: SkyColors().baseBorder,
+                width: 1,
+              )
+            : null,
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         widget.tableController.setViewConstraints(constraints);

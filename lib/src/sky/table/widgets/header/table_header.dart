@@ -53,14 +53,19 @@ class _SkyTableHeader<T> extends State<SkyTableHeader<T>> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              item.title.text != null ? Text(item.title.text ?? '') : item.title.widgetTitle!,
+              DefaultTextStyle(
+                style: SkyGridTableStyle.headerStyle,
+                child: item.title.text != null ? Text(item.title.text ?? '') : item.title.widgetTitle!,
+              ),
               const SizedBox(
                 width: 4,
               ),
               if (item.onSort != null)
                 SortIcon(
+                  orderBy: widget.gridTableController.getSortMap(item.key),
                   gridTableController: widget.gridTableController,
                   onSort: (e) {
+                    widget.gridTableController.updateSortMap(item.key, e);
                     item.onSort?.call(e, columns);
                   },
                 ),
@@ -77,10 +82,13 @@ class _SkyTableHeader<T> extends State<SkyTableHeader<T>> {
     List<Widget> rowList = [];
     Widget a = Directionality(
       textDirection: TextDirection.ltr,
-      child: SkyTableHeaderRow<T>(
-        gridTableController: widget.gridTableController,
-        columns: widget.gridTableController.columns,
-        rowIndex: 0,
+      child: SizedBox(
+        width: widget.gridTableController.getRenderWidth(widget.type),
+        child: SkyTableHeaderRow<T>(
+          gridTableController: widget.gridTableController,
+          columns: widget.gridTableController.columns,
+          rowIndex: 0,
+        ),
       ),
     );
     height = MeasureUtil.measureWidget(a).height;

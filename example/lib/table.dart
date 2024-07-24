@@ -65,6 +65,16 @@ class _SkyGridTableState extends State<SkyGridTable> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1.0, color: Colors.black12),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(0.0),
+            child: Text('Hello, world!', style: TextStyle(fontSize: 18.0)),
+          ),
+        ),
         MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Container(
@@ -84,6 +94,7 @@ class _SkyGridTableState extends State<SkyGridTable> {
             loadFinish: loadFinish,
             loading: loading,
             loadMore: loadMore,
+            // border: false,
             mergeHeaderColumn: [
               SkyMergeColumn(
                 start: [0, 0],
@@ -140,7 +151,7 @@ class _SkyGridTableState extends State<SkyGridTable> {
                 width: 300,
                 itemBuilder: (row, index) {
                   return Container(
-                    child: Text(row.age.toString() + (index % 2 == 0 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989' : '')),
+                    child: Text(row.age.toString() + (index == 2 ? '\n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n 787878 \n 898989 \n' : '')),
                   );
                 },
               ),
@@ -161,13 +172,17 @@ class _SkyGridTableState extends State<SkyGridTable> {
               ),
               SkyTableColumn<Person>(
                 headerTitle: WidgetTitle(text: '体重'),
-                width: 300,
+                // width: 300,
+                flex: true,
                 onSort: (orderBy, e) {
                   print(e);
                   print(orderBy);
                 },
                 itemBuilder: (row, index) {
-                  return Text(row.weight.toString());
+                  return Container(
+                    // color: Colors.blue,
+                    child: Text(row.weight.toString()),
+                  );
                 },
               ),
             ],

@@ -10,18 +10,16 @@ class SortIcon<T> extends StatefulWidget {
     super.key,
     required this.onSort,
     required this.gridTableController,
+    required this.orderBy,
   });
   final Function(String orderBy) onSort;
   final TableController<T> gridTableController;
-
+  final String orderBy;
   @override
   _SortIconState createState() => _SortIconState();
 }
 
 class _SortIconState extends State<SortIcon> {
-  Color ascTriangleColor = SkyColors().tableSortBg;
-  Color descTriangleColor = SkyColors().tableSortBg;
-
   late String orderBy = "";
 
   late final StreamSubscription<SkyTableEvent> _listener;
@@ -29,12 +27,13 @@ class _SortIconState extends State<SortIcon> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      orderBy = widget.orderBy;
+    });
     _listener = widget.gridTableController.skyTableEventStreamController.stream.listen((_) {
       if (_.eventName == SkyTableEventType.sort) {
         setState(() {
           orderBy = _.value;
-          descTriangleColor = SkyColors().tableSortBg;
-          ascTriangleColor = SkyColors().tableSortBg;
         });
       }
     });
@@ -45,6 +44,22 @@ class _SortIconState extends State<SortIcon> {
     _listener.pause();
     _listener.cancel();
     super.dispose();
+  }
+
+  Color get ascTriangleColor {
+    if (orderBy == 'asc') {
+      return SkyColors().tableSortBgActive;
+    } else {
+      return SkyColors().tableSortBg;
+    }
+  }
+
+  Color get descTriangleColor {
+    if (orderBy == 'desc') {
+      return SkyColors().tableSortBgActive;
+    } else {
+      return SkyColors().tableSortBg;
+    }
   }
 
   @override
@@ -58,11 +73,8 @@ class _SortIconState extends State<SortIcon> {
             onTap: () {
               if (orderBy == "" || orderBy == 'desc') {
                 orderBy = 'asc';
-                ascTriangleColor = SkyColors().tableSortBgActive;
-                descTriangleColor = SkyColors().tableSortBg;
               } else {
                 orderBy = "";
-                ascTriangleColor = SkyColors().tableSortBg;
               }
               setState(() {});
               widget.onSort(orderBy);
@@ -77,11 +89,8 @@ class _SortIconState extends State<SortIcon> {
             onTap: () {
               if (orderBy == "" || orderBy == 'asc') {
                 orderBy = 'desc';
-                descTriangleColor = SkyColors().tableSortBgActive;
-                ascTriangleColor = SkyColors().tableSortBg;
               } else {
                 orderBy = "";
-                descTriangleColor = SkyColors().tableSortBg;
               }
               setState(() {});
               widget.onSort(orderBy);
