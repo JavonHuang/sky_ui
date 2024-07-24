@@ -37,14 +37,19 @@ class _TableFixedState<T> extends State<TableFixed<T>> {
 
   void _scrollListener() {
     if (widget.gridTableController.widthOverflow) {
+      late String newPixels = '';
       if (innerController.position.pixels == innerController.position.maxScrollExtent) {
-        pixels = 'max';
+        newPixels = 'max';
       } else if (innerController.position.pixels == 0) {
-        pixels = 'min';
+        newPixels = 'min';
       } else {
-        pixels = 'normal';
+        newPixels = 'normal';
       }
-      setState(() {});
+      if (newPixels != pixels) {
+        setState(() {
+          pixels = newPixels;
+        });
+      }
     }
   }
 

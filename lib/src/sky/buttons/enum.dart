@@ -86,3 +86,77 @@ enum TekButtonSize {
     }
   }
 }
+
+enum SkyButtonType {
+  primary,
+  success,
+  warning,
+  danger,
+  info;
+
+  Color? getTextColor({
+    required BuildContext context,
+    Color? customizeColor,
+    bool disabled = false,
+    bool loading = false,
+    bool plain = false,
+  }) {
+    if (customizeColor != null) {
+      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+    }
+    late Color? textColor;
+    switch (this) {
+      case SkyButtonType.primary:
+        textColor = plain ? SkyColors().primary : SkyColors().white;
+        break;
+
+      case SkyButtonType.danger:
+        textColor = plain ? SkyColors().danger : SkyColors().white;
+        break;
+      case SkyButtonType.warning:
+        textColor = plain ? SkyColors().warning : SkyColors().white;
+        break;
+      case SkyButtonType.success:
+        textColor = plain ? SkyColors().success : SkyColors().white;
+        break;
+      case SkyButtonType.info:
+        textColor = plain ? SkyColors().info : SkyColors().white;
+        break;
+    }
+    return (disabled || loading) ? textColor.withOpacity(0.4) : textColor;
+  }
+
+  Color? getBackgroundColor({
+    required BuildContext context,
+    bool disabled = false,
+    bool loading = false,
+    Color? customizeColor,
+    bool plain = false,
+  }) {
+    if (customizeColor != null) {
+      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+    }
+    late Color backgroundColor;
+    switch (this) {
+      case SkyButtonType.primary:
+        backgroundColor = SkyColors().primary;
+        break;
+      case SkyButtonType.danger:
+        backgroundColor = SkyColors().danger;
+        break;
+      case SkyButtonType.warning:
+        backgroundColor = SkyColors().warning;
+        break;
+      case SkyButtonType.success:
+        backgroundColor = SkyColors().success;
+        break;
+      case SkyButtonType.info:
+        backgroundColor = SkyColors().info;
+        break;
+    }
+    if (plain) {
+      backgroundColor = backgroundColor.withAlpha(0);
+    }
+    return (disabled || loading) ? backgroundColor.withOpacity(0.4) : backgroundColor;
+  }
+}

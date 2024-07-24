@@ -65,6 +65,12 @@ class _SkyGridTableState extends State<SkyGridTable> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SkyButton(
+          type: SkyButtonType.primary,
+          disabled: false,
+          loading: false,
+          plain: true,
+        ),
         Container(
           decoration: BoxDecoration(
             border: Border.all(width: 1.0, color: Colors.black12),

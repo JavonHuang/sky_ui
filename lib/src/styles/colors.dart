@@ -13,12 +13,14 @@ class SkyColors {
   static const Color _warning = Color(0xFFE6A23C);
   static const Color _danger = Color(0xFFF56C6C);
   static const Color _info = Color(0xFF909399);
+  static const Color _white = Color(0xFFFFFFFF);
 
   Color get primary => _primary;
   Color get success => _success;
   Color get warning => _warning;
   Color get danger => _danger;
   Color get info => _info;
+  Color get white => _white;
 
   ///文字颜色
   static const Color _primaryText = Color(0xFF303133);
