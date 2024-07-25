@@ -1,17 +1,14 @@
 part of 'buttons.dart';
 
-enum TekButtonSize {
-  extraLarge,
+enum SkyButtonSize {
   large,
   medium,
   small;
 
-  const TekButtonSize();
+  const SkyButtonSize();
 
   double get height {
     switch (this) {
-      case extraLarge:
-        return 56;
       case large:
         return 48;
       case medium:
@@ -23,8 +20,6 @@ enum TekButtonSize {
 
   double get spacing {
     switch (this) {
-      case extraLarge:
-        return 12.scaleSpacing;
       case large:
         return 10.scaleSpacing;
       case medium:
@@ -36,8 +31,6 @@ enum TekButtonSize {
 
   double get loadingSize {
     switch (this) {
-      case extraLarge:
-        return 14.scaleFontSize;
       case large:
         return 13.scaleFontSize;
       case medium:
@@ -49,34 +42,22 @@ enum TekButtonSize {
 
   double get iconSize {
     switch (this) {
-      case extraLarge:
-        return 20.scaleFontSize;
       case large:
         return 18.scaleFontSize;
       case medium:
-        return 18.scaleFontSize;
+        return 16.scaleFontSize;
       case small:
         return 14.scaleFontSize;
     }
   }
 
-  // TextStyle get textStyle {
-  //   switch (this) {
-  //     case extraLarge:
-  //       return TekTextStyles().titleMedium;
-  //     case large:
-  //       return TekTextStyles().body;
-  //     case medium:
-  //       return TekTextStyles().body;
-  //     case small:
-  //       return TekTextStyles().label;
-  //   }
-  // }
-
-  EdgeInsets get padding {
+  EdgeInsets padding({
+    bool circle = false,
+  }) {
+    if (circle) {
+      return EdgeInsets.zero;
+    }
     switch (this) {
-      case extraLarge:
-        return EdgeInsets.symmetric(horizontal: 20.scaleSpacing);
       case large:
         return EdgeInsets.symmetric(horizontal: 18.scaleSpacing);
       case medium:
@@ -88,6 +69,7 @@ enum TekButtonSize {
 }
 
 enum SkyButtonType {
+  normal,
   primary,
   success,
   warning,
@@ -100,12 +82,17 @@ enum SkyButtonType {
     bool disabled = false,
     bool loading = false,
     bool plain = false,
+    required bool active,
+    required bool onHover,
   }) {
     if (customizeColor != null) {
-      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+      return (disabled || loading) ? customizeColor.withOpacity(0.6) : customizeColor;
     }
     late Color? textColor;
     switch (this) {
+      case SkyButtonType.normal:
+        textColor = SkyColors().primaryText;
+        break;
       case SkyButtonType.primary:
         textColor = plain ? SkyColors().primary : SkyColors().white;
         break;
@@ -123,7 +110,54 @@ enum SkyButtonType {
         textColor = plain ? SkyColors().info : SkyColors().white;
         break;
     }
-    return (disabled || loading) ? textColor.withOpacity(0.4) : textColor;
+    if (active || onHover) {
+      textColor = SkyColors().white;
+      if (this == SkyButtonType.normal) {
+        textColor = SkyColors().primary;
+      }
+    }
+    return (disabled || loading) ? textColor.withOpacity(0.6) : textColor;
+  }
+
+  Color? getBorderColor({
+    required BuildContext context,
+    Color? customizeColor,
+    bool disabled = false,
+    bool loading = false,
+    required bool active,
+    required bool onHover,
+  }) {
+    if (customizeColor != null) {
+      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+    }
+    late Color? borderColor;
+    switch (this) {
+      case SkyButtonType.normal:
+        borderColor = SkyColors().primaryText;
+        break;
+      case SkyButtonType.primary:
+        borderColor = SkyColors().primary;
+        break;
+
+      case SkyButtonType.danger:
+        borderColor = SkyColors().danger;
+        break;
+      case SkyButtonType.warning:
+        borderColor = SkyColors().warning;
+        break;
+      case SkyButtonType.success:
+        borderColor = SkyColors().success;
+        break;
+      case SkyButtonType.info:
+        borderColor = SkyColors().info;
+        break;
+    }
+    if (active || onHover) {
+      if (this == SkyButtonType.normal) {
+        borderColor = SkyColors().primary;
+      }
+    }
+    return (disabled || loading) ? borderColor.withOpacity(0.4) : borderColor;
   }
 
   Color? getBackgroundColor({
@@ -132,12 +166,17 @@ enum SkyButtonType {
     bool loading = false,
     Color? customizeColor,
     bool plain = false,
+    bool active = false,
+    bool onHover = false,
   }) {
     if (customizeColor != null) {
       return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
     }
     late Color backgroundColor;
     switch (this) {
+      case SkyButtonType.normal:
+        backgroundColor = SkyColors().white;
+        break;
       case SkyButtonType.primary:
         backgroundColor = SkyColors().primary;
         break;
@@ -155,8 +194,28 @@ enum SkyButtonType {
         break;
     }
     if (plain) {
-      backgroundColor = backgroundColor.withAlpha(0);
+      backgroundColor = backgroundColor.withOpacity(0.2);
     }
-    return (disabled || loading) ? backgroundColor.withOpacity(0.4) : backgroundColor;
+    if (onHover) {
+      backgroundColor = backgroundColor.withOpacity(0.8);
+    }
+    if (active) {
+      backgroundColor = darkenColor(backgroundColor.withOpacity(1));
+    }
+    if (plain) {
+      return (disabled || loading) ? backgroundColor.withOpacity(0.1) : backgroundColor;
+    } else {
+      return (disabled || loading) ? backgroundColor.withOpacity(0.4) : backgroundColor;
+    }
+  }
+
+  Color darkenColor(Color color, [double percent = 0.1]) {
+    assert(percent > 0 && percent <= 1);
+    return Color.fromARGB(
+      color.alpha,
+      (color.red * (1 - percent)).round(),
+      (color.green * (1 - percent)).round(),
+      (color.blue * (1 - percent)).round(),
+    );
   }
 }

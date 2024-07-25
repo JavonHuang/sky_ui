@@ -1,3 +1,4 @@
+import 'package:example/button.dart';
 import 'package:example/tes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            ButtonTest(),
             Expanded(
               child: SkyGridTable(),
             ),

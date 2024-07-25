@@ -65,34 +65,6 @@ class _SkyGridTableState extends State<SkyGridTable> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SkyButton(
-          type: SkyButtonType.primary,
-          disabled: false,
-          loading: false,
-          plain: true,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 1.0, color: Colors.black12),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Text('Hello, world!', style: TextStyle(fontSize: 18.0)),
-          ),
-        ),
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: Container(
-            // color: Colors.red,
-            child: ElevatedButton(
-              // hoverColor: Colors.blue, // 鼠标悬浮颜色
-              // onTap: () => print('Clicked!'), // 点击事件
-              onPressed: () => print('Clicked!'),
-              child: Text("测试后"),
-            ),
-          ),
-        ),
         Expanded(
           child: SkyTable<Person>(
             tableController: tableController,
