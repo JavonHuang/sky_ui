@@ -74,7 +74,8 @@ enum SkyButtonType {
   success,
   warning,
   danger,
-  info;
+  info,
+  text;
 
   Color? getTextColor({
     required BuildContext context,
@@ -108,12 +109,17 @@ enum SkyButtonType {
         break;
       case SkyButtonType.info:
         textColor = plain ? SkyColors().info : SkyColors().white;
+      case SkyButtonType.text:
+        textColor = plain ? SkyColors().primary : SkyColors().primary;
         break;
     }
     if (active || onHover) {
       textColor = SkyColors().white;
       if (this == SkyButtonType.normal) {
         textColor = SkyColors().primary;
+      }
+      if (this == SkyButtonType.text) {
+        textColor = SkyColors().primary.withOpacity(0.6);
       }
     }
     return (disabled || loading) ? textColor.withOpacity(0.6) : textColor;
@@ -138,7 +144,6 @@ enum SkyButtonType {
       case SkyButtonType.primary:
         borderColor = SkyColors().primary;
         break;
-
       case SkyButtonType.danger:
         borderColor = SkyColors().danger;
         break;
@@ -151,10 +156,16 @@ enum SkyButtonType {
       case SkyButtonType.info:
         borderColor = SkyColors().info;
         break;
+      case SkyButtonType.text:
+        borderColor = SkyColors().white;
+        break;
     }
     if (active || onHover) {
       if (this == SkyButtonType.normal) {
         borderColor = SkyColors().primary;
+      }
+      if (this == SkyButtonType.text) {
+        borderColor = SkyColors().white;
       }
     }
     return (disabled || loading) ? borderColor.withOpacity(0.4) : borderColor;
@@ -191,6 +202,9 @@ enum SkyButtonType {
         break;
       case SkyButtonType.info:
         backgroundColor = SkyColors().info;
+        break;
+      case SkyButtonType.text:
+        backgroundColor = SkyColors().white;
         break;
     }
     if (plain) {

@@ -1,6 +1,6 @@
 import '../../styles/styles.dart';
 
-extension TekNumEx on num {
+extension SkyNumEx on num {
   double get scaleFontSize => this * SkySpacings().scale;
 
   double get scaleIconSize => this * SkySpacings().scale;

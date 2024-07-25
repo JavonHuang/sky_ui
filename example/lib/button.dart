@@ -184,7 +184,54 @@ class _ButtonTestState extends State<ButtonTest> {
               rightIcon: ElementIcons.alarmClock,
             ),
           ],
-        )
+        ),
+        Text("文字按钮"),
+        Row(
+          children: [
+            SkyButton(
+              text: '文字按钮',
+              type: SkyButtonType.text,
+            ),
+            SkyButton(
+              text: '文字按钮',
+              type: SkyButtonType.text,
+              disabled: true,
+            ),
+          ],
+        ),
+        Text("图标按钮"),
+        Row(
+          children: [
+            SkyButton(
+              type: SkyButtonType.primary,
+              leftIcon: ElementIcons.edit,
+            ),
+            SkyButton(
+              type: SkyButtonType.primary,
+              leftIcon: ElementIcons.share,
+            ),
+            SkyButton(
+              type: SkyButtonType.primary,
+              leftIcon: ElementIcons.delete,
+            ),
+            SkyButton(
+              text: '搜索',
+              type: SkyButtonType.primary,
+              leftIcon: ElementIcons.search,
+            ),
+            SkyButton(text: '上传', type: SkyButtonType.primary, rightIcon: ElementIcons.upload),
+          ],
+        ),
+        Text("加载中"),
+        Row(
+          children: [
+            SkyButton(
+              text: '加载中',
+              type: SkyButtonType.primary,
+              loading: true,
+            ),
+          ],
+        ),
       ],
     );
   }

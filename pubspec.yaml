@@ -54,6 +54,6 @@ flutter:
   fonts:
     - family: element
       fonts:
-        - asset: lib/asset/element.ttf
+      - asset: lib/asset/element.ttf
   # For details regarding fonts in packages, see
   # https://flutter.dev/custom-fonts/#from-packages

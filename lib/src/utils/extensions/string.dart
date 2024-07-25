@@ -1,0 +1,1 @@
+extension SkyStringEx on String {}

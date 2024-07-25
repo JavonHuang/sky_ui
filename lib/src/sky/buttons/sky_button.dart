@@ -110,6 +110,7 @@ class _SkyButtonState extends State<SkyButton> {
                 onHover: onHover,
                 active: active,
                 disabled: widget.disabled,
+                loading: widget.loading,
               )!,
             ),
             borderRadius: borderRadius,
@@ -121,6 +122,18 @@ class _SkyButtonState extends State<SkyButton> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if (widget.loading)
+                    Icon(
+                      color: widget.type.getTextColor(
+                        context: context,
+                        plain: widget.plain,
+                        onHover: onHover,
+                        active: active,
+                        loading: widget.loading,
+                      ),
+                      ElementIcons.loading,
+                      size: widget.size.iconSize,
+                    ),
                   if (widget.leftIcon != null)
                     Icon(
                       color: widget.type.getTextColor(
@@ -128,25 +141,28 @@ class _SkyButtonState extends State<SkyButton> {
                         plain: widget.plain,
                         onHover: onHover,
                         active: active,
+                        loading: widget.loading,
                       ),
                       widget.leftIcon,
                       size: widget.size.iconSize,
                     ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    child: Text(
-                      widget.text,
-                      style: TextStyle(
-                        color: widget.type.getTextColor(
-                          context: context,
-                          plain: widget.plain,
-                          onHover: onHover,
-                          active: active,
-                          disabled: widget.disabled,
+                  if (widget.text.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 2.scaleSpacing),
+                      child: Text(
+                        widget.text,
+                        style: TextStyle(
+                          color: widget.type.getTextColor(
+                            context: context,
+                            plain: widget.plain,
+                            onHover: onHover,
+                            active: active,
+                            disabled: widget.disabled,
+                            loading: widget.loading,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   if (widget.rightIcon != null)
                     Icon(
                       color: widget.type.getTextColor(
@@ -154,8 +170,9 @@ class _SkyButtonState extends State<SkyButton> {
                         plain: widget.plain,
                         onHover: onHover,
                         active: active,
+                        loading: widget.loading,
                       ),
-                      widget.leftIcon,
+                      widget.rightIcon,
                       size: widget.size.iconSize,
                     ),
                 ],
