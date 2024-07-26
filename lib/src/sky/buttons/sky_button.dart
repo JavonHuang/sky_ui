@@ -13,6 +13,7 @@ class SkyButton extends StatefulWidget {
     this.circle = false,
     this.leftIcon,
     this.rightIcon,
+    this.onTap,
   });
   final String text;
   final SkyButtonType type;
@@ -26,15 +27,16 @@ class SkyButton extends StatefulWidget {
   final bool circle;
   final IconData? leftIcon;
   final IconData? rightIcon;
-
+  final Function()? onTap;
   @override
   State<SkyButton> createState() => _SkyButtonState();
 }
 
-class _SkyButtonState extends State<SkyButton> {
+class _SkyButtonState extends State<SkyButton> with MyMixin {
   late bool onHover = false;
   late bool active = false;
-
+  late double circular = 5.0;
+  void tet() {}
   BorderRadiusGeometry? get borderRadius {
     if (widget.round) {
       return BorderRadius.circular(
@@ -45,17 +47,14 @@ class _SkyButtonState extends State<SkyButton> {
         MediaQuery.of(context).size.height * 0.5,
       );
     } else {
-      return BorderRadius.circular(5.0);
+      return BorderRadius.circular(circular);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // 处理点击事件
-        print('按钮被点击');
-      },
+      onTap: widget.onTap,
       onTapDown: (e) {
         if (widget.disabled) {
           return;
@@ -93,7 +92,6 @@ class _SkyButtonState extends State<SkyButton> {
         child: Container(
           height: widget.size.height,
           width: widget.circle ? widget.size.height : null,
-          margin: const EdgeInsets.all(1),
           decoration: BoxDecoration(
             color: widget.type.getBackgroundColor(
               context: context,

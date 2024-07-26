@@ -11,171 +11,202 @@ class ButtonTest extends StatefulWidget {
 class _ButtonTestState extends State<ButtonTest> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("基础用法"),
+        SizedBox(height: SkySpacings().mainSpacing),
+        const Text("基础用法"),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               text: '默认按钮',
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '主要按钮',
               type: SkyButtonType.primary,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '成功按钮',
               type: SkyButtonType.success,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '信息按钮',
               type: SkyButtonType.info,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '警告按钮',
               type: SkyButtonType.warning,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '危险按钮',
               type: SkyButtonType.danger,
             ),
           ],
         ),
+        SizedBox(height: SkySpacings().mainSpacing),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               text: '默认按钮',
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '主要按钮',
               type: SkyButtonType.primary,
               plain: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '成功按钮',
               type: SkyButtonType.success,
               plain: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '信息按钮',
               type: SkyButtonType.info,
               plain: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '警告按钮',
               type: SkyButtonType.warning,
               plain: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '危险按钮',
               type: SkyButtonType.danger,
               plain: true,
             ),
           ],
         ),
+        SizedBox(height: SkySpacings().mainSpacing),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               text: '默认按钮',
               round: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '主要按钮',
               type: SkyButtonType.primary,
               round: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '成功按钮',
               type: SkyButtonType.success,
               round: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '信息按钮',
               type: SkyButtonType.info,
               round: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '警告按钮',
               type: SkyButtonType.warning,
               round: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '危险按钮',
               type: SkyButtonType.danger,
               round: true,
             ),
           ],
         ),
+        SizedBox(height: SkySpacings().mainSpacing),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               leftIcon: ElementIcons.search,
               circle: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               leftIcon: ElementIcons.starOff,
               type: SkyButtonType.primary,
               circle: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               leftIcon: ElementIcons.message,
               type: SkyButtonType.success,
               circle: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               leftIcon: ElementIcons.check,
               type: SkyButtonType.info,
               circle: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               leftIcon: ElementIcons.edit,
               type: SkyButtonType.warning,
               circle: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               leftIcon: ElementIcons.delete,
               type: SkyButtonType.danger,
               circle: true,
             ),
           ],
         ),
-        Text("禁用状态"),
+        SizedBox(height: SkySpacings().mainSpacing),
+        const Text("禁用状态"),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               text: '默认按钮',
               disabled: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '主要按钮',
               type: SkyButtonType.primary,
               disabled: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '成功按钮',
               type: SkyButtonType.success,
               disabled: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '信息按钮',
               type: SkyButtonType.info,
               disabled: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '警告按钮',
               type: SkyButtonType.warning,
               disabled: true,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '危险按钮',
               type: SkyButtonType.danger,
               disabled: true,
             ),
           ],
         ),
-        Text("图标按钮"),
-        Row(
+        SizedBox(height: SkySpacings().mainSpacing),
+        const Text("图标按钮"),
+        const Row(
           children: [
             SkyButton(
               text: '信息按钮',
@@ -185,45 +216,56 @@ class _ButtonTestState extends State<ButtonTest> {
             ),
           ],
         ),
-        Text("文字按钮"),
+        SizedBox(height: SkySpacings().mainSpacing),
+        const Text("文字按钮"),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               text: '文字按钮',
               type: SkyButtonType.text,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '文字按钮',
               type: SkyButtonType.text,
               disabled: true,
             ),
           ],
         ),
-        Text("图标按钮"),
+        const Text("图标按钮"),
         Row(
           children: [
-            SkyButton(
+            const SkyButton(
               type: SkyButtonType.primary,
               leftIcon: ElementIcons.edit,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               type: SkyButtonType.primary,
               leftIcon: ElementIcons.share,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               type: SkyButtonType.primary,
               leftIcon: ElementIcons.delete,
             ),
-            SkyButton(
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
               text: '搜索',
               type: SkyButtonType.primary,
               leftIcon: ElementIcons.search,
             ),
-            SkyButton(text: '上传', type: SkyButtonType.primary, rightIcon: ElementIcons.upload),
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyButton(
+              text: '上传',
+              type: SkyButtonType.primary,
+              rightIcon: ElementIcons.upload,
+            ),
           ],
         ),
-        Text("加载中"),
-        Row(
+        SizedBox(height: SkySpacings().mainSpacing),
+        const Text("加载中"),
+        const Row(
           children: [
             SkyButton(
               text: '加载中',
