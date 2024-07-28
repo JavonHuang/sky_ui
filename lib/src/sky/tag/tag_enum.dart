@@ -1,11 +1,11 @@
-part of 'buttons.dart';
+part of 'sky_tag.dart';
 
-enum SkyButtonSize {
+enum SkyTagSize {
   large,
   medium,
   small;
 
-  const SkyButtonSize();
+  const SkyTagSize();
 
   double get height {
     switch (this) {
@@ -26,17 +26,6 @@ enum SkyButtonSize {
         return 8.scaleSpacing;
       case small:
         return 6.scaleSpacing;
-    }
-  }
-
-  double get loadingSize {
-    switch (this) {
-      case large:
-        return 13.scaleFontSize;
-      case medium:
-        return 12.scaleFontSize;
-      case small:
-        return 10.scaleFontSize;
     }
   }
 
@@ -62,12 +51,7 @@ enum SkyButtonSize {
     }
   }
 
-  EdgeInsets padding({
-    bool circle = false,
-  }) {
-    if (circle) {
-      return EdgeInsets.zero;
-    }
+  EdgeInsets padding() {
     switch (this) {
       case large:
         return EdgeInsets.symmetric(horizontal: 18.scaleSpacing);
@@ -79,160 +63,192 @@ enum SkyButtonSize {
   }
 }
 
-enum SkyButtonType {
+enum SkyTagType {
   normal,
   primary,
   success,
   warning,
   danger,
-  info,
-  text;
+  info;
 
   Color? getTextColor({
     required BuildContext context,
     Color? customizeColor,
-    bool disabled = false,
-    bool loading = false,
     bool plain = false,
-    required bool active,
-    required bool onHover,
   }) {
     if (customizeColor != null) {
-      return (disabled || loading) ? customizeColor.withOpacity(0.6) : customizeColor;
+      return customizeColor;
     }
     late Color? textColor;
     switch (this) {
-      case SkyButtonType.normal:
+      case SkyTagType.normal:
         textColor = SkyColors().primaryText;
         break;
-      case SkyButtonType.primary:
+      case SkyTagType.primary:
         textColor = plain ? SkyColors().primary : SkyColors().white;
         break;
 
-      case SkyButtonType.danger:
+      case SkyTagType.danger:
         textColor = plain ? SkyColors().danger : SkyColors().white;
         break;
-      case SkyButtonType.warning:
+      case SkyTagType.warning:
         textColor = plain ? SkyColors().warning : SkyColors().white;
         break;
-      case SkyButtonType.success:
+      case SkyTagType.success:
         textColor = plain ? SkyColors().success : SkyColors().white;
         break;
-      case SkyButtonType.info:
+      case SkyTagType.info:
         textColor = plain ? SkyColors().info : SkyColors().white;
         break;
-      case SkyButtonType.text:
-        textColor = plain ? SkyColors().primary : SkyColors().primary;
-        break;
     }
-    if (active || onHover) {
-      textColor = SkyColors().white;
-      if (this == SkyButtonType.normal) {
-        textColor = SkyColors().primary;
-      }
-      if (this == SkyButtonType.text) {
-        textColor = SkyColors().primary.withOpacity(0.6);
-      }
-    }
-    return (disabled || loading) ? textColor.withOpacity(0.6) : textColor;
+    return textColor;
   }
 
   Color? getBorderColor({
     required BuildContext context,
     Color? customizeColor,
-    bool disabled = false,
-    bool loading = false,
-    required bool active,
-    required bool onHover,
   }) {
     if (customizeColor != null) {
-      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+      return customizeColor;
     }
     late Color? borderColor;
     switch (this) {
-      case SkyButtonType.normal:
+      case SkyTagType.normal:
         borderColor = SkyColors().primaryText;
         break;
-      case SkyButtonType.primary:
+      case SkyTagType.primary:
         borderColor = SkyColors().primary;
         break;
-      case SkyButtonType.danger:
+      case SkyTagType.danger:
         borderColor = SkyColors().danger;
         break;
-      case SkyButtonType.warning:
+      case SkyTagType.warning:
         borderColor = SkyColors().warning;
         break;
-      case SkyButtonType.success:
+      case SkyTagType.success:
         borderColor = SkyColors().success;
         break;
-      case SkyButtonType.info:
+      case SkyTagType.info:
         borderColor = SkyColors().info;
         break;
-      case SkyButtonType.text:
-        borderColor = SkyColors().white;
-        break;
     }
-    if (active || onHover) {
-      if (this == SkyButtonType.normal) {
-        borderColor = SkyColors().primary;
-      }
-      if (this == SkyButtonType.text) {
-        borderColor = SkyColors().white;
-      }
-    }
-    return (disabled || loading) ? borderColor.withOpacity(0.4) : borderColor;
+    return borderColor;
   }
 
   Color? getBackgroundColor({
     required BuildContext context,
-    bool disabled = false,
-    bool loading = false,
     Color? customizeColor,
     bool plain = false,
-    bool active = false,
     bool onHover = false,
-    bool chosenButton = false,
   }) {
     if (customizeColor != null) {
-      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+      return customizeColor;
     }
     late Color backgroundColor;
     switch (this) {
-      case SkyButtonType.normal:
+      case SkyTagType.normal:
         backgroundColor = SkyColors().white;
         break;
-      case SkyButtonType.primary:
+      case SkyTagType.primary:
         backgroundColor = SkyColors().primary;
         break;
-      case SkyButtonType.danger:
+      case SkyTagType.danger:
         backgroundColor = SkyColors().danger;
         break;
-      case SkyButtonType.warning:
+      case SkyTagType.warning:
         backgroundColor = SkyColors().warning;
         break;
-      case SkyButtonType.success:
+      case SkyTagType.success:
         backgroundColor = SkyColors().success;
         break;
-      case SkyButtonType.info:
+      case SkyTagType.info:
         backgroundColor = SkyColors().info;
-        break;
-      case SkyButtonType.text:
-        backgroundColor = SkyColors().white;
         break;
     }
     if (plain) {
       backgroundColor = backgroundColor.withOpacity(0.2);
     }
-    if (onHover || chosenButton) {
-      backgroundColor = backgroundColor.withOpacity(0.8);
+
+    return backgroundColor;
+  }
+
+  Color? getCloseBackgroundColor({
+    required BuildContext context,
+    Color? customizeColor,
+    bool plain = false,
+    bool onHover = false,
+  }) {
+    if (!onHover) {
+      return SkyColors().transparent;
     }
-    if (active) {
-      backgroundColor = darkenColor(backgroundColor.withOpacity(1));
+    if (customizeColor != null) {
+      return customizeColor;
+    }
+    late Color backgroundColor;
+    switch (this) {
+      case SkyTagType.normal:
+        backgroundColor = SkyColors().white;
+        break;
+      case SkyTagType.primary:
+        backgroundColor = SkyColors().primary;
+        break;
+      case SkyTagType.danger:
+        backgroundColor = SkyColors().danger;
+        break;
+      case SkyTagType.warning:
+        backgroundColor = SkyColors().warning;
+        break;
+      case SkyTagType.success:
+        backgroundColor = SkyColors().success;
+        break;
+      case SkyTagType.info:
+        backgroundColor = SkyColors().info;
+        break;
     }
     if (plain) {
-      return (disabled || loading) ? backgroundColor.withOpacity(0.1) : backgroundColor;
+      backgroundColor = backgroundColor;
     } else {
-      return (disabled || loading) ? backgroundColor.withOpacity(0.4) : backgroundColor;
+      backgroundColor = SkyColors().white;
+      backgroundColor = backgroundColor.withOpacity(0.2);
     }
+
+    return backgroundColor;
+  }
+
+  Color? getCloseColor({
+    required BuildContext context,
+    Color? customizeColor,
+    bool plain = false,
+    required bool onHover,
+  }) {
+    if (customizeColor != null) {
+      return customizeColor;
+    }
+    if (onHover) {
+      return SkyColors().white;
+    }
+    late Color? textColor;
+    switch (this) {
+      case SkyTagType.normal:
+        textColor = SkyColors().primaryText;
+        break;
+      case SkyTagType.primary:
+        textColor = plain ? SkyColors().primary : SkyColors().white;
+        break;
+
+      case SkyTagType.danger:
+        textColor = plain ? SkyColors().danger : SkyColors().white;
+        break;
+      case SkyTagType.warning:
+        textColor = plain ? SkyColors().warning : SkyColors().white;
+        break;
+      case SkyTagType.success:
+        textColor = plain ? SkyColors().success : SkyColors().white;
+        break;
+      case SkyTagType.info:
+        textColor = plain ? SkyColors().info : SkyColors().white;
+        break;
+    }
+    return textColor;
   }
 }

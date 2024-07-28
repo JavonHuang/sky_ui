@@ -1,10 +1,15 @@
 import 'package:example/button.dart';
+import 'package:example/tag.dart';
 import 'package:example/tes.dart';
+import 'package:example/test2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'badge.dart';
 import 'buttonGroup.dart';
 import 'grid_table.dart';
+import 'input.dart';
+import 'link.dart';
 import 'table.dart';
 
 void main() {
@@ -45,13 +50,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Container(
           padding: const EdgeInsets.all(10),
           color: Colors.white,
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              GroupButton(),
-              ButtonTest(),
-              SizedBox(
+              const GroupButton(),
+              const ButtonTest(),
+              const LinkText(),
+              const TagTest(),
+              const BadgeTest(),
+              const InputTest(),
+              Container(
+                height: 200,
+                color: Colors.black,
+                child: ContextMenuApp(),
+              ),
+              const SizedBox(
                 height: 600,
                 child: SkyGridTable(),
               )

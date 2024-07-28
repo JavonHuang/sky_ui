@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../../styles/styles.dart';
 import '../common/generate_uuid.dart';
 import '../common/measure_size.dart';
-import '../infinite_scroll/infinite_scroll.dart';
 import 'controller/linked_scroll_controller.dart';
 import 'core/measure_util.dart';
 import 'widgets/icon/sort_icon.dart';

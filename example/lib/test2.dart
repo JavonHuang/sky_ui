@@ -1,92 +1,245 @@
-import 'dart:math';
-import 'package:flutter/rendering.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+enum MenuEntry {
+  about('About'),
+  showMessage('Show Message', SingleActivator(LogicalKeyboardKey.keyS, control: true)),
+  hideMessage('Hide Message', SingleActivator(LogicalKeyboardKey.keyS, control: true)),
+  colorMenu('Color Menu'),
+  colorRed('Red Background', SingleActivator(LogicalKeyboardKey.keyR, control: true)),
+  colorGreen('Green Background', SingleActivator(LogicalKeyboardKey.keyG, control: true)),
+  colorBlue('Blue Background', SingleActivator(LogicalKeyboardKey.keyB, control: true));
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
+  const MenuEntry(this.label, [this.shortcut]);
+  final String label;
+  final MenuSerializableShortcut? shortcut;
 }
 
-class _MyAppState extends State<MyApp> {
+class MyContextMenu extends StatefulWidget {
+  const MyContextMenu({super.key, required this.message});
+
+  final String message;
+
+  @override
+  State<MyContextMenu> createState() => _MyContextMenuState();
+}
+
+class _MyContextMenuState extends State<MyContextMenu> {
+  MenuEntry? _lastSelection;
+  final FocusNode _buttonFocusNode = FocusNode(debugLabel: 'Menu Button');
+  final MenuController _menuController = MenuController();
+  ShortcutRegistryEntry? _shortcutsEntry;
+  bool _menuWasEnabled = false;
+
+  Color get backgroundColor => _backgroundColor;
+  Color _backgroundColor = Colors.red;
+  set backgroundColor(Color value) {
+    if (_backgroundColor != value) {
+      setState(() {
+        _backgroundColor = value;
+      });
+    }
+  }
+
+  bool get showingMessage => _showingMessage;
+  bool _showingMessage = false;
+  set showingMessage(bool value) {
+    if (_showingMessage != value) {
+      setState(() {
+        _showingMessage = value;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _disableContextMenu();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Dispose of any previously registered shortcuts, since they are about to
+    // be replaced.
+    _shortcutsEntry?.dispose();
+    // Collect the shortcuts from the different menu selections so that they can
+    // be registered to apply to the entire app. Menus don't register their
+    // shortcuts, they only display the shortcut hint text.
+    final Map<ShortcutActivator, Intent> shortcuts = <ShortcutActivator, Intent>{
+      for (final MenuEntry item in MenuEntry.values)
+        if (item.shortcut != null) item.shortcut!: VoidCallbackIntent(() => _activate(item)),
+    };
+    // Register the shortcuts with the ShortcutRegistry so that they are
+    // available to the entire application.
+    _shortcutsEntry = ShortcutRegistry.of(context).addAll(shortcuts);
+  }
+
+  @override
+  void dispose() {
+    _shortcutsEntry?.dispose();
+    _buttonFocusNode.dispose();
+    _reenableContextMenu();
+    super.dispose();
+  }
+
+  Future<void> _disableContextMenu() async {
+    // if (!kIsWeb) {
+    //   // Does nothing on non-web platforms.
+    //   return;
+    // }
+    return;
+    _menuWasEnabled = BrowserContextMenu.enabled;
+    if (_menuWasEnabled) {
+      await BrowserContextMenu.disableContextMenu();
+    }
+  }
+
+  void _reenableContextMenu() {
+    // if (!kIsWeb) {
+    //   // Does nothing on non-web platforms.
+    //   return;
+    // }
+    return;
+    if (_menuWasEnabled && !BrowserContextMenu.enabled) {
+      BrowserContextMenu.enableContextMenu();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final yourModels = List<Object>.filled(5, 0, growable: true);
-    double maxHeight = 0;
-    final List<Widget> widgets = yourModels.map((model) {
-      final widget = _yourItemWidget();
-      final measureHeight = MeasureUtil.measureWidget(widget).height;
-      if (maxHeight < measureHeight) {
-        maxHeight = measureHeight;
-      }
-      return widget;
-    }).toList();
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-            child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            return SizedBox(
-              height: maxHeight,
-              child: widgets[index],
-            );
-          },
-          itemCount: widgets.length,
-        )),
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: GestureDetector(
+        onTapDown: _handleTapDown,
+        onSecondaryTapDown: _handleSecondaryTapDown,
+        child: MenuAnchor(
+          controller: _menuController,
+          menuChildren: <Widget>[
+            MenuItemButton(
+              child: Text(MenuEntry.about.label),
+              onPressed: () => _activate(MenuEntry.about),
+            ),
+            if (_showingMessage)
+              MenuItemButton(
+                onPressed: () => _activate(MenuEntry.hideMessage),
+                shortcut: MenuEntry.hideMessage.shortcut,
+                child: Text(MenuEntry.hideMessage.label),
+              ),
+            if (!_showingMessage)
+              MenuItemButton(
+                onPressed: () => _activate(MenuEntry.showMessage),
+                shortcut: MenuEntry.showMessage.shortcut,
+                child: Text(MenuEntry.showMessage.label),
+              ),
+            SubmenuButton(
+              menuChildren: <Widget>[
+                MenuItemButton(
+                  onPressed: () => _activate(MenuEntry.colorRed),
+                  shortcut: MenuEntry.colorRed.shortcut,
+                  child: Text(MenuEntry.colorRed.label),
+                ),
+                MenuItemButton(
+                  onPressed: () => _activate(MenuEntry.colorGreen),
+                  shortcut: MenuEntry.colorGreen.shortcut,
+                  child: Text(MenuEntry.colorGreen.label),
+                ),
+                MenuItemButton(
+                  onPressed: () => _activate(MenuEntry.colorBlue),
+                  shortcut: MenuEntry.colorBlue.shortcut,
+                  child: Text(MenuEntry.colorBlue.label),
+                ),
+              ],
+              child: const Text('Background Color'),
+            ),
+          ],
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.red,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Right-click anywhere on the background to show the menu.'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    showingMessage ? widget.message : '',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+                Text(_lastSelection != null ? 'Last Selected: ${_lastSelection!.label}' : ''),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  Widget _yourItemWidget() {
-    final random = Random();
-    final height = Random().nextInt(100).toDouble();
-    return Container(
-      color: Color.fromRGBO(
-        random.nextInt(255),
-        random.nextInt(255),
-        random.nextInt(255),
-        1,
-      ),
-      width: 100,
-      height: height,
-    );
+  void _activate(MenuEntry selection) {
+    setState(() {
+      _lastSelection = selection;
+    });
+    switch (selection) {
+      case MenuEntry.about:
+        showAboutDialog(
+          context: context,
+          applicationName: 'MenuBar Sample',
+          applicationVersion: '1.0.0',
+        );
+      case MenuEntry.showMessage:
+      case MenuEntry.hideMessage:
+        showingMessage = !showingMessage;
+      case MenuEntry.colorMenu:
+        break;
+      case MenuEntry.colorRed:
+        backgroundColor = Colors.red;
+      case MenuEntry.colorGreen:
+        backgroundColor = Colors.green;
+      case MenuEntry.colorBlue:
+        backgroundColor = Colors.blue;
+    }
   }
-}
 
-class MeasureUtil {
-  static Size measureWidget(Widget widget, [BoxConstraints constraints = const BoxConstraints()]) {
-    final PipelineOwner pipelineOwner = PipelineOwner();
-    final _MeasurementView rootView = pipelineOwner.rootNode = _MeasurementView(constraints);
-    final BuildOwner buildOwner = BuildOwner(focusManager: FocusManager());
-    final RenderObjectToWidgetElement<RenderBox> element = RenderObjectToWidgetAdapter<RenderBox>(
-      container: rootView,
-      debugShortDescription: '[root]',
-      child: widget,
-    ).attachToRenderTree(buildOwner);
-    try {
-      rootView.scheduleInitialLayout();
-      pipelineOwner.flushLayout();
-      return rootView.size;
-    } finally {
-      // Clean up.
-      element.update(RenderObjectToWidgetAdapter<RenderBox>(container: rootView));
-      buildOwner.finalizeTree();
+  void _handleSecondaryTapDown(TapDownDetails details) {
+    _menuController.open(position: details.localPosition);
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    if (_menuController.isOpen) {
+      _menuController.close();
+      return;
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        // Don't open the menu on these platforms with a Ctrl-tap (or a
+        // tap).
+        break;
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        // Only open the menu on these platforms if the control button is down
+        // when the tap occurs.
+        if (HardwareKeyboard.instance.logicalKeysPressed.contains(LogicalKeyboardKey.controlLeft) || HardwareKeyboard.instance.logicalKeysPressed.contains(LogicalKeyboardKey.controlRight)) {
+          _menuController.open(position: details.localPosition);
+        }
     }
   }
 }
 
-class _MeasurementView extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
-  final BoxConstraints boxConstraints;
-  _MeasurementView(this.boxConstraints);
-  @override
-  void performLayout() {
-    assert(child != null);
-    child!.layout(boxConstraints, parentUsesSize: true);
-    size = child!.size;
-  }
+class ContextMenuApp extends StatelessWidget {
+  const ContextMenuApp({super.key});
+
+  static const String kMessage = '"Talk less. Smile more." - A. Burr';
 
   @override
-  void debugAssertDoesMeetConstraints() => true;
+  Widget build(BuildContext context) {
+    return MyContextMenu(message: kMessage);
+  }
 }
