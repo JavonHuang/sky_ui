@@ -5,6 +5,17 @@ enum SkyLinkSize {
   medium,
   small;
 
+  double get height {
+    switch (this) {
+      case large:
+        return 40.scaleSpacing;
+      case medium:
+        return 36.scaleSpacing;
+      case small:
+        return 32.scaleSpacing;
+    }
+  }
+
   double get iconSize {
     switch (this) {
       case large:

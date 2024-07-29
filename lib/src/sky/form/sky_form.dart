@@ -6,8 +6,10 @@ class SkyForm extends StatefulWidget {
   const SkyForm({
     super.key,
     required this.child,
+    this.labelWidth,
   });
   final Widget child;
+  final double? labelWidth;
 
   static SkyFormState? maybeOf(BuildContext context) {
     final _SkyFormScope? scope = context.dependOnInheritedWidgetOfExactType<_SkyFormScope>();
@@ -23,6 +25,8 @@ typedef FutureBoolFunction = Future<bool> Function();
 class SkyFormState extends State<SkyForm> {
   late int _count = 0;
   List<SkyFormFieldState> formFieldList = [];
+
+  double? get labelWidth => widget.labelWidth;
 
   Future<SkyFormValidate> validate() async {
     List<Future<dynamic>> list = [];

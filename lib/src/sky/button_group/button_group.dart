@@ -9,7 +9,7 @@ class ButtonGroup extends StatefulWidget {
     required this.children,
     this.onTap,
     this.type = SkyButtonType.normal,
-    this.size = SkyButtonSize.medium,
+    this.size = SkyButtonSize.small,
   });
   final List<SkyButton> children;
   final Function(String groupId)? onTap;

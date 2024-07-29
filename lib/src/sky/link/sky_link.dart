@@ -11,7 +11,7 @@ class SkyLink extends StatefulWidget {
     super.key,
     required this.text,
     this.type = SkyLinkType.primary,
-    this.size = SkyLinkSize.medium,
+    this.size = SkyLinkSize.small,
     this.disabled = false,
     this.underline = true,
     this.leftIcon,
@@ -58,6 +58,7 @@ class _SkyLinkState extends State<SkyLink> {
           });
         },
         child: Container(
+          height: widget.size.height,
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(

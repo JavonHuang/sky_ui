@@ -9,7 +9,7 @@ class SkyTag extends StatefulWidget {
     super.key,
     this.text = '',
     this.type = SkyTagType.normal,
-    this.size = SkyTagSize.medium,
+    this.size = SkyTagSize.small,
     this.plain = false,
     this.closable = false,
     this.onTap,

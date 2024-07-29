@@ -34,13 +34,24 @@ class SkyFormFieldState extends State<SkyFormField> {
   late ValidatorResult _validatorResult = ValidatorResult(result: true, message: '');
 
   late SkyInput _skyInput;
+  late SkyInputNumber _skyInputNumber;
+
   late TextEditingController _skyInputTextEditingController;
+
+  double? get _labelWidth => widget.labelWidth ?? SkyForm.maybeOf(context)?.labelWidth;
 
   void register(e, String type, dynamic c) {
     itemType = type;
     switch (itemType) {
       case 'SkyInput':
         _skyInput = e;
+        _skyInputTextEditingController = c;
+        if (widget.initialValue != null && widget.initialValue.toString().isNotEmpty) {
+          _skyInputTextEditingController.text = widget.initialValue.toString();
+        }
+        break;
+      case 'SkyInputNumber':
+        _skyInputNumber = e;
         _skyInputTextEditingController = c;
         if (widget.initialValue != null && widget.initialValue.toString().isNotEmpty) {
           _skyInputTextEditingController.text = widget.initialValue.toString();
@@ -57,7 +68,7 @@ class SkyFormFieldState extends State<SkyFormField> {
 
   void resetField() {
     switch (itemType) {
-      case 'SkyInput':
+      case 'SkyInput' || 'SkyInputNumber':
         if (widget.initialValue != null && widget.initialValue.toString().isNotEmpty) {
           _skyInputTextEditingController.text = widget.initialValue.toString();
         } else {
@@ -113,7 +124,7 @@ class SkyFormFieldState extends State<SkyFormField> {
                 Expanded(
                   child: Container(
                     alignment: Alignment.centerRight,
-                    width: widget.labelWidth,
+                    width: _labelWidth,
                     child: Text.rich(
                       TextSpan(
                         children: [

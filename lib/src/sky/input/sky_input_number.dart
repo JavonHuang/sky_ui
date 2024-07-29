@@ -1,7 +1,7 @@
 part of 'index.dart';
 
-class SkyInput extends SkyFormFieldBridge<SkyInput> {
-  const SkyInput({
+class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
+  const SkyInputNumber({
     super.key,
     this.leftIcon,
     this.rightIcon,
@@ -10,7 +10,7 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
     this.disabled = false,
     this.readOnly = false,
   }) : super(
-          itemType: "SkyInput",
+          itemType: "SkyInputNumber",
         );
   final IconData? leftIcon;
   final IconData? rightIcon;
@@ -18,20 +18,13 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
   final bool clearable;
   final bool disabled;
   final bool readOnly;
-
   @override
-  SkyFormFieldBridgeState<SkyInput> createState() => _SkyInputState();
+  SkyFormFieldBridgeState<SkyInputNumber> createState() => _SkyInputNumberState();
 }
 
-class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
-  // TextStyle a = TextStyle(
-  //   fontSize: 10,
-  //   height: 0.2,
-  // );
-
-  late SkyInput _widget = super.widget as SkyInput;
+class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
+  late SkyInputNumber _widget = super.widget as SkyInputNumber;
   late Color outLineBorder = SkyColors().baseBorder;
-
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   late bool _textIsNotEmpty = true;
@@ -87,6 +80,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
 
   void onClear() {
     _textController.text = "";
+    print("javon");
   }
 
   @override
@@ -103,17 +97,37 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
       ),
       child: Row(
         children: [
-          if (_widget.leftIcon != null)
-            Padding(
-              padding: EdgeInsets.only(left: 4.scaleSpacing),
-              child: Center(
-                child: Icon(
-                  color: SkyColors().baseBorder,
-                  _widget.leftIcon,
-                  size: 18.scaleIconSize,
+          GestureDetector(
+            onTap: onClear,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: SkyColors().defaultBg,
+                  border: Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: SkyColors().baseBorder,
+                    ),
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(4.scaleSpacing),
+                    bottomLeft: Radius.circular(4.scaleSpacing),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.scaleSpacing),
+                  child: Center(
+                    child: Icon(
+                      color: SkyColors().baseBorder,
+                      ElementIcons.minus,
+                      size: 18.scaleIconSize,
+                    ),
+                  ),
                 ),
               ),
             ),
+          ),
           Expanded(
             child: TextField(
               mouseCursor: _widget.disabled ? SystemMouseCursors.forbidden : null,
@@ -164,17 +178,36 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
                 ),
               ),
             ),
-          if (_widget.rightIcon != null)
-            Padding(
-              padding: EdgeInsets.only(right: 4.scaleSpacing),
-              child: Center(
-                child: Icon(
-                  color: SkyColors().baseBorder,
-                  _widget.rightIcon,
-                  size: 18.scaleIconSize,
+          GestureDetector(
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: SkyColors().defaultBg,
+                  border: Border(
+                    left: BorderSide(
+                      width: 1,
+                      color: SkyColors().baseBorder,
+                    ),
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(4.scaleSpacing),
+                    bottomRight: Radius.circular(4.scaleSpacing),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.scaleSpacing),
+                  child: Center(
+                    child: Icon(
+                      color: SkyColors().baseBorder,
+                      ElementIcons.plus,
+                      size: 18.scaleIconSize,
+                    ),
+                  ),
                 ),
               ),
             ),
+          ),
         ],
       ),
     );
