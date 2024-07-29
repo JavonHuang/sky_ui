@@ -9,6 +9,7 @@ class InputTest extends StatefulWidget {
 }
 
 class _InputTestState extends State<InputTest> {
+  late GlobalKey<SkyFormState> myForm = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,23 +20,78 @@ class _InputTestState extends State<InputTest> {
         Row(
           children: [
             Expanded(
-              child: SkyInput(),
+              child: SkyForm(
+                key: myForm,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SkyFormField(
+                      prop: "name",
+                      label: '姓名',
+                      initialValue: "Javon",
+                      child: SkyInput(
+                        disabled: true,
+                        clearable: true,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SkyFormField(
+                      prop: "name1",
+                      label: '测试',
+                      initialValue: "Javon",
+                      child: SkyInput(
+                        readOnly: true,
+                        clearable: true,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SkyFormField(
+                      prop: "age",
+                      label: '年龄',
+                      required: true,
+                      initialValue: "100",
+                      rules: Rules(
+                        validator: (e) {
+                          return Future.value(ValidatorResult(result: e.toString().length < 3, message: "请输入小于3个字符"));
+                        },
+                      ),
+                      child: SkyInput(),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SkyButton(
+                      text: "表单提交",
+                      onTap: () async {
+                        myForm.currentState!.validateField('age');
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SkyButton(
+                      text: "清空检验",
+                      onTap: () async {
+                        myForm.currentState!.clearValidate();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SkyButton(
+                      text: "重置初始化",
+                      onTap: () async {
+                        myForm.currentState!.resetField();
+                      },
+                    )
+                  ],
+                ),
+              ),
             ),
-            // Expanded(
-            //   child: TextField(
-            //     decoration: InputDecoration(
-            //       contentPadding: EdgeInsets.all(10.0),
-            //       enabledBorder: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(0.0),
-            //         borderSide: BorderSide(color: const Color.fromARGB(255, 128, 118, 118), width: 0.5, style: BorderStyle.solid),
-            //       ),
-            //       focusedBorder: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(0.0),
-            //         borderSide: BorderSide(color: Colors.red, width: 0.5, style: BorderStyle.solid),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
         SizedBox(height: SkySpacings().mainSpacing),
