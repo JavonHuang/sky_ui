@@ -1,93 +1,8 @@
 part of 'buttons.dart';
 
-enum SkyButtonSize {
-  large,
-  medium,
-  small;
+extension SkyButtonSize on SkySize {}
 
-  const SkyButtonSize();
-
-  double get height {
-    switch (this) {
-      case large:
-        return 40.scaleSpacing;
-      case medium:
-        return 36.scaleSpacing;
-      case small:
-        return 32.scaleSpacing;
-    }
-  }
-
-  double get spacing {
-    switch (this) {
-      case large:
-        return 10.scaleSpacing;
-      case medium:
-        return 8.scaleSpacing;
-      case small:
-        return 6.scaleSpacing;
-    }
-  }
-
-  double get loadingSize {
-    switch (this) {
-      case large:
-        return 13.scaleFontSize;
-      case medium:
-        return 12.scaleFontSize;
-      case small:
-        return 10.scaleFontSize;
-    }
-  }
-
-  double get iconSize {
-    switch (this) {
-      case large:
-        return 18.scaleFontSize;
-      case medium:
-        return 16.scaleFontSize;
-      case small:
-        return 14.scaleFontSize;
-    }
-  }
-
-  double get textSize {
-    switch (this) {
-      case large:
-        return SkyFontSizes().s16;
-      case medium:
-        return SkyFontSizes().s14;
-      case small:
-        return SkyFontSizes().s12;
-    }
-  }
-
-  EdgeInsets padding({
-    bool circle = false,
-  }) {
-    if (circle) {
-      return EdgeInsets.zero;
-    }
-    switch (this) {
-      case large:
-        return EdgeInsets.symmetric(horizontal: 18.scaleSpacing);
-      case medium:
-        return EdgeInsets.symmetric(horizontal: 16.scaleSpacing);
-      case small:
-        return EdgeInsets.symmetric(horizontal: 14.scaleSpacing);
-    }
-  }
-}
-
-enum SkyButtonType {
-  normal,
-  primary,
-  success,
-  warning,
-  danger,
-  info,
-  text;
-
+extension SkyButtonType on SkyType {
   Color? getTextColor({
     required BuildContext context,
     Color? customizeColor,
@@ -102,35 +17,35 @@ enum SkyButtonType {
     }
     late Color? textColor;
     switch (this) {
-      case SkyButtonType.normal:
+      case SkyType.normal:
         textColor = SkyColors().primaryText;
         break;
-      case SkyButtonType.primary:
+      case SkyType.primary:
         textColor = plain ? SkyColors().primary : SkyColors().white;
         break;
 
-      case SkyButtonType.danger:
+      case SkyType.danger:
         textColor = plain ? SkyColors().danger : SkyColors().white;
         break;
-      case SkyButtonType.warning:
+      case SkyType.warning:
         textColor = plain ? SkyColors().warning : SkyColors().white;
         break;
-      case SkyButtonType.success:
+      case SkyType.success:
         textColor = plain ? SkyColors().success : SkyColors().white;
         break;
-      case SkyButtonType.info:
+      case SkyType.info:
         textColor = plain ? SkyColors().info : SkyColors().white;
         break;
-      case SkyButtonType.text:
+      case SkyType.text:
         textColor = plain ? SkyColors().primary : SkyColors().primary;
         break;
     }
     if (active || onHover) {
       textColor = SkyColors().white;
-      if (this == SkyButtonType.normal) {
+      if (this == SkyType.normal) {
         textColor = SkyColors().primary;
       }
-      if (this == SkyButtonType.text) {
+      if (this == SkyType.text) {
         textColor = SkyColors().primary.withOpacity(0.6);
       }
     }
@@ -150,33 +65,33 @@ enum SkyButtonType {
     }
     late Color? borderColor;
     switch (this) {
-      case SkyButtonType.normal:
+      case SkyType.normal:
         borderColor = SkyColors().primaryText;
         break;
-      case SkyButtonType.primary:
+      case SkyType.primary:
         borderColor = SkyColors().primary;
         break;
-      case SkyButtonType.danger:
+      case SkyType.danger:
         borderColor = SkyColors().danger;
         break;
-      case SkyButtonType.warning:
+      case SkyType.warning:
         borderColor = SkyColors().warning;
         break;
-      case SkyButtonType.success:
+      case SkyType.success:
         borderColor = SkyColors().success;
         break;
-      case SkyButtonType.info:
+      case SkyType.info:
         borderColor = SkyColors().info;
         break;
-      case SkyButtonType.text:
+      case SkyType.text:
         borderColor = SkyColors().white;
         break;
     }
     if (active || onHover) {
-      if (this == SkyButtonType.normal) {
+      if (this == SkyType.normal) {
         borderColor = SkyColors().primary;
       }
-      if (this == SkyButtonType.text) {
+      if (this == SkyType.text) {
         borderColor = SkyColors().white;
       }
     }
@@ -198,25 +113,25 @@ enum SkyButtonType {
     }
     late Color backgroundColor;
     switch (this) {
-      case SkyButtonType.normal:
+      case SkyType.normal:
         backgroundColor = SkyColors().white;
         break;
-      case SkyButtonType.primary:
+      case SkyType.primary:
         backgroundColor = SkyColors().primary;
         break;
-      case SkyButtonType.danger:
+      case SkyType.danger:
         backgroundColor = SkyColors().danger;
         break;
-      case SkyButtonType.warning:
+      case SkyType.warning:
         backgroundColor = SkyColors().warning;
         break;
-      case SkyButtonType.success:
+      case SkyType.success:
         backgroundColor = SkyColors().success;
         break;
-      case SkyButtonType.info:
+      case SkyType.info:
         backgroundColor = SkyColors().info;
         break;
-      case SkyButtonType.text:
+      case SkyType.text:
         backgroundColor = SkyColors().white;
         break;
     }

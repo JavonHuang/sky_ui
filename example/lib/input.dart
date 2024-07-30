@@ -11,6 +11,7 @@ class InputTest extends StatefulWidget {
 class _InputTestState extends State<InputTest> {
   late GlobalKey<SkyFormState> myForm = GlobalKey();
   late double labelwidth = 100;
+  late String nameparam = "javonnameparam";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,6 +19,27 @@ class _InputTestState extends State<InputTest> {
       children: [
         SizedBox(height: SkySpacings().mainSpacing),
         const Text("Input 输入框"),
+        SkyFormField(
+          prop: "name",
+          label: '姓名',
+          initialValue: "Javon",
+          child: SkyInput(
+            disabled: true,
+            clearable: true,
+            model: nameparam,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SkyButton(
+          text: "更新单个值",
+          onTap: () async {
+            setState(() {
+              nameparam = "更新了";
+            });
+          },
+        ),
         Row(
           children: [
             Expanded(
@@ -27,15 +49,6 @@ class _InputTestState extends State<InputTest> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SkyFormField(
-                      prop: "name",
-                      label: '姓名',
-                      initialValue: "Javon",
-                      child: SkyInput(
-                        disabled: true,
-                        clearable: true,
-                      ),
-                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -63,6 +76,7 @@ class _InputTestState extends State<InputTest> {
                       child: const SkyInput(
                         readOnly: true,
                         clearable: true,
+                        leftIcon: ElementIcons.search,
                       ),
                     ),
                     const SizedBox(
@@ -79,7 +93,6 @@ class _InputTestState extends State<InputTest> {
                         },
                       ),
                       child: const SkyInput(
-                        leftIcon: ElementIcons.search,
                         rightIcon: ElementIcons.search,
                       ),
                     ),
@@ -89,11 +102,11 @@ class _InputTestState extends State<InputTest> {
                     const SkyFormField(
                       prop: "name4",
                       label: '计数器',
-                      initialValue: "Javon",
                       required: true,
                       child: SkyInputNumber(
                         readOnly: false,
                         clearable: true,
+                        placeholder: "请输入计数器",
                       ),
                     ),
                     const SizedBox(
@@ -102,7 +115,9 @@ class _InputTestState extends State<InputTest> {
                     SkyButton(
                       text: "表单提交",
                       onTap: () async {
-                        myForm.currentState!.validate();
+                        myForm.currentState!.validate().then((e) {
+                          print(e);
+                        });
                       },
                     ),
                     const SizedBox(
@@ -129,7 +144,16 @@ class _InputTestState extends State<InputTest> {
                     SkyButton(
                       text: "重置初始化",
                       onTap: () async {
-                        myForm.currentState!.resetField();
+                        myForm.currentState!.resetFields();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SkyButton(
+                      text: "指定更新",
+                      onTap: () async {
+                        myForm.currentState!.setValidate({'age': '99'});
                       },
                     )
                   ],

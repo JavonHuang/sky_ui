@@ -1,20 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:sky_ui/src/utils/utils.dart';
-
-import '../buttons/buttons.dart';
+part of 'buttons.dart';
 
 class ButtonGroup extends StatefulWidget {
   const ButtonGroup({
     super.key,
     required this.children,
     this.onTap,
-    this.type = SkyButtonType.normal,
-    this.size = SkyButtonSize.small,
+    this.type = SkyType.normal,
+    this.size = SkySize.small,
   });
   final List<SkyButton> children;
   final Function(String groupId)? onTap;
-  final SkyButtonType type;
-  final SkyButtonSize size;
+  final SkyType type;
+  final SkySize size;
 
   static ButtonGroupState? maybeOf(BuildContext context) {
     final _ButtonGroupScope? scope = context.dependOnInheritedWidgetOfExactType<_ButtonGroupScope>();
@@ -26,8 +23,8 @@ class ButtonGroup extends StatefulWidget {
 }
 
 class ButtonGroupState extends State<ButtonGroup> {
-  SkyButtonType get type => widget.type;
-  SkyButtonSize get size => widget.size;
+  SkyType get type => widget.type;
+  SkySize get size => widget.size;
 
   late final SkyButton? _chosenButton = null;
 
@@ -49,16 +46,16 @@ class ButtonGroupState extends State<ButtonGroup> {
     }
     if (index == 0) {
       return BorderRadius.only(
-        topLeft: Radius.circular(5.scaleSpacing),
-        bottomLeft: Radius.circular(5.scaleSpacing),
+        topLeft: SkyBorderRadius().noneCircular,
+        bottomLeft: SkyBorderRadius().noneCircular,
       );
     } else if (index == widget.children.length - 1) {
       return BorderRadius.only(
-        topRight: Radius.circular(5.scaleSpacing),
-        bottomRight: Radius.circular(5.scaleSpacing),
+        topRight: SkyBorderRadius().noneCircular,
+        bottomRight: SkyBorderRadius().noneCircular,
       );
     } else {
-      return BorderRadius.circular(5.scaleSpacing);
+      return SkyBorderRadius().normalBorderRadius;
     }
   }
 

@@ -50,7 +50,7 @@ class SkyColors {
   static const Color _defaultBg = Color(0xFFf5f7fa);
   static const Color _tableDefaultRowBg = Color(0xFFffffff);
   static const Color _tableRowBg = Color(0xFFfafafa);
-  static const Color _tableRowBgHover = Color(0xFFf5f7fa);
+  static const Color _tableRowBgHover = _defaultBg;
   static const Color _tableSortBgActive = Color(0xFF409eff);
   static const Color _tableSortBg = Color(0xFFc0c4cc);
 

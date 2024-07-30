@@ -10,8 +10,10 @@ class SkyFormFieldBridge<T> extends StatefulWidget {
   SkyFormFieldBridgeState<T> createState() => SkyFormFieldBridgeState<T>();
 }
 
-class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> {
-  // int get size => SkyFormField.maybeOf(context)?.size ?? 0;
+class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with RestorationMixin {
+  final RestorableStringN _errorText = RestorableStringN(null);
+  final RestorableBool _hasInteractedByUser = RestorableBool(false);
+
   late bool _hasRegister = false;
   late dynamic _con;
   void setControll(dynamic c) {
@@ -25,5 +27,21 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> {
       _hasRegister = true;
     }
     return const SizedBox();
+  }
+
+  @override
+  String? get restorationId => SkyFormField.maybeOf(context)?.restorationId;
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_errorText, 'error_text');
+    registerForRestoration(_hasInteractedByUser, 'has_interacted_by_user');
+  }
+
+  @override
+  void dispose() {
+    _errorText.dispose();
+    _hasInteractedByUser.dispose();
+    super.dispose();
   }
 }

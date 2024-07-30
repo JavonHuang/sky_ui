@@ -18,7 +18,7 @@ class _GroupButtonState extends State<GroupButton> {
         SizedBox(height: SkySpacings().mainSpacing),
         const Text("按钮组"),
         ButtonGroup(
-          type: SkyButtonType.success,
+          type: SkyType.success,
           onTap: (e) {
             print(e);
           },

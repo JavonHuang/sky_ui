@@ -34,7 +34,15 @@ class SkyFormState extends State<SkyForm> {
       list.add(item.validate());
     }
     List<dynamic> results = await Future.wait(list);
-    return Future.value(SkyFormValidate(result: true, fieldValidate: results));
+    bool result = true;
+    Map<String, dynamic> obj = {};
+    for (dynamic item in results) {
+      if (item['result'] == false) {
+        result = false;
+      }
+      obj[item['prop']] = item['value'];
+    }
+    return Future.value(SkyFormValidate(result: result, fieldValidate: results, obj: obj));
   }
 
   Future<SkyFormValidate> validateField(String prop) async {
@@ -45,7 +53,15 @@ class SkyFormState extends State<SkyForm> {
       }
     }
     List<dynamic> results = await Future.wait(list);
-    return Future.value(SkyFormValidate(result: true, fieldValidate: results));
+    bool result = true;
+    Map<String, dynamic> obj = {};
+    for (dynamic item in results) {
+      if (item['result'] == false) {
+        result = false;
+      }
+      obj[item['prop']] = item['value'];
+    }
+    return Future.value(SkyFormValidate(result: result, fieldValidate: results, obj: obj));
   }
 
   void clearValidate() {
@@ -54,9 +70,27 @@ class SkyFormState extends State<SkyForm> {
     }
   }
 
-  void resetField() {
+  void resetFields() {
     for (SkyFormFieldState item in formFieldList) {
       item.resetField();
+    }
+  }
+
+  void resetField(String prop) {
+    for (SkyFormFieldState item in formFieldList) {
+      if (item.widget.prop == prop) {
+        item.resetField();
+      }
+    }
+  }
+
+  void setValidate(Map<String, dynamic> obj) {
+    for (String key in obj.keys) {
+      for (SkyFormFieldState item in formFieldList) {
+        if (item.widget.prop == key) {
+          item.setField(obj[key]);
+        }
+      }
     }
   }
 
@@ -98,8 +132,10 @@ class _SkyFormScope extends InheritedWidget {
 class SkyFormValidate {
   final bool result;
   final List<dynamic> fieldValidate;
+  final dynamic obj;
   SkyFormValidate({
     required this.result,
     required this.fieldValidate,
+    required this.obj,
   });
 }

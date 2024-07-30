@@ -5,7 +5,7 @@ import 'package:sky_ui/src/styles/styles.dart';
 import 'package:sky_ui/src/utils/utils.dart';
 
 import '../../helpers/darken_color.dart';
-import '../button_group/button_group.dart';
+part 'button_group.dart';
 
 part 'button_field.dart';
 

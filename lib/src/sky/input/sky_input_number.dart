@@ -9,6 +9,13 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
     this.clearable = true,
     this.disabled = false,
     this.readOnly = false,
+    this.size = SkySize.small,
+    this.model,
+    this.min,
+    this.max,
+    this.step = 1,
+    this.precision = 0,
+    this.placeholder,
   }) : super(
           itemType: "SkyInputNumber",
         );
@@ -18,6 +25,14 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
   final bool clearable;
   final bool disabled;
   final bool readOnly;
+  final SkySize size;
+  final double? model;
+  final double? min;
+  final double? max;
+  final double step;
+  final int precision;
+  final String? placeholder;
+
   @override
   SkyFormFieldBridgeState<SkyInputNumber> createState() => _SkyInputNumberState();
 }
@@ -40,7 +55,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     super.initState();
     _focusNode.addListener(_focusNodeListener);
     _textController.addListener(_textListener);
-    super.setControll(_textController);
+    setControll(_textController);
   }
 
   _focusNodeListener() {
@@ -78,27 +93,51 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(SkyInputNumber oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    SkyInputNumber widget = super.widget as SkyInputNumber;
+    if (oldWidget.model != widget.model && mounted) {
+      _textController.text = widget.model.toString();
+    }
+  }
+
   void onClear() {
     _textController.text = "";
-    print("javon");
+  }
+
+  void _onMinus() {
+    double val = double.parse(_textController.text != '' ? _textController.text : '0') - _widget.step;
+    if (_widget.min != null && val < _widget.min!) {
+      return;
+    }
+    _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
+  }
+
+  void _onPluss() {
+    double val = double.parse(_textController.text != '' ? _textController.text : '0') + _widget.step;
+    if (_widget.max != null && val > _widget.max!) {
+      return;
+    }
+    _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      height: 40,
+      height: _widget.size.height,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
           color: outLineBorder,
         ),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: SkyBorderRadius().normalBorderRadius,
       ),
       child: Row(
         children: [
           GestureDetector(
-            onTap: onClear,
+            onTap: _onMinus,
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Container(
@@ -111,8 +150,8 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
                     ),
                   ),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(4.scaleSpacing),
-                    bottomLeft: Radius.circular(4.scaleSpacing),
+                    topLeft: SkyBorderRadius().normalCircular,
+                    bottomLeft: SkyBorderRadius().normalCircular,
                   ),
                 ),
                 child: Padding(
@@ -121,7 +160,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
                     child: Icon(
                       color: SkyColors().baseBorder,
                       ElementIcons.minus,
-                      size: 18.scaleIconSize,
+                      size: _widget.size.iconSize,
                     ),
                   ),
                 ),
@@ -134,30 +173,23 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
               controller: _textController,
               focusNode: _focusNode,
               readOnly: _widget.disabled || _widget.readOnly,
-              style: const TextStyle(
-                fontSize: 12,
-                // height: 1,
+              style: TextStyle(
+                fontSize: _widget.size.textSize,
               ),
               decoration: InputDecoration(
-                // suffixIcon: Icon(Icons.person), // 在右侧添加一个人物图标
-                // prefixIcon: Icon(Icons.person),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: SkyBorderRadius().normalBorderRadius,
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: SkyBorderRadius().normalBorderRadius,
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: _widget.disabled ? Color(0xFFf5f7fa) : SkyColors().transparent,
-                hoverColor: _widget.disabled ? Color(0xFFf5f7fa) : SkyColors().transparent,
-                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                // hintText: 'Hint Text',
-                // helperText: 'Helper Text',
-                // helperStyle: a,
-                // counterText: '0 characters',
-                // counterStyle: a,
+                fillColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
+                hoverColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
+                contentPadding: _widget.size.contentPadding,
+                hintText: _widget.placeholder,
               ),
             ),
           ),
@@ -173,12 +205,13 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
                   child: Icon(
                     color: SkyColors().baseBorder,
                     ElementIcons.circleClose,
-                    size: 18.scaleIconSize,
+                    size: _widget.size.iconSize,
                   ),
                 ),
               ),
             ),
           GestureDetector(
+            onTap: _onPluss,
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: Container(
@@ -191,8 +224,8 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
                     ),
                   ),
                   borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(4.scaleSpacing),
-                    bottomRight: Radius.circular(4.scaleSpacing),
+                    topRight: SkyBorderRadius().normalCircular,
+                    bottomRight: SkyBorderRadius().normalCircular,
                   ),
                 ),
                 child: Padding(
@@ -201,7 +234,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
                     child: Icon(
                       color: SkyColors().baseBorder,
                       ElementIcons.plus,
-                      size: 18.scaleIconSize,
+                      size: _widget.size.iconSize,
                     ),
                   ),
                 ),

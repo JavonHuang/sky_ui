@@ -9,6 +9,9 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
     this.clearable = true,
     this.disabled = false,
     this.readOnly = false,
+    this.size = SkySize.small,
+    this.model = "",
+    this.placeholder,
   }) : super(
           itemType: "SkyInput",
         );
@@ -18,17 +21,15 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
   final bool clearable;
   final bool disabled;
   final bool readOnly;
+  final SkySize size;
+  final String? model;
+  final String? placeholder;
 
   @override
   SkyFormFieldBridgeState<SkyInput> createState() => _SkyInputState();
 }
 
 class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
-  // TextStyle a = TextStyle(
-  //   fontSize: 10,
-  //   height: 0.2,
-  // );
-
   late SkyInput _widget = super.widget as SkyInput;
   late Color outLineBorder = SkyColors().baseBorder;
 
@@ -48,6 +49,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
     _focusNode.addListener(_focusNodeListener);
     _textController.addListener(_textListener);
     super.setControll(_textController);
+    _textController.text = _widget.model ?? "";
   }
 
   _focusNodeListener() {
@@ -85,6 +87,15 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(SkyInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    SkyInput widget = super.widget as SkyInput;
+    if (oldWidget.model != widget.model && mounted) {
+      _textController.text = widget.model ?? "";
+    }
+  }
+
   void onClear() {
     _textController.text = "";
   }
@@ -92,90 +103,91 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: outLineBorder,
-        ),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        children: [
-          if (_widget.leftIcon != null)
-            Padding(
-              padding: EdgeInsets.only(left: 4.scaleSpacing),
-              child: Center(
-                child: Icon(
-                  color: SkyColors().baseBorder,
-                  _widget.leftIcon,
-                  size: 18.scaleIconSize,
-                ),
-              ),
-            ),
-          Expanded(
-            child: TextField(
-              mouseCursor: _widget.disabled ? SystemMouseCursors.forbidden : null,
-              controller: _textController,
-              focusNode: _focusNode,
-              readOnly: _widget.disabled || _widget.readOnly,
-              style: const TextStyle(
-                fontSize: 12,
-                // height: 1,
-              ),
-              decoration: InputDecoration(
-                // suffixIcon: Icon(Icons.person), // 在右侧添加一个人物图标
-                // prefixIcon: Icon(Icons.person),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: _widget.disabled ? Color(0xFFf5f7fa) : SkyColors().transparent,
-                hoverColor: _widget.disabled ? Color(0xFFf5f7fa) : SkyColors().transparent,
-                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                // hintText: 'Hint Text',
-                // helperText: 'Helper Text',
-                // helperStyle: a,
-                // counterText: '0 characters',
-                // counterStyle: a,
-              ),
-            ),
+    return UnmanagedRestorationScope(
+      bucket: bucket,
+      child: Container(
+        height: _widget.size.height,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+            color: outLineBorder,
           ),
-          if (_showCloseIcon)
-            GestureDetector(
-              onTap: onClear,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.scaleSpacing,
-                  ),
+          borderRadius: SkyBorderRadius().normalBorderRadius,
+        ),
+        child: Row(
+          children: [
+            if (_widget.leftIcon != null)
+              Padding(
+                padding: EdgeInsets.only(left: 4.scaleSpacing),
+                child: Center(
                   child: Icon(
                     color: SkyColors().baseBorder,
-                    ElementIcons.circleClose,
-                    size: 18.scaleIconSize,
+                    _widget.leftIcon,
+                    size: _widget.size.iconSize,
+                  ),
+                ),
+              ),
+            Expanded(
+              child: TextField(
+                restorationId: restorationId,
+                mouseCursor: _widget.disabled ? SystemMouseCursors.forbidden : null,
+                controller: _textController,
+                focusNode: _focusNode,
+                readOnly: _widget.disabled || _widget.readOnly,
+                style: TextStyle(
+                  fontSize: _widget.size.textSize,
+                ),
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: SkyBorderRadius().normalBorderRadius,
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: SkyBorderRadius().normalBorderRadius,
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
+                  hoverColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
+                  contentPadding: _widget.size.contentPadding,
+                  hintText: _widget.placeholder,
+                  hintStyle: TextStyle(
+                    color: SkyColors().placeholderText,
+                    fontSize: _widget.size.textSize,
                   ),
                 ),
               ),
             ),
-          if (_widget.rightIcon != null)
-            Padding(
-              padding: EdgeInsets.only(right: 4.scaleSpacing),
-              child: Center(
-                child: Icon(
-                  color: SkyColors().baseBorder,
-                  _widget.rightIcon,
-                  size: 18.scaleIconSize,
+            if (_showCloseIcon)
+              GestureDetector(
+                onTap: onClear,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 4.scaleSpacing,
+                    ),
+                    child: Icon(
+                      color: SkyColors().baseBorder,
+                      ElementIcons.circleClose,
+                      size: _widget.size.iconSize,
+                    ),
+                  ),
                 ),
               ),
-            ),
-        ],
+            if (_widget.rightIcon != null)
+              Padding(
+                padding: EdgeInsets.only(right: 4.scaleSpacing),
+                child: Center(
+                  child: Icon(
+                    color: SkyColors().baseBorder,
+                    _widget.rightIcon,
+                    size: _widget.size.iconSize,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

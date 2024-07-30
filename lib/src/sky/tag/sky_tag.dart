@@ -8,15 +8,15 @@ class SkyTag extends StatefulWidget {
   const SkyTag({
     super.key,
     this.text = '',
-    this.type = SkyTagType.normal,
-    this.size = SkyTagSize.small,
+    this.type = SkyType.normal,
+    this.size = SkySize.small,
     this.plain = false,
     this.closable = false,
     this.onTap,
   });
   final String text;
-  final SkyTagType type;
-  final SkyTagSize size;
+  final SkyType type;
+  final SkySize size;
   final bool plain;
   final bool closable;
   final Function()? onTap;

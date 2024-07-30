@@ -4,8 +4,8 @@ class ButtonField<T> extends StatefulWidget {
   const ButtonField({
     super.key,
     this.text = "",
-    this.type = SkyButtonType.normal,
-    this.size = SkyButtonSize.medium,
+    this.type = SkyType.normal,
+    this.size = SkySize.medium,
     this.disabled = false,
     this.loading = false,
     this.plain = false,
@@ -20,8 +20,8 @@ class ButtonField<T> extends StatefulWidget {
   });
   // final ButtonFieldBuilder<T> builder;
   final String text;
-  final SkyButtonType type;
-  final SkyButtonSize size;
+  final SkyType type;
+  final SkySize size;
 
   /// State
   final bool disabled;
@@ -40,13 +40,12 @@ class ButtonField<T> extends StatefulWidget {
 class ButtonFieldState<T> extends State<ButtonField<T>> {
   late bool onHover = false;
   late bool active = false;
-  late double circular = 5.0.scaleSpacing;
 
-  SkyButtonType get type {
+  SkyType get type {
     return ButtonGroup.maybeOf(context)?.type ?? widget.type;
   }
 
-  SkyButtonSize get size {
+  SkySize get size {
     return ButtonGroup.maybeOf(context)?.size ?? widget.size;
   }
 
@@ -63,7 +62,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         MediaQuery.of(context).size.height * 0.5,
       );
     } else {
-      return BorderRadius.circular(circular);
+      return SkyBorderRadius().normalBorderRadius;
     }
   }
 

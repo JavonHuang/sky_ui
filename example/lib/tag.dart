@@ -24,13 +24,13 @@ class _TagTestState extends State<TagTest> {
             SizedBox(width: SkySpacings().mainSpacing),
             const SkyTag(
               text: "标签二",
-              type: SkyTagType.primary,
+              type: SkyType.primary,
               closable: true,
             ),
             SizedBox(width: SkySpacings().mainSpacing),
             const SkyTag(
               text: "标签二",
-              type: SkyTagType.primary,
+              type: SkyType.primary,
               closable: true,
               plain: true,
             )

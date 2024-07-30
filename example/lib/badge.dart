@@ -31,7 +31,7 @@ class _BadgeTestState extends State<BadgeTest> {
               type: SkyBadgeType.danger,
               child: SkyButton(
                 text: "评论",
-                type: SkyButtonType.success,
+                type: SkyType.success,
                 plain: true,
               ),
             ),

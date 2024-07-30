@@ -1,76 +1,8 @@
 part of 'sky_tag.dart';
 
-enum SkyTagSize {
-  large,
-  medium,
-  small;
+extension SkyTagSize on SkySize {}
 
-  const SkyTagSize();
-
-  double get height {
-    switch (this) {
-      case large:
-        return 40.scaleSpacing;
-      case medium:
-        return 36.scaleSpacing;
-      case small:
-        return 32.scaleSpacing;
-    }
-  }
-
-  double get spacing {
-    switch (this) {
-      case large:
-        return 10.scaleSpacing;
-      case medium:
-        return 8.scaleSpacing;
-      case small:
-        return 6.scaleSpacing;
-    }
-  }
-
-  double get iconSize {
-    switch (this) {
-      case large:
-        return 18.scaleFontSize;
-      case medium:
-        return 16.scaleFontSize;
-      case small:
-        return 14.scaleFontSize;
-    }
-  }
-
-  double get textSize {
-    switch (this) {
-      case large:
-        return SkyFontSizes().s16;
-      case medium:
-        return SkyFontSizes().s14;
-      case small:
-        return SkyFontSizes().s12;
-    }
-  }
-
-  EdgeInsets padding() {
-    switch (this) {
-      case large:
-        return EdgeInsets.symmetric(horizontal: 18.scaleSpacing);
-      case medium:
-        return EdgeInsets.symmetric(horizontal: 16.scaleSpacing);
-      case small:
-        return EdgeInsets.symmetric(horizontal: 14.scaleSpacing);
-    }
-  }
-}
-
-enum SkyTagType {
-  normal,
-  primary,
-  success,
-  warning,
-  danger,
-  info;
-
+extension SkyTagType on SkyType {
   Color? getTextColor({
     required BuildContext context,
     Color? customizeColor,
@@ -81,23 +13,23 @@ enum SkyTagType {
     }
     late Color? textColor;
     switch (this) {
-      case SkyTagType.normal:
+      case SkyType.normal || SkyType.text:
         textColor = SkyColors().primaryText;
         break;
-      case SkyTagType.primary:
+      case SkyType.primary:
         textColor = plain ? SkyColors().primary : SkyColors().white;
         break;
 
-      case SkyTagType.danger:
+      case SkyType.danger:
         textColor = plain ? SkyColors().danger : SkyColors().white;
         break;
-      case SkyTagType.warning:
+      case SkyType.warning:
         textColor = plain ? SkyColors().warning : SkyColors().white;
         break;
-      case SkyTagType.success:
+      case SkyType.success:
         textColor = plain ? SkyColors().success : SkyColors().white;
         break;
-      case SkyTagType.info:
+      case SkyType.info:
         textColor = plain ? SkyColors().info : SkyColors().white;
         break;
     }
@@ -113,22 +45,22 @@ enum SkyTagType {
     }
     late Color? borderColor;
     switch (this) {
-      case SkyTagType.normal:
+      case SkyType.normal || SkyType.text:
         borderColor = SkyColors().primaryText;
         break;
-      case SkyTagType.primary:
+      case SkyType.primary:
         borderColor = SkyColors().primary;
         break;
-      case SkyTagType.danger:
+      case SkyType.danger:
         borderColor = SkyColors().danger;
         break;
-      case SkyTagType.warning:
+      case SkyType.warning:
         borderColor = SkyColors().warning;
         break;
-      case SkyTagType.success:
+      case SkyType.success:
         borderColor = SkyColors().success;
         break;
-      case SkyTagType.info:
+      case SkyType.info:
         borderColor = SkyColors().info;
         break;
     }
@@ -146,22 +78,22 @@ enum SkyTagType {
     }
     late Color backgroundColor;
     switch (this) {
-      case SkyTagType.normal:
+      case SkyType.normal || SkyType.text:
         backgroundColor = SkyColors().white;
         break;
-      case SkyTagType.primary:
+      case SkyType.primary:
         backgroundColor = SkyColors().primary;
         break;
-      case SkyTagType.danger:
+      case SkyType.danger:
         backgroundColor = SkyColors().danger;
         break;
-      case SkyTagType.warning:
+      case SkyType.warning:
         backgroundColor = SkyColors().warning;
         break;
-      case SkyTagType.success:
+      case SkyType.success:
         backgroundColor = SkyColors().success;
         break;
-      case SkyTagType.info:
+      case SkyType.info:
         backgroundColor = SkyColors().info;
         break;
     }
@@ -186,22 +118,22 @@ enum SkyTagType {
     }
     late Color backgroundColor;
     switch (this) {
-      case SkyTagType.normal:
+      case SkyType.normal || SkyType.text:
         backgroundColor = SkyColors().white;
         break;
-      case SkyTagType.primary:
+      case SkyType.primary:
         backgroundColor = SkyColors().primary;
         break;
-      case SkyTagType.danger:
+      case SkyType.danger:
         backgroundColor = SkyColors().danger;
         break;
-      case SkyTagType.warning:
+      case SkyType.warning:
         backgroundColor = SkyColors().warning;
         break;
-      case SkyTagType.success:
+      case SkyType.success:
         backgroundColor = SkyColors().success;
         break;
-      case SkyTagType.info:
+      case SkyType.info:
         backgroundColor = SkyColors().info;
         break;
     }
@@ -229,23 +161,22 @@ enum SkyTagType {
     }
     late Color? textColor;
     switch (this) {
-      case SkyTagType.normal:
+      case SkyType.normal || SkyType.text:
         textColor = SkyColors().primaryText;
         break;
-      case SkyTagType.primary:
+      case SkyType.primary:
         textColor = plain ? SkyColors().primary : SkyColors().white;
         break;
-
-      case SkyTagType.danger:
+      case SkyType.danger:
         textColor = plain ? SkyColors().danger : SkyColors().white;
         break;
-      case SkyTagType.warning:
+      case SkyType.warning:
         textColor = plain ? SkyColors().warning : SkyColors().white;
         break;
-      case SkyTagType.success:
+      case SkyType.success:
         textColor = plain ? SkyColors().success : SkyColors().white;
         break;
-      case SkyTagType.info:
+      case SkyType.info:
         textColor = plain ? SkyColors().info : SkyColors().white;
         break;
     }
