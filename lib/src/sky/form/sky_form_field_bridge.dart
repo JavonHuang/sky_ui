@@ -4,18 +4,19 @@ import 'sky_form.dart';
 
 class SkyFormFieldBridge<T> extends StatefulWidget {
   const SkyFormFieldBridge({super.key, required this.itemType});
-  final String itemType;
+  final SkyFormType itemType;
 
   @override
   SkyFormFieldBridgeState<T> createState() => SkyFormFieldBridgeState<T>();
 }
 
-class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with RestorationMixin {
+class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with RestorationMixin implements SkyFormFieldBridgeStateAbstract {
   final RestorableStringN _errorText = RestorableStringN(null);
   final RestorableBool _hasInteractedByUser = RestorableBool(false);
 
   late bool _hasRegister = false;
   late dynamic _con;
+
   void setControll(dynamic c) {
     _con = c;
   }
@@ -23,7 +24,7 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
   @override
   Widget build(BuildContext context) {
     if (!_hasRegister) {
-      SkyFormField.maybeOf(context)?.register(super.widget, widget.itemType, _con);
+      SkyFormField.maybeOf(context)?.register(super.widget, widget.itemType, _con, setValue);
       _hasRegister = true;
     }
     return const SizedBox();
@@ -44,4 +45,11 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
     _hasInteractedByUser.dispose();
     super.dispose();
   }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+abstract class SkyFormFieldBridgeStateAbstract {
+  void setValue(String e);
 }

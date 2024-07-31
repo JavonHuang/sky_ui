@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 part 'sky_form_field.dart';
+part 'sky_form_type.dart';
 
 class SkyForm extends StatefulWidget {
   const SkyForm({
     super.key,
     required this.child,
+    this.model,
     this.labelWidth,
+    this.rules,
+    this.inline = false,
   });
   final Widget child;
+  final Map<String, dynamic>? model;
   final double? labelWidth;
+  final Map<String, Rules>? rules;
+  final bool inline;
 
   static SkyFormState? maybeOf(BuildContext context) {
     final _SkyFormScope? scope = context.dependOnInheritedWidgetOfExactType<_SkyFormScope>();
     return scope?._skyFormState;
+  }
+
+  static SkyForm? maybeOfSkyForm(BuildContext context) {
+    final _SkyFormScope? scope = context.dependOnInheritedWidgetOfExactType<_SkyFormScope>();
+    return scope?.skyForm;
   }
 
   @override
@@ -64,9 +76,13 @@ class SkyFormState extends State<SkyForm> {
     return Future.value(SkyFormValidate(result: result, fieldValidate: results, obj: obj));
   }
 
-  void clearValidate() {
+  void clearValidate({String? prop}) {
     for (SkyFormFieldState item in formFieldList) {
-      item.clearValidate();
+      if (prop != null && item.widget.prop == prop) {
+        item.clearValidate();
+      } else {
+        item.clearValidate();
+      }
     }
   }
 

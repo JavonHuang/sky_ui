@@ -6,7 +6,6 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
     this.leftIcon,
     this.rightIcon,
     this.controller,
-    this.clearable = true,
     this.disabled = false,
     this.readOnly = false,
     this.size = SkySize.small,
@@ -16,13 +15,13 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
     this.step = 1,
     this.precision = 0,
     this.placeholder,
+    this.rightPosition = false,
   }) : super(
-          itemType: "SkyInputNumber",
+          itemType: SkyFormType.skyInputNumber,
         );
   final IconData? leftIcon;
   final IconData? rightIcon;
   final TextEditingController? controller;
-  final bool clearable;
   final bool disabled;
   final bool readOnly;
   final SkySize size;
@@ -32,6 +31,7 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
   final double step;
   final int precision;
   final String? placeholder;
+  final bool rightPosition;
 
   @override
   SkyFormFieldBridgeState<SkyInputNumber> createState() => _SkyInputNumberState();
@@ -39,13 +39,15 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
 
 class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   late SkyInputNumber _widget = super.widget as SkyInputNumber;
-  late Color outLineBorder = SkyColors().baseBorder;
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  late bool _textIsNotEmpty = true;
-  bool get _showCloseIcon {
-    return _focusNode.hasFocus && _widget.clearable && _textIsNotEmpty && !_widget.disabled;
-  }
+
+  late String _lastValue = "";
+  late bool onMinusHover = false;
+  late bool onPlusHover = false;
+  late bool hasFocus = false;
+
+  Color get outLineBorder => onMinusHover || onPlusHover || hasFocus ? SkyColors().primary : SkyColors().baseBorder;
 
   @override
   void initState() {
@@ -54,39 +56,31 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     }
     super.initState();
     _focusNode.addListener(_focusNodeListener);
-    _textController.addListener(_textListener);
     setControll(_textController);
   }
 
   _focusNodeListener() {
     if (_focusNode.hasFocus) {
       setState(() {
-        outLineBorder = SkyColors().primary;
+        hasFocus = true;
       });
+      _lastValue = _textController.text;
     } else {
       Future.delayed(const Duration(milliseconds: 100)).then((e) {
         setState(() {
-          outLineBorder = SkyColors().baseBorder;
+          hasFocus = false;
         });
       });
-    }
-  }
-
-  _textListener() {
-    if (_textController.text.isNotEmpty) {
-      setState(() {
-        _textIsNotEmpty = true;
-      });
-    } else {
-      setState(() {
-        _textIsNotEmpty = false;
-      });
+      if (!_textController.text.doubleTryParse && _textController.text != "") {
+        setValue(_lastValue);
+      } else {
+        setValue(_textController.text);
+      }
     }
   }
 
   @override
   void dispose() {
-    _textController.removeListener(_textListener);
     _textController.dispose();
     _focusNode.removeListener(_focusNodeListener);
     _focusNode.dispose();
@@ -98,12 +92,12 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     super.didUpdateWidget(oldWidget);
     SkyInputNumber widget = super.widget as SkyInputNumber;
     if (oldWidget.model != widget.model && mounted) {
-      _textController.text = widget.model.toString();
+      setValue(widget.model.toString());
     }
   }
 
   void onClear() {
-    _textController.text = "";
+    setValue("");
   }
 
   void _onMinus() {
@@ -111,7 +105,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     if (_widget.min != null && val < _widget.min!) {
       return;
     }
-    _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
+    setValue(val.getMaxPrecision(maxDigits: _widget.precision).toString());
   }
 
   void _onPluss() {
@@ -119,12 +113,153 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     if (_widget.max != null && val > _widget.max!) {
       return;
     }
-    _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
+    setValue(val.getMaxPrecision(maxDigits: _widget.precision).toString());
+  }
+
+  void _onChanged(String e) {
+    // if (_lastValue == "" && e.doubleTryParse) {
+    //   _lastValue = e;
+    // }
+  }
+
+  @override
+  void setValue(String e) {
+    if (!e.doubleTryParse && e != "") {
+      return;
+    }
+    _lastValue = e;
+    _textController.text = e;
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    Widget minusWidget = GestureDetector(
+      onTap: _onMinus,
+      child: MouseRegion(
+        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        onEnter: (e) {
+          if (_widget.disabled) {
+            return;
+          }
+          setState(() {
+            onMinusHover = true;
+          });
+        },
+        onExit: (e) {
+          if (_widget.disabled) {
+            return;
+          }
+          setState(() {
+            onMinusHover = false;
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: SkyColors().defaultBg,
+            border: _widget.rightPosition
+                ? Border(
+                    left: BorderSide(
+                      width: 1,
+                      color: SkyColors().baseBorder,
+                    ),
+                    top: BorderSide(
+                      width: 1,
+                      color: SkyColors().baseBorder,
+                    ),
+                  )
+                : Border(
+                    right: BorderSide(
+                      width: 1,
+                      color: SkyColors().baseBorder,
+                    ),
+                  ),
+            borderRadius: _widget.rightPosition
+                ? BorderRadius.only(
+                    bottomRight: SkyBorderRadius().normalCircular,
+                  )
+                : BorderRadius.only(
+                    topLeft: SkyBorderRadius().normalCircular,
+                    bottomLeft: SkyBorderRadius().normalCircular,
+                  ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.scaleSpacing),
+            child: Center(
+              child: Icon(
+                color: onMinusHover ? SkyColors().primary : SkyColors().baseBorder,
+                _widget.rightPosition ? ElementIcons.arrowDown : ElementIcons.plus,
+                size: _widget.size.iconSize,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    Widget plusWidget = GestureDetector(
+      onTap: _onPluss,
+      child: MouseRegion(
+        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        onEnter: (e) {
+          if (_widget.disabled) {
+            return;
+          }
+          setState(() {
+            onPlusHover = true;
+          });
+        },
+        onExit: (e) {
+          if (_widget.disabled) {
+            return;
+          }
+          setState(() {
+            onPlusHover = false;
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: SkyColors().defaultBg,
+            border: Border(
+              left: BorderSide(
+                width: 1,
+                color: SkyColors().baseBorder,
+              ),
+            ),
+            borderRadius: _widget.rightPosition
+                ? BorderRadius.only(
+                    topRight: SkyBorderRadius().normalCircular,
+                  )
+                : BorderRadius.only(
+                    topRight: SkyBorderRadius().normalCircular,
+                    bottomRight: SkyBorderRadius().normalCircular,
+                  ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.scaleSpacing),
+            child: Center(
+              child: Icon(
+                color: onPlusHover ? SkyColors().primary : SkyColors().baseBorder,
+                _widget.rightPosition ? ElementIcons.arrowUp : ElementIcons.plus,
+                size: _widget.size.iconSize,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Widget intpuWidget = Expanded(
+      child: SkyBaseInput(
+          restorationId: restorationId,
+          bucket: bucket,
+          controller: _textController,
+          focusNode: _focusNode,
+          disabled: _widget.disabled,
+          readOnly: _widget.readOnly,
+          size: _widget.size,
+          placeholder: _widget.placeholder,
+          onChanged: _onChanged),
+    );
     return Container(
       height: _widget.size.height,
       decoration: BoxDecoration(
@@ -134,115 +269,25 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
         ),
         borderRadius: SkyBorderRadius().normalBorderRadius,
       ),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: _onMinus,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: SkyColors().defaultBg,
-                  border: Border(
-                    right: BorderSide(
-                      width: 1,
-                      color: SkyColors().baseBorder,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: SkyBorderRadius().normalCircular,
-                    bottomLeft: SkyBorderRadius().normalCircular,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.scaleSpacing),
-                  child: Center(
-                    child: Icon(
-                      color: SkyColors().baseBorder,
-                      ElementIcons.minus,
-                      size: _widget.size.iconSize,
-                    ),
-                  ),
-                ),
-              ),
+      child: _widget.rightPosition
+          ? Row(
+              children: [
+                intpuWidget,
+                Column(
+                  children: [
+                    plusWidget,
+                    minusWidget,
+                  ],
+                )
+              ],
+            )
+          : Row(
+              children: [
+                minusWidget,
+                intpuWidget,
+                plusWidget,
+              ],
             ),
-          ),
-          Expanded(
-            child: TextField(
-              mouseCursor: _widget.disabled ? SystemMouseCursors.forbidden : null,
-              controller: _textController,
-              focusNode: _focusNode,
-              readOnly: _widget.disabled || _widget.readOnly,
-              style: TextStyle(
-                fontSize: _widget.size.textSize,
-              ),
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: SkyBorderRadius().normalBorderRadius,
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: SkyBorderRadius().normalBorderRadius,
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
-                hoverColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
-                contentPadding: _widget.size.contentPadding,
-                hintText: _widget.placeholder,
-              ),
-            ),
-          ),
-          if (_showCloseIcon)
-            GestureDetector(
-              onTap: onClear,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.scaleSpacing,
-                  ),
-                  child: Icon(
-                    color: SkyColors().baseBorder,
-                    ElementIcons.circleClose,
-                    size: _widget.size.iconSize,
-                  ),
-                ),
-              ),
-            ),
-          GestureDetector(
-            onTap: _onPluss,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: SkyColors().defaultBg,
-                  border: Border(
-                    left: BorderSide(
-                      width: 1,
-                      color: SkyColors().baseBorder,
-                    ),
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topRight: SkyBorderRadius().normalCircular,
-                    bottomRight: SkyBorderRadius().normalCircular,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.scaleSpacing),
-                  child: Center(
-                    child: Icon(
-                      color: SkyColors().baseBorder,
-                      ElementIcons.plus,
-                      size: _widget.size.iconSize,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

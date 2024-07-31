@@ -22,7 +22,6 @@ class _InputTestState extends State<InputTest> {
         SkyFormField(
           prop: "name",
           label: '姓名',
-          initialValue: "Javon",
           child: SkyInput(
             disabled: true,
             clearable: true,
@@ -45,7 +44,20 @@ class _InputTestState extends State<InputTest> {
             Expanded(
               child: SkyForm(
                 labelWidth: 100,
+                model: {"name1": "JavonHuang"},
                 key: myForm,
+                rules: {
+                  "name1": Rules(
+                    validator: (e) {
+                      return Future.value(ValidatorResult(result: e.toString().length < 3, message: "请输入小于3个字符"));
+                    },
+                  ),
+                  "name2": Rules(
+                    validator: (e) {
+                      return Future.value(ValidatorResult(result: e.toString().length < 3, message: "请输入小于2个字符"));
+                    },
+                  ),
+                },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -55,7 +67,6 @@ class _InputTestState extends State<InputTest> {
                     const SkyFormField(
                       prop: "name1",
                       label: '测试',
-                      initialValue: "Javon",
                       child: SkyInput(
                         readOnly: true,
                         clearable: true,
@@ -67,14 +78,13 @@ class _InputTestState extends State<InputTest> {
                     SkyFormField(
                       prop: "name2",
                       label: '测试2',
-                      initialValue: "Javon",
-                      rules: Rules(
+                      rule: Rules(
                         validator: (e) {
                           return Future.value(ValidatorResult(result: e.toString().length < 3, message: "请输入小于4个字符"));
                         },
                       ),
                       child: const SkyInput(
-                        readOnly: true,
+                        // readOnly: true,
                         clearable: true,
                         leftIcon: ElementIcons.search,
                       ),
@@ -86,8 +96,7 @@ class _InputTestState extends State<InputTest> {
                       prop: "age",
                       label: '年龄',
                       required: true,
-                      initialValue: "100",
-                      rules: Rules(
+                      rule: Rules(
                         validator: (e) {
                           return Future.value(ValidatorResult(result: e.toString().length < 3, message: "请输入小于3个字符"));
                         },
@@ -105,7 +114,19 @@ class _InputTestState extends State<InputTest> {
                       required: true,
                       child: SkyInputNumber(
                         readOnly: false,
-                        clearable: true,
+                        placeholder: "请输入计数器",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SkyFormField(
+                      prop: "name5",
+                      label: '计数器',
+                      required: true,
+                      child: SkyInputNumber(
+                        readOnly: false,
+                        rightPosition: true,
                         placeholder: "请输入计数器",
                       ),
                     ),
@@ -163,6 +184,8 @@ class _InputTestState extends State<InputTest> {
           ],
         ),
         SizedBox(height: SkySpacings().mainSpacing),
+        TextField(),
+        TextFormField(),
       ],
     );
   }

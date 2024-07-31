@@ -6,14 +6,14 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
     this.leftIcon,
     this.rightIcon,
     this.controller,
-    this.clearable = true,
+    this.clearable = false,
     this.disabled = false,
     this.readOnly = false,
     this.size = SkySize.small,
     this.model = "",
     this.placeholder,
   }) : super(
-          itemType: "SkyInput",
+          itemType: SkyFormType.skyInput,
         );
   final IconData? leftIcon;
   final IconData? rightIcon;
@@ -92,7 +92,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
     super.didUpdateWidget(oldWidget);
     SkyInput widget = super.widget as SkyInput;
     if (oldWidget.model != widget.model && mounted) {
-      _textController.text = widget.model ?? "";
+      setValue(widget.model ?? "");
     }
   }
 
@@ -100,94 +100,82 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
     _textController.text = "";
   }
 
+  void _onChanged(String e) {
+    print(e);
+  }
+
+  @override
+  void setValue(String e) {
+    _textController.text = e;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return UnmanagedRestorationScope(
-      bucket: bucket,
-      child: Container(
-        height: _widget.size.height,
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: outLineBorder,
-          ),
-          borderRadius: SkyBorderRadius().normalBorderRadius,
+    return Container(
+      height: _widget.size.height,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: outLineBorder,
         ),
-        child: Row(
-          children: [
-            if (_widget.leftIcon != null)
-              Padding(
-                padding: EdgeInsets.only(left: 4.scaleSpacing),
-                child: Center(
-                  child: Icon(
-                    color: SkyColors().baseBorder,
-                    _widget.leftIcon,
-                    size: _widget.size.iconSize,
-                  ),
+        borderRadius: SkyBorderRadius().normalBorderRadius,
+      ),
+      child: Row(
+        children: [
+          if (_widget.leftIcon != null)
+            Padding(
+              padding: EdgeInsets.only(left: 4.scaleSpacing),
+              child: Center(
+                child: Icon(
+                  color: SkyColors().baseBorder,
+                  _widget.leftIcon,
+                  size: _widget.size.iconSize,
                 ),
               ),
-            Expanded(
-              child: TextField(
-                restorationId: restorationId,
-                mouseCursor: _widget.disabled ? SystemMouseCursors.forbidden : null,
-                controller: _textController,
-                focusNode: _focusNode,
-                readOnly: _widget.disabled || _widget.readOnly,
-                style: TextStyle(
-                  fontSize: _widget.size.textSize,
-                ),
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: SkyBorderRadius().normalBorderRadius,
-                    borderSide: BorderSide.none,
+            ),
+          Expanded(
+            child: SkyBaseInput(
+              restorationId: restorationId,
+              bucket: bucket,
+              controller: _textController,
+              focusNode: _focusNode,
+              disabled: _widget.disabled,
+              readOnly: _widget.readOnly,
+              size: _widget.size,
+              placeholder: _widget.placeholder,
+              onChanged: _onChanged,
+            ),
+          ),
+          if (_showCloseIcon)
+            GestureDetector(
+              onTap: onClear,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 4.scaleSpacing,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: SkyBorderRadius().normalBorderRadius,
-                    borderSide: BorderSide.none,
-                  ),
-                  filled: true,
-                  fillColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
-                  hoverColor: _widget.disabled ? SkyColors().defaultBg : SkyColors().transparent,
-                  contentPadding: _widget.size.contentPadding,
-                  hintText: _widget.placeholder,
-                  hintStyle: TextStyle(
-                    color: SkyColors().placeholderText,
-                    fontSize: _widget.size.textSize,
+                  child: Icon(
+                    color: SkyColors().baseBorder,
+                    ElementIcons.circleClose,
+                    size: _widget.size.iconSize,
                   ),
                 ),
               ),
             ),
-            if (_showCloseIcon)
-              GestureDetector(
-                onTap: onClear,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 4.scaleSpacing,
-                    ),
-                    child: Icon(
-                      color: SkyColors().baseBorder,
-                      ElementIcons.circleClose,
-                      size: _widget.size.iconSize,
-                    ),
-                  ),
+          if (_widget.rightIcon != null)
+            Padding(
+              padding: EdgeInsets.only(right: 4.scaleSpacing),
+              child: Center(
+                child: Icon(
+                  color: SkyColors().baseBorder,
+                  _widget.rightIcon,
+                  size: _widget.size.iconSize,
                 ),
               ),
-            if (_widget.rightIcon != null)
-              Padding(
-                padding: EdgeInsets.only(right: 4.scaleSpacing),
-                child: Center(
-                  child: Icon(
-                    color: SkyColors().baseBorder,
-                    _widget.rightIcon,
-                    size: _widget.size.iconSize,
-                  ),
-                ),
-              ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
