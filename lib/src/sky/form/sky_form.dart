@@ -6,17 +6,21 @@ part 'sky_form_type.dart';
 class SkyForm extends StatefulWidget {
   const SkyForm({
     super.key,
-    required this.child,
+    required this.children,
     this.model,
     this.labelWidth,
     this.rules,
     this.inline = false,
+    this.size,
+    this.disabled,
   });
-  final Widget child;
+  final List<Widget> children;
   final Map<String, dynamic>? model;
   final double? labelWidth;
   final Map<String, Rules>? rules;
   final bool inline;
+  final SkySize? size;
+  final bool? disabled;
 
   static SkyFormState? maybeOf(BuildContext context) {
     final _SkyFormScope? scope = context.dependOnInheritedWidgetOfExactType<_SkyFormScope>();
@@ -124,8 +128,41 @@ class SkyFormState extends State<SkyForm> {
     return _SkyFormScope(
       count: _count,
       skyFormState: this,
-      child: widget.child,
+      child: Column(children: widget.children),
     );
+    // return _SkyFormScope(
+    //   count: _count,
+    //   skyFormState: this,
+    //   child: Wrap(
+    //     direction: Axis.horizontal,
+    //     spacing: 2,
+    //     runSpacing: 5,
+    //     children: widget.children
+    //         .map((item) => SizedBox(
+    //               width: 200,
+    //               height: 50,
+    //               child: item,
+    //             ))
+    //         .toList(),
+    //   ),
+    // );
+    //   child: widget.inline
+    //       ? Row(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: widget.children
+    //               .map((item) => Flexible(
+    //                       child: SizedBox(
+    //                     width: 100,
+    //                     height: 50,
+    //                     child: item,
+    //                   )))
+    //               .toList(),
+    //         )
+    //       : Column(
+    //           crossAxisAlignment: CrossAxisAlignment.stretch,
+    //           children: widget.children,
+    //         ),
+    // );
   }
 }
 

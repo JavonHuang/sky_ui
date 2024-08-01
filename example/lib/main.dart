@@ -1,4 +1,5 @@
 import 'package:example/button.dart';
+import 'package:example/layout.dart';
 import 'package:example/tag.dart';
 import 'package:example/tes.dart';
 import 'package:example/test2.dart';
@@ -50,22 +51,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Container(
           padding: const EdgeInsets.all(10),
           color: Colors.white,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const GroupButton(),
-              const ButtonTest(),
-              const LinkText(),
-              const TagTest(),
-              const BadgeTest(),
-              const InputTest(),
+              GroupButton(),
+              ButtonTest(),
+              LinkText(),
+              TagTest(),
+              BadgeTest(),
+              InputTest(),
+              FlexLayoutTestRoute(),
               // Container(
               //   height: 200,
               //   color: Colors.black,
               //   child: ContextMenuApp(),
               // ),
-              const SizedBox(
+              SizedBox(
                 height: 600,
                 child: SkyGridTable(),
               )

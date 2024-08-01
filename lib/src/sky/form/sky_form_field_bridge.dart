@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/utils.dart';
 import 'sky_form.dart';
 
 class SkyFormFieldBridge<T> extends StatefulWidget {
-  const SkyFormFieldBridge({super.key, required this.itemType});
+  const SkyFormFieldBridge({
+    super.key,
+    required this.itemType,
+    required this.fieldSize,
+    required this.fieldDisabled,
+  });
   final SkyFormType itemType;
+  final SkySize fieldSize;
+  final bool fieldDisabled;
 
   @override
   SkyFormFieldBridgeState<T> createState() => SkyFormFieldBridgeState<T>();
@@ -13,6 +21,24 @@ class SkyFormFieldBridge<T> extends StatefulWidget {
 class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with RestorationMixin implements SkyFormFieldBridgeStateAbstract {
   final RestorableStringN _errorText = RestorableStringN(null);
   final RestorableBool _hasInteractedByUser = RestorableBool(false);
+
+  SkyForm? get skyForm => SkyFormField.maybeOf(context)?.skyForm;
+
+  SkySize get size {
+    if (skyForm != null && skyForm!.size != null) {
+      return skyForm!.size!;
+    } else {
+      return widget.fieldSize;
+    }
+  }
+
+  bool get disabled {
+    if (skyForm != null && skyForm!.disabled != null) {
+      return skyForm!.disabled!;
+    } else {
+      return widget.fieldDisabled;
+    }
+  }
 
   late bool _hasRegister = false;
   late dynamic _con;

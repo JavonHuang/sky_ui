@@ -13,7 +13,9 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
     this.model = "",
     this.placeholder,
   }) : super(
+          fieldSize: size,
           itemType: SkyFormType.skyInput,
+          fieldDisabled: disabled,
         );
   final IconData? leftIcon;
   final IconData? rightIcon;
@@ -37,7 +39,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   final FocusNode _focusNode = FocusNode();
   late bool _textIsNotEmpty = true;
   bool get _showCloseIcon {
-    return _focusNode.hasFocus && _widget.clearable && _textIsNotEmpty && !_widget.disabled;
+    return _focusNode.hasFocus && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
 
   @override
@@ -113,7 +115,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      height: _widget.size.height,
+      height: super.size.height,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
@@ -130,7 +132,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
                 child: Icon(
                   color: SkyColors().baseBorder,
                   _widget.leftIcon,
-                  size: _widget.size.iconSize,
+                  size: super.size.iconSize,
                 ),
               ),
             ),
@@ -140,9 +142,9 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
               bucket: bucket,
               controller: _textController,
               focusNode: _focusNode,
-              disabled: _widget.disabled,
+              disabled: super.disabled,
               readOnly: _widget.readOnly,
-              size: _widget.size,
+              size: super.size,
               placeholder: _widget.placeholder,
               onChanged: _onChanged,
             ),
@@ -159,7 +161,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
                   child: Icon(
                     color: SkyColors().baseBorder,
                     ElementIcons.circleClose,
-                    size: _widget.size.iconSize,
+                    size: super.size.iconSize,
                   ),
                 ),
               ),
@@ -171,7 +173,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
                 child: Icon(
                   color: SkyColors().baseBorder,
                   _widget.rightIcon,
-                  size: _widget.size.iconSize,
+                  size: super.size.iconSize,
                 ),
               ),
             ),

@@ -17,7 +17,9 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
     this.placeholder,
     this.rightPosition = false,
   }) : super(
+          fieldSize: size,
           itemType: SkyFormType.skyInputNumber,
+          fieldDisabled: disabled,
         );
   final IconData? leftIcon;
   final IconData? rightIcon;
@@ -137,9 +139,9 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     Widget minusWidget = GestureDetector(
       onTap: _onMinus,
       child: MouseRegion(
-        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        cursor: super.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         onEnter: (e) {
-          if (_widget.disabled) {
+          if (super.disabled) {
             return;
           }
           setState(() {
@@ -147,7 +149,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
           });
         },
         onExit: (e) {
-          if (_widget.disabled) {
+          if (super.disabled) {
             return;
           }
           setState(() {
@@ -189,7 +191,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
               child: Icon(
                 color: onMinusHover ? SkyColors().primary : SkyColors().baseBorder,
                 _widget.rightPosition ? ElementIcons.arrowDown : ElementIcons.plus,
-                size: _widget.size.iconSize,
+                size: super.size.iconSize,
               ),
             ),
           ),
@@ -199,9 +201,9 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     Widget plusWidget = GestureDetector(
       onTap: _onPluss,
       child: MouseRegion(
-        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        cursor: super.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         onEnter: (e) {
-          if (_widget.disabled) {
+          if (super.disabled) {
             return;
           }
           setState(() {
@@ -209,7 +211,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
           });
         },
         onExit: (e) {
-          if (_widget.disabled) {
+          if (super.disabled) {
             return;
           }
           setState(() {
@@ -240,7 +242,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
               child: Icon(
                 color: onPlusHover ? SkyColors().primary : SkyColors().baseBorder,
                 _widget.rightPosition ? ElementIcons.arrowUp : ElementIcons.plus,
-                size: _widget.size.iconSize,
+                size: super.size.iconSize,
               ),
             ),
           ),
@@ -254,14 +256,14 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
           bucket: bucket,
           controller: _textController,
           focusNode: _focusNode,
-          disabled: _widget.disabled,
+          disabled: super.disabled,
           readOnly: _widget.readOnly,
-          size: _widget.size,
+          size: super.size,
           placeholder: _widget.placeholder,
           onChanged: _onChanged),
     );
     return Container(
-      height: _widget.size.height,
+      height: super.size.height,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,

@@ -106,93 +106,95 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
             onHover = false;
           });
         },
-        child: Container(
-          height: widget.size.height,
-          width: widget.circle ? widget.size.height : null,
-          decoration: BoxDecoration(
-            color: type.getBackgroundColor(
-              context: context,
-              disabled: widget.disabled,
-              loading: widget.loading,
-              plain: widget.plain,
-              onHover: onHover,
-              active: active,
-              chosenButton: false,
-            ),
-            border: Border.all(
-              width: 1,
-              color: type.getBorderColor(
+        child: UnconstrainedBox(
+          child: Container(
+            height: widget.size.height,
+            width: widget.circle ? widget.size.height : null,
+            decoration: BoxDecoration(
+              color: type.getBackgroundColor(
                 context: context,
-                onHover: onHover,
-                active: active,
                 disabled: widget.disabled,
                 loading: widget.loading,
-              )!,
+                plain: widget.plain,
+                onHover: onHover,
+                active: active,
+                chosenButton: false,
+              ),
+              border: Border.all(
+                width: 1,
+                color: type.getBorderColor(
+                  context: context,
+                  onHover: onHover,
+                  active: active,
+                  disabled: widget.disabled,
+                  loading: widget.loading,
+                )!,
+              ),
+              borderRadius: borderRadius,
             ),
-            borderRadius: borderRadius,
-          ),
-          child: Padding(
-            padding: widget.size.padding(circle: widget.circle),
-            child: Center(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (widget.loading)
-                    Icon(
-                      color: type.getTextColor(
-                        context: context,
-                        plain: widget.plain,
-                        onHover: onHover,
-                        active: active,
-                        loading: widget.loading,
+            child: Padding(
+              padding: widget.size.padding(circle: widget.circle),
+              child: Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.loading)
+                      Icon(
+                        color: type.getTextColor(
+                          context: context,
+                          plain: widget.plain,
+                          onHover: onHover,
+                          active: active,
+                          loading: widget.loading,
+                        ),
+                        ElementIcons.loading,
+                        size: widget.size.iconSize,
                       ),
-                      ElementIcons.loading,
-                      size: widget.size.iconSize,
-                    ),
-                  if (widget.leftIcon != null)
-                    Icon(
-                      color: type.getTextColor(
-                        context: context,
-                        plain: widget.plain,
-                        onHover: onHover,
-                        active: active,
-                        loading: widget.loading,
+                    if (widget.leftIcon != null)
+                      Icon(
+                        color: type.getTextColor(
+                          context: context,
+                          plain: widget.plain,
+                          onHover: onHover,
+                          active: active,
+                          loading: widget.loading,
+                        ),
+                        widget.leftIcon,
+                        size: widget.size.iconSize,
                       ),
-                      widget.leftIcon,
-                      size: widget.size.iconSize,
-                    ),
-                  if (widget.text.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2.scaleSpacing),
-                      child: Text(
-                        widget.text,
-                        style: TextStyle(
-                          fontSize: size.textSize,
-                          color: type.getTextColor(
-                            context: context,
-                            plain: widget.plain,
-                            onHover: onHover,
-                            active: active,
-                            disabled: widget.disabled,
-                            loading: widget.loading,
+                    if (widget.text.isNotEmpty)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.scaleSpacing),
+                        child: Text(
+                          widget.text,
+                          style: TextStyle(
+                            fontSize: size.textSize,
+                            color: type.getTextColor(
+                              context: context,
+                              plain: widget.plain,
+                              onHover: onHover,
+                              active: active,
+                              disabled: widget.disabled,
+                              loading: widget.loading,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  if (widget.rightIcon != null)
-                    Icon(
-                      color: type.getTextColor(
-                        context: context,
-                        plain: widget.plain,
-                        onHover: onHover,
-                        active: active,
-                        loading: widget.loading,
+                    if (widget.rightIcon != null)
+                      Icon(
+                        color: type.getTextColor(
+                          context: context,
+                          plain: widget.plain,
+                          onHover: onHover,
+                          active: active,
+                          loading: widget.loading,
+                        ),
+                        widget.rightIcon,
+                        size: widget.size.iconSize,
                       ),
-                      widget.rightIcon,
-                      size: widget.size.iconSize,
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
