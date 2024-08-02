@@ -28,4 +28,8 @@ enum SkyColSpan {
 
   const SkyColSpan(this.value);
   final int value;
+
+  double width(double a) {
+    return a * (value * 0.04166666667);
+  }
 }

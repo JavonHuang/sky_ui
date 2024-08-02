@@ -3,6 +3,7 @@ export 'buttons/buttons.dart';
 export 'form/sky_form.dart';
 export 'infinite_scroll/infinite_scroll.dart';
 export 'input/index.dart';
+export 'layout/index.dart';
 export 'link/sky_link.dart';
 export 'table/sky_table.dart';
 export 'tag/sky_tag.dart';
