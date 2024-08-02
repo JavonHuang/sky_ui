@@ -17,6 +17,7 @@ class FlexLayoutTestRoute extends StatelessWidget {
             runSpacing: 0.0, // 纵轴（垂直）方向间距
             // alignment: WrapAlignment.center, //沿主轴方向居中
             // crossAxisAlignment: WrapCrossAlignment.center,
+
             direction: Axis.horizontal,
             children: <Widget>[
               new Chip(
@@ -44,7 +45,12 @@ class FlexLayoutTestRoute extends StatelessWidget {
                 color: Colors.blue,
                 height: 100,
                 width: 300,
-              )
+              ),
+              Container(
+                color: Color.fromARGB(255, 134, 111, 52),
+                height: 100,
+                width: 140,
+              ),
             ],
           ),
         ),

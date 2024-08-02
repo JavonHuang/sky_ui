@@ -44,6 +44,8 @@ class _InputTestState extends State<InputTest> {
             Expanded(
               child: SkyForm(
                 inline: true,
+                formFiledWidth: 180,
+                labelWidth: 80,
                 model: {"name1": "JavonHuang"},
                 key: myForm,
                 rules: {
@@ -59,9 +61,6 @@ class _InputTestState extends State<InputTest> {
                   ),
                 },
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
                   const SkyFormField(
                     prop: "name1",
                     label: '测试',
@@ -69,9 +68,6 @@ class _InputTestState extends State<InputTest> {
                       readOnly: true,
                       clearable: true,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   SkyFormField(
                     prop: "name2",
@@ -87,9 +83,6 @@ class _InputTestState extends State<InputTest> {
                       leftIcon: ElementIcons.search,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   SkyFormField(
                     prop: "age",
                     label: '年龄',
@@ -103,9 +96,6 @@ class _InputTestState extends State<InputTest> {
                       rightIcon: ElementIcons.search,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   const SkyFormField(
                     prop: "name4",
                     label: '计数器',
@@ -114,9 +104,6 @@ class _InputTestState extends State<InputTest> {
                       readOnly: false,
                       placeholder: "请输入计数器",
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   const SkyFormField(
                     prop: "name5",
@@ -128,9 +115,6 @@ class _InputTestState extends State<InputTest> {
                       placeholder: "请输入计数器",
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   SkyButton(
                     text: "表单提交",
                     onTap: () async {
@@ -139,17 +123,11 @@ class _InputTestState extends State<InputTest> {
                       });
                     },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   SkyButton(
                     text: "年龄提交",
                     onTap: () async {
                       myForm.currentState!.validateField('age');
                     },
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   SkyButton(
                     text: "清空检验",
@@ -157,26 +135,17 @@ class _InputTestState extends State<InputTest> {
                       myForm.currentState!.clearValidate();
                     },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   SkyButton(
                     text: "重置初始化",
                     onTap: () async {
                       myForm.currentState!.resetFields();
                     },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: SkyButton(
-                      text: "指定更新",
-                      onTap: () async {
-                        myForm.currentState!.setValidate({'age': '99'});
-                      },
-                    ),
+                  SkyButton(
+                    text: "指定更新",
+                    onTap: () async {
+                      myForm.currentState!.setValidate({'age': '99'});
+                    },
                   ),
                 ],
               ),

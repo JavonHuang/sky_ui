@@ -39,7 +39,7 @@ class SkyFormFieldState extends State<SkyFormField> {
   late TextEditingController _skyInputTextEditingController;
   SkyForm? get skyForm => SkyForm.maybeOfSkyForm(context);
 
-  double? get _labelWidth => widget.labelWidth ?? SkyForm.maybeOf(context)?.labelWidth;
+  double? get _labelWidth => widget.labelWidth ?? skyForm?.labelWidth;
 
   dynamic getInitialValue(String prop) {
     if (skyForm?.model != null && skyForm?.model![prop] != null) {
@@ -185,6 +185,7 @@ class SkyFormFieldState extends State<SkyFormField> {
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
               children: [

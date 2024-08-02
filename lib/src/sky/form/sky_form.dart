@@ -13,7 +13,8 @@ class SkyForm extends StatefulWidget {
     this.inline = false,
     this.size,
     this.disabled,
-  });
+    this.formFiledWidth,
+  }) : assert(!(inline && formFiledWidth == null), 'please set formFiledWidth initValue');
   final List<Widget> children;
   final Map<String, dynamic>? model;
   final double? labelWidth;
@@ -21,6 +22,7 @@ class SkyForm extends StatefulWidget {
   final bool inline;
   final SkySize? size;
   final bool? disabled;
+  final double? formFiledWidth;
 
   static SkyFormState? maybeOf(BuildContext context) {
     final _SkyFormScope? scope = context.dependOnInheritedWidgetOfExactType<_SkyFormScope>();
@@ -123,46 +125,37 @@ class SkyFormState extends State<SkyForm> {
     }
   }
 
+  List<Widget> _renderItem() {
+    List<Widget> result = [];
+    for (Widget item in widget.children) {
+      result.add(SizedBox(
+        width: widget.inline && item.runtimeType == SkyFormField ? widget.formFiledWidth : null,
+        child: item,
+      ));
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return _SkyFormScope(
       count: _count,
       skyFormState: this,
-      child: Column(children: widget.children),
+      // child: Column(children: widget.children),
+      child: widget.inline
+          ? Wrap(
+              spacing: 0, // 主轴(水平)方向间距
+              runSpacing: 0.0, // 纵轴（垂直）方向间距
+              // alignment: WrapAlignment.center, //沿主轴方向居中
+              // crossAxisAlignment: WrapCrossAlignment.center,
+              direction: Axis.horizontal,
+              children: _renderItem(),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: widget.children,
+            ),
     );
-    // return _SkyFormScope(
-    //   count: _count,
-    //   skyFormState: this,
-    //   child: Wrap(
-    //     direction: Axis.horizontal,
-    //     spacing: 2,
-    //     runSpacing: 5,
-    //     children: widget.children
-    //         .map((item) => SizedBox(
-    //               width: 200,
-    //               height: 50,
-    //               child: item,
-    //             ))
-    //         .toList(),
-    //   ),
-    // );
-    //   child: widget.inline
-    //       ? Row(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: widget.children
-    //               .map((item) => Flexible(
-    //                       child: SizedBox(
-    //                     width: 100,
-    //                     height: 50,
-    //                     child: item,
-    //                   )))
-    //               .toList(),
-    //         )
-    //       : Column(
-    //           crossAxisAlignment: CrossAxisAlignment.stretch,
-    //           children: widget.children,
-    //         ),
-    // );
   }
 }
 
