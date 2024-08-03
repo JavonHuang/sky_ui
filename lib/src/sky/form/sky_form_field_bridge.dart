@@ -77,5 +77,5 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
 }
 
 abstract class SkyFormFieldBridgeStateAbstract {
-  void setValue(String e);
+  void setValue(dynamic e);
 }

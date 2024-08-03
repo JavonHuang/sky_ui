@@ -125,7 +125,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   }
 
   @override
-  void setValue(String e) {
+  void setValue(dynamic e) {
     if (!e.doubleTryParse && e != "") {
       return;
     }

@@ -214,6 +214,9 @@ class SkyFormFieldState extends State<SkyFormField> {
                   widget.child,
                   Text(
                     _message,
+                    overflow: TextOverflow.ellipsis, // 设置超出部分显示省略号
+                    maxLines: 1,
+                    softWrap: true,
                     style: TextStyle(
                       fontSize: SkyFontSizes().s12,
                       color: SkyColors().danger,

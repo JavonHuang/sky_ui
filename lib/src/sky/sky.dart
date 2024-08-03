@@ -5,5 +5,6 @@ export 'infinite_scroll/infinite_scroll.dart';
 export 'input/index.dart';
 export 'layout/index.dart';
 export 'link/sky_link.dart';
+export 'radio/index.dart';
 export 'table/sky_table.dart';
 export 'tag/sky_tag.dart';

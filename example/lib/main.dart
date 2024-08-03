@@ -1,5 +1,6 @@
 import 'package:example/button.dart';
 import 'package:example/layout.dart';
+import 'package:example/radio.dart';
 import 'package:example/tag.dart';
 import 'package:example/tes.dart';
 import 'package:example/test2.dart';
@@ -55,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              RadioTest(),
               GroupButton(),
               ButtonTest(),
               LinkText(),

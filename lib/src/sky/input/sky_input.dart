@@ -39,10 +39,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   final FocusNode _focusNode = FocusNode();
   late bool _textIsNotEmpty = true;
   bool get _showCloseIcon {
-    return _focusNode.hasFocus &&
-        _widget.clearable &&
-        _textIsNotEmpty &&
-        !super.disabled;
+    return _focusNode.hasFocus && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
 
   @override
@@ -110,7 +107,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   }
 
   @override
-  void setValue(String e) {
+  void setValue(dynamic e) {
     _textController.text = e;
   }
 

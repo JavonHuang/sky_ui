@@ -14,6 +14,8 @@ class SkyForm extends StatefulWidget {
     this.size,
     this.disabled,
     this.formFiledWidth,
+    this.spaceWidth = 0,
+    this.spaceHeight = 0,
   }) : assert(!(inline && formFiledWidth == null), 'please set formFiledWidth initValue');
   final List<Widget> children;
   final Map<String, dynamic>? model;
@@ -23,6 +25,8 @@ class SkyForm extends StatefulWidget {
   final SkySize? size;
   final bool? disabled;
   final double? formFiledWidth;
+  final double spaceWidth;
+  final double spaceHeight;
 
   static SkyFormState? maybeOf(BuildContext context) {
     final _SkyFormScope? scope = context.dependOnInheritedWidgetOfExactType<_SkyFormScope>();
@@ -127,9 +131,11 @@ class SkyFormState extends State<SkyForm> {
 
   List<Widget> _renderItem() {
     List<Widget> result = [];
-    for (Widget item in widget.children) {
-      result.add(SizedBox(
+    for (int i = 0; i < widget.children.length; i++) {
+      Widget item = widget.children[i];
+      result.add(Container(
         width: widget.inline && item.runtimeType == SkyFormField ? widget.formFiledWidth : null,
+        padding: widget.inline || i == widget.children.length - 1 ? null : EdgeInsets.only(bottom: widget.spaceHeight),
         child: item,
       ));
     }
@@ -144,8 +150,8 @@ class SkyFormState extends State<SkyForm> {
       // child: Column(children: widget.children),
       child: widget.inline
           ? Wrap(
-              spacing: 0, // 主轴(水平)方向间距
-              runSpacing: 0.0, // 纵轴（垂直）方向间距
+              spacing: widget.spaceWidth, // 主轴(水平)方向间距
+              runSpacing: widget.spaceHeight, // 纵轴（垂直）方向间距
               // alignment: WrapAlignment.center, //沿主轴方向居中
               // crossAxisAlignment: WrapCrossAlignment.center,
               direction: Axis.horizontal,
@@ -153,7 +159,7 @@ class SkyFormState extends State<SkyForm> {
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: widget.children,
+              children: _renderItem(),
             ),
     );
   }
