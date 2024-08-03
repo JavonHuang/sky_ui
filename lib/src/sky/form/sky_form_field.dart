@@ -35,11 +35,14 @@ class SkyFormFieldState extends State<SkyFormField> {
 
   late SkyInput _skyInput;
   late SkyInputNumber _skyInputNumber;
+  late SkyRadio _skyRadio;
 
-  late TextEditingController _skyInputTextEditingController;
   SkyForm? get skyForm => SkyForm.maybeOfSkyForm(context);
 
   double? get _labelWidth => widget.labelWidth ?? skyForm?.labelWidth;
+
+  late void Function(dynamic e) _setValue;
+  late dynamic Function() _getValue;
 
   dynamic getInitialValue(String prop) {
     if (skyForm?.model != null && skyForm?.model![prop] != null) {
@@ -48,12 +51,13 @@ class SkyFormFieldState extends State<SkyFormField> {
     return "";
   }
 
-  void register(e, SkyFormType type, dynamic c, setValue) {
+  void register(e, SkyFormType type, setValue, getValue) {
+    _setValue = setValue;
+    _getValue = getValue;
     itemType = type;
     switch (itemType) {
       case SkyFormType.skyInput:
         _skyInput = e;
-        _skyInputTextEditingController = c;
         dynamic initialValue = getInitialValue(widget.prop);
         if (initialValue.toString().isNotEmpty || _skyInput.model != null) {
           String val = _skyInput.model!.isNotEmpty ? _skyInput.model! : initialValue.toString();
@@ -62,12 +66,16 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyInputNumber:
         _skyInputNumber = e;
-        _skyInputTextEditingController = c;
         dynamic initialValue = getInitialValue(widget.prop);
         if (initialValue.toString().isNotEmpty || (_skyInputNumber.model != null && _skyInputNumber.model.toString().isNotEmpty)) {
           String val = _skyInputNumber.model != null ? _skyInputNumber.model.toString() : initialValue.toString();
           setValue!.call(val.toDoubleText());
         }
+        break;
+      case SkyFormType.skyRadio:
+        _skyRadio = e;
+        dynamic initialValue = getInitialValue(widget.prop) != "";
+        setValue!.call(initialValue);
         break;
       case null:
       // TODO: Handle this case.
@@ -85,9 +93,9 @@ class SkyFormFieldState extends State<SkyFormField> {
       case SkyFormType.skyInput:
         dynamic initialValue = getInitialValue(widget.prop);
         if (initialValue.isNotEmpty && initialValue.toString().isNotEmpty) {
-          _skyInputTextEditingController.text = initialValue.toString();
+          _setValue(initialValue.toString());
         } else {
-          _skyInputTextEditingController.text = '';
+          _setValue('');
         }
         break;
       case SkyFormType.skyInputNumber:
@@ -95,9 +103,17 @@ class SkyFormFieldState extends State<SkyFormField> {
 
         if (initialValue.isNotEmpty && initialValue.toString().isNotEmpty) {
           String val = initialValue.toString();
-          _skyInputTextEditingController.text = double.parse(val).getMaxPrecision(maxDigits: _skyInputNumber.precision).toString();
+          _setValue(double.parse(val).getMaxPrecision(maxDigits: _skyInputNumber.precision).toString());
         } else {
-          _skyInputTextEditingController.text = '';
+          _setValue('');
+        }
+        break;
+      case SkyFormType.skyRadio:
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue != '') {
+          _setValue(true);
+        } else {
+          _setValue(false);
         }
         break;
       case null:
@@ -111,16 +127,23 @@ class SkyFormFieldState extends State<SkyFormField> {
     switch (itemType) {
       case SkyFormType.skyInput:
         if (val != null) {
-          _skyInputTextEditingController.text = val;
+          _setValue(val);
         } else {
-          _skyInputTextEditingController.text = '';
+          _setValue("");
         }
         break;
       case SkyFormType.skyInputNumber:
         if (double.tryParse(val) != null) {
-          _skyInputTextEditingController.text = double.tryParse(val).toString();
+          _setValue(double.tryParse(val).toString());
         } else {
-          _skyInputTextEditingController.text = '';
+          _setValue("");
+        }
+        break;
+      case SkyFormType.skyRadio:
+        if (checkType(val)) {
+          _setValue(val);
+        } else {
+          _setValue(false);
         }
         break;
       case null:
@@ -130,23 +153,45 @@ class SkyFormFieldState extends State<SkyFormField> {
     setState(() {});
   }
 
+  bool checkType(dynamic e) {
+    if (e is String && e.isEmpty) {
+      return false;
+    }
+    if (e is List && e.isEmpty) {
+      return false;
+    }
+    if (e is num && e.toString().isEmpty) {
+      return false;
+    }
+    if (e is bool && e.toString().isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   Future<dynamic> validate() async {
     _validatorResult = ValidatorResult(result: true, message: '');
-    if (_required && _skyInputTextEditingController.text.isEmpty) {
+    dynamic val = _getValue();
+    if (_required && !checkType(val)) {
       _validatorResult = ValidatorResult(result: false, message: '请输入${widget.label}');
       setState(() {});
       return Future.value({"prop": widget.prop, "result": _validatorResult.result, "value": null});
     }
-    _validatorResult = await _validator(_skyInputTextEditingController.text);
+    _validatorResult = await _validator(val);
     setState(() {});
     dynamic value;
     switch (itemType) {
       case SkyFormType.skyInput:
-        value = _skyInputTextEditingController.text;
+        value = val;
         break;
       case SkyFormType.skyInputNumber:
-        if (_skyInputTextEditingController.text.isNotEmpty) {
-          value = double.parse(_skyInputTextEditingController.text);
+        if (val.isNotEmpty) {
+          value = double.parse(val);
+        }
+        break;
+      case SkyFormType.skyRadio:
+        if (val.isNotEmpty) {
+          value = bool.parse(val);
         }
         break;
       case null:

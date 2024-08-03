@@ -41,16 +41,11 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
   }
 
   late bool _hasRegister = false;
-  late dynamic _con;
-
-  void setControll(dynamic c) {
-    _con = c;
-  }
 
   @override
   Widget build(BuildContext context) {
     if (!_hasRegister) {
-      SkyFormField.maybeOf(context)?.register(super.widget, widget.itemType, _con, setValue);
+      SkyFormField.maybeOf(context)?.register(super.widget, widget.itemType, setValue, getValue);
       _hasRegister = true;
     }
     return const SizedBox();
@@ -78,4 +73,5 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
 
 abstract class SkyFormFieldBridgeStateAbstract {
   void setValue(dynamic e);
+  dynamic getValue();
 }

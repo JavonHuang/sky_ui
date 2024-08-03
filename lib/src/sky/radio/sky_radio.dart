@@ -10,7 +10,7 @@ class SkyRadio extends SkyFormFieldBridge<SkyRadio> {
     this.model = false,
   }) : super(
           fieldSize: size,
-          itemType: SkyFormType.skyInput,
+          itemType: SkyFormType.skyRadio,
           fieldDisabled: disabled,
         );
   final SkySize size;
@@ -25,8 +25,9 @@ class SkyRadio extends SkyFormFieldBridge<SkyRadio> {
 class _SkyRadioState extends SkyFormFieldBridgeState<SkyRadio> {
   late SkyRadio _widget = super.widget as SkyRadio;
 
-  late bool onHover = false;
   late bool value = false;
+
+  late bool onHover = false;
 
   Color get outLineBorder => (onHover || value) && !_widget.disabled ? SkyColors().primary : SkyColors().baseBorder;
 
@@ -39,29 +40,32 @@ class _SkyRadioState extends SkyFormFieldBridgeState<SkyRadio> {
   @override
   void didUpdateWidget(SkyRadio oldWidget) {
     super.didUpdateWidget(oldWidget);
-    SkyRadio widget = super.widget as SkyRadio;
-    if (oldWidget.model != widget.model && mounted) {
-      setValue(widget.model);
+    if (oldWidget.model != _widget.model && mounted) {
+      setValue(_widget.model);
     }
   }
 
   @override
   void setValue(dynamic e) {
     setState(() {
-      value = _widget.model;
+      value = e;
     });
   }
 
   @override
+  dynamic getValue() {
+    return value;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return GestureDetector(
       onTap: () {
         if (_widget.disabled) {
           return;
         }
-        setState(() {
-          value = !value;
-        });
+        setValue(!value);
         _widget.onTap?.call();
       },
       child: MouseRegion(
@@ -82,56 +86,58 @@ class _SkyRadioState extends SkyFormFieldBridgeState<SkyRadio> {
             onHover = false;
           });
         },
-        child: Container(
-          height: _widget.size.height,
-          color: Colors.red,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Container(
-                  height: _widget.size.height * 0.4,
-                  width: _widget.size.height * 0.4,
-                  margin: EdgeInsets.only(right: 4.scaleSpacing),
-                  decoration: BoxDecoration(
-                    color: value && !_widget.disabled ? SkyColors().primary : SkyColors().defaultBg,
-                    border: Border.all(
-                      width: 1,
-                      color: outLineBorder,
+        child: UnconstrainedBox(
+          child: Container(
+            height: _widget.size.height,
+            color: Colors.red,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    height: _widget.size.height * 0.4,
+                    width: _widget.size.height * 0.4,
+                    margin: EdgeInsets.only(right: 4.scaleSpacing),
+                    decoration: BoxDecoration(
+                      color: value && !_widget.disabled ? SkyColors().primary : SkyColors().defaultBg,
+                      border: Border.all(
+                        width: 1,
+                        color: outLineBorder,
+                      ),
+                      borderRadius: BorderRadius.circular(_widget.size.height * 0.25),
                     ),
-                    borderRadius: BorderRadius.circular(_widget.size.height * 0.25),
-                  ),
-                  child: Center(
-                    child: Container(
-                      height: _widget.size.height * 0.4 * 0.3,
-                      width: _widget.size.height * 0.4 * 0.3,
-                      decoration: BoxDecoration(
-                        color: !_widget.disabled ? SkyColors().white : (value ? SkyColors().placeholderText : SkyColors().defaultBg),
-                        // border: Border.all(
-                        //   width: 0,
-                        //   color: SkyColors().baseBorder,
-                        // ),
-                        borderRadius: BorderRadius.circular(_widget.size.height * 0.2 * 0.3),
+                    child: Center(
+                      child: Container(
+                        height: _widget.size.height * 0.4 * 0.3,
+                        width: _widget.size.height * 0.4 * 0.3,
+                        decoration: BoxDecoration(
+                          color: !_widget.disabled ? SkyColors().white : (value ? SkyColors().placeholderText : SkyColors().defaultBg),
+                          // border: Border.all(
+                          //   width: 0,
+                          //   color: SkyColors().baseBorder,
+                          // ),
+                          borderRadius: BorderRadius.circular(_widget.size.height * 0.2 * 0.3),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Text(
-                _widget.text ?? '',
-                style: TextStyle(
-                  fontSize: _widget.size.textSize,
-                  // color: type.getTextColor(
-                  //   context: context,
-                  //   plain: _widget.plain,
-                  //   onHover: onHover,
-                  //   active: active,
-                  //   disabled: _widget.disabled,
-                  //   loading: _widget.loading,
-                  // ),
+                Text(
+                  _widget.text ?? '',
+                  style: TextStyle(
+                    fontSize: _widget.size.textSize,
+                    // color: type.getTextColor(
+                    //   context: context,
+                    //   plain: _widget.plain,
+                    //   onHover: onHover,
+                    //   active: active,
+                    //   disabled: _widget.disabled,
+                    //   loading: _widget.loading,
+                    // ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

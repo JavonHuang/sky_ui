@@ -50,7 +50,6 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
     super.initState();
     _focusNode.addListener(_focusNodeListener);
     _textController.addListener(_textListener);
-    super.setControll(_textController);
     _textController.text = _widget.model ?? "";
   }
 
@@ -109,6 +108,11 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   @override
   void setValue(dynamic e) {
     _textController.text = e;
+  }
+
+  @override
+  dynamic getValue() {
+    return _textController.text;
   }
 
   @override

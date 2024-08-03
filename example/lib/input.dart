@@ -66,6 +66,7 @@ class _InputTestState extends State<InputTest> {
                   const SkyFormField(
                     label: "是否已婚",
                     prop: 'sex',
+                    required: true,
                     child: SkyRadio(
                       disabled: false,
                       text: "",
