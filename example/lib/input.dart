@@ -44,7 +44,7 @@ class _InputTestState extends State<InputTest> {
             Expanded(
               child: SkyForm(
                 inline: true,
-                formFiledWidth: 200,
+                formFiledWidth: 240,
                 spaceHeight: 10,
                 spaceWidth: 5,
                 labelWidth: 80,
@@ -64,12 +64,38 @@ class _InputTestState extends State<InputTest> {
                 },
                 children: [
                   const SkyFormField(
+                    label: "土豪登记",
+                    prop: 'tuhao',
+                    required: true,
+                    child: SkyGroupRadio(
+                      disabled: false,
+                      children: [
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试1",
+                          label: "测试1",
+                        ),
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试2",
+                          label: "测试1",
+                        ),
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试3",
+                          label: "测试3",
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SkyFormField(
                     label: "是否已婚",
                     prop: 'sex',
                     required: true,
                     child: SkyRadio(
                       disabled: false,
                       text: "",
+                      label: "2",
                     ),
                   ),
                   const SkyFormField(

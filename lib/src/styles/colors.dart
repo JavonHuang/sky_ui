@@ -48,6 +48,8 @@ class SkyColors {
 
   ///底色
   static const Color _defaultBg = Color(0xFFf5f7fa);
+  static const Color _disabledBg = Color(0xFFF2F6FC);
+
   static const Color _tableDefaultRowBg = Color(0xFFffffff);
   static const Color _tableRowBg = Color(0xFFfafafa);
   static const Color _tableRowBgHover = _defaultBg;
@@ -55,6 +57,8 @@ class SkyColors {
   static const Color _tableSortBg = Color(0xFFc0c4cc);
 
   Color get defaultBg => _defaultBg;
+  Color get disabledBg => _disabledBg;
+
   Color get tableDefaultRowBg => _tableDefaultRowBg;
   Color get tableRowBg => _tableRowBg;
   Color get tableRowBgHover => _tableRowBgHover;

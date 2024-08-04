@@ -36,6 +36,7 @@ class SkyFormFieldState extends State<SkyFormField> {
   late SkyInput _skyInput;
   late SkyInputNumber _skyInputNumber;
   late SkyRadio _skyRadio;
+  late SkyGroupRadio _skyGroupRadio;
 
   SkyForm? get skyForm => SkyForm.maybeOfSkyForm(context);
 
@@ -77,6 +78,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         dynamic initialValue = getInitialValue(widget.prop) != "";
         setValue!.call(initialValue);
         break;
+      case SkyFormType.skyGroupRadio:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -116,6 +119,8 @@ class SkyFormFieldState extends State<SkyFormField> {
           _setValue(false);
         }
         break;
+      case SkyFormType.skyGroupRadio:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -145,6 +150,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         } else {
           _setValue(false);
         }
+        break;
+      case SkyFormType.skyGroupRadio:
         break;
       case null:
       // TODO: Handle this case.
@@ -193,6 +200,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         if (val.isNotEmpty) {
           value = bool.parse(val);
         }
+        break;
+      case SkyFormType.skyGroupRadio:
         break;
       case null:
       // TODO: Handle this case.

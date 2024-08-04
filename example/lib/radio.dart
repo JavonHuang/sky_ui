@@ -16,12 +16,42 @@ class _RadioTestState extends State<RadioTest> {
       children: [
         SizedBox(height: SkySpacings().mainSpacing),
         Text("基础用法"),
-        Row(
+        const Row(
           children: [
             SkyRadio(
-              disabled: false,
               text: "吃热食",
+              label: 1,
             ),
+            SkyRadio(
+              disabled: true,
+              text: "吃热食",
+              label: "1",
+            ),
+            SkyRadio(
+              disabled: false,
+              buttonStyle: true,
+              text: "吃热食",
+              label: 2,
+            ),
+            SkyRadio(
+              disabled: true,
+              buttonStyle: true,
+              text: "吃热食",
+              label: 1,
+            ),
+            SkyGroupRadio(
+              model: "1",
+              children: [
+                SkyRadio(
+                  text: "吃热食",
+                  label: "1",
+                ),
+                SkyRadio(
+                  text: "吃热食",
+                  label: "2",
+                ),
+              ],
+            )
           ],
         )
       ],
