@@ -39,19 +39,19 @@ class _RadioTestState extends State<RadioTest> {
               text: "吃热食",
               label: 1,
             ),
-            SkyGroupRadio(
-              model: "1",
-              children: [
-                SkyRadio(
-                  text: "吃热食",
-                  label: "1",
-                ),
-                SkyRadio(
-                  text: "吃热食",
-                  label: "2",
-                ),
-              ],
-            )
+            // SkyGroupRadio(
+            //   model: "1",
+            //   children: [
+            //     SkyRadio(
+            //       text: "吃热食",
+            //       label: "1",
+            //     ),
+            //     SkyRadio(
+            //       text: "吃热食",
+            //       label: "2",
+            //     ),
+            //   ],
+            // )
           ],
         )
       ],

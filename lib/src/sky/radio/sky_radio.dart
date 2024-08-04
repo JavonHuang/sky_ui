@@ -10,6 +10,7 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
     this.model,
     this.buttonStyle = false,
     required this.label,
+    this.onChanged,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -22,6 +23,8 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
   final T? model;
   final bool buttonStyle;
   final T label;
+  final Function(T label)? onChanged;
+
   @override
   SkyFormFieldBridgeState<SkyRadio> createState() => _SkyRadioState();
 }
@@ -40,7 +43,9 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
   @override
   void initState() {
     super.initState();
-    setValue(_widget.model);
+    setState(() {
+      value = _widget.model ?? "";
+    });
   }
 
   @override
@@ -110,13 +115,16 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
   Widget build(BuildContext context) {
     if (SkyGroupRadio.maybeOf(context) == null) {
       super.build(context);
-    }
+    } else {}
     return GestureDetector(
       onTap: () {
         if (_widget.disabled) {
           return;
         }
-        setValue(checked ? "" : _widget.label);
+        _widget.onChanged?.call(checked ? "" : _widget.label);
+        if (SkyGroupRadio.maybeOf(context) == null) {
+          setValue(checked ? "" : _widget.label);
+        }
         _widget.onTap?.call();
       },
       child: MouseRegion(

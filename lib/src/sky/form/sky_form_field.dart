@@ -239,7 +239,7 @@ class SkyFormFieldState extends State<SkyFormField> {
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
               children: [
@@ -247,6 +247,7 @@ class SkyFormFieldState extends State<SkyFormField> {
                   child: Container(
                     alignment: Alignment.centerRight,
                     width: _labelWidth,
+                    // color: Colors.red,
                     child: Text.rich(
                       TextSpan(
                         children: [
@@ -257,7 +258,12 @@ class SkyFormFieldState extends State<SkyFormField> {
                     ),
                   ),
                 ),
-                const Text(''),
+                Text(
+                  '',
+                  style: TextStyle(
+                    fontSize: SkyFontSizes().s12,
+                  ),
+                ),
               ],
             ),
             Expanded(

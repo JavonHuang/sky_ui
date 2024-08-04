@@ -7,7 +7,7 @@ class SkyGroupRadio<T> extends SkyFormFieldBridge<SkyGroupRadio> {
     this.disabled = false,
     this.onTap,
     this.model,
-    this.buttonStyle = false,
+    this.buttonStyle,
     this.children = const <SkyRadio>[],
   }) : super(
           fieldSize: size,
@@ -18,7 +18,7 @@ class SkyGroupRadio<T> extends SkyFormFieldBridge<SkyGroupRadio> {
   final bool disabled;
   final Function()? onTap;
   final T? model;
-  final bool buttonStyle;
+  final bool? buttonStyle;
   final List<SkyRadio> children;
   @override
   SkyFormFieldBridgeState<SkyGroupRadio> createState() => SkyGroupRadioState();
@@ -29,18 +29,83 @@ class SkyGroupRadio<T> extends SkyFormFieldBridge<SkyGroupRadio> {
   }
 }
 
-class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
+class SkyGroupRadioState<T> extends SkyFormFieldBridgeState<SkyGroupRadio> {
   late SkyGroupRadio _widget = super.widget as SkyGroupRadio;
+  late T value;
+  final List<GlobalKey<_SkyRadioState>> keys = [];
 
   List<Widget> _renderItem() {
     List<Widget> result = [];
-    for (SkyRadio item in _widget.children) {
-      result.add(Container(
-        padding: EdgeInsets.only(right: 4.scaleSpacing),
-        child: item,
-      ));
+    for (int i = 0; i < _widget.children.length; i++) {
+      SkyRadio item = _widget.children[i];
+      result.add(
+        Container(
+          padding: EdgeInsets.only(right: _widget.buttonStyle ?? item.buttonStyle ? 0 : 4.scaleSpacing),
+          child: SkyRadio(
+            key: keys[i],
+            size: item.size,
+            text: item.text,
+            disabled: item.disabled,
+            onTap: item.onTap,
+            model: item.model,
+            buttonStyle: _widget.buttonStyle ?? item.buttonStyle,
+            label: item.label,
+            onChanged: (e) {
+              item.onChanged?.call(e);
+              setValue(e);
+            },
+          ),
+        ),
+      );
     }
     return result;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < _widget.children.length; i++) {
+      keys.add(GlobalKey());
+    }
+    setValue(_widget.model);
+  }
+
+  @override
+  void didUpdateWidget(SkyGroupRadio oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.model != _widget.model && mounted) {
+      setValue(_widget.model);
+    }
+  }
+
+  @override
+  getValue() {
+    // TODO: implement getValue
+    return value;
+  }
+
+  @override
+  void setValue(dynamic e) {
+    // setState(() {
+    //   // value = e;
+    // });
+    // if(e==''){
+    // for (int i = 0; i < _widget.children.length; i++) {
+    //     keys[i].currentState?.setValue('');
+    //   }
+    // }else{
+
+    // }
+
+    for (int i = 0; i < _widget.children.length; i++) {
+      if (e == _widget.children[i].label) {
+        keys[i].currentState?.setValue(e);
+      } else {
+        keys[i].currentState?.setValue("");
+      }
+    }
+
+    value = e;
   }
 
   @override
@@ -52,19 +117,6 @@ class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
         children: _renderItem(),
       ),
     );
-  }
-
-  @override
-  getValue() {
-    // TODO: implement getValue
-    return '';
-  }
-
-  @override
-  void setValue(dynamic e) {
-    setState(() {
-      // value = e;
-    });
   }
 }
 
