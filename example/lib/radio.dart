@@ -20,7 +20,7 @@ class _RadioTestState extends State<RadioTest> {
           children: [
             SkyRadio(
               text: "吃热食",
-              label: 1,
+              label: "1",
             ),
             SkyRadio(
               disabled: true,
@@ -31,13 +31,13 @@ class _RadioTestState extends State<RadioTest> {
               disabled: false,
               buttonStyle: true,
               text: "吃热食",
-              label: 2,
+              label: "2",
             ),
             SkyRadio(
               disabled: true,
               buttonStyle: true,
               text: "吃热食",
-              label: 1,
+              label: "3",
             ),
             // SkyGroupRadio(
             //   model: "1",

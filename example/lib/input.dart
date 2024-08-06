@@ -44,11 +44,11 @@ class _InputTestState extends State<InputTest> {
             Expanded(
               child: SkyForm(
                 inline: true,
-                formFiledWidth: 300,
+                formFiledWidth: 400,
                 spaceHeight: 10,
                 spaceWidth: 5,
                 labelWidth: 80,
-                model: {"name1": "JavonHuang"},
+                model: {"name1": "JavonHuang", "tuhao": "测试3"},
                 key: myForm,
                 rules: {
                   "name1": Rules(
@@ -63,39 +63,44 @@ class _InputTestState extends State<InputTest> {
                   ),
                 },
                 children: [
-                  // const SkyFormField(
-                  //   label: "土豪登记",
-                  //   prop: 'tuhao',
-                  //   required: true,
-                  //   child: SkyGroupRadio(
-                  //     disabled: false,
-                  //     buttonStyle: true,
-                  //     children: [
-                  //       SkyRadio(
-                  //         disabled: false,
-                  //         text: "测试1",
-                  //         label: "测试1",
-                  //       ),
-                  //       SkyRadio(
-                  //         disabled: false,
-                  //         text: "测试2",
-                  //         label: "测试2",
-                  //       ),
-                  //       SkyRadio(
-                  //         disabled: false,
-                  //         text: "测试3",
-                  //         label: "测试3",
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                  const SkyFormField(
+                    label: "土豪登记",
+                    prop: 'tuhao',
+                    required: true,
+                    child: SkyGroupRadio(
+                      disabled: false,
+                      buttonStyle: true,
+                      children: [
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试1",
+                          label: "测试1",
+                        ),
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试2",
+                          label: "测试2",
+                        ),
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试3",
+                          label: "测试3",
+                        ),
+                        SkyRadio(
+                          disabled: false,
+                          text: "测试4",
+                          label: "测试4",
+                        ),
+                      ],
+                    ),
+                  ),
                   const SkyFormField(
                     label: "是否已婚",
                     prop: 'sex',
                     required: true,
                     child: SkyRadio(
                       disabled: false,
-                      text: "",
+                      text: "2",
                       label: "2",
                     ),
                   ),

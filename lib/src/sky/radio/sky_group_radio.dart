@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class SkyGroupRadio<T> extends SkyFormFieldBridge<SkyGroupRadio> {
+class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
   const SkyGroupRadio({
     super.key,
     this.size = SkySize.small,
@@ -17,7 +17,7 @@ class SkyGroupRadio<T> extends SkyFormFieldBridge<SkyGroupRadio> {
   final SkySize size;
   final bool disabled;
   final Function()? onTap;
-  final T? model;
+  final String? model;
   final bool? buttonStyle;
   final List<SkyRadio> children;
   @override
@@ -29,25 +29,27 @@ class SkyGroupRadio<T> extends SkyFormFieldBridge<SkyGroupRadio> {
   }
 }
 
-class SkyGroupRadioState<T> extends SkyFormFieldBridgeState<SkyGroupRadio> {
+class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
   late SkyGroupRadio _widget = super.widget as SkyGroupRadio;
-  late T value;
-  final List<GlobalKey<_SkyRadioState>> keys = [];
+  late String value = "";
+  late List<GlobalKey<_SkyRadioState>> keys = [];
 
   List<Widget> _renderItem() {
     List<Widget> result = [];
+    keys = [];
     for (int i = 0; i < _widget.children.length; i++) {
+      GlobalKey<_SkyRadioState> key = GlobalKey<_SkyRadioState>();
       SkyRadio item = _widget.children[i];
       result.add(
         Container(
           padding: EdgeInsets.only(right: _widget.buttonStyle ?? item.buttonStyle ? 0 : 4.scaleSpacing),
           child: SkyRadio(
-            key: keys[i],
+            key: key,
             size: item.size,
             text: item.text,
             disabled: item.disabled,
             onTap: item.onTap,
-            model: item.model,
+            model: (value != '' ? value : item.model) == item.label ? item.label : "",
             buttonStyle: _widget.buttonStyle ?? item.buttonStyle,
             label: item.label,
             onChanged: (e) {
@@ -57,6 +59,18 @@ class SkyGroupRadioState<T> extends SkyFormFieldBridgeState<SkyGroupRadio> {
           ),
         ),
       );
+      keys.add(key);
+    }
+    return result;
+  }
+
+  int getItemGroupIndex(Key? index) {
+    int result = -1;
+    for (int i = 0; i < keys.length; i++) {
+      if (index.hashCode == keys[i].hashCode) {
+        result = i;
+        break;
+      }
     }
     return result;
   }
@@ -64,10 +78,6 @@ class SkyGroupRadioState<T> extends SkyFormFieldBridgeState<SkyGroupRadio> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < _widget.children.length; i++) {
-      keys.add(GlobalKey());
-    }
-    setValue(_widget.model);
   }
 
   @override
@@ -80,23 +90,18 @@ class SkyGroupRadioState<T> extends SkyFormFieldBridgeState<SkyGroupRadio> {
 
   @override
   getValue() {
-    // TODO: implement getValue
+    value = "";
+    for (int i = 0; i < keys.length; i++) {
+      value = keys[i].currentState?.getValue();
+      if (value != '') {
+        break;
+      }
+    }
     return value;
   }
 
   @override
   void setValue(dynamic e) {
-    // setState(() {
-    //   // value = e;
-    // });
-    // if(e==''){
-    // for (int i = 0; i < _widget.children.length; i++) {
-    //     keys[i].currentState?.setValue('');
-    //   }
-    // }else{
-
-    // }
-
     for (int i = 0; i < _widget.children.length; i++) {
       if (e == _widget.children[i].label) {
         keys[i].currentState?.setValue(e);
@@ -110,7 +115,8 @@ class SkyGroupRadioState<T> extends SkyFormFieldBridgeState<SkyGroupRadio> {
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    Future.delayed(Duration.zero).then((e) => super.build(context));
+
     return _SkyGroupRadioState(
       buttonGroupState: this,
       child: Row(

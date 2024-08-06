@@ -20,10 +20,10 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
   final String? text;
   final bool disabled;
   final Function()? onTap;
-  final T? model;
+  final String? model;
   final bool buttonStyle;
-  final T label;
-  final Function(T label)? onChanged;
+  final String label;
+  final Function(String label)? onChanged;
 
   @override
   SkyFormFieldBridgeState<SkyRadio> createState() => _SkyRadioState();
@@ -32,12 +32,10 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
 class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
   late SkyRadio _widget = super.widget as SkyRadio;
 
-  late T value;
+  late String value = "";
 
   late bool onHover = false;
-
   bool get checked => value == _widget.label;
-
   Color get outLineBorder => (onHover || checked) && !_widget.disabled ? SkyColors().primary : SkyColors().baseBorder;
 
   @override
@@ -69,21 +67,58 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
   }
 
   BorderRadiusGeometry? get borderRadius {
-    // if (ButtonGroup.maybeOf(context) != null) {
-    //   return ButtonGroup.maybeOf(context)?.borderRadius(widget);
-    // }
-    // if (widget.round) {
-    //   return BorderRadius.circular(
-    //     MediaQuery.of(context).size.height * 0.25,
-    //   );
-    // } else if (widget.circle) {
-    //   return BorderRadius.circular(
-    //     MediaQuery.of(context).size.height * 0.5,
-    //   );
-    // } else {
-    //   return SkyBorderRadius().normalBorderRadius;
-    // }
-    return SkyBorderRadius().normalBorderRadius;
+    if (SkyGroupRadio.maybeOf(context) != null) {
+      int groupItemIndex = SkyGroupRadio.maybeOf(context)!.getItemGroupIndex(_widget.key);
+      if (groupItemIndex == 0) {
+        return BorderRadius.only(
+          topLeft: SkyBorderRadius().normalCircular,
+          bottomLeft: SkyBorderRadius().normalCircular,
+        );
+      } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!._widget.children.length - 1) {
+        return BorderRadius.only(
+          topRight: SkyBorderRadius().normalCircular,
+          bottomRight: SkyBorderRadius().normalCircular,
+        );
+      } else {
+        return null;
+      }
+    } else {
+      return SkyBorderRadius().normalBorderRadius;
+    }
+  }
+
+  BoxBorder? get border {
+    if (SkyGroupRadio.maybeOf(context) != null) {
+      int groupItemIndex = SkyGroupRadio.maybeOf(context)!.getItemGroupIndex(_widget.key);
+      BorderSide b = BorderSide(
+        width: 1.0,
+        color: checked ? SkyColors().primary : SkyColors().baseBorder,
+      );
+      if (groupItemIndex == 0) {
+        return Border(
+          left: b,
+          right: b,
+          top: b,
+          bottom: b,
+        );
+      } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!._widget.children.length - 1) {
+        return Border(
+          right: b,
+          top: b,
+          bottom: b,
+        );
+      } else {
+        return Border(
+          right: b,
+          top: b,
+          bottom: b,
+        );
+      }
+    }
+    return Border.all(
+      width: 1,
+      color: checked ? SkyColors().primary : SkyColors().baseBorder,
+    );
   }
 
   Color? get bgColor {
@@ -121,9 +156,9 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
         if (_widget.disabled) {
           return;
         }
-        _widget.onChanged?.call(checked ? "" : _widget.label);
+        _widget.onChanged?.call(_widget.label);
         if (SkyGroupRadio.maybeOf(context) == null) {
-          setValue(checked ? "" : _widget.label);
+          setValue(_widget.label);
         }
         _widget.onTap?.call();
       },
@@ -151,10 +186,7 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
                   height: _widget.size.height,
                   decoration: BoxDecoration(
                     color: bgColor,
-                    border: Border.all(
-                      width: 1,
-                      color: checked ? SkyColors().primary : SkyColors().baseBorder,
-                    ),
+                    border: border,
                     borderRadius: borderRadius,
                   ),
                   child: Padding(

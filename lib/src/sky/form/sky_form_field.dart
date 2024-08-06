@@ -75,10 +75,13 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyRadio:
         _skyRadio = e;
-        dynamic initialValue = getInitialValue(widget.prop) != "";
+        dynamic initialValue = getInitialValue(widget.prop) ?? "";
         setValue!.call(initialValue);
         break;
       case SkyFormType.skyGroupRadio:
+        _skyGroupRadio = e;
+        dynamic initialValue = getInitialValue(widget.prop) ?? "";
+        setValue!.call(initialValue);
         break;
       case null:
       // TODO: Handle this case.
@@ -113,13 +116,11 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyRadio:
         dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue != '') {
-          _setValue(true);
-        } else {
-          _setValue(false);
-        }
+        _setValue(initialValue);
         break;
       case SkyFormType.skyGroupRadio:
+        dynamic initialValue = getInitialValue(widget.prop);
+        _setValue(initialValue);
         break;
       case null:
       // TODO: Handle this case.
@@ -148,10 +149,15 @@ class SkyFormFieldState extends State<SkyFormField> {
         if (checkType(val)) {
           _setValue(val);
         } else {
-          _setValue(false);
+          _setValue("");
         }
         break;
       case SkyFormType.skyGroupRadio:
+        if (checkType(val)) {
+          _setValue(val);
+        } else {
+          _setValue("");
+        }
         break;
       case null:
       // TODO: Handle this case.
@@ -197,11 +203,10 @@ class SkyFormFieldState extends State<SkyFormField> {
         }
         break;
       case SkyFormType.skyRadio:
-        if (val.isNotEmpty) {
-          value = bool.parse(val);
-        }
+        value = val;
         break;
       case SkyFormType.skyGroupRadio:
+        value = val;
         break;
       case null:
       // TODO: Handle this case.
