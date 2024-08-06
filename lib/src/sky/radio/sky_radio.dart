@@ -11,6 +11,7 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
     this.buttonStyle = false,
     required this.label,
     this.onChanged,
+    this.border = false,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -24,6 +25,7 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
   final bool buttonStyle;
   final String label;
   final Function(String label)? onChanged;
+  final bool border;
 
   @override
   SkyFormFieldBridgeState<SkyRadio> createState() => _SkyRadioState();
@@ -210,7 +212,13 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
                 )
               : Container(
                   height: _widget.size.height,
-                  // color: Colors.red,
+                  padding: _widget.size.padding(),
+                  decoration: _widget.border
+                      ? BoxDecoration(
+                          border: border,
+                          borderRadius: borderRadius,
+                        )
+                      : null,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

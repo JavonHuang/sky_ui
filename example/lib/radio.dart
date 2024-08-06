@@ -21,6 +21,12 @@ class _RadioTestState extends State<RadioTest> {
             SkyRadio(
               text: "吃热食",
               label: "1",
+              border: true,
+              disabled: true,
+            ),
+            SkyRadio(
+              text: "吃热食",
+              label: "1",
             ),
             SkyRadio(
               disabled: true,

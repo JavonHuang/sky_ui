@@ -61,6 +61,11 @@ class _InputTestState extends State<InputTest> {
                       return Future.value(ValidatorResult(result: e.toString().length < 3, message: "请输入小于2个字符"));
                     },
                   ),
+                  "tuhao": Rules(
+                    validator: (e) {
+                      return Future.value(ValidatorResult(result: e == "测试2", message: "必须选择测试2"));
+                    },
+                  ),
                 },
                 children: [
                   const SkyFormField(
