@@ -14,10 +14,12 @@ class SkyBorderRadius {
   double get scale => _scale;
 
   double get _none => 0 * _scale;
+  double get _small => 2 * _scale;
   double get _normal => 4 * _scale;
   double get _big => 30 * _scale;
 
   BorderRadius get noneBorderRadius => BorderRadius.circular(_none);
+  BorderRadius get smallBorderRadius => BorderRadius.circular(_small);
   BorderRadius get normalBorderRadius => BorderRadius.circular(_normal);
   BorderRadius get bigBorderRadius => BorderRadius.circular(_big);
 

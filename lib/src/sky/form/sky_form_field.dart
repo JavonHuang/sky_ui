@@ -83,6 +83,10 @@ class SkyFormFieldState extends State<SkyFormField> {
         dynamic initialValue = getInitialValue(widget.prop) ?? "";
         setValue!.call(initialValue);
         break;
+      case SkyFormType.skyCheckbox:
+        break;
+      case SkyFormType.skyCheckboxGroup:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -122,6 +126,10 @@ class SkyFormFieldState extends State<SkyFormField> {
         dynamic initialValue = getInitialValue(widget.prop);
         _setValue(initialValue);
         break;
+      case SkyFormType.skyCheckbox:
+        break;
+      case SkyFormType.skyCheckboxGroup:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -158,6 +166,10 @@ class SkyFormFieldState extends State<SkyFormField> {
         } else {
           _setValue("");
         }
+        break;
+      case SkyFormType.skyCheckbox:
+        break;
+      case SkyFormType.skyCheckboxGroup:
         break;
       case null:
       // TODO: Handle this case.
@@ -207,6 +219,10 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyGroupRadio:
         value = val;
+        break;
+      case SkyFormType.skyCheckbox:
+        break;
+      case SkyFormType.skyCheckboxGroup:
         break;
       case null:
       // TODO: Handle this case.

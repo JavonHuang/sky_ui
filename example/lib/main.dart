@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 
 import 'badge.dart';
 import 'buttonGroup.dart';
+import 'checkbox.dart';
 import 'grid_table.dart';
 import 'input.dart';
 import 'link.dart';
@@ -56,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              CheckBoxText(),
               RadioTest(),
               GroupButton(),
               ButtonTest(),

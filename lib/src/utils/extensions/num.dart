@@ -1,7 +1,7 @@
 import '../../styles/styles.dart';
 
 extension SkyNumEx on num {
-  double get scaleFontSize => this * SkySpacings().scale;
+  double get scaleFontSize => this * SkyFontSizes().scale;
 
   double get scaleIconSize => this * SkySpacings().scale;
 
