@@ -31,7 +31,7 @@ class SkyCheckboxGroup extends SkyFormFieldBridge<SkyCheckboxGroup> {
 
 class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
   late SkyCheckboxGroup _widget = super.widget as SkyCheckboxGroup;
-  late String value = "";
+  late List<String> value = [];
   late List<GlobalKey<_SkyCheckboxState>> keys = [];
 
   List<Widget> _renderItem() {
@@ -54,7 +54,8 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
             label: item.label,
             onChanged: (e) {
               item.onChanged?.call(e);
-              setValue(e);
+              e ? value.add(item.label) : value.remove(item.label);
+              setValue(value);
             },
           ),
         ),
@@ -90,11 +91,11 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
 
   @override
   getValue() {
-    value = "";
+    value = [];
     for (int i = 0; i < keys.length; i++) {
-      value = keys[i].currentState?.getValue();
-      if (value != '') {
-        break;
+      bool checked = keys[i].currentState?.getValue();
+      if (checked) {
+        value.add(keys[i].currentState!._widget.label);
       }
     }
     return value;
@@ -102,8 +103,9 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
 
   @override
   void setValue(dynamic e) {
+    e as List<String>;
     for (int i = 0; i < _widget.children.length; i++) {
-      if (e == _widget.children[i].label) {
+      if (e.contains(_widget.children[i].label)) {
         keys[i].currentState?.setValue(true);
       } else {
         keys[i].currentState?.setValue(false);

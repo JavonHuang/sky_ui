@@ -47,13 +47,13 @@ class _CheckBoxTextState extends State<CheckBoxText> {
             SkyCheckboxGroup(
               children: [
                 SkyCheckbox(
-                  text: "备选项",
-                  label: "备选项",
+                  text: "备选项1",
+                  label: "备选项1",
                   model: true,
                 ),
                 SkyCheckbox(
-                  text: "备选项",
-                  label: "备选项",
+                  text: "备选项2",
+                  label: "备选项2",
                   model: true,
                 ),
               ],

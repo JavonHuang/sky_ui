@@ -136,6 +136,8 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
 
   @override
   void setValue(dynamic e) {
+    print(e);
+    print(_widget.label);
     setState(() {
       value = e;
     });
@@ -154,7 +156,9 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
           return;
         }
         _widget.onChanged?.call(!value);
-        setValue(!value);
+        if (SkyCheckboxGroup.maybeOf(context) == null) {
+          setValue(!value);
+        }
         _widget.onTap?.call();
       },
       child: MouseRegion(
