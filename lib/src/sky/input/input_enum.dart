@@ -9,6 +9,8 @@ extension SkyInputSize on SkySize {
         return EdgeInsets.symmetric(horizontal: 10.scaleSpacing);
       case SkySize.small:
         return EdgeInsets.symmetric(horizontal: 8.scaleSpacing);
+      case SkySize.mini:
+        return EdgeInsets.symmetric(horizontal: 8.scaleSpacing);
     }
   }
 }

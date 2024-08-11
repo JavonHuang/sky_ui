@@ -136,8 +136,6 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
 
   @override
   void setValue(dynamic e) {
-    print(e);
-    print(_widget.label);
     setState(() {
       value = e;
     });

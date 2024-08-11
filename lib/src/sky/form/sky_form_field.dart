@@ -87,6 +87,11 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyCheckboxGroup:
         break;
+      case SkyFormType.skySwitch:
+        break;
+      case SkyFormType.skySelect:
+        break;
+
       case null:
       // TODO: Handle this case.
     }
@@ -130,6 +135,11 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyCheckboxGroup:
         break;
+      case SkyFormType.skySwitch:
+        break;
+      case SkyFormType.skySelect:
+        break;
+
       case null:
       // TODO: Handle this case.
     }
@@ -171,6 +181,11 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyCheckboxGroup:
         break;
+      case SkyFormType.skySwitch:
+        break;
+      case SkyFormType.skySelect:
+        break;
+
       case null:
       // TODO: Handle this case.
     }
@@ -224,6 +239,11 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyCheckboxGroup:
         break;
+      case SkyFormType.skySwitch:
+        break;
+      case SkyFormType.skySelect:
+        break;
+
       case null:
       // TODO: Handle this case.
     }

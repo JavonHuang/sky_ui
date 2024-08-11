@@ -6,7 +6,8 @@ import '../../styles/styles.dart';
 enum SkySize {
   large,
   medium,
-  small;
+  small,
+  mini;
 
   double get height {
     switch (this) {
@@ -16,6 +17,8 @@ enum SkySize {
         return 36.scaleSpacing;
       case small:
         return 32.scaleSpacing;
+      case mini:
+        return 28.scaleSpacing;
     }
   }
 
@@ -27,6 +30,8 @@ enum SkySize {
         return 8.scaleSpacing;
       case small:
         return 6.scaleSpacing;
+      case mini:
+        return 4.scaleSpacing;
     }
   }
 
@@ -38,6 +43,8 @@ enum SkySize {
         return 12.scaleFontSize;
       case small:
         return 10.scaleFontSize;
+      case mini:
+        return 8.scaleFontSize;
     }
   }
 
@@ -49,16 +56,20 @@ enum SkySize {
         return 16.scaleFontSize;
       case small:
         return 14.scaleFontSize;
+      case mini:
+        return 12.scaleFontSize;
     }
   }
 
   double get textSize {
     switch (this) {
       case large:
-        return SkyFontSizes().s16;
+        return SkyFontSizes().s14;
       case medium:
         return SkyFontSizes().s14;
       case small:
+        return SkyFontSizes().s12;
+      case mini:
         return SkyFontSizes().s12;
     }
   }
@@ -75,6 +86,8 @@ enum SkySize {
       case SkySize.medium:
         return EdgeInsets.symmetric(horizontal: 16.scaleSpacing);
       case SkySize.small:
+        return EdgeInsets.symmetric(horizontal: 14.scaleSpacing);
+      case SkySize.mini:
         return EdgeInsets.symmetric(horizontal: 14.scaleSpacing);
     }
   }

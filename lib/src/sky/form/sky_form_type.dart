@@ -6,5 +6,7 @@ enum SkyFormType {
   skyRadio,
   skyCheckbox,
   skyCheckboxGroup,
-  skyGroupRadio;
+  skyGroupRadio,
+  skySwitch,
+  skySelect;
 }

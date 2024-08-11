@@ -1,11 +1,13 @@
 import 'package:example/button.dart';
 import 'package:example/layout.dart';
 import 'package:example/radio.dart';
+import 'package:example/swicth.dart';
 import 'package:example/tag.dart';
 import 'package:example/tes.dart';
 import 'package:example/test2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sky_ui/sky_ui.dart';
 
 import 'badge.dart';
 import 'buttonGroup.dart';
@@ -13,6 +15,7 @@ import 'checkbox.dart';
 import 'grid_table.dart';
 import 'input.dart';
 import 'link.dart';
+import 'select.dart';
 import 'table.dart';
 
 void main() {
@@ -46,39 +49,67 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Map<String, Widget> showMenu = {'CheckBoxText': const CheckBoxText()};
+  late List<Map<String, Widget>> menuList = [
+    {'CheckBoxText': const CheckBoxText()},
+    {'RadioTest': const RadioTest()},
+    {'GroupButton': const GroupButton()},
+    {'ButtonTest': const ButtonTest()},
+    {'LinkText': const LinkText()},
+    {'TagTest': const TagTest()},
+    {'BadgeTest': const BadgeTest()},
+    {'InputTest': const InputTest()},
+    {'SwicthTest': const SwicthTest()},
+    {'FlexLayoutTestRoute': const FlexLayoutTestRoute()},
+    {'SelectTest': const SelectTest()},
+  ];
+
+  Widget _renderTab() {
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(40),
+        child: showMenu[showMenu.keys.first]!,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          color: Colors.white,
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              CheckBoxText(),
-              RadioTest(),
-              GroupButton(),
-              ButtonTest(),
-              LinkText(),
-              TagTest(),
-              BadgeTest(),
-              InputTest(),
-              FlexLayoutTestRoute(),
-              // Container(
-              //   height: 200,
-              //   color: Colors.black,
-              //   child: ContextMenuApp(),
-              // ),
-              SizedBox(
-                height: 600,
-                child: SkyGridTable(),
-              )
-            ],
-          ),
+      body: Container(
+        color: Colors.white,
+        height: double.infinity,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: SkyColors().defaultBg,
+              width: 180,
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: menuList
+                    .map(
+                      (e) => InkWell(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          color: showMenu.keys.first == e.keys.first ? SkyColors().primary : SkyColors().defaultBg,
+                          child: Text(e.keys.first),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            showMenu = e;
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            Expanded(child: _renderTab())
+          ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

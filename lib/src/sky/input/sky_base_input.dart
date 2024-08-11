@@ -12,6 +12,7 @@ class SkyBaseInput extends StatelessWidget {
     this.restorationId,
     this.bucket,
     this.onChanged,
+    this.onTap,
   });
 
   final TextEditingController? controller;
@@ -24,17 +25,19 @@ class SkyBaseInput extends StatelessWidget {
   final String? restorationId;
   final RestorationBucket? bucket;
   final Function(String)? onChanged;
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return UnmanagedRestorationScope(
       bucket: bucket,
       child: TextField(
         restorationId: restorationId,
-        mouseCursor: disabled ? SystemMouseCursors.forbidden : null,
+        mouseCursor: disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         controller: controller,
         focusNode: focusNode,
         onChanged: onChanged,
         readOnly: disabled || readOnly,
+        onTap: onTap,
         style: TextStyle(
           fontSize: size.textSize,
         ),
