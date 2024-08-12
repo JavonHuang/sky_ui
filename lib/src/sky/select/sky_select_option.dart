@@ -5,8 +5,10 @@ class SkySelectOption<T> {
     this.key,
     required this.value,
     required this.label,
+    this.disabled = false,
   });
   final Key? key;
   final T value;
   final String label;
+  final bool disabled;
 }

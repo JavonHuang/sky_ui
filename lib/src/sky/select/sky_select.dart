@@ -7,8 +7,9 @@ class SkySelect<T> extends SkyFormFieldBridge<SkySelect> {
     this.size = SkySize.small,
     required this.options,
     this.disabled = false,
-    this.readOnly = false,
+    this.filterable = false,
     this.clearable = false,
+    this.placeholder,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -18,37 +19,76 @@ class SkySelect<T> extends SkyFormFieldBridge<SkySelect> {
   final SkySize size;
   final List<SkySelectOption<T>> options;
   final bool disabled;
-  final bool readOnly;
+  final bool filterable;
   final bool clearable;
+  final String? placeholder;
 
   @override
   SkyFormFieldBridgeState<SkySelect> createState() => _SkySelectState();
 }
 
-class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
-  late SkySelect _widget = super.widget as SkySelect;
+class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleTickerProviderStateMixin {
+  late SkySelect<T> _widget = super.widget as SkySelect<T>;
 
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
   late T? value = null;
+  late SkySelectOption<T>? _valueItem = null;
   late bool onHover = false;
+  late AnimationController _animationController;
+  late Animation<double> _rotateAnimation;
+  final Throttler throttler = Throttler(const Duration(seconds: 1));
+  late List<SkySelectOption<T>> showOptions = [];
 
   bool get _textIsNotEmpty => value != null;
-  Color get outLineBorder => onHover ? SkyColors().primary : SkyColors().baseBorder;
+  String? get _placeholder => _valueItem?.label;
+  Color get outLineBorder => onHover ? SkyColors().placeholderText : SkyColors().baseBorder;
+  SkySelectOption<T>? get getItem {
+    int index = _widget.options.indexWhere((e) => e.value == _widget.model);
+    if (index > -1) {
+      return _widget.options[index];
+    }
+    return null;
+  }
 
-  void setSelectValue(SkySelectOption<T> e) {
-    _textController.text = e.label;
+  void _setSelectValue(SkySelectOption<T>? e) {
+    if (e != null) {
+      _textController.text = e.label;
+      _valueItem = e;
+      setValue(e.value);
+    } else {
+      _textController.text = "";
+      _valueItem = null;
+      setValue(null);
+    }
     _menuController.close();
-    setValue(e.value);
   }
 
   bool get _showCloseIcon {
     return onHover && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
 
-  void onClear() {
+  void _filter() {
+    showOptions = [];
+    for (SkySelectOption<T> item in _widget.options) {
+      if (item.label.contains(_textController.text)) {
+        showOptions.add(item);
+      }
+    }
+    setState(() {});
+    _menuController.open();
+  }
+
+  void _onChangedText() {
+    if (_menuController.isOpen && ((_valueItem != null && _textController.text != _valueItem!.label) || (_valueItem == null))) {
+      throttler.trigger();
+    }
+  }
+
+  void _onClear() {
     _textController.text = "";
+    _valueItem = null;
     _menuController.close();
     setValue(null);
   }
@@ -56,10 +96,28 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
   @override
   void initState() {
     super.initState();
-    // _focusNode.addListener(_focusNodeListener);
     if (_widget.model != null) {
-      setState(_widget.model);
+      _setSelectValue(getItem);
     }
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _rotateAnimation = Tween(begin: 0.0, end: -0.5).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    if (_widget.filterable) {
+      _textController.addListener(_onChangedText);
+      throttler.callback = _filter;
+    }
+    setState(() {
+      showOptions = _widget.options;
+    });
   }
 
   @override
@@ -74,22 +132,6 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
     return value;
   }
 
-  // _focusNodeListener() {
-  //   if (_focusNode.hasFocus) {
-  //     setState(() {
-  //       outLineBorder = SkyColors().primary;
-  //     });
-  //     _menuController.open();
-  //   } else {
-  //     Future.delayed(const Duration(milliseconds: 100)).then((e) {
-  //       setState(() {
-  //         outLineBorder = SkyColors().baseBorder;
-  //       });
-  //     });
-  //     _menuController.close();
-  //   }
-  // }
-
   _onTap() {
     if (_menuController.isOpen && _focusNode.hasFocus) {
       _menuController.close();
@@ -98,32 +140,75 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
     }
   }
 
-  Color? selectBgColor(T e) {
-    if (e == value) {
-      return SkyColors().primary.withOpacity(0.4);
+  Color? _selectTextColors(SkySelectOption<T> e) {
+    if (e.disabled) {
+      return SkyColors().placeholderText;
     }
-    return SkyColors().white;
+    if (e.value == value) {
+      return SkyColors().primary;
+    } else {
+      return SkyColors().primaryText;
+    }
   }
 
   List<Widget> _renderOptionItem(double optionWidth, double padding) {
-    return _widget.options
+    if (showOptions.isEmpty) {
+      return [
+        Container(
+          alignment: Alignment.center,
+          width: optionWidth - padding,
+          height: _widget.size.height,
+          child: Text(
+            "暂无数据",
+            style: TextStyle(
+              color: SkyColors().placeholderText,
+              fontSize: _widget.size.textSize,
+            ),
+          ),
+        )
+      ];
+    }
+    return showOptions
         .map(
           (e) => SkySelectItem(
             onTap: () {
-              setSelectValue(e as SkySelectOption<T>);
+              _setSelectValue(e);
             },
-            disabled: _widget.disabled,
+            disabled: e.disabled,
             label: e.label,
             width: optionWidth - padding,
-            selectColor: e.value == value ? SkyColors().primary : SkyColors().primaryText,
+            selectColor: _selectTextColors(e as SkySelectOption<T>),
+            height: _widget.size.height,
           ),
         )
         .toList();
   }
 
+  void _setPopupIsOpen(bool value) {
+    throttler.dispose();
+    if (value) {
+      _animationController.forward();
+      if (_widget.filterable) {
+        _textController.text = "";
+      }
+    } else {
+      _animationController.reverse();
+      if (_widget.filterable && _placeholder != null) {
+        _textController.text = _placeholder!;
+      } else {
+        _textController.text = "";
+      }
+      if (_widget.filterable) {
+        setState(() {
+          showOptions = _widget.options;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double padding = 10;
+    double padding = 0;
     return Container(
       height: super.size.height,
       decoration: BoxDecoration(
@@ -156,8 +241,11 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
             final optionWidth = constraints.maxWidth;
             return Row(
               children: [
+                Text("09809"),
                 Expanded(
                   child: MenuAnchor(
+                    onOpen: () => _setPopupIsOpen(true),
+                    onClose: () => _setPopupIsOpen(false),
                     controller: _menuController,
                     alignmentOffset: const Offset(0, 4),
                     style: MenuStyle(
@@ -168,7 +256,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
                       )),
                       backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
                       surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-                      padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 10, horizontal: padding)),
+                      padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20, horizontal: padding)),
                     ),
                     menuChildren: _renderOptionItem(optionWidth, padding * 2),
                     builder: (context, controller, child) {
@@ -176,16 +264,17 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
                         controller: _textController,
                         focusNode: _focusNode,
                         disabled: _widget.disabled,
-                        readOnly: true,
+                        readOnly: !_widget.filterable,
                         size: _widget.size,
                         onTap: _onTap,
+                        placeholder: _placeholder ?? _widget.placeholder,
                       );
                     },
                   ),
                 ),
                 if (_showCloseIcon)
                   GestureDetector(
-                    onTap: onClear,
+                    onTap: _onClear,
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Padding(
@@ -200,11 +289,37 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> {
                       ),
                     ),
                   ),
+                if (!_showCloseIcon)
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 4.scaleSpacing,
+                    ),
+                    child: RotationTransition(
+                      turns: _rotateAnimation,
+                      child: Icon(
+                        color: SkyColors().baseBorder,
+                        ElementIcons.arrowDown,
+                        size: super.size.iconSize,
+                      ),
+                    ),
+                  ),
               ],
             );
           },
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    if (_widget.filterable) {
+      _textController.removeListener(_onChangedText);
+    }
+    throttler.dispose();
+    _textController.dispose();
+    _focusNode.dispose();
+    _animationController.dispose();
+    super.dispose();
   }
 }

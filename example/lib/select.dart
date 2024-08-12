@@ -13,9 +13,11 @@ class _SelectTestState extends State<SelectTest> {
   Widget build(BuildContext context) {
     return SkySelect(
       clearable: true,
+      filterable: true,
       options: [
         SkySelectOption(label: "选项1", value: "1"),
         SkySelectOption(label: "选项2", value: "2"),
+        SkySelectOption(label: "选项3", value: "3", disabled: true),
       ],
     );
   }

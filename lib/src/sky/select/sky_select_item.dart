@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../styles/styles.dart';
+import 'package:sky_ui/sky_ui.dart';
 
 class SkySelectItem extends StatefulWidget {
   const SkySelectItem({
@@ -8,12 +7,14 @@ class SkySelectItem extends StatefulWidget {
     this.onTap,
     required this.label,
     required this.width,
+    required this.height,
     required this.selectColor,
-    required this.disabled,
+    this.disabled = false,
   });
   final Function()? onTap;
   final String label;
   final double width;
+  final double height;
   final Color? selectColor;
   final bool disabled;
   @override
@@ -23,8 +24,11 @@ class SkySelectItem extends StatefulWidget {
 class _SkySelectItemState extends State<SkySelectItem> {
   late bool onHover = false;
   Color? get onHoverColor {
+    if (widget.disabled) {
+      return SkyColors().white;
+    }
     if (onHover) {
-      return SkyColors().primary.withOpacity(0.4);
+      return SkyColors().defaultBg;
     }
     return SkyColors().white;
   }
@@ -32,7 +36,12 @@ class _SkySelectItemState extends State<SkySelectItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: () {
+        if (widget.disabled) {
+          return;
+        }
+        widget.onTap?.call();
+      },
       child: MouseRegion(
         cursor: widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         onEnter: (e) {
@@ -52,6 +61,9 @@ class _SkySelectItemState extends State<SkySelectItem> {
           });
         },
         child: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.symmetric(horizontal: 20.scaleSpacing, vertical: 0),
+          height: widget.height,
           decoration: BoxDecoration(
             color: onHoverColor,
           ),
