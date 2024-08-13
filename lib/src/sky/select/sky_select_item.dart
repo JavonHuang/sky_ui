@@ -8,15 +8,19 @@ class SkySelectItem extends StatefulWidget {
     required this.label,
     required this.width,
     required this.height,
+    required this.iconSize,
     required this.selectColor,
     this.disabled = false,
+    this.showIcon = false,
   });
   final Function()? onTap;
   final String label;
   final double width;
   final double height;
+  final double iconSize;
   final Color? selectColor;
   final bool disabled;
+  final bool showIcon;
   @override
   State<SkySelectItem> createState() => _SkySelectItemState();
 }
@@ -68,9 +72,20 @@ class _SkySelectItemState extends State<SkySelectItem> {
             color: onHoverColor,
           ),
           width: widget.width,
-          child: Text(
-            widget.label,
-            style: TextStyle(color: widget.selectColor),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.label,
+                  style: TextStyle(color: widget.selectColor),
+                ),
+              ),
+              Icon(
+                color: widget.showIcon ? SkyColors().primary : SkyColors().transparent,
+                ElementIcons.check,
+                size: widget.iconSize,
+              ),
+            ],
           ),
         ),
       ),

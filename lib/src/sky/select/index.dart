@@ -6,3 +6,4 @@ import 'sky_select_item.dart';
 
 part 'sky_select.dart';
 part 'sky_select_option.dart';
+part 'sky_select_tag.dart';

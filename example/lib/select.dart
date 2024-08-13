@@ -11,13 +11,31 @@ class SelectTest extends StatefulWidget {
 class _SelectTestState extends State<SelectTest> {
   @override
   Widget build(BuildContext context) {
-    return SkySelect(
-      clearable: true,
-      filterable: true,
-      options: [
-        SkySelectOption(label: "选项1", value: "1"),
-        SkySelectOption(label: "选项2", value: "2"),
-        SkySelectOption(label: "选项3", value: "3", disabled: true),
+    return Column(
+      children: [
+        SkySelect(
+          clearable: true,
+          filterable: true,
+          options: [
+            SkySelectOption(label: "选项1", value: "1"),
+            SkySelectOption(label: "选项2", value: "2"),
+            SkySelectOption(label: "选项3", value: "3", disabled: true),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SkySelect(
+          clearable: true,
+          filterable: true,
+          multiple: true,
+          collapseTags:true ,
+          options: [
+            SkySelectOption(label: "选项1", value: "1"),
+            SkySelectOption(label: "选项2", value: "2"),
+            SkySelectOption(label: "选项3", value: "3", disabled: true),
+          ],
+        )
       ],
     );
   }
