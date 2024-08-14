@@ -33,7 +33,6 @@ class SkySelect<T> extends SkyFormFieldBridge<SkySelect> {
 
 class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleTickerProviderStateMixin {
   late SkySelect<T> _widget = super.widget as SkySelect<T>;
-
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
@@ -316,6 +315,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
           _hasOpen = false;
         });
       }
+      _focusNode.unfocus();
     }
   }
 
@@ -358,6 +358,19 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
               controller: _menuController,
               alignmentOffset: const Offset(0, 4),
               style: MenuStyle(
+                minimumSize: WidgetStatePropertyAll(
+                  Size(
+                    optionWidth,
+                    40,
+                  ),
+                ),
+                maximumSize: WidgetStatePropertyAll(
+                  Size(
+                    optionWidth,
+                    200,
+                  ),
+                ),
+                visualDensity: VisualDensity.comfortable,
                 side: WidgetStatePropertyAll(BorderSide(
                   color: SkyColors().baseBorder,
                   width: 1,

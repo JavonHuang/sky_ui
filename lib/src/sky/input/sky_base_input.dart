@@ -38,6 +38,7 @@ class SkyBaseInput extends StatelessWidget {
         onChanged: onChanged,
         readOnly: disabled || readOnly,
         onTap: onTap,
+        cursorWidth: 1,
         style: TextStyle(
           fontSize: size.textSize,
         ),

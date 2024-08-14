@@ -62,6 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
     {'SwicthTest': const SwicthTest()},
     {'FlexLayoutTestRoute': const FlexLayoutTestRoute()},
     {'SelectTest': const SelectTest()},
+    {
+      'MyContextMenu': const MyContextMenu(
+        message: "0909",
+      ),
+    }
   ];
 
   Widget _renderTab() {
@@ -80,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.white,
         height: double.infinity,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               color: SkyColors().defaultBg,

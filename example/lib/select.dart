@@ -9,6 +9,17 @@ class SelectTest extends StatefulWidget {
 }
 
 class _SelectTestState extends State<SelectTest> {
+  late List<SkySelectOption<String>> options = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      options = List.generate(1, (i) => SkySelectOption(label: "选项$i", value: "1$i")).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,16 +36,48 @@ class _SelectTestState extends State<SelectTest> {
         const SizedBox(
           height: 10,
         ),
+        // SizedBox(height: 600),
         SkySelect(
           clearable: true,
           filterable: true,
           multiple: true,
-          collapseTags:true ,
-          options: [
-            SkySelectOption(label: "选项1", value: "1"),
-            SkySelectOption(label: "选项2", value: "2"),
-            SkySelectOption(label: "选项3", value: "3", disabled: true),
-          ],
+          collapseTags: true,
+          options: options,
+        ),
+        PopupMenuButton(
+          child: Text("8989"),
+          tooltip: "",
+          itemBuilder: (context) {
+            // return <PopupMenuItem<String>>[
+            return [
+              ///建议指定value属性
+              PopupMenuItem<String>(
+                value: 'one',
+                onTap: () => debugPrint('tap one'),
+                child: SizedBox(
+                  // height: 600,
+                  child: const Text('1'),
+                ),
+              ),
+              PopupMenuItem<String>(
+                value: 'two',
+                onTap: () => debugPrint('tap two'),
+                child: const Text('2'),
+              ),
+              PopupMenuItem<String>(
+                value: 'three',
+                onTap: () => debugPrint('tap three'),
+                child: const Text('3'),
+              ),
+
+              ///另外一种菜单项目，它可以被选择，通过checked控制，默认值为false,设置为true时显示对号；
+              const CheckedPopupMenuItem<String>(
+                value: 'four',
+                checked: true,
+                child: Text('4'),
+              ),
+            ];
+          },
         )
       ],
     );
