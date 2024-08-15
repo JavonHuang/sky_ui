@@ -7,7 +7,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
     this.disabled = false,
     this.clearable = false,
     this.placeholder,
-    this.collapseTags = false,
+    this.pickerOptions,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -17,8 +17,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
   final bool disabled;
   final bool clearable;
   final String? placeholder;
-  final bool collapseTags;
-
+  final SkyPickerPptions? pickerOptions;
   @override
   SkyFormFieldBridgeState<SkyTimePicker> createState() => _SkyTimePickerState();
 }
@@ -29,10 +28,8 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
   late dynamic value = null;
-  late dynamic showOptions = [];
+  late List<String> showOptions = [];
   late bool onHover = false;
-  late AnimationController _animationController;
-  late Animation<double> _rotateAnimation;
 
   late bool _hasOpen = false;
   bool get _textIsNotEmpty => value != null;
@@ -47,12 +44,6 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     return onHover && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
 
-  void _filter() {
-    showOptions = [];
-    setState(() {});
-    _menuController.open();
-  }
-
   void _onClear() {
     _textController.text = "";
     _menuController.close();
@@ -62,19 +53,9 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   @override
   void initState() {
     super.initState();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    _rotateAnimation = Tween(begin: 0.0, end: -0.5).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    setState(() {});
+    setState(() {
+      showOptions = SkyMoment().createTimePickerOption(_widget.pickerOptions ?? SkyPickerPptions());
+    });
   }
 
   @override
@@ -117,7 +98,8 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     return showOptions
         .map(
           (e) => Container(
-            child: Text("898"),
+            width: optionWidth - padding,
+            child: Text(e),
           ),
         )
         .toList();
@@ -125,12 +107,10 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
 
   void _setPopupIsOpen(bool value) {
     if (value) {
-      _animationController.forward();
       setState(() {
         _hasOpen = true;
       });
     } else {
-      _animationController.reverse();
       _textController.text = "";
       _focusNode.unfocus();
     }
@@ -201,6 +181,14 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
               builder: (context, controller, child) {
                 return Row(
                   children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 4.scaleSpacing),
+                      child: Icon(
+                        color: SkyColors().baseBorder,
+                        ElementIcons.time,
+                        size: super.size.iconSize,
+                      ),
+                    ),
                     Expanded(
                         child: SkyBaseInput(
                       controller: _textController,
@@ -227,20 +215,6 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
                           ),
                         ),
                       ),
-                    if (!_showCloseIcon)
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 4.scaleSpacing,
-                        ),
-                        child: RotationTransition(
-                          turns: _rotateAnimation,
-                          child: Icon(
-                            color: SkyColors().baseBorder,
-                            ElementIcons.arrowDown,
-                            size: super.size.iconSize,
-                          ),
-                        ),
-                      ),
                   ],
                 );
               },
@@ -255,7 +229,6 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   void dispose() {
     _textController.dispose();
     _focusNode.dispose();
-    _animationController.dispose();
     super.dispose();
   }
 }

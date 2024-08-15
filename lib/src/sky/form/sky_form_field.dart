@@ -91,7 +91,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skySelect:
         break;
-
+      case SkyFormType.skyTimePicker:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -139,7 +140,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skySelect:
         break;
-
+      case SkyFormType.skyTimePicker:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -185,7 +187,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skySelect:
         break;
-
+      case SkyFormType.skyTimePicker:
+        break;
       case null:
       // TODO: Handle this case.
     }
@@ -243,7 +246,8 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skySelect:
         break;
-
+      case SkyFormType.skyTimePicker:
+        break;
       case null:
       // TODO: Handle this case.
     }
