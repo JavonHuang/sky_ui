@@ -73,15 +73,19 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTapDown: (e) {
         if (widget.disabled) {
           return;
         }
         setState(() {
           active = true;
         });
-        callBack(super.widget);
-        widget.onTap?.call();
+      },
+      onTapUp: (e) {
+        if (active) {
+          callBack(super.widget);
+          widget.onTap?.call();
+        }
         Future.delayed(const Duration(milliseconds: 50)).then((e) {
           setState(() {
             active = false;
@@ -104,6 +108,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
           }
           setState(() {
             onHover = false;
+            active = false;
           });
         },
         child: UnconstrainedBox(

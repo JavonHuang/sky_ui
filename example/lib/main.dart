@@ -17,6 +17,7 @@ import 'input.dart';
 import 'link.dart';
 import 'select.dart';
 import 'table.dart';
+import 'timepicker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -66,7 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'MyContextMenu': const MyContextMenu(
         message: "0909",
       ),
-    }
+    },
+    {'TimePickTest': const TimePickTest()}
   ];
 
   Widget _renderTab() {

@@ -16,9 +16,11 @@ class _SelectTestState extends State<SelectTest> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      options = List.generate(1, (i) => SkySelectOption(label: "选项$i", value: "1$i")).toList();
+      options = List.generate(100, (i) => SkySelectOption(label: "选项$i", value: "1$i")).toList();
     });
   }
+
+  final List<String> data = ['语文', '数学', '英语', '物理', '化学', '生物', '地理'];
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,19 @@ class _SelectTestState extends State<SelectTest> {
           multiple: true,
           collapseTags: true,
           options: options,
+        ),
+        DropdownMenu(
+          requestFocusOnTap: true,
+          label: const Text('Color'),
+          menuHeight: 150,
+          menuStyle: const MenuStyle(
+            backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
+            surfaceTintColor: MaterialStatePropertyAll<Color>(Colors.white),
+            padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20)),
+          ),
+          dropdownMenuEntries: options.map((value) {
+            return DropdownMenuEntry<String>(value: value.value, label: value.label);
+          }).toList(),
         ),
         PopupMenuButton(
           child: Text("8989"),
