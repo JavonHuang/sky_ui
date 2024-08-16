@@ -13,7 +13,15 @@ class _TimePickTestState extends State<TimePickTest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SkyTimePicker(),
+        SkyTimePicker(
+          arrowControl: true,
+          pickerOptions: SkyPickerPptions(
+            start: "09:10:30",
+            step: "00:10:20",
+            end: "12:01:50",
+            maxTime: "10:20:54",
+          ),
+        ),
       ],
     );
   }

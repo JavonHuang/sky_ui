@@ -30,6 +30,21 @@ class SkyMoment {
     return DateTime.now().second;
   }
 
+  static getFormat(String? str) {
+    String format = "HH:mm";
+    if (str == null) {
+      return format = "HH:mm";
+    } else {
+      List<int> arr = str.split(":").map((e) => int.parse(e)).cast<int>().toList();
+      if (arr.length == 2) {
+        format = "HH:mm";
+      } else if (arr.length == 3) {
+        format = "HH:mm:ss";
+      }
+    }
+    return format;
+  }
+
   static DateTime createTimeByTimePicker(String? str, bool end) {
     if (str == null) {
       if (end) {
@@ -54,17 +69,29 @@ class SkyMoment {
   }
 
   List<String> createTimePickerOption(SkyPickerPptions config) {
+    String format = getFormat(config.start);
     List<String> result = [];
-    DateTime ziroTime = createTimeByTimePicker(null, false);
+    DateTime zeroTime = createTimeByTimePicker(null, false);
     DateTime stepTime = createTimeByTimePicker(config.step, false);
 
     DateTime startTime = createTimeByTimePicker(config.start, false);
     DateTime endTime = createTimeByTimePicker(config.end, true);
     while (startTime.isBefore(endTime)) {
-      result.add(DateFormat("HH:mm").format(startTime));
-      startTime = startTime.add(stepTime.difference(ziroTime));
+      result.add(DateFormat(format).format(startTime));
+      startTime = startTime.add(stepTime.difference(zeroTime));
+    }
+    if (!endTime.isAtSameMomentAs(startTime)) {
+      result.add(DateFormat(format).format(endTime));
     }
 
     return result;
+  }
+
+  bool compareTimePickerOption(String? minTimeStr, String? maxTimeStr, String value) {
+    DateTime minTime = createTimeByTimePicker(minTimeStr, false);
+    DateTime maxTime = createTimeByTimePicker(maxTimeStr, true);
+    DateTime valueTime = createTimeByTimePicker(value, true);
+
+    return !valueTime.isBefore(minTime) && !valueTime.isAfter(maxTime);
   }
 }

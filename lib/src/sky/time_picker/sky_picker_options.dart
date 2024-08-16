@@ -9,7 +9,7 @@ class SkyPickerPptions {
     this.minTime,
     this.maxTime,
   }) {
-    step = "00:30";
+    step = step ?? "00:30";
   }
   final Key? key;
   final String? start;

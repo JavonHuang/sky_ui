@@ -8,6 +8,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
     this.clearable = false,
     this.placeholder,
     this.pickerOptions,
+    this.arrowControl = false,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -18,6 +19,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
   final bool clearable;
   final String? placeholder;
   final SkyPickerPptions? pickerOptions;
+  final bool arrowControl;
   @override
   SkyFormFieldBridgeState<SkyTimePicker> createState() => _SkyTimePickerState();
 }
@@ -70,6 +72,13 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     return value;
   }
 
+  void _setSelectValue(String e) {
+    _textController.text = e;
+    value = e;
+    setValue(e);
+    _menuController.close();
+  }
+
   _onTap() {
     if (_menuController.isOpen && _focusNode.hasFocus) {
       _menuController.close();
@@ -78,7 +87,32 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     }
   }
 
+  Color? _selectTextColors(String e) {
+    if (e == value) {
+      return SkyColors().primary;
+    } else {
+      return SkyColors().primaryText;
+    }
+  }
+
+  bool _selectShowIcon(String e) {
+    if (e == value) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   List<Widget> _renderOptionItem(double optionWidth, double padding) {
+    if (_widget.arrowControl) {
+      return [
+        SkyTimePickerControlItem(
+          width: optionWidth - padding,
+          height: _widget.size.height,
+          pickerOptions: _widget.pickerOptions,
+        ),
+      ];
+    }
     if (showOptions.isEmpty) {
       return [
         Container(
@@ -97,9 +131,17 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     }
     return showOptions
         .map(
-          (e) => Container(
+          (e) => SkyTimePickerItem(
+            onTap: () {
+              _setSelectValue(e);
+            },
+            disabled: !SkyMoment().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, e),
+            label: e,
             width: optionWidth - padding,
-            child: Text(e),
+            selectColor: _selectTextColors(e),
+            height: _widget.size.height,
+            showIcon: _selectShowIcon(e),
+            iconSize: _widget.size.iconSize,
           ),
         )
         .toList();
@@ -111,7 +153,6 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
         _hasOpen = true;
       });
     } else {
-      _textController.text = "";
       _focusNode.unfocus();
     }
   }
@@ -158,7 +199,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
                 minimumSize: WidgetStatePropertyAll(
                   Size(
                     optionWidth,
-                    40,
+                    _widget.arrowControl ? _widget.size.height * 5 : 40,
                   ),
                 ),
                 maximumSize: WidgetStatePropertyAll(
@@ -175,7 +216,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
                 )),
                 backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
                 surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-                padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20, horizontal: padding)),
+                padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 0, horizontal: padding)),
               ),
               menuChildren: _renderOptionItem(optionWidth, padding * 2),
               builder: (context, controller, child) {
@@ -190,14 +231,15 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
                       ),
                     ),
                     Expanded(
-                        child: SkyBaseInput(
-                      controller: _textController,
-                      focusNode: _focusNode,
-                      disabled: _widget.disabled,
-                      readOnly: false,
-                      size: _widget.size,
-                      onTap: _onTap,
-                    )),
+                      child: SkyBaseInput(
+                        controller: _textController,
+                        focusNode: _focusNode,
+                        disabled: _widget.disabled,
+                        readOnly: false,
+                        size: _widget.size,
+                        onTap: _onTap,
+                      ),
+                    ),
                     if (_showCloseIcon)
                       GestureDetector(
                         onTap: _onClear,
