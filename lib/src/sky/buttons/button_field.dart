@@ -15,6 +15,7 @@ class ButtonField<T> extends StatefulWidget {
     this.rightIcon,
     this.onTap,
     this.buttonKey,
+    this.customTextColor,
 
     // required this.builder,
   });
@@ -33,11 +34,13 @@ class ButtonField<T> extends StatefulWidget {
   final IconData? rightIcon;
   final Function()? onTap;
   final String? buttonKey;
+  final Color? customTextColor;
   @override
   ButtonFieldState<T> createState() => ButtonFieldState<T>();
 }
 
 class ButtonFieldState<T> extends State<ButtonField<T>> {
+  late Throttler throttler = Throttler(const Duration(milliseconds: 50));
   late bool onHover = false;
   late bool active = false;
 
@@ -66,6 +69,16 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
     }
   }
 
+  @override
+  void initState() {
+    throttler.callback = () {
+      setState(() {
+        active = false;
+      });
+    };
+    super.initState();
+  }
+
   void callBack(ButtonField<T> b) {
     ButtonGroup.maybeOf(context)?.callBack(b);
   }
@@ -86,11 +99,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
           callBack(super.widget);
           widget.onTap?.call();
         }
-        Future.delayed(const Duration(milliseconds: 50)).then((e) {
-          setState(() {
-            active = false;
-          });
-        });
+        throttler.trigger();
       },
       child: MouseRegion(
         cursor: widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
@@ -182,6 +191,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                               active: active,
                               disabled: widget.disabled,
                               loading: widget.loading,
+                              customizeColor: widget.customTextColor,
                             ),
                           ),
                         ),
@@ -206,6 +216,12 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    throttler.dispose();
+    super.dispose();
   }
 }
 

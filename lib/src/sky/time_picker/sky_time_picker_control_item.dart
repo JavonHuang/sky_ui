@@ -1,144 +1,193 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
+import '../common/sky_hover.dart';
+import 'sky_time_picker_utils.dart';
+
 class SkyTimePickerControlItem extends StatefulWidget {
   const SkyTimePickerControlItem({
     super.key,
     this.onTap,
+    this.onchanged,
+    this.confirm,
+    this.cancel,
+    required this.size,
     required this.width,
-    required this.height,
     required this.pickerOptions,
+    required this.model,
   });
   final Function()? onTap;
   final double width;
-  final double height;
   final SkyPickerPptions? pickerOptions;
+  final SkySize size;
+  final Function(String e)? onchanged;
+  final Function(String e)? confirm;
+  final Function()? cancel;
+  final String model;
 
   @override
   State<SkyTimePickerControlItem> createState() => _SkyTimePickerControlItemState();
 }
 
 class _SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
-  late bool onHover = false;
-  Color? get onHoverColor {
-    // if (widget.disabled) {
-    //   return SkyColors().white;
-    // }
-    if (onHover) {
-      return SkyColors().defaultBg;
+  FixedExtentScrollController hourScrollController = FixedExtentScrollController(initialItem: 0);
+  FixedExtentScrollController minitScrollController = FixedExtentScrollController(initialItem: 0);
+  FixedExtentScrollController secendScrollController = FixedExtentScrollController(initialItem: 0);
+  String? hour = "00";
+  String? minit = "00";
+  String? secend = "00";
+
+  String get value =>
+      "${'${hourScrollController.selectedItem}'.padLeft(2, '0')}:${'${minitScrollController.selectedItem}'.padLeft(2, '0')}:${'${secendScrollController.selectedItem}'.padLeft(2, '0')}";
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((e) {
+      setValue(widget.model);
+    });
+  }
+
+  void _onchanged() {
+    widget.onchanged?.call(value);
+  }
+
+  void setValue(String e) {
+    List<int> list = SkyTimePickerUtils().getStrToList(e);
+    if (list.length == 2) {
+      hourScrollController.jumpToItem(list[0]);
+      minitScrollController.jumpToItem(list[1]);
+      return;
     }
-    return SkyColors().white;
+    if (list.length == 3) {
+      hourScrollController.jumpToItem(list[0]);
+      minitScrollController.jumpToItem(list[1]);
+      secendScrollController.jumpToItem(list[2]);
+      return;
+    }
+    hourScrollController.jumpToItem(3);
+    minitScrollController.jumpToItem(3);
+    secendScrollController.jumpToItem(3);
+  }
+
+  bool checkRange(String value, String type) {
+    if (type == "hour") {
+      int minHour = SkyTimePickerUtils().getStrToList(widget.pickerOptions!.minTime)[0];
+      int maxHour = SkyTimePickerUtils().getStrToList(widget.pickerOptions!.maxTime)[0];
+      return !(int.parse(value) >= minHour && int.parse(value) <= maxHour);
+    }
+    if (type == "minit") {
+      String str = "$hour:$value:59";
+      return !SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, str);
+    }
+    if (type == "secend") {
+      String str = "$hour:$minit:$value";
+      return !SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, str);
+    }
+    return true;
+  }
+
+  Widget renderSelector(FixedExtentScrollController controller, int count, String type) {
+    double magnification = 1.1; // 放大倍数
+    bool useMagnifier = false; // 启用放大镜效果
+    double itemExtent = widget.size.height; // 每个项目的高度
+    double perspective = 0.0000000001; //属性表示圆柱投影透视图，值越大，渲染效果越圆
+    double offAxisFraction = 0; //属性表示车轮水平偏离中心的程度，左右距离
+    double overAndUnderCenterOpacity = 0.8;
+    double squeeze = 1;
+    return Expanded(
+      child: ListWheelScrollView(
+        perspective: perspective,
+        offAxisFraction: offAxisFraction,
+        controller: controller,
+        useMagnifier: useMagnifier,
+        magnification: magnification,
+        itemExtent: itemExtent,
+        squeeze: squeeze,
+        overAndUnderCenterOpacity: overAndUnderCenterOpacity,
+        onSelectedItemChanged: (e) {
+          _onchanged();
+          if (type == "hour") {
+            setState(() {
+              hour = '$e'.padLeft(2, '0');
+            });
+          }
+          if (type == "minit") {
+            setState(() {
+              minit = '$e'.padLeft(2, '0');
+            });
+          }
+          if (type == "secend") {
+            setState(() {
+              secend = '$e'.padLeft(2, '0');
+            });
+          }
+        },
+        children: List.generate(count, (e) => e).map((i) {
+          String str = '$i'.padLeft(2, '0');
+          bool disabled = checkRange(str, type);
+          return SkyHover(
+            disabled: disabled,
+            onTap: () {
+              controller.jumpToItem(i);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                str,
+                style: TextStyle(
+                  fontSize: widget.size.textSize,
+                  color: disabled ? SkyColors().placeholderText : SkyColors().primaryText,
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // if (widget.disabled) {
-        //   return;
-        // }
-        widget.onTap?.call();
-      },
-      child: MouseRegion(
-        // cursor: widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-        onEnter: (e) {
-          // if (widget.disabled) {
-          //   return;
-          // }
-          setState(() {
-            onHover = true;
-          });
-        },
-        onExit: (e) {
-          // if (widget.disabled) {
-          //   return;
-          // }
-          setState(() {
-            onHover = false;
-          });
-        },
-        child: Container(
-          alignment: Alignment.centerLeft,
-          // padding: EdgeInsets.symmetric(horizontal: 20.scaleSpacing, vertical: 0),
-          height: widget.height * 5,
-          // decoration: BoxDecoration(
-          //   color: onHoverColor,
-          // ),
-          width: widget.width,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: SkyColors().defaultBg,
-                    ),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    height: widget.height,
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: SkyColors().defaultBg,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 23,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (ctx, index) {
-                        return UnconstrainedBox(
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: widget.height,
-                            child: Text((index + 1).toString()),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 59,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (ctx, index) {
-                        return UnconstrainedBox(
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: widget.height,
-                            child: Text((index).toString()),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: 59,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (ctx, index) {
-                          return UnconstrainedBox(
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: widget.height,
-                              child: Text((index).toString()),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
-              ),
-            ],
+    return Container(
+      alignment: Alignment.centerLeft,
+      height: widget.size.height * 6,
+      width: widget.width,
+      child: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                renderSelector(hourScrollController, 24, "hour"),
+                renderSelector(minitScrollController, 60, "minit"),
+                renderSelector(secendScrollController, 60, 'secend'),
+              ],
+            ),
           ),
-        ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SkyButton(
+                type: SkyType.text,
+                text: "取消",
+                customTextColor: SkyColors().primaryText,
+                onTap: () {
+                  widget.cancel?.call();
+                },
+              ),
+              SkyButton(
+                type: SkyType.text,
+                text: "确定",
+                onTap: () {
+                  if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
+                    widget.confirm?.call(value);
+                  }
+                },
+              )
+            ],
+          )
+        ],
       ),
     );
   }

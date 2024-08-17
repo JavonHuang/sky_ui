@@ -9,6 +9,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
     this.placeholder,
     this.pickerOptions,
     this.arrowControl = false,
+    this.model,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -20,6 +21,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
   final String? placeholder;
   final SkyPickerPptions? pickerOptions;
   final bool arrowControl;
+  final int? model;
   @override
   SkyFormFieldBridgeState<SkyTimePicker> createState() => _SkyTimePickerState();
 }
@@ -29,21 +31,17 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
+
+  late GlobalKey<SkyInputOutLineHoverState> hoverKey = GlobalKey<SkyInputOutLineHoverState>();
+
   late dynamic value = null;
   late List<String> showOptions = [];
-  late bool onHover = false;
 
   late bool _hasOpen = false;
   bool get _textIsNotEmpty => value != null;
-  Color get outLineBorder {
-    if (_hasOpen) {
-      return SkyColors().primary;
-    }
-    return onHover ? SkyColors().placeholderText : SkyColors().baseBorder;
-  }
 
   bool get _showCloseIcon {
-    return onHover && _widget.clearable && _textIsNotEmpty && !super.disabled;
+    return hoverKey.currentState!.onHover && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
 
   void _onClear() {
@@ -56,7 +54,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   void initState() {
     super.initState();
     setState(() {
-      showOptions = SkyMoment().createTimePickerOption(_widget.pickerOptions ?? SkyPickerPptions());
+      showOptions = SkyTimePickerUtils().createTimePickerOption(_widget.pickerOptions ?? SkyPickerPptions());
     });
   }
 
@@ -107,9 +105,13 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     if (_widget.arrowControl) {
       return [
         SkyTimePickerControlItem(
+          model: value ?? "",
+          size: _widget.size,
           width: optionWidth - padding,
-          height: _widget.size.height,
           pickerOptions: _widget.pickerOptions,
+          confirm: (e) {
+            _setSelectValue(e);
+          },
         ),
       ];
     }
@@ -135,7 +137,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
             onTap: () {
               _setSelectValue(e);
             },
-            disabled: !SkyMoment().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, e),
+            disabled: !SkyTimePickerUtils().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, e),
             label: e,
             width: optionWidth - padding,
             selectColor: _selectTextColors(e),
@@ -147,12 +149,15 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
         .toList();
   }
 
-  void _setPopupIsOpen(bool value) {
-    if (value) {
+  void _setPopupIsOpen(bool e) {
+    if (e) {
       setState(() {
         _hasOpen = true;
       });
     } else {
+      setState(() {
+        _hasOpen = false;
+      });
       _focusNode.unfocus();
     }
   }
@@ -160,109 +165,88 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   @override
   Widget build(BuildContext context) {
     double padding = 0;
-    return Container(
-      height: super.size.height,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: outLineBorder,
-        ),
-        borderRadius: SkyBorderRadius().normalBorderRadius,
-      ),
-      child: MouseRegion(
-        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-        onEnter: (e) {
-          if (_widget.disabled) {
-            return;
-          }
-          setState(() {
-            onHover = true;
-          });
-        },
-        onExit: (e) {
-          if (_widget.disabled) {
-            return;
-          }
-          setState(() {
-            onHover = false;
-          });
-        },
-        child: LayoutBuilder(
-          builder: (_, constraints) {
-            final optionWidth = constraints.maxWidth;
-            return MenuAnchor(
-              onOpen: () => _setPopupIsOpen(true),
-              onClose: () => _setPopupIsOpen(false),
-              controller: _menuController,
-              alignmentOffset: const Offset(0, 4),
-              style: MenuStyle(
-                minimumSize: WidgetStatePropertyAll(
-                  Size(
-                    optionWidth,
-                    _widget.arrowControl ? _widget.size.height * 5 : 40,
-                  ),
+    return SkyInputOutLineHover(
+      key: hoverKey,
+      size: super.size,
+      disabled: super.disabled,
+      highlightBuilder: () {
+        return _hasOpen;
+      },
+      child: LayoutBuilder(
+        builder: (_, constraints) {
+          final optionWidth = constraints.maxWidth;
+          return MenuAnchor(
+            onOpen: () => _setPopupIsOpen(true),
+            onClose: () => _setPopupIsOpen(false),
+            controller: _menuController,
+            alignmentOffset: const Offset(0, 4),
+            style: MenuStyle(
+              minimumSize: WidgetStatePropertyAll(
+                Size(
+                  optionWidth,
+                  40,
                 ),
-                maximumSize: WidgetStatePropertyAll(
-                  Size(
-                    optionWidth,
-                    200,
-                  ),
-                ),
-                visualDensity: VisualDensity.comfortable,
-                side: WidgetStatePropertyAll(BorderSide(
-                  color: SkyColors().baseBorder,
-                  width: 1,
-                  style: BorderStyle.solid,
-                )),
-                backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-                surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-                padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 0, horizontal: padding)),
               ),
-              menuChildren: _renderOptionItem(optionWidth, padding * 2),
-              builder: (context, controller, child) {
-                return Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 4.scaleSpacing),
-                      child: Icon(
-                        color: SkyColors().baseBorder,
-                        ElementIcons.time,
-                        size: super.size.iconSize,
-                      ),
+              maximumSize: WidgetStatePropertyAll(
+                Size(
+                  optionWidth,
+                  200,
+                ),
+              ),
+              visualDensity: VisualDensity.comfortable,
+              side: WidgetStatePropertyAll(BorderSide(
+                color: SkyColors().baseBorder,
+                width: 1,
+                style: BorderStyle.solid,
+              )),
+              backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
+              surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
+              padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 0, horizontal: padding)),
+            ),
+            menuChildren: _renderOptionItem(optionWidth, padding * 2),
+            builder: (context, controller, child) {
+              return Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 4.scaleSpacing),
+                    child: Icon(
+                      color: SkyColors().baseBorder,
+                      ElementIcons.time,
+                      size: super.size.iconSize,
                     ),
-                    Expanded(
-                      child: SkyBaseInput(
-                        controller: _textController,
-                        focusNode: _focusNode,
-                        disabled: _widget.disabled,
-                        readOnly: false,
-                        size: _widget.size,
-                        onTap: _onTap,
-                      ),
+                  ),
+                  Expanded(
+                    child: SkyBaseInput(
+                      controller: _textController,
+                      focusNode: _focusNode,
+                      disabled: _widget.disabled,
+                      readOnly: false,
+                      size: _widget.size,
+                      onTap: _onTap,
                     ),
-                    if (_showCloseIcon)
-                      GestureDetector(
-                        onTap: _onClear,
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 4.scaleSpacing,
-                            ),
-                            child: Icon(
-                              color: SkyColors().baseBorder,
-                              ElementIcons.circleClose,
-                              size: super.size.iconSize,
-                            ),
+                  ),
+                  if (_showCloseIcon)
+                    GestureDetector(
+                      onTap: _onClear,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.scaleSpacing,
+                          ),
+                          child: Icon(
+                            color: SkyColors().baseBorder,
+                            ElementIcons.circleClose,
+                            size: super.size.iconSize,
                           ),
                         ),
                       ),
-                  ],
-                );
-              },
-            );
-          },
-        ),
+                    ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

@@ -12,9 +12,6 @@ extension SkyButtonType on SkyType {
     required bool active,
     required bool onHover,
   }) {
-    if (customizeColor != null) {
-      return (disabled || loading) ? customizeColor.withOpacity(0.6) : customizeColor;
-    }
     late Color? textColor;
     switch (this) {
       case SkyType.normal:
@@ -40,13 +37,15 @@ extension SkyButtonType on SkyType {
         textColor = plain ? SkyColors().primary : SkyColors().primary;
         break;
     }
+    if (customizeColor != null) {
+      textColor = customizeColor;
+    }
     if (active || onHover) {
-      textColor = SkyColors().white;
       if (this == SkyType.normal) {
         textColor = SkyColors().primary;
       }
       if (this == SkyType.text) {
-        textColor = SkyColors().primary.withOpacity(0.6);
+        textColor = (customizeColor ?? SkyColors().primary).withOpacity(0.6);
       }
     }
     return (disabled || loading) ? textColor.withOpacity(0.6) : textColor;
@@ -61,7 +60,7 @@ extension SkyButtonType on SkyType {
     required bool onHover,
   }) {
     if (customizeColor != null) {
-      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
+      return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor.withOpacity(0.8);
     }
     late Color? borderColor;
     switch (this) {
@@ -141,7 +140,7 @@ extension SkyButtonType on SkyType {
     if (onHover || chosenButton) {
       backgroundColor = backgroundColor.withOpacity(0.8);
     }
-    if (active) {
+    if (active && this != SkyType.text) {
       backgroundColor = darkenColor(backgroundColor.withOpacity(1));
     }
     if (plain) {

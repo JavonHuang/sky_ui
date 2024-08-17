@@ -15,6 +15,7 @@ class SkyButton extends ButtonField<SkyButton> {
     super.rightIcon,
     super.onTap,
     super.buttonKey,
+    super.customTextColor,
   });
   @override
   ButtonFieldState<SkyButton> createState() => _SkyButtonState();
