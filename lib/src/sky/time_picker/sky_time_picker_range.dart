@@ -19,7 +19,7 @@ class SkyTimePickerRange extends SkyFormFieldBridge<SkyTimePickerRange> {
   final bool disabled;
   final bool clearable;
   final String? placeholder;
-  final int? model;
+  final List<int>? model;
   final bool editable;
   final SkyPickerPptions? pickerOptions;
 
@@ -180,14 +180,22 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
             text: "确定",
             onTap: () {
               confirm();
-              // if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
-              //   widget.confirm?.call(value);
-              // }
             },
           )
         ],
       )
     ];
+  }
+
+  void initModel() {
+    if (_widget.model != null) {
+      setSelectValue([
+        SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model![0], _widget.pickerOptions!.minTime ?? _widget.pickerOptions!.maxTime),
+        SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model![1], _widget.pickerOptions!.minTime ?? _widget.pickerOptions!.maxTime),
+      ]);
+    } else {
+      setSelectValue([]);
+    }
   }
 
   @override
@@ -200,6 +208,20 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
   @override
   dynamic getValue() {
     return value;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initModel();
+  }
+
+  @override
+  void didUpdateWidget(SkyTimePickerRange oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.model != _widget.model && mounted) {
+      initModel();
+    }
   }
 
   @override

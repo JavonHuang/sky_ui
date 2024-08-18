@@ -76,7 +76,8 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
 
   void initModel() {
     if (_widget.model != null) {
-      _setSelectValue(SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model!, _widget.pickerOptions!.start ?? _widget.pickerOptions!.end ?? _widget.pickerOptions!.step));
+      _setSelectValue(SkyTimePickerUtils().microsecondsSinceEpochToString(
+          _widget.model!, _widget.pickerOptions!.start ?? _widget.pickerOptions!.end ?? _widget.pickerOptions!.step ?? _widget.pickerOptions!.minTime ?? _widget.pickerOptions!.maxTime));
     } else {
       _setSelectValue("");
     }

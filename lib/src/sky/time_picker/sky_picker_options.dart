@@ -9,11 +9,11 @@ class SkyPickerPptions {
     this.minTime,
     this.maxTime,
   }) {
-    start = start ?? "00:00";
-    end = end ?? "23:59";
-    step = step ?? "00:30";
-    minTime = minTime ?? "00:00";
-    maxTime = maxTime ?? "23:59";
+    start = start ?? "00:00:00";
+    end = end ?? "23:59:59";
+    step = step ?? "00:30:00";
+    minTime = minTime ?? "00:00:00";
+    maxTime = maxTime ?? "23:59:59";
   }
   final Key? key;
   String? start;
@@ -21,4 +21,8 @@ class SkyPickerPptions {
   String? step;
   String? minTime;
   String? maxTime;
+
+  String _getFomart() {
+    return "";
+  }
 }
