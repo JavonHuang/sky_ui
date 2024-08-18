@@ -9,11 +9,13 @@ class SkyHover extends StatefulWidget {
     this.child,
     required this.disabled,
     this.onTap,
+    this.onchanged,
   });
   final bool disabled;
   final Widget? Function(BuildContext context)? builder;
   final Widget? child;
   final Function()? onTap;
+  final Function(bool e)? onchanged;
 
   @override
   State<SkyHover> createState() => _SkyHoverState();
@@ -31,6 +33,13 @@ class _SkyHoverState extends State<SkyHover> {
     return SkyColors().white;
   }
 
+  void _setValue(bool e) {
+    setState(() {
+      onHover = e;
+    });
+    widget.onchanged?.call(e);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -46,17 +55,15 @@ class _SkyHoverState extends State<SkyHover> {
           if (widget.disabled) {
             return;
           }
-          setState(() {
-            onHover = true;
-          });
+
+          _setValue(true);
         },
         onExit: (e) {
           if (widget.disabled) {
             return;
           }
-          setState(() {
-            onHover = false;
-          });
+
+          _setValue(false);
         },
         child: Container(
           alignment: Alignment.centerLeft,

@@ -4,6 +4,12 @@ import 'package:sky_ui/sky_ui.dart';
 class SkyTimePickerUtils extends SkyMoment {
   SkyTimePickerUtils();
 
+  String microsecondsSinceEpochToString(int timestamp, String? str) {
+    final date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    final formatter = DateFormat(getFormat(str));
+    return formatter.format(date);
+  }
+
   List<int> getStrToList(String? str) {
     if (str == null || str.isEmpty) {
       return [];

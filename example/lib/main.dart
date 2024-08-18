@@ -6,7 +6,6 @@ import 'package:example/tag.dart';
 import 'package:example/tes.dart';
 import 'package:example/test2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'badge.dart';
@@ -18,6 +17,7 @@ import 'link.dart';
 import 'select.dart';
 import 'table.dart';
 import 'timepicker.dart';
+import 'timepicker_range.dart';
 
 void main() {
   runApp(const MyApp());
@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
         message: "0909",
       ),
     },
-    {'TimePickTest': const TimePickTest()}
+    {'TimePickTest': const TimePickTest()},
+    {'TimePickRangeTest': const TimePickRangeTest()}
   ];
 
   Widget _renderTab() {

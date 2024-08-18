@@ -12,6 +12,7 @@ class SkyInputOutLineHover extends StatefulWidget {
     this.onTap,
     this.size = SkySize.small,
     this.highlightBuilder,
+    this.onchanged,
   });
   final bool disabled;
   final Widget? Function(BuildContext context)? builder;
@@ -19,11 +20,13 @@ class SkyInputOutLineHover extends StatefulWidget {
   final Function()? onTap;
   final SkySize size;
   final bool Function()? highlightBuilder;
+  final Function(bool e)? onchanged;
+
   @override
-  State<SkyInputOutLineHover> createState() => SkyInputOutLineHoverState();
+  State<SkyInputOutLineHover> createState() => _SkyInputOutLineHoverState();
 }
 
-class SkyInputOutLineHoverState extends State<SkyInputOutLineHover> {
+class _SkyInputOutLineHoverState extends State<SkyInputOutLineHover> {
   late bool onHover = false;
   Color? get onHoverColor {
     if (widget.disabled) {
@@ -40,6 +43,13 @@ class SkyInputOutLineHoverState extends State<SkyInputOutLineHover> {
       return SkyColors().primary;
     }
     return onHover ? SkyColors().placeholderText : SkyColors().baseBorder;
+  }
+
+  void _setValue(bool e) {
+    setState(() {
+      onHover = e;
+    });
+    widget.onchanged?.call(e);
   }
 
   @override
@@ -59,17 +69,13 @@ class SkyInputOutLineHoverState extends State<SkyInputOutLineHover> {
           if (widget.disabled) {
             return;
           }
-          setState(() {
-            onHover = true;
-          });
+          _setValue(true);
         },
         onExit: (e) {
           if (widget.disabled) {
             return;
           }
-          setState(() {
-            onHover = false;
-          });
+          _setValue(false);
         },
         child: widget.child ?? widget.builder?.call(context),
       ),

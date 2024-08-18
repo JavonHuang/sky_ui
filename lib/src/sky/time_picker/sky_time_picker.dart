@@ -10,6 +10,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
     this.pickerOptions,
     this.arrowControl = false,
     this.model,
+    this.editable = false,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -22,6 +23,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
   final SkyPickerPptions? pickerOptions;
   final bool arrowControl;
   final int? model;
+  final bool editable;
   @override
   SkyFormFieldBridgeState<SkyTimePicker> createState() => _SkyTimePickerState();
 }
@@ -29,30 +31,24 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
 class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with SingleTickerProviderStateMixin {
   late SkyTimePicker _widget = super.widget as SkyTimePicker;
   TextEditingController _textController = TextEditingController();
+  late GlobalKey<SkyTimePickerControlItemState> picker = GlobalKey<SkyTimePickerControlItemState>();
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
 
-  late GlobalKey<SkyInputOutLineHoverState> hoverKey = GlobalKey<SkyInputOutLineHoverState>();
-
   late dynamic value = null;
   late List<String> showOptions = [];
-
+  late bool onHover = false;
   late bool _hasOpen = false;
   bool get _textIsNotEmpty => value != null;
 
   bool get _showCloseIcon {
-    return hoverKey.currentState!.onHover && _widget.clearable && _textIsNotEmpty && !super.disabled;
-  }
-
-  void _onClear() {
-    _textController.text = "";
-    _menuController.close();
-    setValue(null);
+    return onHover && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
 
   @override
   void initState() {
     super.initState();
+    initModel();
     setState(() {
       showOptions = SkyTimePickerUtils().createTimePickerOption(_widget.pickerOptions ?? SkyPickerPptions());
     });
@@ -70,11 +66,32 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     return value;
   }
 
+  @override
+  void didUpdateWidget(SkyTimePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.model != _widget.model && mounted) {
+      initModel();
+    }
+  }
+
+  void initModel() {
+    if (_widget.model != null) {
+      _setSelectValue(SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model!, _widget.pickerOptions!.start ?? _widget.pickerOptions!.end ?? _widget.pickerOptions!.step));
+    } else {
+      _setSelectValue("");
+    }
+  }
+
+  void _onClear() {
+    _textController.text = "";
+    _menuController.close();
+    setValue(null);
+  }
+
   void _setSelectValue(String e) {
     _textController.text = e;
     value = e;
     setValue(e);
-    _menuController.close();
   }
 
   _onTap() {
@@ -105,14 +122,37 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     if (_widget.arrowControl) {
       return [
         SkyTimePickerControlItem(
+          key: picker,
           model: value ?? "",
           size: _widget.size,
           width: optionWidth - padding,
           pickerOptions: _widget.pickerOptions,
-          confirm: (e) {
-            _setSelectValue(e);
-          },
         ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SkyButton(
+              type: SkyType.text,
+              text: "取消",
+              customTextColor: SkyColors().primaryText,
+              onTap: () {
+                _menuController.close();
+              },
+            ),
+            SkyButton(
+              type: SkyType.text,
+              text: "确定",
+              onTap: () {
+                String? e = picker.currentState!.getValue();
+                if (e != null && SkyTimePickerUtils().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, e)) {
+                  _setSelectValue(e);
+                  _menuController.close();
+                }
+              },
+            )
+          ],
+        )
       ];
     }
     if (showOptions.isEmpty) {
@@ -136,6 +176,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
           (e) => SkyTimePickerItem(
             onTap: () {
               _setSelectValue(e);
+              _menuController.close();
             },
             disabled: !SkyTimePickerUtils().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, e),
             label: e,
@@ -166,11 +207,15 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   Widget build(BuildContext context) {
     double padding = 0;
     return SkyInputOutLineHover(
-      key: hoverKey,
       size: super.size,
       disabled: super.disabled,
       highlightBuilder: () {
         return _hasOpen;
+      },
+      onchanged: (e) {
+        setState(() {
+          onHover = e;
+        });
       },
       child: LayoutBuilder(
         builder: (_, constraints) {
@@ -220,7 +265,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
                       controller: _textController,
                       focusNode: _focusNode,
                       disabled: _widget.disabled,
-                      readOnly: false,
+                      readOnly: !_widget.editable,
                       size: _widget.size,
                       onTap: _onTap,
                     ),

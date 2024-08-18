@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import '../common/sky_hover.dart';
@@ -9,27 +10,29 @@ class SkyTimePickerControlItem extends StatefulWidget {
     super.key,
     this.onTap,
     this.onchanged,
-    this.confirm,
     this.cancel,
     required this.size,
     required this.width,
     required this.pickerOptions,
     required this.model,
+    this.padding,
+    this.showBorder = false,
   });
   final Function()? onTap;
   final double width;
   final SkyPickerPptions? pickerOptions;
   final SkySize size;
   final Function(String e)? onchanged;
-  final Function(String e)? confirm;
   final Function()? cancel;
   final String model;
+  final EdgeInsetsGeometry? padding;
+  final bool showBorder;
 
   @override
-  State<SkyTimePickerControlItem> createState() => _SkyTimePickerControlItemState();
+  State<SkyTimePickerControlItem> createState() => SkyTimePickerControlItemState();
 }
 
-class _SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
+class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
   FixedExtentScrollController hourScrollController = FixedExtentScrollController(initialItem: 0);
   FixedExtentScrollController minitScrollController = FixedExtentScrollController(initialItem: 0);
   FixedExtentScrollController secendScrollController = FixedExtentScrollController(initialItem: 0);
@@ -85,6 +88,14 @@ class _SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
       return !SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, str);
     }
     return true;
+  }
+
+  String? getValue() {
+    if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
+      return value;
+    } else {
+      return null;
+    }
   }
 
   Widget renderSelector(FixedExtentScrollController controller, int count, String type) {
@@ -151,42 +162,55 @@ class _SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      height: widget.size.height * 6,
+      height: widget.size.height * 5,
       width: widget.width,
+      padding: widget.padding,
+      // decoration: widget.showBorder
+      //     ? BoxDecoration(
+      //         border: Border.all(color: SkyColors().baseBorder, width: 1.scaleSpacing),
+      //       )
+      //     : null,
       child: Column(
         children: [
           Expanded(
-            child: Row(
-              children: [
-                renderSelector(hourScrollController, 24, "hour"),
-                renderSelector(minitScrollController, 60, "minit"),
-                renderSelector(secendScrollController, 60, 'secend'),
-              ],
+            child: Container(
+              decoration: widget.showBorder
+                  ? BoxDecoration(
+                      border: Border.all(color: SkyColors().baseBorder, width: 1.scaleSpacing),
+                    )
+                  : null,
+              child: Row(
+                children: [
+                  renderSelector(hourScrollController, 24, "hour"),
+                  renderSelector(minitScrollController, 60, "minit"),
+                  renderSelector(secendScrollController, 60, 'secend'),
+                ],
+              ),
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SkyButton(
-                type: SkyType.text,
-                text: "取消",
-                customTextColor: SkyColors().primaryText,
-                onTap: () {
-                  widget.cancel?.call();
-                },
-              ),
-              SkyButton(
-                type: SkyType.text,
-                text: "确定",
-                onTap: () {
-                  if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
-                    widget.confirm?.call(value);
-                  }
-                },
-              )
-            ],
-          )
+          // Row(
+          //   crossAxisAlignment: CrossAxisAlignment.end,
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     SkyButton(
+          //       type: SkyType.text,
+          //       text: "取消",
+          //       customTextColor: SkyColors().primaryText,
+          //       onTap: () {
+          //         widget.cancel?.call();
+          //       },
+          //     ),
+          //     SkyButton(
+          //       type: SkyType.text,
+          //       text: "确定",
+          //       onTap: () {
+          //         if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
+          //           widget.confirm?.call(value);
+          //         }
+          //       },
+          //     )
+          //   ],
+          // )
         ],
       ),
     );
