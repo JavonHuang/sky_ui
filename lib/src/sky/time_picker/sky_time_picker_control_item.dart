@@ -140,7 +140,7 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
           return SkyHover(
             disabled: disabled,
             onTap: () {
-              controller.jumpToItem(i);
+              controller.animateToItem(i, duration: const Duration(milliseconds: 200), curve: Curves.linear);
             },
             child: Container(
               alignment: Alignment.center,
@@ -165,11 +165,6 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
       height: widget.size.height * 5,
       width: widget.width,
       padding: widget.padding,
-      // decoration: widget.showBorder
-      //     ? BoxDecoration(
-      //         border: Border.all(color: SkyColors().baseBorder, width: 1.scaleSpacing),
-      //       )
-      //     : null,
       child: Column(
         children: [
           Expanded(
@@ -188,29 +183,6 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
               ),
             ),
           ),
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.end,
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     SkyButton(
-          //       type: SkyType.text,
-          //       text: "取消",
-          //       customTextColor: SkyColors().primaryText,
-          //       onTap: () {
-          //         widget.cancel?.call();
-          //       },
-          //     ),
-          //     SkyButton(
-          //       type: SkyType.text,
-          //       text: "确定",
-          //       onTap: () {
-          //         if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
-          //           widget.confirm?.call(value);
-          //         }
-          //       },
-          //     )
-          //   ],
-          // )
         ],
       ),
     );
