@@ -39,6 +39,7 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
   String? hour = "00";
   String? minit = "00";
   String? secend = "00";
+  late SkyPickerPptions pickerOptions = SkyPickerPptions();
 
   String get value =>
       "${'${hourScrollController.selectedItem}'.padLeft(2, '0')}:${'${minitScrollController.selectedItem}'.padLeft(2, '0')}:${'${secendScrollController.selectedItem}'.padLeft(2, '0')}";
@@ -46,9 +47,15 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
   @override
   void initState() {
     super.initState();
+    pickerOptions = widget.pickerOptions!;
     Future.delayed(Duration.zero).then((e) {
       setValue(widget.model);
     });
+  }
+
+  void setPickerOptions(SkyPickerPptions e) {
+    pickerOptions = e;
+    setState(() {});
   }
 
   void _onchanged() {
@@ -75,23 +82,24 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
 
   bool checkRange(String value, String type) {
     if (type == "hour") {
-      int minHour = SkyTimePickerUtils().getStrToList(widget.pickerOptions!.minTime)[0];
-      int maxHour = SkyTimePickerUtils().getStrToList(widget.pickerOptions!.maxTime)[0];
+      List<int> arr = SkyTimePickerUtils().getStrToList(pickerOptions.minTime);
+      int minHour = arr.isEmpty ? 0 : arr[0];
+      int maxHour = arr.isEmpty ? 23 : arr[0];
       return !(int.parse(value) >= minHour && int.parse(value) <= maxHour);
     }
     if (type == "minit") {
       String str = "$hour:$value:59";
-      return !SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, str);
+      return !SkyTimePickerUtils().compareTimePickerOption(pickerOptions.minTime, pickerOptions.maxTime, str);
     }
     if (type == "secend") {
       String str = "$hour:$minit:$value";
-      return !SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, str);
+      return !SkyTimePickerUtils().compareTimePickerOption(pickerOptions.minTime, pickerOptions.maxTime, str);
     }
     return true;
   }
 
   String? getValue() {
-    if (SkyTimePickerUtils().compareTimePickerOption(widget.pickerOptions!.minTime, widget.pickerOptions!.maxTime, value)) {
+    if (SkyTimePickerUtils().compareTimePickerOption(pickerOptions.minTime, pickerOptions.maxTime, value)) {
       return value;
     } else {
       return null;

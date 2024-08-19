@@ -8,13 +8,7 @@ class SkyPickerPptions {
     this.step,
     this.minTime,
     this.maxTime,
-  }) {
-    start = start ?? "00:00:00";
-    end = end ?? "23:59:59";
-    step = step ?? "00:30:00";
-    minTime = minTime ?? "00:00:00";
-    maxTime = maxTime ?? "23:59:59";
-  }
+  });
   final Key? key;
   String? start;
   String? end;
@@ -22,7 +16,36 @@ class SkyPickerPptions {
   String? minTime;
   String? maxTime;
 
-  String _getFomart() {
-    return "";
+  copyWith() {
+    return SkyPickerPptions(
+      start: start,
+      end: end,
+      step: step,
+      minTime: minTime,
+      maxTime: maxTime,
+    );
   }
+
+  // String getFomartArrowControl() {
+  //   if (minTime != null) {
+  //     return SkyTimePickerUtils().getFormat(minTime);
+  //   }
+  //   if (maxTime != null) {
+  //     return SkyTimePickerUtils().getFormat(maxTime);
+  //   }
+  //   return "HH:mm:ss";
+  // }
+
+  // String getFomart() {
+  //   if (step != null) {
+  //     return SkyTimePickerUtils().getFormat(step);
+  //   }
+  //   if (start != null) {
+  //     return SkyTimePickerUtils().getFormat(start);
+  //   }
+  //   if (end != null) {
+  //     return SkyTimePickerUtils().getFormat(end);
+  //   }
+  //   return "HH:mm:ss";
+  // }
 }

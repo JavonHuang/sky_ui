@@ -146,6 +146,11 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
             size: _widget.size,
             width: (optionWidth) * 0.5,
             pickerOptions: _widget.pickerOptions,
+            onchanged: (e) {
+              SkyPickerPptions val = _widget.pickerOptions!.copyWith();
+              val.start = e;
+              endPicker.currentState!.setPickerOptions(val);
+            },
           ),
           SkyTimePickerControlItem(
             showBorder: true,
@@ -160,6 +165,11 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
             size: _widget.size,
             width: (optionWidth) * 0.5,
             pickerOptions: _widget.pickerOptions,
+            onchanged: (e) {
+              SkyPickerPptions val = _widget.pickerOptions!.copyWith();
+              val.end = e;
+              startPicker.currentState!.setPickerOptions(val);
+            },
           ),
         ],
       ),
