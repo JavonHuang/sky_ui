@@ -9,7 +9,7 @@ class SkyTimePickerRange extends SkyFormFieldBridge<SkyTimePickerRange> {
     this.placeholder,
     this.model,
     this.editable = false,
-    this.pickerOptions,
+    this.pickerRangeOptions,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -21,7 +21,7 @@ class SkyTimePickerRange extends SkyFormFieldBridge<SkyTimePickerRange> {
   final String? placeholder;
   final List<int>? model;
   final bool editable;
-  final SkyPickerPptions? pickerOptions;
+  final SkyPickerRangeOptions? pickerRangeOptions;
 
   @override
   SkyFormFieldBridgeState<SkyTimePickerRange> createState() => _SkyTimePickerRangeState();
@@ -90,8 +90,8 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
     String? start = startPicker.currentState?.getValue();
     String? end = endPicker.currentState?.getValue();
     if (start != null && end != null) {
-      if (SkyTimePickerUtils().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, start) &&
-          SkyTimePickerUtils().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, end)) {
+      if (SkyTimePickerUtils().compareTimePickerOption(_widget.pickerRangeOptions!.minTime, _widget.pickerRangeOptions!.maxTime, start) &&
+          SkyTimePickerUtils().compareTimePickerOption(_widget.pickerRangeOptions!.minTime, _widget.pickerRangeOptions!.maxTime, end)) {
         setSelectValue([start, end]);
       }
     }
@@ -145,10 +145,10 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
             model: value[0],
             size: _widget.size,
             width: (optionWidth) * 0.5,
-            pickerOptions: _widget.pickerOptions,
+            pickerRangeOptions: _widget.pickerRangeOptions,
             onchanged: (e) {
-              SkyPickerPptions val = _widget.pickerOptions!.copyWith();
-              val.start = e;
+              SkyPickerRangeOptions val = _widget.pickerRangeOptions!.copyWith();
+              val.minTime = e;
               endPicker.currentState!.setPickerOptions(val);
             },
           ),
@@ -164,10 +164,10 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
             model: value[1],
             size: _widget.size,
             width: (optionWidth) * 0.5,
-            pickerOptions: _widget.pickerOptions,
+            pickerRangeOptions: _widget.pickerRangeOptions,
             onchanged: (e) {
-              SkyPickerPptions val = _widget.pickerOptions!.copyWith();
-              val.end = e;
+              SkyPickerRangeOptions val = _widget.pickerRangeOptions!.copyWith();
+              val.maxTime = e;
               startPicker.currentState!.setPickerOptions(val);
             },
           ),
@@ -200,11 +200,11 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
   void initModel() {
     if (_widget.model != null) {
       setSelectValue([
-        SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model![0], _widget.pickerOptions!.minTime ?? _widget.pickerOptions!.maxTime),
-        SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model![1], _widget.pickerOptions!.minTime ?? _widget.pickerOptions!.maxTime),
+        SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model![0], _widget.pickerRangeOptions!.minTime ?? _widget.pickerRangeOptions!.maxTime),
+        SkyTimePickerUtils().microsecondsSinceEpochToString(_widget.model![1], _widget.pickerRangeOptions!.minTime ?? _widget.pickerRangeOptions!.maxTime),
       ]);
     } else {
-      setSelectValue([]);
+      setSelectValue(["", ""]);
     }
   }
 

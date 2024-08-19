@@ -14,11 +14,8 @@ class _TimePickTestState extends State<TimePickRangeTest> {
     return Column(
       children: [
         SkyTimePickerRange(
-          model: [DateTime.now().microsecondsSinceEpoch, DateTime.now().add(const Duration(minutes: 10)).microsecondsSinceEpoch],
-          pickerOptions: SkyPickerPptions(
-            // start: "09:10:30",
-            // step: "00:10:20",
-            // end: "10:01:50",
+          model: [DateTime.now().millisecondsSinceEpoch, DateTime.now().add(const Duration(minutes: 10)).millisecondsSinceEpoch],
+          pickerRangeOptions: SkyPickerRangeOptions(
             maxTime: "23:20:54",
           ),
         ),

@@ -11,6 +11,7 @@ import 'package:sky_ui/sky_ui.dart';
 import 'badge.dart';
 import 'buttonGroup.dart';
 import 'checkbox.dart';
+import 'data_picker.dart';
 import 'grid_table.dart';
 import 'input.dart';
 import 'link.dart';
@@ -69,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     },
     {'TimePickTest': const TimePickTest()},
-    {'TimePickRangeTest': const TimePickRangeTest()}
+    {'TimePickRangeTest': const TimePickRangeTest()},
+    {'DataPickerTest': const DataPickerTest()}
   ];
 
   Widget _renderTab() {

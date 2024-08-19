@@ -10,5 +10,6 @@ enum SkyFormType {
   skySwitch,
   skySelect,
   skyTimePickerRange,
-  skyTimePicker;
+  skyTimePicker,
+  skyDataPicker;
 }

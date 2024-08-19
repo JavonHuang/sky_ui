@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sky_ui/sky_ui.dart';
 
-import '../common/sky_hover.dart';
-import 'sky_time_picker_utils.dart';
+import '../../common/sky_hover.dart';
+import '../model/sky_time_picker_utils.dart';
 
 class SkyTimePickerControlItem extends StatefulWidget {
   const SkyTimePickerControlItem({
@@ -13,14 +13,14 @@ class SkyTimePickerControlItem extends StatefulWidget {
     this.cancel,
     required this.size,
     required this.width,
-    required this.pickerOptions,
+    required this.pickerRangeOptions,
     required this.model,
     this.padding,
     this.showBorder = false,
   });
   final Function()? onTap;
   final double width;
-  final SkyPickerPptions? pickerOptions;
+  final SkyPickerRangeOptions? pickerRangeOptions;
   final SkySize size;
   final Function(String e)? onchanged;
   final Function()? cancel;
@@ -39,7 +39,7 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
   String? hour = "00";
   String? minit = "00";
   String? secend = "00";
-  late SkyPickerPptions pickerOptions = SkyPickerPptions();
+  late SkyPickerRangeOptions pickerOptions = SkyPickerRangeOptions();
 
   String get value =>
       "${'${hourScrollController.selectedItem}'.padLeft(2, '0')}:${'${minitScrollController.selectedItem}'.padLeft(2, '0')}:${'${secendScrollController.selectedItem}'.padLeft(2, '0')}";
@@ -47,13 +47,13 @@ class SkyTimePickerControlItemState extends State<SkyTimePickerControlItem> {
   @override
   void initState() {
     super.initState();
-    pickerOptions = widget.pickerOptions!;
+    pickerOptions = widget.pickerRangeOptions!;
     Future.delayed(Duration.zero).then((e) {
       setValue(widget.model);
     });
   }
 
-  void setPickerOptions(SkyPickerPptions e) {
+  void setPickerOptions(SkyPickerRangeOptions e) {
     pickerOptions = e;
     setState(() {});
   }
