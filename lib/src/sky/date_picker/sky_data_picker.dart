@@ -68,20 +68,20 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
     }
   }
 
-  Widget renderOptionItem(double optionWidth, double padding) {
-    return Container(
-      alignment: Alignment.center,
-      width: optionWidth - padding,
-      height: _widget.size.height,
-      child: Text(
-        "暂无数据",
-        style: TextStyle(
-          color: SkyColors().placeholderText,
-          fontSize: _widget.size.textSize,
-        ),
-      ),
-    );
-  }
+  // Widget renderOptionItem(double optionWidth, double padding) {
+  //   return Container(
+  //     alignment: Alignment.center,
+  //     width: optionWidth - padding,
+  //     height: _widget.size.height,
+  //     child: Text(
+  //       "暂无数据",
+  //       style: TextStyle(
+  //         color: SkyColors().placeholderText,
+  //         fontSize: _widget.size.textSize,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   void setValue(dynamic e) {
@@ -97,7 +97,7 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
 
   @override
   Widget build(BuildContext context) {
-    double padding = 0;
+    double padding = 10.scaleSpacing;
     return SkyInputOutLineHover(
       size: super.size,
       disabled: super.disabled,
@@ -118,18 +118,18 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
             controller: menuController,
             alignmentOffset: const Offset(0, 4),
             style: MenuStyle(
-              minimumSize: WidgetStatePropertyAll(
-                Size(
-                  optionWidth,
-                  40,
-                ),
-              ),
-              maximumSize: WidgetStatePropertyAll(
-                Size(
-                  optionWidth,
-                  200,
-                ),
-              ),
+              // minimumSize: WidgetStatePropertyAll(
+              //   Size(
+              //     optionWidth,
+              //     40,
+              //   ),
+              // ),
+              // maximumSize: WidgetStatePropertyAll(
+              //   Size(
+              //     optionWidth,
+              //     200,
+              //   ),
+              // ),
               visualDensity: VisualDensity.comfortable,
               side: WidgetStatePropertyAll(BorderSide(
                 color: SkyColors().baseBorder,
@@ -141,7 +141,11 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
               padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 0, horizontal: padding)),
             ),
             menuChildren: [
-              renderOptionItem(optionWidth, padding * 2),
+              // renderOptionItem(optionWidth, padding * 2),
+              SkyDataPickerMenu(
+                size: _widget.size,
+                width: optionWidth,
+              ),
             ],
             builder: (context, controller, child) {
               return Row(

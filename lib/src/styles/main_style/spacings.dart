@@ -16,8 +16,10 @@ class SkySpacings {
   /// ----------------------------------------------------------------------------------------------
 
   double _mainSpacing = 10;
+  double _textSpacing = 4;
 
   double get mainSpacing => _mainSpacing * scale;
+  double get textSpacing => _textSpacing * scale;
 
   void setMainPadding(double value) => _mainSpacing = value;
 }

@@ -8,14 +8,19 @@ class SkyHover extends StatefulWidget {
     this.builder,
     this.child,
     required this.disabled,
+    this.showBackgroup = true,
     this.onTap,
     this.onchanged,
+    this.alignment = Alignment.centerLeft,
   });
   final bool disabled;
-  final Widget? Function(BuildContext context)? builder;
+  final bool showBackgroup;
+
+  final Widget? Function(BuildContext context, bool onHover)? builder;
   final Widget? child;
   final Function()? onTap;
   final Function(bool e)? onchanged;
+  final AlignmentGeometry? alignment;
 
   @override
   State<SkyHover> createState() => _SkyHoverState();
@@ -27,7 +32,7 @@ class _SkyHoverState extends State<SkyHover> {
     if (widget.disabled) {
       return SkyColors().white;
     }
-    if (onHover) {
+    if (onHover && widget.showBackgroup) {
       return SkyColors().defaultBg;
     }
     return SkyColors().white;
@@ -66,11 +71,11 @@ class _SkyHoverState extends State<SkyHover> {
           _setValue(false);
         },
         child: Container(
-          alignment: Alignment.centerLeft,
+          alignment: widget.alignment,
           decoration: BoxDecoration(
             color: onHoverColor,
           ),
-          child: widget.child ?? widget.builder?.call(context),
+          child: widget.child ?? widget.builder?.call(context, onHover),
         ),
       ),
     );
