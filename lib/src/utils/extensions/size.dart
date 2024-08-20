@@ -51,13 +51,13 @@ enum SkySize {
   double get iconSize {
     switch (this) {
       case large:
-        return 18.scaleFontSize;
+        return 18.scaleIconSize;
       case medium:
-        return 16.scaleFontSize;
+        return 16.scaleIconSize;
       case small:
-        return 14.scaleFontSize;
+        return 14.scaleIconSize;
       case mini:
-        return 12.scaleFontSize;
+        return 12.scaleIconSize;
     }
   }
 

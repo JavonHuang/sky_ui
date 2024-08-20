@@ -5,9 +5,11 @@ class SkyDataPickerMenu extends StatefulWidget {
     super.key,
     required this.size,
     required this.width,
+    this.onchanged,
   });
   final SkySize size;
   final double width;
+  final Function(DateTime e)? onchanged;
 
   @override
   State<SkyDataPickerMenu> createState() => _SkyDataPickerMenuState();
@@ -66,6 +68,10 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     initData();
   }
 
+  void setValue(DateTime day) {
+    widget.onchanged?.call(day);
+  }
+
   Widget renderItem(DateTime time, bool content) {
     return Container(
       alignment: Alignment.center,
@@ -75,11 +81,17 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
         disabled: false,
         alignment: Alignment.center,
         showBackgroup: false,
+        onTap: () {
+          setValue(time);
+        },
         builder: (ctx, h) {
           return Text(
             textAlign: TextAlign.center,
             time.day.toString(),
-            style: TextStyle(color: content ? (h ? SkyColors().primary : SkyColors().primaryText) : SkyColors().placeholderText),
+            style: TextStyle(
+              color: content ? (h ? SkyColors().primary : SkyColors().regularText) : SkyColors().placeholderText,
+              fontSize: SkyFontSizes().s12,
+            ),
           );
         },
       ),
@@ -122,7 +134,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
             child: Icon(
               color: h ? SkyColors().primary : SkyColors().primaryText,
               ElementIcons.dArrowLeft,
-              size: widget.size.iconSize,
+              size: widget.size.iconSize - 2.scaleIconSize,
             ),
           );
         },
@@ -139,7 +151,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
             child: Icon(
               color: h ? SkyColors().primary : SkyColors().primaryText,
               ElementIcons.arrowLeft,
-              size: widget.size.iconSize,
+              size: widget.size.iconSize - 2.scaleIconSize,
             ),
           );
         },
@@ -155,7 +167,11 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                 return Text(
                   "$year年",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: h ? SkyColors().primary : SkyColors().primaryText),
+                  style: TextStyle(
+                    color: h ? SkyColors().primary : SkyColors().regularText,
+                    fontWeight: FontWeight.w500,
+                    fontSize: SkyFontSizes().s16,
+                  ),
                 );
               },
             ),
@@ -169,7 +185,11 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                 return Text(
                   "$month月",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: h ? SkyColors().primary : SkyColors().primaryText),
+                  style: TextStyle(
+                    color: h ? SkyColors().primary : SkyColors().regularText,
+                    fontWeight: FontWeight.w500,
+                    fontSize: SkyFontSizes().s16,
+                  ),
                 );
               },
             )
@@ -188,7 +208,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
             child: Icon(
               color: h ? SkyColors().primary : SkyColors().primaryText,
               ElementIcons.arrowRight,
-              size: widget.size.iconSize,
+              size: SkyFontSizes().s12,
             ),
           );
         },
@@ -205,7 +225,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
             child: Icon(
               color: h ? SkyColors().primary : SkyColors().primaryText,
               ElementIcons.dArrowRight,
-              size: widget.size.iconSize,
+              size: SkyFontSizes().s12,
             ),
           );
         },
@@ -225,7 +245,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
               border: Border(
                 right: BorderSide(
                   width: 1,
-                  color: SkyColors().baseBorder,
+                  color: SkyColors().otherBorder,
                 ),
               ),
             ),
@@ -238,7 +258,10 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                   builder: (ctx, h) {
                     return Text(
                       "今天",
-                      style: TextStyle(color: h ? SkyColors().primary : SkyColors().primaryText),
+                      style: TextStyle(
+                        color: h ? SkyColors().primary : SkyColors().regularText,
+                        fontSize: SkyFontSizes().s14,
+                      ),
                     );
                   },
                 ),
@@ -251,7 +274,10 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                   builder: (ctx, h) {
                     return Text(
                       "昨天",
-                      style: TextStyle(color: h ? SkyColors().primary : SkyColors().primaryText),
+                      style: TextStyle(
+                        color: h ? SkyColors().primary : SkyColors().regularText,
+                        fontSize: SkyFontSizes().s14,
+                      ),
                     );
                   },
                 ),
@@ -264,7 +290,10 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                   builder: (ctx, h) {
                     return Text(
                       "一周前",
-                      style: TextStyle(color: h ? SkyColors().primary : SkyColors().primaryText),
+                      style: TextStyle(
+                        color: h ? SkyColors().primary : SkyColors().regularText,
+                        fontSize: SkyFontSizes().s14,
+                      ),
                     );
                   },
                 )
@@ -290,7 +319,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                     border: Border(
                       bottom: BorderSide(
                         width: 1,
-                        color: SkyColors().baseBorder,
+                        color: SkyColors().otherBorder,
                       ),
                     ),
                   ),

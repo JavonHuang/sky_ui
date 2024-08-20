@@ -15,7 +15,7 @@ class SkySpacings {
 
   /// ----------------------------------------------------------------------------------------------
 
-  double _mainSpacing = 10;
+  double _mainSpacing = 12;
   double _textSpacing = 4;
 
   double get mainSpacing => _mainSpacing * scale;

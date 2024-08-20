@@ -68,6 +68,14 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
     }
   }
 
+  void setSelectValue(DateTime e) {
+    textController.text = DateFormat("yyyy-MM-dd").format(e);
+    value = e;
+    menuController.close();
+
+    setValue(e);
+  }
+
   // Widget renderOptionItem(double optionWidth, double padding) {
   //   return Container(
   //     alignment: Alignment.center,
@@ -138,13 +146,14 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
               )),
               backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
               surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-              padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 0, horizontal: padding)),
+              padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: SkySpacings().mainSpacing, horizontal: padding)),
             ),
             menuChildren: [
               // renderOptionItem(optionWidth, padding * 2),
               SkyDataPickerMenu(
                 size: _widget.size,
                 width: optionWidth,
+                onchanged: setSelectValue,
               ),
             ],
             builder: (context, controller, child) {

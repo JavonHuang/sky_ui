@@ -13,7 +13,9 @@ class _DataPickerTestState extends State<DataPickerTest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SkyDataPicker(),
+        SkyDataPicker(
+          clearable: true,
+        ),
       ],
     );
   }

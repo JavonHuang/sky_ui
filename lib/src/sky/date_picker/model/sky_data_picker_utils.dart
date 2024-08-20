@@ -13,7 +13,6 @@ class SkyDataPickerUtils extends SkyMoment {
 
   List<DateTime> generateMonthDayItem(int year, int month) {
     int days = getDaysInMonth(year, month);
-    print(days);
     return List.generate(days, (e) => DateTime(year, month, e + 1));
   }
 

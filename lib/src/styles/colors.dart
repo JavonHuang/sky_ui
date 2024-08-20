@@ -36,11 +36,13 @@ class SkyColors {
   Color get placeholderText => _placeholderText;
 
   ///边框颜色
+  static const Color _otherBorder = Color(0xFFe4e4e4);
   static const Color _baseBorder = Color(0xFFDCDFE6);
   static const Color _lightBorder = Color(0xFFE4E7ED);
   static const Color _lighterBorder = Color(0xFFEBEEF5);
   static const Color _extralightBorder = Color(0xFFF2F6FC);
 
+  Color get otherBorder => _otherBorder;
   Color get baseBorder => _baseBorder;
   Color get lightBorder => _lightBorder;
   Color get lighterBorder => _lighterBorder;
