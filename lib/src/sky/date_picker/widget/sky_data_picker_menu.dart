@@ -20,6 +20,7 @@ class SkyDataPickerMenu extends StatefulWidget {
 }
 
 class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
+  late String showType = "day";
   late double itemScale = 1.5;
   late int year = SkyDataPickerUtils().year;
   late int month = SkyDataPickerUtils().month;
@@ -46,14 +47,14 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   @override
   void initState() {
     super.initState();
-    initData();
-  }
-
-  void initData() {
     if (widget.model != null) {
       year = widget.model!.year;
       month = widget.model!.month;
     }
+    initData();
+  }
+
+  void initData() {
     Map<String, List<DateTime>> map = SkyDataPickerUtils().generateMonthDayShowItem(year, month);
     prefixList = map["prefixList"]!;
     suffixList = map["suffixList"]!;
@@ -83,12 +84,35 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   }
 
   void preYear() {
-    year -= 1;
+    if (showType == 'year') {
+      year -= 10;
+    } else {
+      year -= 1;
+    }
     initData();
   }
 
   void nextYear() {
-    year += 1;
+    if (showType == 'year') {
+      year += 10;
+    } else {
+      year += 1;
+    }
+    initData();
+  }
+
+  void selectYear(int e) {
+    setState(() {
+      showType = "month";
+      year = e;
+    });
+  }
+
+  void selectMonth(int e) {
+    setState(() {
+      showType = "day";
+      month = e;
+    });
     initData();
   }
 
@@ -170,6 +194,82 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     return [...prefixWidget, ...contentWidget, ...suffixWidget];
   }
 
+  TextStyle yearItemTextColor(bool onHover, int y) {
+    if (widget.model != null && y == widget.model!.year) {
+      return TextStyle(
+        color: SkyColors().primary,
+        fontWeight: FontWeight.w700,
+      );
+    }
+    return TextStyle(color: onHover ? SkyColors().primary : SkyColors().regularText);
+  }
+
+  List<Widget> renderYears() {
+    List<int> yearList = SkyDataPickerUtils().getYearList(year);
+    return yearList
+        .map((e) => Container(
+              alignment: Alignment.center,
+              height: widget.size.height * 2,
+              width: widget.size.height * 2.5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  widget.size.height - 8,
+                ),
+              ),
+              child: SkyHover(
+                disabled: false, //widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
+                alignment: Alignment.center,
+                showBackgroup: false,
+                onTap: () {
+                  selectYear(e);
+                },
+                builder: (ctx, h) {
+                  return Text(
+                    textAlign: TextAlign.center,
+                    e.toString(),
+                    style: TextStyle(
+                      fontSize: SkyFontSizes().s12,
+                    ).merge(yearItemTextColor(h, e)),
+                  );
+                },
+              ),
+            ))
+        .toList();
+  }
+
+  List<Widget> renderMonths() {
+    List<int> monthList = SkyDataPickerUtils().getMontList();
+    return monthList
+        .map((e) => Container(
+              alignment: Alignment.center,
+              height: widget.size.height * 2,
+              width: widget.size.height * 2.5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  widget.size.height - 8,
+                ),
+              ),
+              child: SkyHover(
+                disabled: false, //widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
+                alignment: Alignment.center,
+                showBackgroup: false,
+                onTap: () {
+                  selectMonth(e);
+                },
+                builder: (ctx, h) {
+                  return Text(
+                    textAlign: TextAlign.center,
+                    '${e.toString()}月',
+                    style: TextStyle(
+                      fontSize: SkyFontSizes().s12,
+                    ).merge(yearItemTextColor(h, e)),
+                  );
+                },
+              ),
+            ))
+        .toList();
+  }
+
   List<Widget> renderHeaderTitle() {
     return SkyDataPickerUtils.headerTitle
         .map((e) => Container(
@@ -185,7 +285,42 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
         .toList();
   }
 
+  List<Widget> renderHeaderYearControls() {
+    List<int> yearList = SkyDataPickerUtils().getYearList(year);
+    return [
+      Expanded(child: Container()),
+      Container(
+        alignment: Alignment.center,
+        height: widget.size.height,
+        padding: EdgeInsets.symmetric(horizontal: SkySpacings().textSpacing),
+        child: Text(
+          textAlign: TextAlign.center,
+          "${yearList[0]}年",
+          style: TextStyle(color: SkyColors().primaryText),
+        ),
+      ),
+      Text(
+        textAlign: TextAlign.center,
+        "-",
+        style: TextStyle(color: SkyColors().primaryText),
+      ),
+      Container(
+        alignment: Alignment.center,
+        height: widget.size.height,
+        padding: EdgeInsets.symmetric(horizontal: SkySpacings().textSpacing),
+        child: Text(
+          textAlign: TextAlign.center,
+          "${yearList.last}年",
+          style: TextStyle(color: SkyColors().primaryText),
+        ),
+      ),
+      Expanded(child: Container()),
+    ];
+  }
+
   List<Widget> renderHeaderControls() {
+    List<int> yearList = SkyDataPickerUtils().getYearList(year);
+
     return [
       SkyHover(
         disabled: false,
@@ -204,80 +339,122 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
           );
         },
       ),
-      SkyHover(
-        disabled: false,
-        showBackgroup: false,
-        onTap: preMonth,
-        builder: (ctx, h) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SkySpacings().textSpacing,
-            ),
-            child: Icon(
-              color: h ? SkyColors().primary : SkyColors().primaryText,
-              ElementIcons.arrowLeft,
-              size: widget.size.iconSize - 2.scaleIconSize,
-            ),
-          );
-        },
-      ),
-      Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SkyHover(
-              disabled: false,
-              showBackgroup: false,
-              builder: (ctx, h) {
-                return Text(
-                  "$year年",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: h ? SkyColors().primary : SkyColors().regularText,
-                    fontWeight: FontWeight.w500,
-                    fontSize: SkyFontSizes().s16,
-                  ),
-                );
-              },
-            ),
-            SizedBox(
-              width: SkySpacings().textSpacing,
-            ),
-            SkyHover(
-              disabled: false,
-              showBackgroup: false,
-              builder: (ctx, h) {
-                return Text(
-                  "$month月",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: h ? SkyColors().primary : SkyColors().regularText,
-                    fontWeight: FontWeight.w500,
-                    fontSize: SkyFontSizes().s16,
-                  ),
-                );
-              },
-            )
-          ],
+      if (showType == 'day')
+        SkyHover(
+          disabled: false,
+          showBackgroup: false,
+          onTap: preMonth,
+          builder: (ctx, h) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: SkySpacings().textSpacing,
+              ),
+              child: Icon(
+                color: h ? SkyColors().primary : SkyColors().primaryText,
+                ElementIcons.arrowLeft,
+                size: widget.size.iconSize - 2.scaleIconSize,
+              ),
+            );
+          },
         ),
-      ),
-      SkyHover(
-        disabled: false,
-        showBackgroup: false,
-        onTap: nextMonth,
-        builder: (ctx, h) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SkySpacings().textSpacing,
-            ),
-            child: Icon(
-              color: h ? SkyColors().primary : SkyColors().primaryText,
-              ElementIcons.arrowRight,
-              size: SkyFontSizes().s12,
-            ),
-          );
-        },
-      ),
+      if (showType == 'day')
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SkyHover(
+                disabled: false,
+                showBackgroup: false,
+                onTap: () {
+                  setState(() {
+                    showType = "year";
+                  });
+                },
+                builder: (ctx, h) {
+                  return Text(
+                    "$year年",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: h ? SkyColors().primary : SkyColors().regularText,
+                      fontWeight: FontWeight.w500,
+                      fontSize: SkyFontSizes().s16,
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                width: SkySpacings().textSpacing,
+              ),
+              SkyHover(
+                disabled: false,
+                showBackgroup: false,
+                builder: (ctx, h) {
+                  return Text(
+                    "$month月",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: h ? SkyColors().primary : SkyColors().regularText,
+                      fontWeight: FontWeight.w500,
+                      fontSize: SkyFontSizes().s16,
+                    ),
+                  );
+                },
+              )
+            ],
+          ),
+        ),
+      if (showType == 'year')
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${yearList[0]}年 - ${yearList.last}年",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: SkyColors().regularText,
+                  fontWeight: FontWeight.w500,
+                  fontSize: SkyFontSizes().s16,
+                ),
+              )
+            ],
+          ),
+        ),
+      if (showType == 'month')
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "$year年",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: SkyColors().regularText,
+                  fontWeight: FontWeight.w500,
+                  fontSize: SkyFontSizes().s16,
+                ),
+              )
+            ],
+          ),
+        ),
+      if (showType == 'day')
+        SkyHover(
+          disabled: false,
+          showBackgroup: false,
+          onTap: nextMonth,
+          builder: (ctx, h) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: SkySpacings().textSpacing,
+              ),
+              child: Icon(
+                color: h ? SkyColors().primary : SkyColors().primaryText,
+                ElementIcons.arrowRight,
+                size: SkyFontSizes().s12,
+              ),
+            );
+          },
+        ),
       SkyHover(
         disabled: false,
         showBackgroup: false,
@@ -359,26 +536,29 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                     children: renderHeaderControls(),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 1,
-                        color: SkyColors().otherBorder,
+                if (showType == 'day')
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1,
+                          color: SkyColors().otherBorder,
+                        ),
                       ),
                     ),
+                    child: Row(
+                      children: renderHeaderTitle(),
+                    ),
                   ),
-                  child: Row(
-                    children: renderHeaderTitle(),
-                  ),
-                ),
                 Center(
                   child: Wrap(
                     spacing: 0,
                     runSpacing: 0,
                     direction: Axis.horizontal,
                     children: [
-                      ...renderDays(),
+                      if (showType == 'day') ...renderDays(),
+                      if (showType == 'year') ...renderYears(),
+                      if (showType == 'month') ...renderMonths(),
                     ],
                   ),
                 ),

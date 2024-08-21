@@ -40,4 +40,13 @@ class SkyDataPickerUtils extends SkyMoment {
     }
     return {"prefixList": prefixList, "contentList": contentList, "suffixList": suffixList};
   }
+
+  List<int> getYearList(int start) {
+    int year = (start / 10).round() * 10;
+    return List.generate(10, (e) => e + year);
+  }
+
+  List<int> getMontList() {
+    return List.generate(12, (e) => e + 1);
+  }
 }
