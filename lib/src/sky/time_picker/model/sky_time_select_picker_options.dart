@@ -1,7 +1,7 @@
 part of '../index.dart';
 
-class SkyPickerOptions {
-  SkyPickerOptions({
+class SkyTimeSelectPickerOptions {
+  SkyTimeSelectPickerOptions({
     this.key,
     this.start,
     this.end,
@@ -17,7 +17,7 @@ class SkyPickerOptions {
   String? maxTime;
 
   copyWith() {
-    return SkyPickerOptions(
+    return SkyTimeSelectPickerOptions(
       start: start,
       end: end,
       step: step,

@@ -20,7 +20,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
   final bool disabled;
   final bool clearable;
   final String? placeholder;
-  final SkyPickerOptions? pickerOptions;
+  final SkyTimeSelectPickerOptions? pickerOptions;
   final bool arrowControl;
   final int? model;
   final bool editable;
@@ -50,7 +50,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     super.initState();
     initModel();
     setState(() {
-      showOptions = SkyTimePickerUtils().createTimePickerOption(_widget.pickerOptions ?? SkyPickerOptions());
+      showOptions = SkyTimePickerUtils().createTimePickerOption(_widget.pickerOptions ?? SkyTimeSelectPickerOptions());
     });
   }
 

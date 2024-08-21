@@ -3,13 +3,17 @@ part of '../index.dart';
 class SkyDataPickerMenu extends StatefulWidget {
   const SkyDataPickerMenu({
     super.key,
+    this.model,
     required this.size,
     required this.width,
+    required this.pickerOptions,
     this.onchanged,
   });
+  final DateTime? model;
   final SkySize size;
   final double width;
   final Function(DateTime e)? onchanged;
+  final SkyPickerOptions pickerOptions;
 
   @override
   State<SkyDataPickerMenu> createState() => _SkyDataPickerMenuState();
@@ -19,9 +23,25 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   late double itemScale = 1.5;
   late int year = SkyDataPickerUtils().year;
   late int month = SkyDataPickerUtils().month;
+  late DateTime today = DateTime(SkyDataPickerUtils().year, SkyDataPickerUtils().month, SkyDataPickerUtils().day);
+
   List<DateTime> prefixList = [];
   List<DateTime> suffixList = [];
   List<DateTime> contentList = [];
+  List<Map<String, String>> quickMenu = [
+    {
+      "value": "today",
+      "label": "今天",
+    },
+    {
+      "value": "yesterday",
+      "label": "昨天",
+    },
+    {
+      "value": "weekAgo",
+      "label": "一周前",
+    },
+  ];
 
   @override
   void initState() {
@@ -30,6 +50,10 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   }
 
   void initData() {
+    if (widget.model != null) {
+      year = widget.model!.year;
+      month = widget.model!.month;
+    }
     Map<String, List<DateTime>> map = SkyDataPickerUtils().generateMonthDayShowItem(year, month);
     prefixList = map["prefixList"]!;
     suffixList = map["suffixList"]!;
@@ -64,7 +88,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   }
 
   void nextYear() {
-    year -= 1;
+    year += 1;
     initData();
   }
 
@@ -72,13 +96,55 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     widget.onchanged?.call(day);
   }
 
+  void onQuickMenu(String type) {
+    switch (type) {
+      case "today":
+        setValue(today);
+        break;
+      case "yesterday":
+        setValue(today.subtract(const Duration(days: 1)));
+        break;
+      case "weekAgo":
+        setValue(today.subtract(const Duration(days: 7)));
+        break;
+      default:
+    }
+  }
+
+  TextStyle dayItemTextColor(bool onhover, bool content, DateTime e) {
+    if (widget.model != null && e.isAtSameMomentAs(widget.model!)) {
+      return TextStyle(
+        color: SkyColors().white,
+        fontWeight: FontWeight.w700,
+      );
+    }
+    if (!content) {
+      return TextStyle(color: SkyColors().placeholderText);
+    }
+    if (e.isAtSameMomentAs(today)) {
+      return TextStyle(
+        color: SkyColors().primary,
+        fontWeight: FontWeight.w700,
+      );
+    } else {
+      return TextStyle(color: onhover ? SkyColors().primary : SkyColors().regularText);
+    }
+  }
+
   Widget renderItem(DateTime time, bool content) {
     return Container(
       alignment: Alignment.center,
-      height: widget.size.height,
-      width: widget.size.height * itemScale,
+      height: widget.size.height - 8,
+      width: widget.size.height - 8,
+      margin: EdgeInsets.symmetric(horizontal: widget.size.height * (itemScale - 1) * 0.5 + 4, vertical: 4),
+      decoration: BoxDecoration(
+        color: widget.model != null && time.isAtSameMomentAs(widget.model!) ? SkyColors().primary : SkyColors().white,
+        borderRadius: BorderRadius.circular(
+          widget.size.height - 8,
+        ),
+      ),
       child: SkyHover(
-        disabled: false,
+        disabled: widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
         alignment: Alignment.center,
         showBackgroup: false,
         onTap: () {
@@ -89,9 +155,8 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
             textAlign: TextAlign.center,
             time.day.toString(),
             style: TextStyle(
-              color: content ? (h ? SkyColors().primary : SkyColors().regularText) : SkyColors().placeholderText,
               fontSize: SkyFontSizes().s12,
-            ),
+            ).merge(dayItemTextColor(h, content, time)),
           );
         },
       ),
@@ -233,73 +298,53 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     ];
   }
 
+  Widget renderQuickMenu() {
+    return Container(
+      width: widget.size.height * 3,
+      padding: widget.size.boxPadding,
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            width: 1,
+            color: SkyColors().otherBorder,
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...quickMenu.map(
+            (e) => Padding(
+              padding: EdgeInsets.symmetric(vertical: SkySpacings().textSpacing),
+              child: SkyHover(
+                disabled: false,
+                showBackgroup: false,
+                onTap: () {
+                  onQuickMenu(e["value"]!);
+                },
+                builder: (ctx, h) {
+                  return Text(
+                    e["label"]!,
+                    style: TextStyle(
+                      color: h ? SkyColors().primary : SkyColors().regularText,
+                      fontSize: SkyFontSizes().s14,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Row(
         children: [
-          Container(
-            width: widget.size.height * 3,
-            padding: widget.size.boxPadding,
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  width: 1,
-                  color: SkyColors().otherBorder,
-                ),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SkyHover(
-                  disabled: false,
-                  showBackgroup: false,
-                  builder: (ctx, h) {
-                    return Text(
-                      "今天",
-                      style: TextStyle(
-                        color: h ? SkyColors().primary : SkyColors().regularText,
-                        fontSize: SkyFontSizes().s14,
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: SkySpacings().textSpacing,
-                ),
-                SkyHover(
-                  disabled: false,
-                  showBackgroup: false,
-                  builder: (ctx, h) {
-                    return Text(
-                      "昨天",
-                      style: TextStyle(
-                        color: h ? SkyColors().primary : SkyColors().regularText,
-                        fontSize: SkyFontSizes().s14,
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: SkySpacings().textSpacing,
-                ),
-                SkyHover(
-                  disabled: false,
-                  showBackgroup: false,
-                  builder: (ctx, h) {
-                    return Text(
-                      "一周前",
-                      style: TextStyle(
-                        color: h ? SkyColors().primary : SkyColors().regularText,
-                        fontSize: SkyFontSizes().s14,
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
+          renderQuickMenu(),
           SizedBox(
             width: SkySpacings().mainSpacing,
           ),

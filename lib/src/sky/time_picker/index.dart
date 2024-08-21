@@ -8,5 +8,5 @@ import 'widget/sky_time_picker_item.dart';
 import 'model/sky_time_picker_utils.dart';
 
 part 'sky_time_picker.dart';
-part 'model/sky_picker_options.dart';
+part 'model/sky_time_select_picker_options.dart';
 part 'sky_time_picker_range.dart';

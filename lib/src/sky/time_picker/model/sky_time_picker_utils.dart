@@ -55,7 +55,7 @@ class SkyTimePickerUtils extends SkyMoment {
     }
   }
 
-  List<String> createTimePickerOption(SkyPickerOptions config) {
+  List<String> createTimePickerOption(SkyTimeSelectPickerOptions config) {
     String format = getFormat(config.start);
     List<String> result = [];
     DateTime zeroTime = createTimeByTimePicker(null, false);

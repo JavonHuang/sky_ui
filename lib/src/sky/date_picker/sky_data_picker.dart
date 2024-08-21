@@ -9,6 +9,7 @@ class SkyDataPicker extends SkyFormFieldBridge<SkyDataPicker> {
     this.placeholder,
     this.model,
     this.editable = false,
+    this.pickerOptions,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyDataPicker,
@@ -20,6 +21,7 @@ class SkyDataPicker extends SkyFormFieldBridge<SkyDataPicker> {
   final String? placeholder;
   final int? model;
   final bool editable;
+  final SkyPickerOptions? pickerOptions;
 
   @override
   SkyFormFieldBridgeState<SkyDataPicker> createState() => _SkyDataPickerState();
@@ -70,26 +72,20 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
 
   void setSelectValue(DateTime e) {
     textController.text = DateFormat("yyyy-MM-dd").format(e);
-    value = e;
-    menuController.close();
-
+    if (menuController.isOpen) {
+      menuController.close();
+    }
     setValue(e);
   }
 
-  // Widget renderOptionItem(double optionWidth, double padding) {
-  //   return Container(
-  //     alignment: Alignment.center,
-  //     width: optionWidth - padding,
-  //     height: _widget.size.height,
-  //     child: Text(
-  //       "暂无数据",
-  //       style: TextStyle(
-  //         color: SkyColors().placeholderText,
-  //         fontSize: _widget.size.textSize,
-  //       ),
-  //     ),
-  //   );
-  // }
+  @override
+  void initState() {
+    super.initState();
+    if (_widget.model != null && mounted) {
+      textController.text = DateFormat("yyyy-MM-dd").format(DateTime.fromMicrosecondsSinceEpoch(_widget.model!));
+      setValue(DateTime.fromMicrosecondsSinceEpoch(_widget.model!));
+    }
+  }
 
   @override
   void setValue(dynamic e) {
@@ -154,6 +150,8 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
                 size: _widget.size,
                 width: optionWidth,
                 onchanged: setSelectValue,
+                model: value,
+                pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
               ),
             ],
             builder: (context, controller, child) {

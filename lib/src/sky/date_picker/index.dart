@@ -12,3 +12,4 @@ import 'model/sky_data_picker_utils.dart';
 
 part 'sky_data_picker.dart';
 part 'widget/sky_data_picker_menu.dart';
+part 'model/sky_picker_options.dart';

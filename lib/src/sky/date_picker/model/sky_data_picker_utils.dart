@@ -4,11 +4,7 @@ class SkyDataPickerUtils extends SkyMoment {
   static List<String> headerTitle = ["日", "一", "二", "三", "四", "五", "六"];
 
   int getDaysInMonth(int year, int month) {
-    if (month == 2) {
-      return DateTime(year, 2, 29).difference(DateTime(year, 2, 28)).inDays == 1 ? 29 : 28;
-    } else {
-      return DateTime(year, month, 31).difference(DateTime(year, month, 30)).inDays == 1 ? 31 : 30;
-    }
+    return DateTime(year, month + 1, 0).day;
   }
 
   List<DateTime> generateMonthDayItem(int year, int month) {
@@ -23,15 +19,15 @@ class SkyDataPickerUtils extends SkyMoment {
 
     int weekday = DateTime(year, month, 1).weekday;
     int curretMonthDay = getDaysInMonth(year, month);
-    if (weekday != 7) {
-      List<DateTime> arr = [];
-      if (month == 1) {
-        arr = generateMonthDayItem(year - 1, 12);
-      } else {
-        arr = generateMonthDayItem(year, month - 1);
-      }
-      prefixList = arr.sublist(arr.length - weekday);
+
+    List<DateTime> arr = [];
+    if (month == 1) {
+      arr = generateMonthDayItem(year - 1, 12);
+    } else {
+      arr = generateMonthDayItem(year, month - 1);
     }
+    prefixList = arr.sublist(arr.length - weekday);
+
     int suffixNumber = 42 - weekday - curretMonthDay;
     if (suffixNumber != 0) {
       List<DateTime> arr = [];

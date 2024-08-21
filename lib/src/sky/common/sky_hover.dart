@@ -35,7 +35,7 @@ class _SkyHoverState extends State<SkyHover> {
     if (onHover && widget.showBackgroup) {
       return SkyColors().defaultBg;
     }
-    return SkyColors().white;
+    return SkyColors().transparent;
   }
 
   void _setValue(bool e) {

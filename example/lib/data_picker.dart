@@ -15,6 +15,10 @@ class _DataPickerTestState extends State<DataPickerTest> {
       children: [
         SkyDataPicker(
           clearable: true,
+          model: DateTime.now().microsecondsSinceEpoch,
+          pickerOptions: SkyPickerOptions(disabledDate: (e) {
+            return e.isAfter(DateTime.now());
+          }),
         ),
       ],
     );
