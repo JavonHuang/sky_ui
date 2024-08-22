@@ -1,12 +1,13 @@
 part of '../index.dart';
 
-class SkyDataPickerMenu extends StatefulWidget {
-  const SkyDataPickerMenu({
+class SkyDatePickerMenu extends StatefulWidget {
+  const SkyDatePickerMenu({
     super.key,
     this.model,
     required this.size,
     required this.width,
     required this.pickerOptions,
+    required this.type,
     this.onchanged,
   });
   final DateTime? model;
@@ -14,12 +15,13 @@ class SkyDataPickerMenu extends StatefulWidget {
   final double width;
   final Function(DateTime e)? onchanged;
   final SkyPickerOptions pickerOptions;
+  final SkyDatePickerType type;
 
   @override
-  State<SkyDataPickerMenu> createState() => _SkyDataPickerMenuState();
+  State<SkyDatePickerMenu> createState() => _SkyDatePickerMenuState();
 }
 
-class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
+class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
   late String showType = "day";
   late double itemScale = 1.5;
   late int year = SkyDataPickerUtils().year;
@@ -29,20 +31,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   List<DateTime> prefixList = [];
   List<DateTime> suffixList = [];
   List<DateTime> contentList = [];
-  List<Map<String, String>> quickMenu = [
-    {
-      "value": "today",
-      "label": "今天",
-    },
-    {
-      "value": "yesterday",
-      "label": "昨天",
-    },
-    {
-      "value": "weekAgo",
-      "label": "一周前",
-    },
-  ];
 
   @override
   void initState() {
@@ -117,70 +105,77 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
   }
 
   void setValue(DateTime day) {
+    if (widget.pickerOptions.disabledDate != null && widget.pickerOptions.disabledDate!.call(day)) {
+      return;
+    }
     widget.onchanged?.call(day);
   }
 
-  void onQuickMenu(String type) {
-    switch (type) {
-      case "today":
-        setValue(today);
-        break;
-      case "yesterday":
-        setValue(today.subtract(const Duration(days: 1)));
-        break;
-      case "weekAgo":
-        setValue(today.subtract(const Duration(days: 7)));
-        break;
-      default:
-    }
-  }
-
-  TextStyle dayItemTextColor(bool onhover, bool content, DateTime e) {
-    if (widget.model != null && e.isAtSameMomentAs(widget.model!)) {
-      return TextStyle(
-        color: SkyColors().white,
-        fontWeight: FontWeight.w700,
-      );
-    }
-    if (!content) {
-      return TextStyle(color: SkyColors().placeholderText);
-    }
-    if (e.isAtSameMomentAs(today)) {
-      return TextStyle(
-        color: SkyColors().primary,
-        fontWeight: FontWeight.w700,
+  Widget renderItem(DateTime time, bool content) {
+    BoxDecoration? dayItemBoxDecoration;
+    if (widget.pickerOptions.disabledDate != null && widget.pickerOptions.disabledDate!.call(time)) {
+      dayItemBoxDecoration = BoxDecoration(
+        color: SkyColors().disabledBg,
       );
     } else {
-      return TextStyle(color: onhover ? SkyColors().primary : SkyColors().regularText);
+      dayItemBoxDecoration = BoxDecoration(
+        color: SkyColors().white,
+      );
     }
-  }
-
-  Widget renderItem(DateTime time, bool content) {
     return Container(
       alignment: Alignment.center,
-      height: widget.size.height - 8,
-      width: widget.size.height - 8,
-      margin: EdgeInsets.symmetric(horizontal: widget.size.height * (itemScale - 1) * 0.5 + 4, vertical: 4),
-      decoration: BoxDecoration(
-        color: widget.model != null && time.isAtSameMomentAs(widget.model!) ? SkyColors().primary : SkyColors().white,
-        borderRadius: BorderRadius.circular(
-          widget.size.height - 8,
-        ),
-      ),
+      height: widget.size.height,
+      width: widget.size.height * itemScale,
+      decoration: dayItemBoxDecoration,
+      margin: EdgeInsets.only(bottom: SkySpacings().textSpacing),
       child: SkyHover(
         disabled: widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
         alignment: Alignment.center,
-        showBackgroup: false,
         onTap: () {
           setValue(time);
         },
         builder: (ctx, h) {
-          return Text(
-            textAlign: TextAlign.center,
-            time.day.toString(),
-            style: TextStyle(
-              fontSize: SkyFontSizes().s12,
-            ).merge(dayItemTextColor(h, content, time)),
+          Decoration? decoration;
+          if (widget.model != null && time.isAtSameMomentAs(widget.model!)) {
+            decoration = BoxDecoration(
+              color: SkyColors().primary,
+              borderRadius: BorderRadius.circular(
+                widget.size.height,
+              ),
+            );
+          } else {
+            decoration = BoxDecoration(
+              color: SkyColors().transparent,
+            );
+          }
+          TextStyle? dayItemTextColor;
+          if (widget.model != null && time.isAtSameMomentAs(widget.model!)) {
+            dayItemTextColor = TextStyle(
+              color: SkyColors().white,
+              fontWeight: FontWeight.w700,
+            );
+          } else if (!content) {
+            dayItemTextColor = TextStyle(color: SkyColors().placeholderText);
+          } else if (time.isAtSameMomentAs(today)) {
+            dayItemTextColor = TextStyle(
+              color: SkyColors().primary,
+              fontWeight: FontWeight.w700,
+            );
+          } else {
+            dayItemTextColor = TextStyle(color: h ? SkyColors().primary : SkyColors().regularText);
+          }
+          return Container(
+            alignment: Alignment.center,
+            height: widget.size.height * 0.8,
+            width: widget.size.height * 0.8,
+            decoration: decoration,
+            child: Text(
+              textAlign: TextAlign.center,
+              time.day.toString(),
+              style: TextStyle(
+                fontSize: SkyFontSizes().s12,
+              ).merge(dayItemTextColor),
+            ),
           );
         },
       ),
@@ -206,35 +201,46 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
 
   List<Widget> renderYears() {
     List<int> yearList = SkyDataPickerUtils().getYearList(year);
-    return yearList
-        .map((e) => Container(
+    return yearList.map((e) {
+      bool disabled = widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(DateTime(e, 1, 1)) : false;
+      BoxDecoration? dayItemBoxDecoration;
+      if (disabled) {
+        dayItemBoxDecoration = BoxDecoration(
+          color: SkyColors().disabledBg,
+        );
+      } else {
+        dayItemBoxDecoration = BoxDecoration(
+          color: SkyColors().white,
+        );
+      }
+      return Container(
+        alignment: Alignment.center,
+        height: widget.size.height * 2,
+        width: widget.size.height * 2.5,
+        child: SkyHover(
+          disabled: disabled,
+          alignment: Alignment.center,
+          onTap: () {
+            selectYear(e);
+          },
+          builder: (ctx, h) {
+            return Container(
               alignment: Alignment.center,
-              height: widget.size.height * 2,
-              width: widget.size.height * 2.5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  widget.size.height - 8,
-                ),
+              height: widget.size.height,
+              width: widget.size.height * itemScale,
+              decoration: dayItemBoxDecoration,
+              child: Text(
+                textAlign: TextAlign.center,
+                e.toString(),
+                style: TextStyle(
+                  fontSize: SkyFontSizes().s12,
+                ).merge(yearItemTextColor(h, e)),
               ),
-              child: SkyHover(
-                disabled: false, //widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
-                alignment: Alignment.center,
-                showBackgroup: false,
-                onTap: () {
-                  selectYear(e);
-                },
-                builder: (ctx, h) {
-                  return Text(
-                    textAlign: TextAlign.center,
-                    e.toString(),
-                    style: TextStyle(
-                      fontSize: SkyFontSizes().s12,
-                    ).merge(yearItemTextColor(h, e)),
-                  );
-                },
-              ),
-            ))
-        .toList();
+            );
+          },
+        ),
+      );
+    }).toList();
   }
 
   List<Widget> renderMonths() {
@@ -250,9 +256,8 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
                 ),
               ),
               child: SkyHover(
-                disabled: false, //widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
+                disabled: false,
                 alignment: Alignment.center,
-                showBackgroup: false,
                 onTap: () {
                   selectMonth(e);
                 },
@@ -324,7 +329,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     return [
       SkyHover(
         disabled: false,
-        showBackgroup: false,
         onTap: preYear,
         builder: (ctx, h) {
           return Padding(
@@ -342,7 +346,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
       if (showType == 'day')
         SkyHover(
           disabled: false,
-          showBackgroup: false,
           onTap: preMonth,
           builder: (ctx, h) {
             return Padding(
@@ -364,7 +367,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
             children: [
               SkyHover(
                 disabled: false,
-                showBackgroup: false,
                 onTap: () {
                   setState(() {
                     showType = "year";
@@ -387,7 +389,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
               ),
               SkyHover(
                 disabled: false,
-                showBackgroup: false,
                 builder: (ctx, h) {
                   return Text(
                     "$month月",
@@ -440,7 +441,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
       if (showType == 'day')
         SkyHover(
           disabled: false,
-          showBackgroup: false,
           onTap: nextMonth,
           builder: (ctx, h) {
             return Padding(
@@ -457,7 +457,6 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
         ),
       SkyHover(
         disabled: false,
-        showBackgroup: false,
         onTap: nextYear,
         builder: (ctx, h) {
           return Padding(
@@ -479,6 +478,9 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     return Container(
       width: widget.size.height * 3,
       padding: widget.size.boxPadding,
+      margin: EdgeInsets.only(
+        right: SkySpacings().mainSpacing,
+      ),
       decoration: BoxDecoration(
         border: Border(
           right: BorderSide(
@@ -490,18 +492,17 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...quickMenu.map(
+          ...widget.pickerOptions.shortcuts!.map(
             (e) => Padding(
               padding: EdgeInsets.symmetric(vertical: SkySpacings().textSpacing),
               child: SkyHover(
                 disabled: false,
-                showBackgroup: false,
                 onTap: () {
-                  onQuickMenu(e["value"]!);
+                  e.onTap(today, setValue);
                 },
                 builder: (ctx, h) {
                   return Text(
-                    e["label"]!,
+                    e.text,
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontSize: SkyFontSizes().s14,
@@ -521,10 +522,7 @@ class _SkyDataPickerMenuState extends State<SkyDataPickerMenu> {
     return IntrinsicHeight(
       child: Row(
         children: [
-          renderQuickMenu(),
-          SizedBox(
-            width: SkySpacings().mainSpacing,
-          ),
+          if (widget.pickerOptions.shortcuts != null) renderQuickMenu(),
           Container(
             width: widget.size.height * itemScale * 7,
             child: Column(

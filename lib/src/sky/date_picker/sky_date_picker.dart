@@ -1,7 +1,7 @@
 part of 'index.dart';
 
-class SkyDataPicker extends SkyFormFieldBridge<SkyDataPicker> {
-  const SkyDataPicker({
+class SkyDatePicker extends SkyFormFieldBridge<SkyDatePicker> {
+  const SkyDatePicker({
     super.key,
     this.size = SkySize.small,
     this.disabled = false,
@@ -10,6 +10,8 @@ class SkyDataPicker extends SkyFormFieldBridge<SkyDataPicker> {
     this.model,
     this.editable = false,
     this.pickerOptions,
+    this.format = "yyyy-MM-dd",
+    this.type = SkyDatePickerType.date,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyDataPicker,
@@ -22,13 +24,14 @@ class SkyDataPicker extends SkyFormFieldBridge<SkyDataPicker> {
   final int? model;
   final bool editable;
   final SkyPickerOptions? pickerOptions;
-
+  final String? format;
+  final SkyDatePickerType type;
   @override
-  SkyFormFieldBridgeState<SkyDataPicker> createState() => _SkyDataPickerState();
+  SkyFormFieldBridgeState<SkyDatePicker> createState() => _SkyDatePickerState();
 }
 
-class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
-  late SkyDataPicker _widget = super.widget as SkyDataPicker;
+class _SkyDatePickerState extends SkyFormFieldBridgeState<SkyDatePicker> {
+  late SkyDatePicker _widget = super.widget as SkyDatePicker;
   TextEditingController textController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   final MenuController menuController = MenuController();
@@ -71,19 +74,33 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
   }
 
   void setSelectValue(DateTime e) {
-    textController.text = DateFormat("yyyy-MM-dd").format(e);
+    textController.text = DateFormat(_widget.format).format(e);
     if (menuController.isOpen) {
       menuController.close();
     }
     setValue(e);
   }
 
+  void initValue(int? number) {
+    if (number != null && mounted) {
+      DateTime t = DateTime.fromMillisecondsSinceEpoch(number);
+      textController.text = DateFormat(_widget.format).format(t);
+      setValue(DateTime(t.year, t.month, t.day));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    if (_widget.model != null && mounted) {
-      textController.text = DateFormat("yyyy-MM-dd").format(DateTime.fromMicrosecondsSinceEpoch(_widget.model!));
-      setValue(DateTime.fromMicrosecondsSinceEpoch(_widget.model!));
+    initValue(_widget.model);
+  }
+
+  @override
+  void didUpdateWidget(SkyDatePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    SkyDatePicker widget = super.widget as SkyDatePicker;
+    if (oldWidget.model != widget.model && mounted) {
+      initValue(widget.model);
     }
   }
 
@@ -122,18 +139,6 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
             controller: menuController,
             alignmentOffset: const Offset(0, 4),
             style: MenuStyle(
-              // minimumSize: WidgetStatePropertyAll(
-              //   Size(
-              //     optionWidth,
-              //     40,
-              //   ),
-              // ),
-              // maximumSize: WidgetStatePropertyAll(
-              //   Size(
-              //     optionWidth,
-              //     200,
-              //   ),
-              // ),
               visualDensity: VisualDensity.comfortable,
               side: WidgetStatePropertyAll(BorderSide(
                 color: SkyColors().baseBorder,
@@ -145,12 +150,12 @@ class _SkyDataPickerState extends SkyFormFieldBridgeState<SkyDataPicker> {
               padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: SkySpacings().mainSpacing, horizontal: padding)),
             ),
             menuChildren: [
-              // renderOptionItem(optionWidth, padding * 2),
-              SkyDataPickerMenu(
+              SkyDatePickerMenu(
                 size: _widget.size,
                 width: optionWidth,
                 onchanged: setSelectValue,
                 model: value,
+                type: _widget.type,
                 pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
               ),
             ],

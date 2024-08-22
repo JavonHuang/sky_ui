@@ -10,6 +10,6 @@ import '../form/sky_form_field_bridge.dart';
 import '../input/index.dart';
 import 'model/sky_data_picker_utils.dart';
 
-part 'sky_data_picker.dart';
-part 'widget/sky_data_picker_menu.dart';
+part 'sky_date_picker.dart';
+part 'widget/sky_date_picker_menu.dart';
 part 'model/sky_picker_options.dart';
