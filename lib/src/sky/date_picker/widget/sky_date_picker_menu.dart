@@ -22,7 +22,7 @@ class SkyDatePickerMenu extends StatefulWidget {
 }
 
 class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
-  late String showType = "day";
+  late String showType = "day"; //day,month,year
   late double itemScale = 1.5;
   late int year = SkyDataPickerUtils().year;
   late int month = SkyDataPickerUtils().month;
@@ -38,6 +38,15 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
     if (widget.model != null) {
       year = widget.model!.year;
       month = widget.model!.month;
+    }
+    if (widget.type == SkyDatePickerType.year || widget.type == SkyDatePickerType.years) {
+      showType = "year";
+    }
+    if (widget.type == SkyDatePickerType.month || widget.type == SkyDatePickerType.months) {
+      showType = "month";
+    }
+    if (widget.type == SkyDatePickerType.date || widget.type == SkyDatePickerType.dates || widget.type == SkyDatePickerType.week) {
+      showType = "day";
     }
     initData();
   }
@@ -90,6 +99,10 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
   }
 
   void selectYear(int e) {
+    if (widget.type == SkyDatePickerType.year) {
+      setValue(DateTime(e, 1, 1));
+      return;
+    }
     setState(() {
       showType = "month";
       year = e;
@@ -97,6 +110,10 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
   }
 
   void selectMonth(int e) {
+    if (widget.type == SkyDatePickerType.month) {
+      setValue(DateTime(year, e, 1));
+      return;
+    }
     setState(() {
       showType = "day";
       month = e;
@@ -104,11 +121,11 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
     initData();
   }
 
-  void setValue(DateTime day) {
-    if (widget.pickerOptions.disabledDate != null && widget.pickerOptions.disabledDate!.call(day)) {
+  void setValue(DateTime e) {
+    if (widget.pickerOptions.disabledDate != null && widget.pickerOptions.disabledDate!.call(e)) {
       return;
     }
-    widget.onchanged?.call(day);
+    widget.onchanged?.call(e);
   }
 
   Widget renderItem(DateTime time, bool content) {
@@ -189,16 +206,6 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
     return [...prefixWidget, ...contentWidget, ...suffixWidget];
   }
 
-  TextStyle yearItemTextColor(bool onHover, int y) {
-    if (widget.model != null && y == widget.model!.year) {
-      return TextStyle(
-        color: SkyColors().primary,
-        fontWeight: FontWeight.w700,
-      );
-    }
-    return TextStyle(color: onHover ? SkyColors().primary : SkyColors().regularText);
-  }
-
   List<Widget> renderYears() {
     List<int> yearList = SkyDataPickerUtils().getYearList(year);
     return yearList.map((e) {
@@ -213,6 +220,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
           color: SkyColors().white,
         );
       }
+
       return Container(
         alignment: Alignment.center,
         height: widget.size.height * 2,
@@ -224,6 +232,19 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
             selectYear(e);
           },
           builder: (ctx, h) {
+            TextStyle? yearItemTextColor;
+            if (widget.model != null && e == widget.model!.year) {
+              yearItemTextColor = TextStyle(
+                color: SkyColors().primary,
+              );
+            } else if (e == today.year) {
+              yearItemTextColor = TextStyle(
+                color: SkyColors().primary,
+                fontWeight: FontWeight.w700,
+              );
+            } else {
+              yearItemTextColor = TextStyle(color: h ? SkyColors().primary : SkyColors().regularText);
+            }
             return Container(
               alignment: Alignment.center,
               height: widget.size.height,
@@ -234,7 +255,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                 e.toString(),
                 style: TextStyle(
                   fontSize: SkyFontSizes().s12,
-                ).merge(yearItemTextColor(h, e)),
+                ).merge(yearItemTextColor),
               ),
             );
           },
@@ -262,12 +283,25 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                   selectMonth(e);
                 },
                 builder: (ctx, h) {
+                  TextStyle? monthItemTextColor;
+                  if (widget.model != null && DateTime(year, e) == DateTime(widget.model!.year, widget.model!.month)) {
+                    monthItemTextColor = TextStyle(
+                      color: SkyColors().primary,
+                    );
+                  } else if (DateTime(year, e) == DateTime(today.year, today.month)) {
+                    monthItemTextColor = TextStyle(
+                      color: SkyColors().primary,
+                      fontWeight: FontWeight.w700,
+                    );
+                  } else {
+                    monthItemTextColor = TextStyle(color: h ? SkyColors().primary : SkyColors().regularText);
+                  }
                   return Text(
                     textAlign: TextAlign.center,
                     '${e.toString()}月',
                     style: TextStyle(
                       fontSize: SkyFontSizes().s12,
-                    ).merge(yearItemTextColor(h, e)),
+                    ).merge(monthItemTextColor),
                   );
                 },
               ),
@@ -288,39 +322,6 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
               ),
             ))
         .toList();
-  }
-
-  List<Widget> renderHeaderYearControls() {
-    List<int> yearList = SkyDataPickerUtils().getYearList(year);
-    return [
-      Expanded(child: Container()),
-      Container(
-        alignment: Alignment.center,
-        height: widget.size.height,
-        padding: EdgeInsets.symmetric(horizontal: SkySpacings().textSpacing),
-        child: Text(
-          textAlign: TextAlign.center,
-          "${yearList[0]}年",
-          style: TextStyle(color: SkyColors().primaryText),
-        ),
-      ),
-      Text(
-        textAlign: TextAlign.center,
-        "-",
-        style: TextStyle(color: SkyColors().primaryText),
-      ),
-      Container(
-        alignment: Alignment.center,
-        height: widget.size.height,
-        padding: EdgeInsets.symmetric(horizontal: SkySpacings().textSpacing),
-        child: Text(
-          textAlign: TextAlign.center,
-          "${yearList.last}年",
-          style: TextStyle(color: SkyColors().primaryText),
-        ),
-      ),
-      Expanded(child: Container()),
-    ];
   }
 
   List<Widget> renderHeaderControls() {
@@ -426,15 +427,25 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "$year年",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: SkyColors().regularText,
-                  fontWeight: FontWeight.w500,
-                  fontSize: SkyFontSizes().s16,
-                ),
-              )
+              SkyHover(
+                disabled: false,
+                onTap: () {
+                  setState(() {
+                    showType = "year";
+                  });
+                },
+                builder: (ctx, h) {
+                  return Text(
+                    "$year年",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: h ? SkyColors().primary : SkyColors().regularText,
+                      fontWeight: FontWeight.w500,
+                      fontSize: SkyFontSizes().s16,
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

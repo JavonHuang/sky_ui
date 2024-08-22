@@ -50,8 +50,17 @@ class _DataPickerTestState extends State<DataPickerTest> {
             ],
           ),
         ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
         SkyDatePicker(
           type: SkyDatePickerType.year,
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          type: SkyDatePickerType.month,
         ),
         SkyButton(
           text: "变化",

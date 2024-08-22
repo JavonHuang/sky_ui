@@ -166,7 +166,7 @@ class _SkyDatePickerState extends SkyFormFieldBridgeState<SkyDatePicker> {
                     padding: EdgeInsets.only(left: 4.scaleSpacing),
                     child: Icon(
                       color: SkyColors().baseBorder,
-                      ElementIcons.time,
+                      ElementIcons.date,
                       size: super.size.iconSize,
                     ),
                   ),
