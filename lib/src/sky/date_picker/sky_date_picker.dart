@@ -41,6 +41,15 @@ class _SkyDatePickerState extends SkyFormFieldBridgeState<SkyDatePicker> {
   late bool hasOpen = false;
 
   bool get textIsNotEmpty => value != null;
+  String get showFormat {
+    if (_widget.type == SkyDatePickerType.year) {
+      return "yyyy";
+    }
+    if (_widget.type == SkyDatePickerType.month) {
+      return "yyyy-ww";
+    }
+    return _widget.format!;
+  }
 
   bool get showCloseIcon {
     return onHover && _widget.clearable && textIsNotEmpty && !super.disabled;
@@ -74,7 +83,7 @@ class _SkyDatePickerState extends SkyFormFieldBridgeState<SkyDatePicker> {
   }
 
   void setSelectValue(DateTime e) {
-    textController.text = DateFormat(_widget.format).format(e);
+    textController.text = DateFormat(showFormat).format(e);
     if (menuController.isOpen) {
       menuController.close();
     }
@@ -84,7 +93,7 @@ class _SkyDatePickerState extends SkyFormFieldBridgeState<SkyDatePicker> {
   void initValue(int? number) {
     if (number != null && mounted) {
       DateTime t = DateTime.fromMillisecondsSinceEpoch(number);
-      textController.text = DateFormat(_widget.format).format(t);
+      textController.text = DateFormat(showFormat).format(t);
       setValue(DateTime(t.year, t.month, t.day));
     }
   }
