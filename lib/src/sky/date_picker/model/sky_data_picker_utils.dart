@@ -49,4 +49,30 @@ class SkyDataPickerUtils extends SkyMoment {
   List<int> getMontList() {
     return List.generate(12, (e) => e + 1);
   }
+
+  /// 根据year年的第week周，查询本周的开始和截止日期
+  List<DateTime> weekToDayRange(int year, int week) {
+    int dayMills = 24 * 60 * 60 * 1000;
+    int weekMills = 7 * dayMills;
+    DateTime dateTime = DateTime(year, 1, 4);
+    int targetTimeStamp = dateTime.millisecondsSinceEpoch + (week * 7 - dateTime.weekday) * dayMills;
+    return [DateTime.fromMillisecondsSinceEpoch(targetTimeStamp - weekMills + dayMills), DateTime.fromMillisecondsSinceEpoch(targetTimeStamp + dayMills - 1)];
+  }
+
+  int getWeek(DateTime e) {
+    int weekDay = DateTime(year, 1, 1).weekday;
+    int days = e.difference(DateTime(e.year, 1, 1)).inDays + 1 + weekDay;
+    return (days / 7).ceil();
+  }
+
+  DateTime getDateTimeByWeek(int year, int week) {
+    DateTime yearFirstDay = DateTime(year, 1, 1);
+    int weekDay = DateTime(year, 1, 1).weekday;
+
+    DateTime weekTime = yearFirstDay.add(Duration(days: (week * 7 - 1 - weekDay)));
+    if (weekTime.year != year) {
+      return DateTime(year - 1, 1, 1).subtract(const Duration(days: 1));
+    }
+    return weekTime;
+  }
 }

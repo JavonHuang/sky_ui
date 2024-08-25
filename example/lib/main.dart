@@ -52,27 +52,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late Map<String, Widget> showMenu = {'CheckBoxText': const CheckBoxText()};
-  late List<Map<String, Widget>> menuList = [
-    {'CheckBoxText': const CheckBoxText()},
-    {'RadioTest': const RadioTest()},
-    {'GroupButton': const GroupButton()},
-    {'ButtonTest': const ButtonTest()},
-    {'LinkText': const LinkText()},
-    {'TagTest': const TagTest()},
-    {'BadgeTest': const BadgeTest()},
-    {'InputTest': const InputTest()},
-    {'SwicthTest': const SwicthTest()},
-    {'FlexLayoutTestRoute': const FlexLayoutTestRoute()},
-    {'SelectTest': const SelectTest()},
-    {
-      'MyContextMenu': const MyContextMenu(
-        message: "0909",
-      ),
-    },
-    {'TimePickTest': const TimePickTest()},
-    {'TimePickRangeTest': const TimePickRangeTest()},
-    {'DataPickerTest': const DataPickerTest()}
-  ];
+  late List<Map<String, Widget>> menuList = [];
 
   Widget _renderTab() {
     return SingleChildScrollView(
@@ -85,6 +65,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    menuList = [
+      {'CheckBoxText': const CheckBoxText()},
+      {'RadioTest': const RadioTest()},
+      {'GroupButton': const GroupButton()},
+      {'ButtonTest': const ButtonTest()},
+      {'LinkText': const LinkText()},
+      {'TagTest': const TagTest()},
+      {'BadgeTest': const BadgeTest()},
+      {'InputTest': const InputTest()},
+      {'SwicthTest': const SwicthTest()},
+      {'FlexLayoutTestRoute': const FlexLayoutTestRoute()},
+      {'SelectTest': const SelectTest()},
+      {
+        'MyContextMenu': const MyContextMenu(
+          message: "0909",
+        ),
+      },
+      {'TimePickTest': const TimePickTest()},
+      {'TimePickRangeTest': const TimePickRangeTest()},
+      {'DataPickerTest': const DataPickerTest()}
+    ];
     return Scaffold(
       body: Container(
         color: Colors.white,

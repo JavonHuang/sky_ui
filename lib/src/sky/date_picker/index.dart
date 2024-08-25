@@ -13,3 +13,4 @@ import 'model/sky_data_picker_utils.dart';
 part 'sky_date_picker.dart';
 part 'widget/sky_date_picker_menu.dart';
 part 'model/sky_picker_options.dart';
+part 'model/sky_date_picker_model.dart';

@@ -34,4 +34,31 @@ enum SkyDatePickerType {
   datetimerange,
   daterange,
   monthrange;
+
+  String get format {
+    switch (this) {
+      case year:
+        return "yyyy";
+      case month:
+        return "yyyy-MM";
+      case date:
+        return "yyyy-MM-dd";
+      case dates:
+        return "yyyy-MM-dd";
+      case months:
+        return "yyyy-MM";
+      case years:
+        return "yyyy";
+      case week:
+        return "yyyy-ww";
+      case datetime:
+        return "HH:mm:ss";
+      case datetimerange:
+        return "HH:mm:ss";
+      case daterange:
+        return "yyyy-MM-dd";
+      case monthrange:
+        return "MM";
+    }
+  }
 }
