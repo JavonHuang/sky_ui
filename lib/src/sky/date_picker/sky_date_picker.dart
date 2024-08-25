@@ -65,15 +65,6 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
   }
 
   bool get textIsNotEmpty => value != null;
-  String get showFormat {
-    if (_widget.type == SkyDatePickerType.year) {
-      return "yyyy";
-    }
-    if (_widget.type == SkyDatePickerType.month) {
-      return "yyyy-ww";
-    }
-    return _widget.format!;
-  }
 
   bool get showCloseIcon {
     return onHover && _widget.clearable && textIsNotEmpty && !super.disabled;
@@ -107,7 +98,6 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
   }
 
   void setSelectValue(DateTime e) {
-<<<<<<< HEAD
     switch (initModel.type) {
       case SkyDatePickerType.year:
         textController.text = DateFormat(formatStr).format(e);
@@ -121,16 +111,12 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
         break;
       default:
     }
-=======
-    textController.text = DateFormat(showFormat).format(e);
->>>>>>> 3e93df3b6f773f6cce90b8e08e73d8462cfd0c11
     if (menuController.isOpen) {
       menuController.close();
     }
     setValue(e);
   }
 
-<<<<<<< HEAD
   void initValue(SkyDatePickerModel<T>? mymodel) {
     if (mymodel == null || mymodel.value == null) {
       return;
@@ -144,12 +130,6 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
       List<int> arr = str.split("-").map((e) => int.parse(e)).cast<int>().toList();
       DateTime t = SkyDataPickerUtils().getDateTimeByWeek(arr[0], arr[1]);
       textController.text = formatStr.replaceAll("yyyy", t.year.toString()).replaceAll("ww", SkyDataPickerUtils().getWeek(t).toString());
-=======
-  void initValue(int? number) {
-    if (number != null && mounted) {
-      DateTime t = DateTime.fromMillisecondsSinceEpoch(number);
-      textController.text = DateFormat(showFormat).format(t);
->>>>>>> 3e93df3b6f773f6cce90b8e08e73d8462cfd0c11
       setValue(DateTime(t.year, t.month, t.day));
     }
   }
