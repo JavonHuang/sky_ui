@@ -203,6 +203,19 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
                 type: type,
                 pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
               ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.end,
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     SkyButton(
+              //       type: SkyType.text,
+              //       text: "确定",
+              //       onTap: () {
+
+              //       },
+              //     )
+              //   ],
+              // )
             ],
             builder: (context, controller, child) {
               return Row(

@@ -4,6 +4,7 @@ class SkyDatePickerMenu extends StatefulWidget {
   const SkyDatePickerMenu({
     super.key,
     this.model,
+    this.modelList,
     required this.size,
     required this.width,
     required this.pickerOptions,
@@ -11,6 +12,8 @@ class SkyDatePickerMenu extends StatefulWidget {
     this.onchanged,
   });
   final DateTime? model;
+  final List<DateTime>? modelList;
+
   final SkySize size;
   final double width;
   final Function(DateTime e)? onchanged;
@@ -134,6 +137,31 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
       dayItemBoxDecoration = BoxDecoration(
         color: SkyColors().disabledBg,
       );
+    } else if (widget.type == SkyDatePickerType.week && widget.model != null) {
+      List<DateTime> timeRange = SkyDataPickerUtils().weekToDayRange(widget.model!.year, SkyDataPickerUtils().getWeek(widget.model!));
+      if (time.isAfter(timeRange[0]) && time.isBefore(timeRange[1])) {
+        dayItemBoxDecoration = BoxDecoration(
+          color: SkyColors().defaultBg,
+        );
+      }
+      if (time.isAtSameMomentAs(timeRange[0])) {
+        dayItemBoxDecoration = BoxDecoration(
+          color: SkyColors().defaultBg,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(widget.size.height),
+            bottomLeft: Radius.circular(widget.size.height),
+          ),
+        );
+      }
+      if (time.isAtSameMomentAs(timeRange[1])) {
+        dayItemBoxDecoration = BoxDecoration(
+          color: SkyColors().defaultBg,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(widget.size.height),
+            bottomRight: Radius.circular(widget.size.height),
+          ),
+        );
+      }
     } else {
       dayItemBoxDecoration = BoxDecoration(
         color: SkyColors().white,
@@ -153,7 +181,18 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
         },
         builder: (ctx, h) {
           Decoration? decoration;
-          if (widget.model != null && time.isAtSameMomentAs(widget.model!)) {
+
+          if (widget.type == SkyDatePickerType.week && widget.model != null) {
+            List<DateTime> timeRange = SkyDataPickerUtils().weekToDayRange(widget.model!.year, SkyDataPickerUtils().getWeek(widget.model!));
+            if (time.isAtSameMomentAs(timeRange[0]) || time.isAtSameMomentAs(timeRange[1])) {
+              decoration = BoxDecoration(
+                color: SkyColors().primary,
+                borderRadius: BorderRadius.circular(
+                  widget.size.height,
+                ),
+              );
+            }
+          } else if (widget.model != null && time.isAtSameMomentAs(widget.model!)) {
             decoration = BoxDecoration(
               color: SkyColors().primary,
               borderRadius: BorderRadius.circular(
@@ -166,7 +205,17 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
             );
           }
           TextStyle? dayItemTextColor;
-          if (widget.model != null && time.isAtSameMomentAs(widget.model!)) {
+          if (widget.type == SkyDatePickerType.week && widget.model != null) {
+            List<DateTime> timeRange = SkyDataPickerUtils().weekToDayRange(widget.model!.year, SkyDataPickerUtils().getWeek(widget.model!));
+            if (time.isAtSameMomentAs(timeRange[0]) || time.isAtSameMomentAs(timeRange[1])) {
+              dayItemTextColor = TextStyle(
+                color: SkyColors().white,
+                fontWeight: FontWeight.w700,
+              );
+            } else {
+              dayItemTextColor = TextStyle(color: h ? SkyColors().primary : SkyColors().regularText);
+            }
+          } else if (widget.model != null && time.isAtSameMomentAs(widget.model!)) {
             dayItemTextColor = TextStyle(
               color: SkyColors().white,
               fontWeight: FontWeight.w700,
