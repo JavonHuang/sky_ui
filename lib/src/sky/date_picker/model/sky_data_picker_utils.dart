@@ -46,8 +46,21 @@ class SkyDataPickerUtils extends SkyMoment {
     return List.generate(10, (e) => e + year);
   }
 
-  List<int> getMontList() {
-    return List.generate(12, (e) => e + 1);
+  List<Map<String, int>> getMontList() {
+    return [
+      {"一": 1},
+      {"二": 2},
+      {"三": 3},
+      {"四": 4},
+      {"五": 5},
+      {"六": 6},
+      {"七": 7},
+      {"八": 8},
+      {"九": 9},
+      {"十": 10},
+      {"十一": 11},
+      {"十二": 12},
+    ];
   }
 
   /// 根据year年的第week周，查询本周的开始和截止日期

@@ -36,6 +36,8 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
   final MenuController menuController = MenuController();
 
   late dynamic value = null;
+  late List<dynamic> valueList = [];
+
   late bool onHover = false;
   late bool hasOpen = false;
 
@@ -65,8 +67,12 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
   }
 
   bool get textIsNotEmpty => value != null;
+  bool get textListIsNotEmpty => valueList.isNotEmpty;
 
   bool get showCloseIcon {
+    if (type == SkyDatePickerType.months) {
+      return onHover && _widget.clearable && textListIsNotEmpty && !super.disabled;
+    }
     return onHover && _widget.clearable && textIsNotEmpty && !super.disabled;
   }
 
@@ -86,7 +92,11 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
   void onClear() {
     textController.text = "";
     menuController.close();
-    setValue(null);
+    if (type == SkyDatePickerType.months) {
+      setValue([]);
+    } else {
+      setValue(null);
+    }
   }
 
   onTap() {
@@ -101,20 +111,36 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
     switch (initModel.type) {
       case SkyDatePickerType.year:
         textController.text = DateFormat(formatStr).format(e);
+        setValue(e);
         break;
       case SkyDatePickerType.month:
         textController.text = DateFormat(formatStr).format(e);
+        setValue(e);
       case SkyDatePickerType.date:
         textController.text = DateFormat(formatStr).format(e);
+        setValue(e);
       case SkyDatePickerType.week:
         textController.text = formatStr.replaceAll("yyyy", e.year.toString()).replaceAll("ww", SkyDataPickerUtils().getWeek(e).toString());
+        setValue(e);
         break;
+      case SkyDatePickerType.months:
+        int index = valueList.indexWhere((t) => t.isAtSameMomentAs(e));
+        if (index > -1) {
+          valueList.removeAt(index);
+        } else {
+          valueList.add(e);
+        }
+        List<String> strArr = [];
+        for (DateTime item in valueList) {
+          strArr.add(DateFormat(formatStr).format(item));
+        }
+        textController.text = strArr.join(',');
+        setValue(valueList);
       default:
     }
-    if (menuController.isOpen) {
+    if (menuController.isOpen && initModel.type != SkyDatePickerType.months) {
       menuController.close();
     }
-    setValue(e);
   }
 
   void initValue(SkyDatePickerModel<T>? mymodel) {
@@ -131,6 +157,17 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
       DateTime t = SkyDataPickerUtils().getDateTimeByWeek(arr[0], arr[1]);
       textController.text = formatStr.replaceAll("yyyy", t.year.toString()).replaceAll("ww", SkyDataPickerUtils().getWeek(t).toString());
       setValue(DateTime(t.year, t.month, t.day));
+    } else if (mymodel.type == SkyDatePickerType.months) {
+      List<int> v = mymodel.value as List<int>;
+      List<String> strArr = [];
+      List<DateTime> tList = [];
+      for (int item in v) {
+        DateTime t = DateTime.fromMillisecondsSinceEpoch(item);
+        tList.add(t);
+        strArr.add(DateFormat(formatStr).format(t));
+      }
+      textController.text = strArr.join(',');
+      setValue(tList);
     }
   }
 
@@ -151,14 +188,24 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
 
   @override
   void setValue(dynamic e) {
-    setState(() {
-      value = e;
-    });
+    if (type == SkyDatePickerType.months) {
+      setState(() {
+        valueList = e;
+      });
+    } else {
+      setState(() {
+        value = e;
+      });
+    }
   }
 
   @override
   dynamic getValue() {
-    return value;
+    if (type == SkyDatePickerType.months) {
+      return valueList;
+    } else {
+      return value;
+    }
   }
 
   @override
@@ -201,6 +248,7 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
                 onchanged: setSelectValue,
                 model: value,
                 type: type,
+                modelList: valueList.isNotEmpty ? valueList as List<DateTime> : [],
                 pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
               ),
               // Row(

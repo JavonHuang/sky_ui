@@ -5,7 +5,7 @@ class SkyDatePickerModel<T> {
   final T? value;
 
   SkyDatePickerModel(this.type, [this.value]) {
-    if (type == SkyDatePickerType.date && value is! int) {
+    if (type == SkyDatePickerType.date && value is! T) {
       throw ArgumentError('Expected an integer for single value');
     } else if (type == SkyDatePickerType.week && value is! String) {
       if (value != null) {
@@ -16,11 +16,19 @@ class SkyDatePickerModel<T> {
         }
       }
     } else if (type == SkyDatePickerType.daterange) {
-      if (value is! List<int>) {
+      if (value is! List) {
         throw ArgumentError('Expected a list of 2 integers for array value');
       }
-      List<int> a = value as List<int>;
-      if (a.length != 2) {
+      List a = value as List;
+      if (a.isNotEmpty && (a.length != 2 || value is! List<int>)) {
+        throw ArgumentError('Expected a list of 2 integers for array value');
+      }
+    } else if (type == SkyDatePickerType.months) {
+      if (value is! List) {
+        throw ArgumentError('Expected a list of array value');
+      }
+      List a = value as List;
+      if (a.isNotEmpty && value is! List<int>) {
         throw ArgumentError('Expected a list of 2 integers for array value');
       }
     }

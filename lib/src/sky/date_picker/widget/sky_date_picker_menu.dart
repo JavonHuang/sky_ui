@@ -13,7 +13,6 @@ class SkyDatePickerMenu extends StatefulWidget {
   });
   final DateTime? model;
   final List<DateTime>? modelList;
-
   final SkySize size;
   final double width;
   final Function(DateTime e)? onchanged;
@@ -114,6 +113,10 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
 
   void selectMonth(int e) {
     if (widget.type == SkyDatePickerType.month) {
+      setValue(DateTime(year, e, 1));
+      return;
+    }
+    if (widget.type == SkyDatePickerType.months) {
       setValue(DateTime(year, e, 1));
       return;
     }
@@ -313,49 +316,69 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
     }).toList();
   }
 
+  TextStyle? getMonthItemTextColor(bool onHover, int m) {
+    if (widget.type == SkyDatePickerType.months) {
+      if (widget.modelList != null && widget.modelList!.isNotEmpty) {
+        for (DateTime item in widget.modelList!) {
+          if (DateTime(year, m) == item) {
+            return TextStyle(
+              color: SkyColors().primary,
+            );
+          }
+        }
+      }
+    }
+    if (widget.model != null && DateTime(year, m) == DateTime(widget.model!.year, widget.model!.month)) {
+      return TextStyle(
+        color: SkyColors().primary,
+      );
+    } else if (DateTime(year, m) == DateTime(today.year, today.month)) {
+      return TextStyle(
+        color: SkyColors().primary,
+        fontWeight: FontWeight.w700,
+        fontSize: SkyFontSizes().s14,
+      );
+    } else {
+      return TextStyle(
+        color: onHover ? SkyColors().primary : SkyColors().regularText,
+      );
+    }
+  }
+
   List<Widget> renderMonths() {
-    List<int> monthList = SkyDataPickerUtils().getMontList();
-    return monthList
-        .map((e) => Container(
-              alignment: Alignment.center,
-              height: widget.size.height * 2,
-              width: widget.size.height * 2.5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  widget.size.height - 8,
-                ),
-              ),
-              child: SkyHover(
-                disabled: false,
-                alignment: Alignment.center,
-                onTap: () {
-                  selectMonth(e);
-                },
-                builder: (ctx, h) {
-                  TextStyle? monthItemTextColor;
-                  if (widget.model != null && DateTime(year, e) == DateTime(widget.model!.year, widget.model!.month)) {
-                    monthItemTextColor = TextStyle(
-                      color: SkyColors().primary,
-                    );
-                  } else if (DateTime(year, e) == DateTime(today.year, today.month)) {
-                    monthItemTextColor = TextStyle(
-                      color: SkyColors().primary,
-                      fontWeight: FontWeight.w700,
-                    );
-                  } else {
-                    monthItemTextColor = TextStyle(color: h ? SkyColors().primary : SkyColors().regularText);
-                  }
-                  return Text(
-                    textAlign: TextAlign.center,
-                    '${e.toString()}月',
-                    style: TextStyle(
-                      fontSize: SkyFontSizes().s12,
-                    ).merge(monthItemTextColor),
-                  );
-                },
-              ),
-            ))
-        .toList();
+    List<Map<String, int>> monthList = SkyDataPickerUtils().getMontList();
+    return monthList.map(
+      (k) {
+        int e = k[k.keys.first]!;
+        String str = '${k.keys.first}月';
+        return Container(
+          alignment: Alignment.center,
+          height: widget.size.height * 2,
+          width: widget.size.height * 2.5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              widget.size.height - 8,
+            ),
+          ),
+          child: SkyHover(
+            disabled: false,
+            alignment: Alignment.center,
+            onTap: () {
+              selectMonth(e);
+            },
+            builder: (ctx, h) {
+              return Text(
+                textAlign: TextAlign.center,
+                str,
+                style: TextStyle(
+                  fontSize: SkyFontSizes().s12,
+                ).merge(getMonthItemTextColor(h, e)),
+              );
+            },
+          ),
+        );
+      },
+    ).toList();
   }
 
   List<Widget> renderHeaderTitle() {
