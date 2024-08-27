@@ -16,6 +16,7 @@ class _TimePickTestState extends State<TimePickTest> {
         SkyTimePicker(
           model: DateTime.now().millisecondsSinceEpoch,
           editable: false,
+          clearable: true,
           pickerOptions: SkyTimeSelectPickerOptions(
             start: "09:10:30",
             step: "00:10:20",

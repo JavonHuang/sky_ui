@@ -1,7 +1,7 @@
 part of 'index.dart';
 
-class SkyDatePicker<T> extends SkyFormFieldBridge<SkyDatePicker> {
-  const SkyDatePicker({
+class SkyDatePickerSingle<T> extends SkyFormFieldBridge<SkyDatePickerSingle> {
+  const SkyDatePickerSingle({
     super.key,
     this.size = SkySize.small,
     this.disabled = false,
@@ -28,11 +28,11 @@ class SkyDatePicker<T> extends SkyFormFieldBridge<SkyDatePicker> {
   final SkyPickerOptions? pickerOptions;
   final String? format;
   @override
-  SkyFormFieldBridgeState<SkyDatePicker> createState() => _SkyDatePickerState();
+  SkyFormFieldBridgeState<SkyDatePickerSingle> createState() => _SkyDatePickerSingleState<T>();
 }
 
-class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
-  late SkyDatePicker<T> _widget = super.widget as SkyDatePicker<T>;
+class _SkyDatePickerSingleState<T> extends SkyFormFieldBridgeState<SkyDatePickerSingle> {
+  late SkyDatePickerSingle<T> _widget = super.widget as SkyDatePickerSingle<T>;
   TextEditingController textController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   final MenuController menuController = MenuController();
@@ -165,9 +165,9 @@ class _SkyDatePickerState<T> extends SkyFormFieldBridgeState<SkyDatePicker> {
   }
 
   @override
-  void didUpdateWidget(SkyDatePicker oldWidget) {
+  void didUpdateWidget(SkyDatePickerSingle oldWidget) {
     super.didUpdateWidget(oldWidget);
-    SkyDatePicker<T> widget = super.widget as SkyDatePicker<T>;
+    SkyDatePickerSingle<T> widget = super.widget as SkyDatePickerSingle<T>;
     if (oldWidget.model != widget.model && mounted) {
       initValue(widget.model);
     }

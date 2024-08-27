@@ -1,4 +1,4 @@
-part of '../index.dart';
+import '../index.dart';
 
 class SkyDatePickerModel<T> {
   final SkyDatePickerType type;

@@ -15,57 +15,57 @@ class _DataPickerTestState extends State<DataPickerTest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // SkyDatePicker(
-        //   clearable: true,
-        //   model: model,
-        //   format: "yyyy年MM月dd日",
-        //   pickerOptions: SkyPickerOptions(
-        //     disabledDate: (e) {
-        //       return e.isAfter(DateTime.now());
-        //     },
-        //     shortcuts: [
-        //       Shortcut(
-        //         text: "今天",
-        //         onTap: (today, setValue) {
-        //           setValue(today);
-        //         },
-        //       ),
-        //       Shortcut(
-        //         text: "昨天",
-        //         onTap: (today, setValue) {
-        //           setValue(today.subtract(const Duration(days: 1)));
-        //         },
-        //       ),
-        //       Shortcut(
-        //         text: "一周前",
-        //         onTap: (today, setValue) {
-        //           setValue(today.subtract(const Duration(days: 7)));
-        //         },
-        //       ),
-        //       Shortcut(
-        //         text: "一周后",
-        //         onTap: (today, setValue) {
-        //           setValue(today.add(const Duration(days: 7)));
-        //         },
-        //       )
-        //     ],
-        //   ),
-        // ),
-        // SizedBox(
-        //   height: SkySpacings().mainSpacing,
-        // ),
-        // SkyDatePicker(
-        //   type: SkyDatePickerType.month,
-        // ),
-        // SizedBox(
-        //   height: SkySpacings().mainSpacing,
-        // ),
-        // SkyDatePicker(
-        //   type: SkyDatePickerType.month,
-        // ),
-        // SizedBox(
-        //   height: SkySpacings().mainSpacing,
-        // ),
+        SkyDatePicker(
+          clearable: true,
+          model: model,
+          format: "yyyy年MM月dd日",
+          pickerOptions: SkyPickerOptions(
+            disabledDate: (e) {
+              return e.isAfter(DateTime.now());
+            },
+            shortcuts: [
+              Shortcut(
+                text: "今天",
+                onTap: (today, setValue) {
+                  setValue(today);
+                },
+              ),
+              Shortcut(
+                text: "昨天",
+                onTap: (today, setValue) {
+                  setValue(today.subtract(const Duration(days: 1)));
+                },
+              ),
+              Shortcut(
+                text: "一周前",
+                onTap: (today, setValue) {
+                  setValue(today.subtract(const Duration(days: 7)));
+                },
+              ),
+              Shortcut(
+                text: "一周后",
+                onTap: (today, setValue) {
+                  setValue(today.add(const Duration(days: 7)));
+                },
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          type: SkyDatePickerType.month,
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          type: SkyDatePickerType.month,
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
         SkyDatePicker(
           format: "yyyy第ww周",
           type: SkyDatePickerType.week,
@@ -109,7 +109,14 @@ class _DataPickerTestState extends State<DataPickerTest> {
               model = DateTime.now().subtract(const Duration(days: 2)).millisecondsSinceEpoch;
             });
           },
-        )
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          clearable: true,
+          type: SkyDatePickerType.daterange,
+        ),
       ],
     );
   }

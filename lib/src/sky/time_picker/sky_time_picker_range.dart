@@ -65,6 +65,9 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
   }
 
   void onClear() {
+    if (!showCloseIcon) {
+      return;
+    }
     textStartController.text = "";
     textEndController.text = "";
 
@@ -326,23 +329,22 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
                       onTap: onTap,
                     ),
                   ),
-                  if (showCloseIcon)
-                    GestureDetector(
-                      onTap: onClear,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4.scaleSpacing,
-                          ),
-                          child: Icon(
-                            color: SkyColors().baseBorder,
-                            ElementIcons.circleClose,
-                            size: super.size.iconSize,
-                          ),
+                  GestureDetector(
+                    onTap: onClear,
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.scaleSpacing,
+                        ),
+                        child: Icon(
+                          color: showCloseIcon ? SkyColors().baseBorder : SkyColors().transparent,
+                          ElementIcons.circleClose,
+                          size: super.size.iconSize,
                         ),
                       ),
                     ),
+                  ),
                 ],
               );
             },
