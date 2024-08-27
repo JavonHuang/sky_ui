@@ -17,7 +17,7 @@ class _DataPickerTestState extends State<DataPickerTest> {
       children: [
         // SkyDatePicker(
         //   clearable: true,
-        //   model: SkyDatePickerModel(SkyDatePickerType.date, model),
+        //   model: model,
         //   format: "yyyy年MM月dd日",
         //   pickerOptions: SkyPickerOptions(
         //     disabledDate: (e) {
@@ -55,29 +55,51 @@ class _DataPickerTestState extends State<DataPickerTest> {
         //   height: SkySpacings().mainSpacing,
         // ),
         // SkyDatePicker(
-        //   model: SkyDatePickerModel(SkyDatePickerType.year, null),
+        //   type: SkyDatePickerType.month,
         // ),
         // SizedBox(
         //   height: SkySpacings().mainSpacing,
         // ),
         // SkyDatePicker(
-        //   model: SkyDatePickerModel(SkyDatePickerType.month, null),
+        //   type: SkyDatePickerType.month,
         // ),
         // SizedBox(
         //   height: SkySpacings().mainSpacing,
         // ),
-        // SkyDatePicker(
-        //     format: "yyyy第ww周",
-        //     model: SkyDatePickerModel(
-        //       SkyDatePickerType.week,
-        //       weekStr,
-        //     ),),
+        SkyDatePicker(
+          format: "yyyy第ww周",
+          type: SkyDatePickerType.week,
+          model: weekStr,
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
         SkyDatePicker(
           clearable: true,
-          model: SkyDatePickerModel(
-            SkyDatePickerType.months,
-            [model],
-          ),
+          format: "yyyy年MM月",
+          type: SkyDatePickerType.months,
+          model: [model],
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          clearable: true,
+          format: "yyyy年MM月dd日",
+          type: SkyDatePickerType.dates,
+          model: [model],
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          clearable: true,
+          format: "yyyy年",
+          type: SkyDatePickerType.years,
+          model: [model],
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
         ),
         SkyButton(
           text: "变化",
