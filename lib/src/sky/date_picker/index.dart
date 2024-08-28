@@ -13,7 +13,10 @@ import 'model/sky_data_picker_utils.dart';
 
 part 'sky_date_picker.dart';
 part 'sky_date_picker_range.dart';
+part 'widget/sky_date_picker_item.dart';
 part 'widget/sky_date_picker_menu.dart';
+part 'widget/sky_date_picker_range_menu.dart';
+
 part 'model/sky_picker_options.dart';
 
 class SkyDatePicker<T> extends StatelessWidget {

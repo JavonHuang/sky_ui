@@ -41,7 +41,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
   late bool hasOpen = false;
   late bool onHover = false;
 
-  late List<String> value = ["", ""];
+  late List<DateTime> value = [];
   bool get textIsNotEmpty => value.isNotEmpty;
   bool get showCloseIcon {
     return onHover && _widget.clearable && textIsNotEmpty && !super.disabled;
@@ -79,40 +79,6 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
     }
   }
 
-  List<Widget> renderOptionItem(double optionWidth) {
-    return [
-      Container(
-        alignment: Alignment.center,
-        height: _widget.size.height,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Text(
-                textAlign: TextAlign.center,
-                "开始时间",
-                style: TextStyle(
-                  color: SkyColors().primaryText,
-                  fontSize: _widget.size.textSize,
-                ),
-              ),
-            ),
-            Expanded(
-                child: Text(
-              textAlign: TextAlign.center,
-              "开始时间",
-              style: TextStyle(
-                color: SkyColors().primaryText,
-                fontSize: _widget.size.textSize,
-              ),
-            )),
-          ],
-        ),
-      ),
-    ];
-  }
-
   @override
   void setValue(dynamic e) {
     setState(() {
@@ -146,18 +112,18 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
           controller: menuController,
           alignmentOffset: const Offset(0, 4),
           style: MenuStyle(
-            minimumSize: WidgetStatePropertyAll(
-              Size(
-                optionWidth,
-                _widget.size.height * 7,
-              ),
-            ),
-            maximumSize: WidgetStatePropertyAll(
-              Size(
-                optionWidth,
-                _widget.size.height * 7,
-              ),
-            ),
+            // minimumSize: WidgetStatePropertyAll(
+            //   Size(
+            //     optionWidth,
+            //     _widget.size.height * 7,
+            //   ),
+            // ),
+            // maximumSize: WidgetStatePropertyAll(
+            //   Size(
+            //     optionWidth,
+            //     _widget.size.height * 7,
+            //   ),
+            // ),
             visualDensity: VisualDensity.comfortable,
             side: WidgetStatePropertyAll(BorderSide(
               color: SkyColors().baseBorder,
@@ -168,7 +134,15 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
             surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
             padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 0, horizontal: 0)),
           ),
-          menuChildren: renderOptionItem(optionWidth),
+          menuChildren: [
+            SkyDatePickerRangeMenu(
+              size: _widget.size,
+              width: optionWidth,
+              modelList: value,
+              type: _widget.type!,
+              pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
+            ),
+          ],
           builder: (context, controller, child) {
             return Row(
               children: [
