@@ -33,6 +33,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
   late GlobalKey<SkyDatePickerItemState> endPicker = GlobalKey<SkyDatePickerItemState>();
 
   late List<DateTime> valueList = [];
+  late DateTime? hoverTime = null;
 
   int get year => SkyDataPickerUtils().year;
   int get month => SkyDataPickerUtils().month;
@@ -130,6 +131,12 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
     // } else {
     //   // endPicker.currentState!.nextYear(false);
     // }
+  }
+
+  void setHoverTime(DateTime e) {
+    setState(() {
+      hoverTime = e;
+    });
   }
 
   @override

@@ -20,7 +20,7 @@ class SkyDatePickerItem extends StatefulWidget {
 }
 
 class SkyDatePickerItemState extends State<SkyDatePickerItem> {
-  late double itemScale = 1.5;
+  late double itemScale = 1;
   late String showType = "day"; //day,month,year
   late int year = SkyDataPickerUtils().year;
   late int month = SkyDataPickerUtils().month;
@@ -287,7 +287,45 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     return [...prefixWidget, ...contentWidget, ...suffixWidget];
   }
 
-  BoxDecoration? getDayItemBoxDecoration(DateTime time) {
+  BoxDecoration? getDayItemBoxDecoration(DateTime time, bool content) {
+    List<DateTime> ls = [];
+    DateTime? hoverTime = SkyDatePickerRangeMenu.maybeOf(context)?.hoverTime;
+    if (SkyDatePickerRangeMenu.maybeOf(context)?.valueList.length == 1 && hoverTime != null) {
+      ls = [...SkyDatePickerRangeMenu.maybeOf(context)!.valueList];
+      if (ls[0].isAfter(hoverTime)) {
+        ls = [hoverTime, ls[0]];
+      } else {
+        ls.add(hoverTime);
+      }
+    }
+
+    if (widget.modelList.length == 2) {
+      ls = widget.modelList;
+    }
+
+    if (ls.length == 2 && content) {
+      if (time.isAfter(ls[0]) && time.isBefore(ls[1])) {
+        return BoxDecoration(
+          color: SkyColors().primary.withOpacity(0.2),
+        );
+      }
+      if (time.isAtSameMomentAs(ls[0])) {
+        return BoxDecoration(
+            color: SkyColors().primary.withOpacity(0.2),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(widget.size.height),
+              bottomLeft: Radius.circular(widget.size.height),
+            ));
+      }
+      if (time.isAtSameMomentAs(ls[1])) {
+        return BoxDecoration(
+            color: SkyColors().primary.withOpacity(0.2),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(widget.size.height),
+              bottomRight: Radius.circular(widget.size.height),
+            ));
+      }
+    }
     if (widget.pickerOptions.disabledDate != null && widget.pickerOptions.disabledDate!.call(time)) {
       return BoxDecoration(
         color: SkyColors().disabledBg,
@@ -347,7 +385,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
       alignment: Alignment.center,
       height: widget.size.height,
       width: widget.size.height * itemScale,
-      decoration: getDayItemBoxDecoration(time),
+      decoration: getDayItemBoxDecoration(time, content),
       margin: EdgeInsets.only(top: SkySpacings().textSpacing),
       child: SkyHover(
         disabled: widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
@@ -355,6 +393,11 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
         onTap: () {
           if (content) {
             setValue(time);
+          }
+        },
+        onchanged: (h) {
+          if (h) {
+            SkyDatePickerRangeMenu.maybeOf(context)?.setHoverTime(time);
           }
         },
         builder: (ctx, h) {
