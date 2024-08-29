@@ -47,6 +47,16 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
     return onHover && _widget.clearable && textIsNotEmpty && !super.disabled;
   }
 
+  String get formatStr {
+    if (_widget.format != null) {
+      return _widget.format!;
+    }
+    if (_widget.model != null) {
+      return _widget.type!.format;
+    }
+    return SkyDatePickerType.date.format;
+  }
+
   void onClear() {
     if (!showCloseIcon) {
       return;
@@ -55,7 +65,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
     textEndController.text = "";
 
     menuController.close();
-    setValue(["", ""]);
+    setValue([]);
   }
 
   void setPopupIsOpen(bool e) {
@@ -76,6 +86,21 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
       menuController.close();
     } else {
       menuController.open();
+    }
+  }
+
+  void setSelectValue(List<DateTime> e) {
+    switch (_widget.type) {
+      case SkyDatePickerType.daterange:
+        textStartController.text = DateFormat(formatStr).format(e[0]);
+        textEndController.text = DateFormat(formatStr).format(e[1]);
+
+        setValue(e);
+        break;
+      default:
+    }
+    if (menuController.isOpen) {
+      menuController.close();
     }
   }
 
@@ -141,6 +166,8 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
               modelList: value,
               type: _widget.type!,
               pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
+              linkPanels: true,
+              onchanged: setSelectValue,
             ),
           ],
           builder: (context, controller, child) {

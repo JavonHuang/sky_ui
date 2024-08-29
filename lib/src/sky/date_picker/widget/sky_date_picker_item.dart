@@ -3,17 +3,23 @@ part of '../index.dart';
 class SkyDatePickerItem extends StatefulWidget {
   const SkyDatePickerItem({
     super.key,
+    required this.initYear,
+    required this.initMonth,
     required this.size,
     required this.pickerOptions,
+    required this.modelList,
   });
+  final int initYear;
+  final int initMonth;
   final SkySize size;
   final SkyPickerOptions pickerOptions;
+  final List<DateTime> modelList;
 
   @override
-  State<SkyDatePickerItem> createState() => _SkyDatePickerItemState();
+  State<SkyDatePickerItem> createState() => SkyDatePickerItemState();
 }
 
-class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
+class SkyDatePickerItemState extends State<SkyDatePickerItem> {
   late double itemScale = 1.5;
   late String showType = "day"; //day,month,year
   late int year = SkyDataPickerUtils().year;
@@ -33,42 +39,61 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
     setState(() {});
   }
 
-  void preMonth() {
+  void preMonth(bool linkPanel) {
     if (month == 1) {
       month = 12;
-      preYear();
+      preYear(linkPanel);
     } else {
       month -= 1;
       initData();
     }
+    if (linkPanel) {
+      SkyDatePickerRangeMenu.maybeOf(context)?.preMonth(widget.key!);
+    }
   }
 
-  void nextMonth() {
+  void nextMonth(bool linkPanel) {
     if (month == 12) {
       month = 1;
-      nextYear();
+      nextYear(linkPanel);
     } else {
       month += 1;
       initData();
     }
+    if (linkPanel) {
+      SkyDatePickerRangeMenu.maybeOf(context)?.nextMonth(widget.key!);
+    }
   }
 
-  void preYear() {
+  void preYear(bool linkPanel) {
     if (showType == 'year') {
       year -= 10;
     } else {
       year -= 1;
     }
     initData();
+    if (linkPanel) {
+      SkyDatePickerRangeMenu.maybeOf(context)?.preYear(widget.key!);
+    }
   }
 
-  void nextYear() {
+  void nextYear(bool linkPanel) {
     if (showType == 'year') {
       year += 10;
     } else {
       year += 1;
     }
     initData();
+    if (linkPanel) {
+      SkyDatePickerRangeMenu.maybeOf(context)?.nextYear(widget.key!);
+    }
+  }
+
+  void setValue(DateTime e) {
+    if (widget.pickerOptions.disabledDate != null && widget.pickerOptions.disabledDate!.call(e)) {
+      return;
+    }
+    SkyDatePickerRangeMenu.maybeOf(context)?.setValue(widget.key!, e);
   }
 
   List<Widget> renderHeaderControls() {
@@ -77,7 +102,9 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
     return [
       SkyHover(
         disabled: false,
-        onTap: preYear,
+        onTap: () {
+          preYear(true);
+        },
         builder: (ctx, h) {
           return Padding(
             padding: EdgeInsets.symmetric(
@@ -94,7 +121,9 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
       if (showType == 'day')
         SkyHover(
           disabled: false,
-          onTap: preMonth,
+          onTap: () {
+            preMonth(true);
+          },
           builder: (ctx, h) {
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -199,7 +228,9 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
       if (showType == 'day')
         SkyHover(
           disabled: false,
-          onTap: nextMonth,
+          onTap: () {
+            nextMonth(true);
+          },
           builder: (ctx, h) {
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -215,7 +246,9 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
         ),
       SkyHover(
         disabled: false,
-        onTap: nextYear,
+        onTap: () {
+          nextYear(true);
+        },
         builder: (ctx, h) {
           return Padding(
             padding: EdgeInsets.symmetric(
@@ -267,7 +300,28 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
     return null;
   }
 
+  bool isSelect(DateTime time) {
+    if (widget.modelList.isEmpty) {
+      return false;
+    } else {
+      for (DateTime item in widget.modelList) {
+        if (item.isAtSameMomentAs(time) && time.month == month) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
   Decoration? getItemMainDecoration(DateTime time) {
+    if (isSelect(time)) {
+      return BoxDecoration(
+        color: SkyColors().primary,
+        borderRadius: BorderRadius.circular(
+          widget.size.height,
+        ),
+      );
+    }
     return BoxDecoration(
       color: SkyColors().transparent,
     );
@@ -276,6 +330,8 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
   TextStyle? dayItemMainTextColor(DateTime time, bool content, bool h) {
     if (!content) {
       return TextStyle(color: SkyColors().placeholderText);
+    } else if (isSelect(time)) {
+      return TextStyle(color: SkyColors().white);
     } else if (time.isAtSameMomentAs(today)) {
       return TextStyle(
         color: SkyColors().primary,
@@ -292,12 +348,14 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
       height: widget.size.height,
       width: widget.size.height * itemScale,
       decoration: getDayItemBoxDecoration(time),
-      margin: EdgeInsets.only(bottom: SkySpacings().textSpacing),
+      margin: EdgeInsets.only(top: SkySpacings().textSpacing),
       child: SkyHover(
         disabled: widget.pickerOptions.disabledDate != null ? widget.pickerOptions.disabledDate!.call(time) : false,
         alignment: Alignment.center,
         onTap: () {
-          // setValue(time);
+          if (content) {
+            setValue(time);
+          }
         },
         builder: (ctx, h) {
           return Container(
@@ -321,6 +379,9 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
   @override
   void initState() {
     super.initState();
+    year = widget.initYear;
+    month = widget.initMonth;
+
     initData();
   }
 
@@ -328,6 +389,7 @@ class _SkyDatePickerItemState extends State<SkyDatePickerItem> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.size.height * itemScale * 7,
+      margin: EdgeInsets.symmetric(vertical: SkySpacings().mainSpacing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
