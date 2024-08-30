@@ -4,11 +4,13 @@ class SkyPickerOptions {
   final bool Function(DateTime e)? disabledDate;
   final bool Function(DateTime e)? onPick;
   final List<Shortcut>? shortcuts;
+  final List<ShortcutRange>? shortcutRange;
 
   SkyPickerOptions({
     this.disabledDate,
     this.onPick,
     this.shortcuts,
+    this.shortcutRange,
   });
 }
 
@@ -17,6 +19,16 @@ class Shortcut {
   final Function(DateTime today, Function(DateTime day)) onTap;
 
   Shortcut({
+    required this.text,
+    required this.onTap,
+  });
+}
+
+class ShortcutRange {
+  final String text;
+  final Function(DateTime today, Function(List<DateTime> e)) onTap;
+
+  ShortcutRange({
     required this.text,
     required this.onTap,
   });

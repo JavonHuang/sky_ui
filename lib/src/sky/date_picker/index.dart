@@ -33,6 +33,7 @@ class SkyDatePicker<T> extends StatelessWidget {
     this.pickerOptions,
     this.format,
     this.type = SkyDatePickerType.date,
+    this.linkPanels = true,
   });
   final SkySize size;
   final bool disabled;
@@ -44,7 +45,7 @@ class SkyDatePicker<T> extends StatelessWidget {
   final bool editable;
   final SkyPickerOptions? pickerOptions;
   final String? format;
-
+  final bool linkPanels;
   @override
   Widget build(BuildContext context) {
     if (type == SkyDatePickerType.year ||
@@ -76,6 +77,7 @@ class SkyDatePicker<T> extends StatelessWidget {
       editable: editable,
       pickerOptions: pickerOptions,
       format: format,
+      linkPanels: linkPanels,
     );
   }
 }

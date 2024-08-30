@@ -5,6 +5,7 @@ import 'package:example/swicth.dart';
 import 'package:example/tag.dart';
 import 'package:example/tes.dart';
 import 'package:example/test2.dart';
+import 'package:example/testpage.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
@@ -66,6 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     menuList = [
+      {'MyWidget': const MyWidget()},
+      {
+        'MyContextMenu': const MyContextMenu(
+          message: "0909",
+        ),
+      },
       {'CheckBoxText': const CheckBoxText()},
       {'RadioTest': const RadioTest()},
       {'GroupButton': const GroupButton()},
@@ -77,14 +84,9 @@ class _MyHomePageState extends State<MyHomePage> {
       {'SwicthTest': const SwicthTest()},
       {'FlexLayoutTestRoute': const FlexLayoutTestRoute()},
       {'SelectTest': const SelectTest()},
-      {
-        'MyContextMenu': const MyContextMenu(
-          message: "0909",
-        ),
-      },
       {'TimePickTest': const TimePickTest()},
       {'TimePickRangeTest': const TimePickRangeTest()},
-      {'DataPickerTest': const DataPickerTest()}
+      {'DataPickerTest': const DataPickerTest()},
     ];
     return Scaffold(
       body: Container(

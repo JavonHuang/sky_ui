@@ -15,8 +15,8 @@ class SkyBaseInput extends StatelessWidget {
     this.onTap,
   });
 
-  final TextEditingController? controller;
-  final FocusNode? focusNode;
+  final TextEditingController controller;
+  final FocusNode focusNode;
 
   final bool disabled;
   final bool readOnly;

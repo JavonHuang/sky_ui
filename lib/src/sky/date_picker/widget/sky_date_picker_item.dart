@@ -21,7 +21,7 @@ class SkyDatePickerItem extends StatefulWidget {
 
 class SkyDatePickerItemState extends State<SkyDatePickerItem> {
   late double itemScale = 1;
-  late String showType = "day"; //day,month,year
+  // late String showType = "day"; //day,month,year
   late int year = SkyDataPickerUtils().year;
   late int month = SkyDataPickerUtils().month;
   late DateTime today = DateTime(SkyDataPickerUtils().year, SkyDataPickerUtils().month, SkyDataPickerUtils().day);
@@ -29,6 +29,20 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
   List<DateTime> prefixList = [];
   List<DateTime> suffixList = [];
   List<DateTime> contentList = [];
+
+  String get showType {
+    if (SkyDatePickerRangeMenu.maybeOf(context)?.type == SkyDatePickerType.daterange) {
+      return "day";
+    }
+    if (SkyDatePickerRangeMenu.maybeOf(context)?.type == SkyDatePickerType.monthrange) {
+      return "month";
+    }
+    return "day";
+  }
+
+  void refleshItem() {
+    setState(() {});
+  }
 
   void initData() {
     Map<String, List<DateTime>> map = SkyDataPickerUtils().generateMonthDayShowItem(year, month);
@@ -49,6 +63,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     }
     if (linkPanel) {
       SkyDatePickerRangeMenu.maybeOf(context)?.preMonth(widget.key!);
+    } else {
+      SkyDatePickerRangeMenu.maybeOf(context)?.refleshItem(widget.key!);
     }
   }
 
@@ -62,6 +78,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     }
     if (linkPanel) {
       SkyDatePickerRangeMenu.maybeOf(context)?.nextMonth(widget.key!);
+    } else {
+      SkyDatePickerRangeMenu.maybeOf(context)?.refleshItem(widget.key!);
     }
   }
 
@@ -74,6 +92,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     initData();
     if (linkPanel) {
       SkyDatePickerRangeMenu.maybeOf(context)?.preYear(widget.key!);
+    } else {
+      SkyDatePickerRangeMenu.maybeOf(context)?.refleshItem(widget.key!);
     }
   }
 
@@ -86,6 +106,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     initData();
     if (linkPanel) {
       SkyDatePickerRangeMenu.maybeOf(context)?.nextYear(widget.key!);
+    } else {
+      SkyDatePickerRangeMenu.maybeOf(context)?.refleshItem(widget.key!);
     }
   }
 
@@ -96,41 +118,127 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     SkyDatePickerRangeMenu.maybeOf(context)?.setValue(widget.key!, e);
   }
 
+  bool showControlsDisabled(String type, String btn) {
+    if (SkyDatePickerRangeMenu.maybeOf(context)!.linkPanels) {
+      return false;
+    }
+    SkyDatePickerItemState? start = SkyDatePickerRangeMenu.maybeOf(context)!.startPicker.currentState;
+    SkyDatePickerItemState? end = SkyDatePickerRangeMenu.maybeOf(context)!.endPicker.currentState;
+    if (start == null || end == null) {
+      return false; // 或者根据具体需求返回合适的值
+    }
+
+    ///开始面板
+    if (widget.key.hashCode == SkyDatePickerRangeMenu.maybeOf(context)!.startPicker.hashCode) {
+      if (type == 'right') {
+        if (btn == 'month') {
+          if (!DateTime(start.year, start.month + 1).isBefore(DateTime(end.year, end.month))) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          if (!DateTime(start.year + 1).isBefore(DateTime(end.year))) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+      return false;
+    } else {
+      ///结束面板
+      if (type == 'left') {
+        if (btn == 'month') {
+          DateTime endTime = DateTime(end.year, end.month - 1);
+          if (end.month == 1) {
+            endTime = DateTime(end.year - 1, 12);
+          }
+          if (!endTime.isAfter(DateTime(start.year, start.month))) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          if (!DateTime(end.year - 1).isAfter(DateTime(start.year))) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      } else {
+        return false;
+      }
+    }
+  }
+
+  bool showControls(String type) {
+    if (!SkyDatePickerRangeMenu.maybeOf(context)!.linkPanels) {
+      return true;
+    }
+    if (widget.key.hashCode == SkyDatePickerRangeMenu.maybeOf(context)!.startPicker.hashCode) {
+      if (type == 'left') {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (type == 'left') {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
   List<Widget> renderHeaderControls() {
     List<int> yearList = SkyDataPickerUtils().getYearList(year);
-
+    bool linkPanels = SkyDatePickerRangeMenu.maybeOf(context)!.linkPanels;
     return [
-      SkyHover(
-        disabled: false,
-        onTap: () {
-          preYear(true);
-        },
-        builder: (ctx, h) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SkySpacings().textSpacing,
-            ),
-            child: Icon(
-              color: h ? SkyColors().primary : SkyColors().primaryText,
-              ElementIcons.dArrowLeft,
-              size: widget.size.iconSize - 2.scaleIconSize,
-            ),
-          );
-        },
-      ),
-      if (showType == 'day')
+      if (showControls('left'))
         SkyHover(
-          disabled: false,
+          disabled: showControlsDisabled('left', 'year'),
           onTap: () {
-            preMonth(true);
+            preYear(linkPanels);
           },
           builder: (ctx, h) {
+            Color? textColor = null;
+            if (showControlsDisabled('left', 'year')) {
+              textColor = SkyColors().placeholderText;
+            } else {
+              textColor = h ? SkyColors().primary : SkyColors().primaryText;
+            }
             return Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: SkySpacings().textSpacing,
               ),
               child: Icon(
-                color: h ? SkyColors().primary : SkyColors().primaryText,
+                color: textColor,
+                ElementIcons.dArrowLeft,
+                size: widget.size.iconSize - 2.scaleIconSize,
+              ),
+            );
+          },
+        ),
+      if (showType == 'day' && showControls('left'))
+        SkyHover(
+          disabled: showControlsDisabled('left', 'month'),
+          onTap: () {
+            preMonth(linkPanels);
+          },
+          builder: (ctx, h) {
+            Color? textColor = null;
+            if (showControlsDisabled('left', 'month')) {
+              textColor = SkyColors().placeholderText;
+            } else {
+              textColor = h ? SkyColors().primary : SkyColors().primaryText;
+            }
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: SkySpacings().textSpacing,
+              ),
+              child: Icon(
+                color: textColor,
                 ElementIcons.arrowLeft,
                 size: widget.size.iconSize - 2.scaleIconSize,
               ),
@@ -206,9 +314,9 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               SkyHover(
                 disabled: false,
                 onTap: () {
-                  setState(() {
-                    showType = "year";
-                  });
+                  // setState(() {
+                  //   showType = "year";
+                  // });
                 },
                 builder: (ctx, h) {
                   return Text(
@@ -225,43 +333,56 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
             ],
           ),
         ),
-      if (showType == 'day')
+      if (showType == 'day' && showControls('right'))
         SkyHover(
-          disabled: false,
+          disabled: showControlsDisabled('right', 'month'),
           onTap: () {
-            nextMonth(true);
+            nextMonth(linkPanels);
           },
           builder: (ctx, h) {
+            Color? textColor = null;
+            if (showControlsDisabled('right', 'month')) {
+              textColor = SkyColors().placeholderText;
+            } else {
+              textColor = h ? SkyColors().primary : SkyColors().primaryText;
+            }
             return Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: SkySpacings().textSpacing,
               ),
               child: Icon(
-                color: h ? SkyColors().primary : SkyColors().primaryText,
+                color: textColor,
                 ElementIcons.arrowRight,
                 size: SkyFontSizes().s12,
               ),
             );
           },
         ),
-      SkyHover(
-        disabled: false,
-        onTap: () {
-          nextYear(true);
-        },
-        builder: (ctx, h) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SkySpacings().textSpacing,
-            ),
-            child: Icon(
-              color: h ? SkyColors().primary : SkyColors().primaryText,
-              ElementIcons.dArrowRight,
-              size: SkyFontSizes().s12,
-            ),
-          );
-        },
-      ),
+      if (showControls('right'))
+        SkyHover(
+          disabled: showControlsDisabled('right', 'year'),
+          onTap: () {
+            nextYear(linkPanels);
+          },
+          builder: (ctx, h) {
+            Color? textColor = null;
+            if (showControlsDisabled('right', 'year')) {
+              textColor = SkyColors().placeholderText;
+            } else {
+              textColor = h ? SkyColors().primary : SkyColors().primaryText;
+            }
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: SkySpacings().textSpacing,
+              ),
+              child: Icon(
+                color: textColor,
+                ElementIcons.dArrowRight,
+                size: SkyFontSizes().s12,
+              ),
+            );
+          },
+        ),
     ];
   }
 
@@ -419,6 +540,72 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
     );
   }
 
+  TextStyle? getMonthItemTextColor(bool onHover, int m) {
+    // if (widget.type == SkyDatePickerType.months) {
+    //   if (widget.modelList != null && widget.modelList!.isNotEmpty) {
+    //     for (DateTime item in widget.modelList!) {
+    //       if (DateTime(year, m) == item) {
+    //         return TextStyle(
+    //           color: SkyColors().primary,
+    //         );
+    //       }
+    //     }
+    //   }
+    // }
+    // if (widget.model != null && DateTime(year, m) == DateTime(widget.model!.year, widget.model!.month)) {
+    //   return TextStyle(
+    //     color: SkyColors().primary,
+    //   );
+    // } else
+    if (DateTime(year, m) == DateTime(today.year, today.month)) {
+      return TextStyle(
+        color: SkyColors().primary,
+        fontWeight: FontWeight.w700,
+        fontSize: SkyFontSizes().s12,
+      );
+    } else {
+      return TextStyle(
+        color: onHover ? SkyColors().primary : SkyColors().regularText,
+      );
+    }
+  }
+
+  List<Widget> renderMonths() {
+    List<Map<String, int>> monthList = SkyDataPickerUtils().getMontList();
+    return monthList.map(
+      (k) {
+        int e = k[k.keys.first]!;
+        String str = '${k.keys.first}月';
+        return Container(
+          alignment: Alignment.center,
+          height: widget.size.height * 2,
+          width: widget.size.height * 1.5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              widget.size.height - 8,
+            ),
+          ),
+          child: SkyHover(
+            disabled: false,
+            alignment: Alignment.center,
+            onTap: () {
+              // selectMonth(e);
+            },
+            builder: (ctx, h) {
+              return Text(
+                textAlign: TextAlign.center,
+                str,
+                style: TextStyle(
+                  fontSize: SkyFontSizes().s12,
+                ).merge(getMonthItemTextColor(h, e)),
+              );
+            },
+          ),
+        );
+      },
+    ).toList();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -442,19 +629,20 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               children: renderHeaderControls(),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  width: 1,
-                  color: SkyColors().otherBorder,
+          if (showType == 'day')
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1,
+                    color: SkyColors().otherBorder,
+                  ),
                 ),
               ),
+              child: Row(
+                children: renderHeaderTitle(),
+              ),
             ),
-            child: Row(
-              children: renderHeaderTitle(),
-            ),
-          ),
           Center(
             child: Wrap(
               spacing: 0,
@@ -462,8 +650,9 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               direction: Axis.horizontal,
               children: [
                 if (showType == 'day') ...renderDays(),
+                if (showType == 'month') ...renderMonths(),
+
                 // if (showType == 'year') ...renderYears(),
-                // if (showType == 'month') ...renderMonths(),
               ],
             ),
           ),

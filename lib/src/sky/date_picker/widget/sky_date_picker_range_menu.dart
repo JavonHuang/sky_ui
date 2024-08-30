@@ -35,8 +35,22 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
   late List<DateTime> valueList = [];
   late DateTime? hoverTime = null;
 
-  int get year => SkyDataPickerUtils().year;
-  int get month => SkyDataPickerUtils().month;
+  bool get linkPanels => widget.linkPanels;
+  SkyDatePickerType get type => widget.type;
+
+  int get year {
+    if (valueList.isNotEmpty) {
+      return valueList[0].year;
+    }
+    return SkyDataPickerUtils().year;
+  }
+
+  int get month {
+    if (valueList.isNotEmpty) {
+      return valueList[0].month;
+    }
+    return SkyDataPickerUtils().month;
+  }
 
   Widget renderQuickMenu() {
     return Container(
@@ -52,13 +66,14 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ...widget.pickerOptions.shortcuts!.map(
+          ...widget.pickerOptions.shortcutRange!.map(
             (e) => Padding(
               padding: EdgeInsets.symmetric(vertical: SkySpacings().textSpacing),
               child: SkyHover(
                 disabled: false,
                 onTap: () {
-                  // e.onTap(today, setValue);
+                  DateTime t = DateTime.now();
+                  e.onTap(DateTime(t.year, t.month, t.day), setQuicKValue);
                 },
                 builder: (ctx, h) {
                   return Text(
@@ -109,6 +124,14 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
     }
   }
 
+  void refleshItem(Key type) {
+    if (type.hashCode == endPicker.hashCode) {
+      startPicker.currentState!.refleshItem();
+    } else {
+      endPicker.currentState!.refleshItem();
+    }
+  }
+
   void setValue(Key type, DateTime e) {
     if (valueList.length == 2) {
       valueList = [];
@@ -126,11 +149,13 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
       widget.onchanged?.call(valueList);
     }
     setState(() {});
-    // if (type.hashCode == endPicker.hashCode) {
-    //   // startPicker.currentState!.nextYear(false);
-    // } else {
-    //   // endPicker.currentState!.nextYear(false);
-    // }
+  }
+
+  void setQuicKValue(List<DateTime> e) {
+    if (e.length == 2) {
+      valueList = e;
+      widget.onchanged?.call(valueList);
+    }
   }
 
   void setHoverTime(DateTime e) {
@@ -142,6 +167,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
   @override
   void initState() {
     super.initState();
+    valueList = widget.modelList ?? [];
     setState(() {
       valueList = widget.modelList ?? [];
     });
@@ -154,7 +180,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
         skyDatePickerRangeMenuState: this,
         child: Row(
           children: [
-            if (widget.pickerOptions.shortcuts != null) renderQuickMenu(),
+            if (widget.pickerOptions.shortcutRange != null) renderQuickMenu(),
             SizedBox(
               width: SkySpacings().mainSpacing,
             ),
@@ -175,7 +201,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
               key: endPicker,
               size: widget.size,
               pickerOptions: widget.pickerOptions,
-              initYear: year,
+              initYear: widget.type == SkyDatePickerType.daterange ? year : year + 1,
               initMonth: month + 1,
               modelList: valueList,
             ),

@@ -12,6 +12,7 @@ class SkyDatePickerRange<T> extends SkyFormFieldBridge<SkyDatePickerRange> {
     this.pickerOptions,
     this.format,
     this.type = SkyDatePickerType.date,
+    this.linkPanels = true,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyDataPicker,
@@ -27,6 +28,7 @@ class SkyDatePickerRange<T> extends SkyFormFieldBridge<SkyDatePickerRange> {
   final bool editable;
   final SkyPickerOptions? pickerOptions;
   final String? format;
+  final bool? linkPanels;
   @override
   SkyFormFieldBridgeState<SkyDatePickerRange> createState() => _SkyDatePickerRangeState<T>();
 }
@@ -65,7 +67,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
     textEndController.text = "";
 
     menuController.close();
-    setValue([]);
+    setValue(<DateTime>[]);
   }
 
   void setPopupIsOpen(bool e) {
@@ -104,6 +106,40 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
     }
   }
 
+  void initValue(T? val) {
+    if (val == null) {
+      return;
+    }
+    if (_widget.type == SkyDatePickerType.daterange) {
+      List<int> v = val as List<int>;
+      List<DateTime> tList = [];
+      for (int item in v) {
+        DateTime t = DateTime.fromMillisecondsSinceEpoch(item);
+        tList.add(DateTime(t.year, t.month, t.day));
+      }
+      if (tList.length == 2) {
+        textStartController.text = DateFormat(formatStr).format(tList[0]);
+        textEndController.text = DateFormat(formatStr).format(tList[1]);
+        setValue(tList);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initValue(_widget.model);
+  }
+
+  @override
+  void didUpdateWidget(SkyDatePickerRange oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    SkyDatePickerRange<T> widget = super.widget as SkyDatePickerRange<T>;
+    if (oldWidget.model != widget.model && mounted) {
+      initValue(widget.model);
+    }
+  }
+
   @override
   void setValue(dynamic e) {
     setState(() {
@@ -137,18 +173,6 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
           controller: menuController,
           alignmentOffset: const Offset(0, 4),
           style: MenuStyle(
-            // minimumSize: WidgetStatePropertyAll(
-            //   Size(
-            //     optionWidth,
-            //     _widget.size.height * 7,
-            //   ),
-            // ),
-            // maximumSize: WidgetStatePropertyAll(
-            //   Size(
-            //     optionWidth,
-            //     _widget.size.height * 7,
-            //   ),
-            // ),
             visualDensity: VisualDensity.comfortable,
             side: WidgetStatePropertyAll(BorderSide(
               color: SkyColors().baseBorder,
@@ -166,7 +190,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
               modelList: value,
               type: _widget.type!,
               pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
-              linkPanels: true,
+              linkPanels: _widget.linkPanels!,
               onchanged: setSelectValue,
             ),
           ],

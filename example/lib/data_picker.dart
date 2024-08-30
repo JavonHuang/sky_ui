@@ -115,34 +115,80 @@ class _DataPickerTestState extends State<DataPickerTest> {
         ),
         SkyDatePicker(
           clearable: true,
+          linkPanels: true,
           type: SkyDatePickerType.daterange,
+          model: [model, DateTime.now().add(const Duration(days: 20)).millisecondsSinceEpoch],
           pickerOptions: SkyPickerOptions(
             disabledDate: (e) {
               return e.isAfter(DateTime.now());
             },
-            shortcuts: [
-              Shortcut(
-                text: "今天",
+            shortcutRange: [
+              ShortcutRange(
+                text: "近一周",
                 onTap: (today, setValue) {
-                  setValue(today);
+                  setValue([today.subtract(const Duration(days: 7)), today]);
                 },
               ),
-              Shortcut(
-                text: "昨天",
+              ShortcutRange(
+                text: "近一个月",
                 onTap: (today, setValue) {
-                  setValue(today.subtract(const Duration(days: 1)));
+                  setValue([today.subtract(const Duration(days: 30)), today]);
+                },
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          clearable: true,
+          linkPanels: false,
+          type: SkyDatePickerType.daterange,
+          model: [model, DateTime.now().add(const Duration(days: 20)).millisecondsSinceEpoch],
+          pickerOptions: SkyPickerOptions(
+            disabledDate: (e) {
+              return e.isAfter(DateTime.now());
+            },
+            shortcutRange: [
+              ShortcutRange(
+                text: "近一周",
+                onTap: (today, setValue) {
+                  setValue([today.subtract(const Duration(days: 7)), today]);
                 },
               ),
-              Shortcut(
-                text: "一周前",
+              ShortcutRange(
+                text: "近一个月",
                 onTap: (today, setValue) {
-                  setValue(today.subtract(const Duration(days: 7)));
+                  setValue([today.subtract(const Duration(days: 30)), today]);
+                },
+              )
+            ],
+          ),
+        ),
+        SizedBox(
+          height: SkySpacings().mainSpacing,
+        ),
+        SkyDatePicker(
+          clearable: true,
+          linkPanels: false,
+          type: SkyDatePickerType.monthrange,
+          model: [model, DateTime.now().add(const Duration(days: 20)).millisecondsSinceEpoch],
+          pickerOptions: SkyPickerOptions(
+            disabledDate: (e) {
+              return e.isAfter(DateTime.now());
+            },
+            shortcutRange: [
+              ShortcutRange(
+                text: "近一周",
+                onTap: (today, setValue) {
+                  setValue([today.subtract(const Duration(days: 7)), today]);
                 },
               ),
-              Shortcut(
-                text: "一周后",
+              ShortcutRange(
+                text: "近一个月",
                 onTap: (today, setValue) {
-                  setValue(today.add(const Duration(days: 7)));
+                  setValue([today.subtract(const Duration(days: 30)), today]);
                 },
               )
             ],
