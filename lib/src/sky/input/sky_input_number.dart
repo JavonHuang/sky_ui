@@ -61,21 +61,29 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   }
 
   _focusNodeListener() {
+    String _text = _textController.text;
     if (_focusNode.hasFocus) {
       setState(() {
         hasFocus = true;
       });
-      _lastValue = _textController.text;
+      _lastValue = _text;
     } else {
       Future.delayed(const Duration(milliseconds: 100)).then((e) {
         setState(() {
           hasFocus = false;
         });
       });
-      if (!_textController.text.doubleTryParse && _textController.text != "") {
+      if (!_text.doubleTryParse && _text != "") {
         setValue(_lastValue);
+        _textController.text = _lastValue;
       } else {
-        setValue(_textController.text);
+        if (_text == "") {
+          setValue(_text);
+        } else {
+          double val = double.parse(_textController.text);
+          _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
+          setValue(_textController.text);
+        }
       }
     }
   }

@@ -129,6 +129,13 @@ class SkyFormState extends State<SkyForm> {
     }
   }
 
+  void _unregister(SkyFormFieldState e) {
+    int index = formFieldList.indexWhere((item) => item.widget.prop == e.widget.prop);
+    if (index > -1) {
+      formFieldList.removeAt(index);
+    }
+  }
+
   List<Widget> _renderItem() {
     List<Widget> result = [];
     for (int i = 0; i < widget.children.length; i++) {

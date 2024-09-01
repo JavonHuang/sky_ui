@@ -13,3 +13,4 @@ export 'table/sky_table.dart';
 export 'tag/sky_tag.dart';
 export 'select/index.dart';
 export 'time_picker/index.dart';
+export 'upload/index.dart';

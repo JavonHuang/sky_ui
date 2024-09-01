@@ -8,12 +8,16 @@ class InputTest extends StatefulWidget {
   State<InputTest> createState() => _InputTestState();
 }
 
-class _InputTestState extends State<InputTest> {
+class _InputTestState extends State<InputTest> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   late GlobalKey<SkyFormState> myForm = GlobalKey();
   late double labelwidth = 100;
   late String nameparam = "javonnameparam";
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -151,6 +155,8 @@ class _InputTestState extends State<InputTest> {
                     child: SkyInputNumber(
                       min: -2,
                       readOnly: false,
+                      step: 0.01,
+                      precision: 2,
                       placeholder: "请输入计数器",
                     ),
                   ),

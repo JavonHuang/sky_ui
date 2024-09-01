@@ -12,7 +12,7 @@ class SkyDatePickerRange<T> extends SkyFormFieldBridge<SkyDatePickerRange> {
     this.pickerOptions,
     this.format,
     this.type = SkyDatePickerType.date,
-    this.linkPanels = true,
+    required this.linkPanels,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyDataPicker,
@@ -28,7 +28,7 @@ class SkyDatePickerRange<T> extends SkyFormFieldBridge<SkyDatePickerRange> {
   final bool editable;
   final SkyPickerOptions? pickerOptions;
   final String? format;
-  final bool? linkPanels;
+  final bool linkPanels;
   @override
   SkyFormFieldBridgeState<SkyDatePickerRange> createState() => _SkyDatePickerRangeState<T>();
 }
@@ -93,7 +93,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
 
   void setSelectValue(List<DateTime> e) {
     switch (_widget.type) {
-      case SkyDatePickerType.daterange:
+      case SkyDatePickerType.daterange || SkyDatePickerType.monthrange:
         textStartController.text = DateFormat(formatStr).format(e[0]);
         textEndController.text = DateFormat(formatStr).format(e[1]);
 
@@ -110,7 +110,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
     if (val == null) {
       return;
     }
-    if (_widget.type == SkyDatePickerType.daterange) {
+    if (_widget.type == SkyDatePickerType.daterange || _widget.type == SkyDatePickerType.monthrange) {
       List<int> v = val as List<int>;
       List<DateTime> tList = [];
       for (int item in v) {
@@ -190,7 +190,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
               modelList: value,
               type: _widget.type!,
               pickerOptions: _widget.pickerOptions ?? SkyPickerOptions(),
-              linkPanels: _widget.linkPanels!,
+              linkPanels: _widget.linkPanels,
               onchanged: setSelectValue,
             ),
           ],

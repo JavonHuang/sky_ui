@@ -29,6 +29,8 @@ class SkyFormField extends StatefulWidget {
 }
 
 class SkyFormFieldState extends State<SkyFormField> {
+  late double opacity = 0;
+
   late int count = 0;
   late SkyFormType? itemType;
   late ValidatorResult _validatorResult = ValidatorResult(result: true, message: '');
@@ -105,6 +107,7 @@ class SkyFormFieldState extends State<SkyFormField> {
 
   void clearValidate() {
     _validatorResult = ValidatorResult(result: true, message: '');
+    opacity = 0;
     setState(() {});
   }
 
@@ -154,6 +157,7 @@ class SkyFormFieldState extends State<SkyFormField> {
       // TODO: Handle this case.
     }
     _validatorResult = ValidatorResult(result: true, message: '');
+    opacity = 0;
     setState(() {});
   }
 
@@ -205,6 +209,8 @@ class SkyFormFieldState extends State<SkyFormField> {
       // TODO: Handle this case.
     }
     _validatorResult = ValidatorResult(result: true, message: '');
+    opacity = 1;
+
     setState(() {});
   }
 
@@ -229,10 +235,13 @@ class SkyFormFieldState extends State<SkyFormField> {
     dynamic val = _getValue();
     if (_required && !checkType(val)) {
       _validatorResult = ValidatorResult(result: false, message: '请输入${widget.label}');
+      opacity = _validatorResult.message.isEmpty ? 0 : 1;
       setState(() {});
       return Future.value({"prop": widget.prop, "result": _validatorResult.result, "value": null});
     }
     _validatorResult = await _validator(val);
+    opacity = _validatorResult.message.isEmpty ? 0 : 1;
+
     setState(() {});
     dynamic value;
     switch (itemType) {
@@ -288,10 +297,12 @@ class SkyFormFieldState extends State<SkyFormField> {
   }
 
   String get _message {
-    return _validatorResult.result ? '' : _validatorResult.message;
+    String str = _validatorResult.result ? '' : _validatorResult.message;
+    return str;
   }
 
   String? get restorationId => widget.restorationId;
+
   @override
   Widget build(BuildContext context) {
     return _SkyFormFieldScope(
@@ -333,14 +344,18 @@ class SkyFormFieldState extends State<SkyFormField> {
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   widget.child,
-                  Text(
-                    _message,
-                    overflow: TextOverflow.ellipsis, // 设置超出部分显示省略号
-                    maxLines: 1,
-                    softWrap: true,
-                    style: TextStyle(
-                      fontSize: SkyFontSizes().s12,
-                      color: SkyColors().danger,
+                  AnimatedOpacity(
+                    opacity: opacity,
+                    duration: const Duration(milliseconds: 300),
+                    child: Text(
+                      _message,
+                      overflow: TextOverflow.ellipsis, // 设置超出部分显示省略号
+                      maxLines: 1,
+                      softWrap: true,
+                      style: TextStyle(
+                        fontSize: SkyFontSizes().s12,
+                        color: SkyColors().danger,
+                      ),
                     ),
                   ),
                 ],
@@ -350,6 +365,12 @@ class SkyFormFieldState extends State<SkyFormField> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    SkyForm.maybeOf(context)?._unregister(this);
+    super.dispose();
   }
 }
 

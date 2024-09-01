@@ -9,6 +9,7 @@ class CheckBoxText extends StatefulWidget {
 }
 
 class _CheckBoxTextState extends State<CheckBoxText> {
+  late bool ceh = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,7 +17,7 @@ class _CheckBoxTextState extends State<CheckBoxText> {
       children: [
         SizedBox(height: SkySpacings().mainSpacing),
         const Text("基础用法"),
-        const Row(
+        Row(
           children: [
             SkyCheckbox(
               text: "备选项",
@@ -49,7 +50,7 @@ class _CheckBoxTextState extends State<CheckBoxText> {
                 SkyCheckbox(
                   text: "备选项1",
                   label: "备选项1",
-                  model: true,
+                  model: ceh,
                 ),
                 SkyCheckbox(
                   text: "备选项2",
@@ -60,6 +61,14 @@ class _CheckBoxTextState extends State<CheckBoxText> {
             )
           ],
         ),
+        SkyButton(
+          text: "测试",
+          onTap: () {
+            setState(() {
+              ceh = true;
+            });
+          },
+        )
       ],
     );
   }

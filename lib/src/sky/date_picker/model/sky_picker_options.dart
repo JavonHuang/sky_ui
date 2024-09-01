@@ -70,7 +70,7 @@ enum SkyDatePickerType {
       case daterange:
         return "yyyy-MM-dd";
       case monthrange:
-        return "MM";
+        return "yyyy-MM";
     }
   }
 }

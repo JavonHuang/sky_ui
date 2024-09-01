@@ -464,7 +464,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
       return false;
     } else {
       for (DateTime item in widget.modelList) {
-        if (item.isAtSameMomentAs(time) && time.month == month) {
+        if (item.isAtSameMomentAs(time)) {
           return true;
         }
       }
@@ -578,26 +578,42 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
         String str = '${k.keys.first}月';
         return Container(
           alignment: Alignment.center,
-          height: widget.size.height * 2,
-          width: widget.size.height * 1.5,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              widget.size.height - 8,
-            ),
-          ),
+          height: widget.size.height * 1,
+          width: widget.size.height * 1.75,
+          margin: EdgeInsets.only(top: SkySpacings().mainSpacing),
+
+          decoration: getDayItemBoxDecoration(DateTime(year, e), true),
+
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(
+          //     widget.size.height - 8,
+          //   ),
+          // ),
           child: SkyHover(
             disabled: false,
             alignment: Alignment.center,
             onTap: () {
               // selectMonth(e);
+              setValue(DateTime(year, e));
+            },
+            onchanged: (h) {
+              if (h) {
+                SkyDatePickerRangeMenu.maybeOf(context)?.setHoverTime(DateTime(year, e));
+              }
             },
             builder: (ctx, h) {
-              return Text(
-                textAlign: TextAlign.center,
-                str,
-                style: TextStyle(
-                  fontSize: SkyFontSizes().s12,
-                ).merge(getMonthItemTextColor(h, e)),
+              return Container(
+                alignment: Alignment.center,
+                height: widget.size.height * 1,
+                // width: widget.size.height * 1,
+                decoration: getItemMainDecoration(DateTime(year, e)),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  str,
+                  style: TextStyle(
+                    fontSize: SkyFontSizes().s12,
+                  ).merge(dayItemMainTextColor(DateTime(year, e), true, h)),
+                ),
               );
             },
           ),
