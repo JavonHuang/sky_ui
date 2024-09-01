@@ -40,7 +40,7 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
     keys = [];
     for (int i = 0; i < childrenList.length; i++) {
       GlobalKey<_SkyCheckboxState> key = GlobalKey<_SkyCheckboxState>();
-      SkyCheckbox item = _widget.children[i];
+      SkyCheckbox item = childrenList[i];
       result.add(
         Container(
           padding: EdgeInsets.only(right: _widget.buttonStyle ?? item.buttonStyle ? 0 : 4.scaleSpacing),
@@ -88,12 +88,14 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
   @override
   void didUpdateWidget(SkyCheckboxGroup oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget != _widget && mounted) {
+    SkyCheckboxGroup newWidget = super.widget as SkyCheckboxGroup;
+
+    if (oldWidget != newWidget && mounted) {
       setState(() {
-        childrenList = _widget.children;
+        childrenList = newWidget.children;
       });
-      if (oldWidget.model != _widget.model && mounted) {
-        setValue(_widget.model);
+      if (oldWidget.model != newWidget.model && mounted) {
+        setValue(newWidget.model);
       }
     }
   }

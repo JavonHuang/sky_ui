@@ -65,7 +65,7 @@ class _CheckBoxTextState extends State<CheckBoxText> {
           text: "测试",
           onTap: () {
             setState(() {
-              ceh = true;
+              ceh = !ceh;
             });
           },
         )
