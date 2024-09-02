@@ -72,30 +72,30 @@ class _InputTestState extends State<InputTest> with AutomaticKeepAliveClientMixi
                   ),
                 },
                 children: [
-                  const SkyFormField(
+                  SkyFormField(
                     label: "土豪登记",
                     prop: 'tuhao',
                     required: true,
                     child: SkyGroupRadio(
                       disabled: false,
                       buttonStyle: true,
-                      children: [
-                        SkyRadio(
+                      options: [
+                        SkyRadioOption(
                           disabled: false,
                           text: "测试1",
                           label: "测试1",
                         ),
-                        SkyRadio(
+                        SkyRadioOption(
                           disabled: false,
                           text: "测试2",
                           label: "测试2",
                         ),
-                        SkyRadio(
+                        SkyRadioOption(
                           disabled: false,
                           text: "测试3",
                           label: "测试3",
                         ),
-                        SkyRadio(
+                        SkyRadioOption(
                           disabled: false,
                           text: "测试4",
                           label: "测试4",

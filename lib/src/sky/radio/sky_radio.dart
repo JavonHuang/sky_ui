@@ -76,7 +76,7 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
           topLeft: SkyBorderRadius().normalCircular,
           bottomLeft: SkyBorderRadius().normalCircular,
         );
-      } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!._widget.children.length - 1) {
+      } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!.childrenList.length - 1) {
         return BorderRadius.only(
           topRight: SkyBorderRadius().normalCircular,
           bottomRight: SkyBorderRadius().normalCircular,
@@ -103,7 +103,7 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
           top: b,
           bottom: b,
         );
-      } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!._widget.children.length - 1) {
+      } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!.childrenList.length - 1) {
         return Border(
           right: b,
           top: b,

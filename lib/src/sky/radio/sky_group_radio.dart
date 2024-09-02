@@ -7,8 +7,8 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
     this.disabled = false,
     this.onTap,
     this.model,
-    this.buttonStyle,
-    this.children = const <SkyRadio>[],
+    this.buttonStyle = false,
+    this.options = const <SkyRadioOption>[],
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyGroupRadio,
@@ -18,8 +18,8 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
   final bool disabled;
   final Function()? onTap;
   final String? model;
-  final bool? buttonStyle;
-  final List<SkyRadio> children;
+  final bool buttonStyle;
+  final List<SkyRadioOption> options;
   @override
   SkyFormFieldBridgeState<SkyGroupRadio> createState() => SkyGroupRadioState();
 
@@ -31,35 +31,32 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
 
 class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
   SkyGroupRadio get _widget => super.widget as SkyGroupRadio;
-  late String value = "";
+  late String? value = null;
   late List<GlobalKey<_SkyRadioState>> keys = [];
+  late List<_RadioOption> childrenList = [];
 
   List<Widget> _renderItem() {
     List<Widget> result = [];
-    keys = [];
-    for (int i = 0; i < _widget.children.length; i++) {
-      GlobalKey<_SkyRadioState> key = GlobalKey<_SkyRadioState>();
-      SkyRadio item = _widget.children[i];
+    for (int i = 0; i < childrenList.length; i++) {
+      _RadioOption item = childrenList[i];
       result.add(
         Container(
-          padding: EdgeInsets.only(right: _widget.buttonStyle ?? item.buttonStyle ? 0 : 4.scaleSpacing),
+          padding: EdgeInsets.only(right: _widget.buttonStyle! ? 0 : 4.scaleSpacing),
           child: SkyRadio(
-            key: key,
-            size: item.size,
-            text: item.text,
-            disabled: item.disabled,
-            onTap: item.onTap,
-            model: (value != '' ? value : item.model) == item.label ? item.label : "",
-            buttonStyle: _widget.buttonStyle ?? item.buttonStyle,
-            label: item.label,
+            key: item.key,
+            size: _widget.size,
+            text: item.option.text,
+            disabled: item.option.disabled!,
+            model: item.model,
+            buttonStyle: _widget.buttonStyle!,
+            label: item.option.label,
             onChanged: (e) {
-              item.onChanged?.call(e);
+              // item.onChanged?.call(e);
               setValue(e);
             },
           ),
         ),
       );
-      keys.add(key);
     }
     return result;
   }
@@ -75,24 +72,40 @@ class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
     return result;
   }
 
+  void initView() {
+    childrenList = [];
+    keys = [];
+    value = _widget.model;
+    for (SkyRadioOption item in _widget.options) {
+      GlobalKey<_SkyRadioState> key = GlobalKey<_SkyRadioState>();
+      childrenList.add(_RadioOption(key: key, model: value == item.label ? value : null, option: item));
+      keys.add(key);
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+    initView();
   }
 
   @override
   void didUpdateWidget(SkyGroupRadio oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.model != _widget.model && mounted) {
-      setValue(_widget.model);
+    if (oldWidget != _widget && mounted) {
+      initView();
+      if (oldWidget.model != _widget.model && mounted) {
+        setValue(_widget.model);
+      }
     }
   }
 
   @override
   getValue() {
     value = "";
-    for (int i = 0; i < keys.length; i++) {
-      value = keys[i].currentState?.getValue();
+    for (int i = 0; i < childrenList.length; i++) {
+      value = childrenList[i].key.currentState?.getValue();
       if (value != '') {
         break;
       }
@@ -102,11 +115,11 @@ class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
 
   @override
   void setValue(dynamic e) {
-    for (int i = 0; i < _widget.children.length; i++) {
-      if (e == _widget.children[i].label) {
-        keys[i].currentState?.setValue(e);
+    for (int i = 0; i < childrenList.length; i++) {
+      if (e == childrenList[i].option.label) {
+        childrenList[i].key.currentState?.setValue(e);
       } else {
-        keys[i].currentState?.setValue("");
+        childrenList[i].key.currentState?.setValue("");
       }
     }
 
@@ -140,4 +153,15 @@ class _SkyGroupRadioState extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_SkyGroupRadioState old) => _skyGroupRadio != old._skyGroupRadio;
+}
+
+class _RadioOption {
+  final GlobalKey<_SkyRadioState> key;
+  final String? model;
+  final SkyRadioOption option;
+  _RadioOption({
+    required this.key,
+    required this.option,
+    this.model,
+  });
 }

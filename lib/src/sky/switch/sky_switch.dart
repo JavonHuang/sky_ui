@@ -120,7 +120,7 @@ class _SkySwitchState<T> extends SkyFormFieldBridgeState<SkySwitch> {
     double bWidth = _widget.size.height;
     double leftTrue = _widget.size.height * 0.5;
     double leftFalse = _widget.size.height * 0.05;
-
+    super.build(context);
     return Container(
       child: Row(
         children: [

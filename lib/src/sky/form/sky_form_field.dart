@@ -77,19 +77,35 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyRadio:
         _skyRadio = e;
-        dynamic initialValue = getInitialValue(widget.prop) ?? "";
-        setValue!.call(initialValue);
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue != "") {
+          setValue!.call(initialValue);
+        }
         break;
       case SkyFormType.skyGroupRadio:
         _skyGroupRadio = e;
-        dynamic initialValue = getInitialValue(widget.prop) ?? "";
-        setValue!.call(initialValue);
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue != "") {
+          setValue!.call(initialValue);
+        }
         break;
       case SkyFormType.skyCheckbox:
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue != "") {
+          setValue!.call(initialValue);
+        }
         break;
       case SkyFormType.skyCheckboxGroup:
+        dynamic initialValue = getInitialValue(widget.prop) ?? [];
+        if (initialValue != "") {
+          setValue!.call(initialValue);
+        }
         break;
       case SkyFormType.skySwitch:
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue != "") {
+          setValue!.call(initialValue);
+        }
         break;
       case SkyFormType.skySelect:
         break;
@@ -141,21 +157,15 @@ class SkyFormFieldState extends State<SkyFormField> {
         break;
       case SkyFormType.skyCheckbox:
         dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue == "") {
-          _setValue(false);
-        } else {
-          _setValue(initialValue);
-        }
+        _setValue(initialValue == "" ? false : initialValue);
         break;
       case SkyFormType.skyCheckboxGroup:
         dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue == "") {
-          _setValue(<String>[]);
-        } else {
-          _setValue(initialValue);
-        }
+        _setValue(initialValue == "" ? <String>[] : initialValue);
         break;
       case SkyFormType.skySwitch:
+        dynamic initialValue = getInitialValue(widget.prop);
+        _setValue(initialValue == "" ? false : initialValue);
         break;
       case SkyFormType.skySelect:
         break;
@@ -214,6 +224,7 @@ class SkyFormFieldState extends State<SkyFormField> {
         _setValue(val);
         break;
       case SkyFormType.skySwitch:
+        _setValue(val);
         break;
       case SkyFormType.skySelect:
         break;
@@ -284,6 +295,7 @@ class SkyFormFieldState extends State<SkyFormField> {
         value = val;
         break;
       case SkyFormType.skySwitch:
+        value = val;
         break;
       case SkyFormType.skySelect:
         break;
@@ -339,7 +351,7 @@ class SkyFormFieldState extends State<SkyFormField> {
                   child: Container(
                     alignment: Alignment.centerRight,
                     width: _labelWidth,
-                    color: Colors.red,
+                    // color: Colors.red,
                     child: Text.rich(
                       TextSpan(
                         children: [

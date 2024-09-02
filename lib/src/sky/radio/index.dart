@@ -7,3 +7,4 @@ import '../form/sky_form_field_bridge.dart';
 
 part 'sky_radio.dart';
 part 'sky_group_radio.dart';
+part 'model/sky_radio_option.dart';
