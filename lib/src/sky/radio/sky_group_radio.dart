@@ -30,7 +30,7 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
 }
 
 class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
-  late SkyGroupRadio _widget = super.widget as SkyGroupRadio;
+  SkyGroupRadio get _widget => super.widget as SkyGroupRadio;
   late String value = "";
   late List<GlobalKey<_SkyRadioState>> keys = [];
 

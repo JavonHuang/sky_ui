@@ -32,7 +32,7 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
 }
 
 class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
-  late SkyInput _widget = super.widget as SkyInput;
+  SkyInput get _widget => super.widget as SkyInput;
   late Color outLineBorder = SkyColors().baseBorder;
 
   TextEditingController _textController = TextEditingController();

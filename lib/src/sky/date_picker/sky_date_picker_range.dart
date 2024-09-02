@@ -38,7 +38,7 @@ class _SkyDatePickerRangeState<T> extends SkyFormFieldBridgeState<SkyDatePickerR
   TextEditingController textEndController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   final MenuController menuController = MenuController();
-  late SkyDatePickerRange<T> _widget = super.widget as SkyDatePickerRange<T>;
+   SkyDatePickerRange<T> get _widget => super.widget as SkyDatePickerRange<T>;
 
   late bool hasOpen = false;
   late bool onHover = false;

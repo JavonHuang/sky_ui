@@ -39,7 +39,7 @@ class _SkyTimePickerRangeState extends SkyFormFieldBridgeState<SkyTimePickerRang
   late double vertical = 0.scaleSpacing;
   late double space = 10.scaleSpacing;
 
-  late SkyTimePickerRange _widget = super.widget as SkyTimePickerRange;
+  SkyTimePickerRange get _widget => super.widget as SkyTimePickerRange;
   late bool hasOpen = false;
   late bool onHover = false;
 

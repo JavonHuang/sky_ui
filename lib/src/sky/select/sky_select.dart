@@ -32,7 +32,7 @@ class SkySelect<T> extends SkyFormFieldBridge<SkySelect> {
 }
 
 class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleTickerProviderStateMixin {
-  late SkySelect<T> _widget = super.widget as SkySelect<T>;
+  SkySelect<T> get _widget => super.widget as SkySelect<T>;
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();

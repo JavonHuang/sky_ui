@@ -29,7 +29,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
 }
 
 class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with SingleTickerProviderStateMixin {
-  late SkyTimePicker _widget = super.widget as SkyTimePicker;
+  SkyTimePicker get _widget => super.widget as SkyTimePicker;
   TextEditingController _textController = TextEditingController();
   late GlobalKey<SkyTimePickerControlItemState> picker = GlobalKey<SkyTimePickerControlItemState>();
   final FocusNode _focusNode = FocusNode();

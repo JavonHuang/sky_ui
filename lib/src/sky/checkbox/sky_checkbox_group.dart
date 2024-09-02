@@ -6,9 +6,10 @@ class SkyCheckboxGroup extends SkyFormFieldBridge<SkyCheckboxGroup> {
     this.size = SkySize.small,
     this.disabled = false,
     this.onTap,
-    this.model,
-    this.buttonStyle,
-    this.children = const <SkyCheckbox>[],
+    this.model = const <String>[],
+    this.buttonStyle = false,
+    this.children = const <SkyCheckboxOption>[],
+    this.onChanged,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyCheckboxGroup,
@@ -17,9 +18,11 @@ class SkyCheckboxGroup extends SkyFormFieldBridge<SkyCheckboxGroup> {
   final SkySize size;
   final bool disabled;
   final Function()? onTap;
-  final String? model;
+  final List<String> model;
   final bool? buttonStyle;
-  final List<SkyCheckbox> children;
+  final List<SkyCheckboxOption> children;
+  final Function(List<String> value)? onChanged;
+
   @override
   SkyFormFieldBridgeState<SkyCheckboxGroup> createState() => SkyCheckboxGroupState();
 
@@ -30,38 +33,35 @@ class SkyCheckboxGroup extends SkyFormFieldBridge<SkyCheckboxGroup> {
 }
 
 class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
-  late SkyCheckboxGroup _widget = super.widget as SkyCheckboxGroup;
+  SkyCheckboxGroup get _widget => super.widget as SkyCheckboxGroup;
   late List<String> value = [];
   late List<GlobalKey<_SkyCheckboxState>> keys = [];
-  late List<SkyCheckbox> childrenList = [];
+  late List<_CheckOption> childrenList = [];
 
   List<Widget> _renderItem() {
     List<Widget> result = [];
-    keys = [];
     for (int i = 0; i < childrenList.length; i++) {
-      GlobalKey<_SkyCheckboxState> key = GlobalKey<_SkyCheckboxState>();
-      SkyCheckbox item = childrenList[i];
+      _CheckOption item = childrenList[i];
       result.add(
         Container(
-          padding: EdgeInsets.only(right: _widget.buttonStyle ?? item.buttonStyle ? 0 : 4.scaleSpacing),
+          padding: EdgeInsets.only(right: _widget.buttonStyle! ? 0 : 4.scaleSpacing),
           child: SkyCheckbox(
-            key: key,
-            size: item.size,
-            text: item.text,
-            disabled: item.disabled,
-            onTap: item.onTap,
+            key: item.key,
+            size: _widget.size,
+            text: item.option.text,
+            disabled: item.option.disabled!,
+            onTap: _widget.onTap,
+            buttonStyle: _widget.buttonStyle!,
+            label: item.option.label,
             model: item.model,
-            buttonStyle: _widget.buttonStyle ?? item.buttonStyle,
-            label: item.label,
             onChanged: (e) {
-              item.onChanged?.call(e);
-              e ? value.add(item.label) : value.remove(item.label);
+              bool has = value.any((e) => e == item.option.label);
+              !has ? value.add(item.option.label) : value.remove(item.option.label);
               setValue(value);
             },
           ),
         ),
       );
-      keys.add(key);
     }
     return result;
   }
@@ -77,12 +77,23 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
     return result;
   }
 
+  void initView() {
+    childrenList = [];
+    keys = [];
+    value = [..._widget.model];
+    for (SkyCheckboxOption item in _widget.children) {
+      GlobalKey<_SkyCheckboxState> key = GlobalKey<_SkyCheckboxState>();
+      bool model = value.any((e) => e == item.label);
+      childrenList.add(_CheckOption(key: key, model: model, option: item));
+      keys.add(key);
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
-    setState(() {
-      childrenList = _widget.children;
-    });
     super.initState();
+    initView();
   }
 
   @override
@@ -91,9 +102,7 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
     SkyCheckboxGroup newWidget = super.widget as SkyCheckboxGroup;
 
     if (oldWidget != newWidget && mounted) {
-      setState(() {
-        childrenList = newWidget.children;
-      });
+      initView();
       if (oldWidget.model != newWidget.model && mounted) {
         setValue(newWidget.model);
       }
@@ -124,6 +133,7 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
     }
 
     value = e;
+    _widget.onChanged?.call(value);
   }
 
   @override
@@ -152,4 +162,15 @@ class _SkyCheckboxGroupState extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_SkyCheckboxGroupState old) => _skyCheckboxGroup != old._skyCheckboxGroup;
+}
+
+class _CheckOption {
+  final Key key;
+  final bool model;
+  final SkyCheckboxOption option;
+  _CheckOption({
+    required this.key,
+    required this.model,
+    required this.option,
+  });
 }

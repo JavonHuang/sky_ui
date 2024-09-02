@@ -140,8 +140,20 @@ class SkyFormFieldState extends State<SkyFormField> {
         _setValue(initialValue);
         break;
       case SkyFormType.skyCheckbox:
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue == "") {
+          _setValue(false);
+        } else {
+          _setValue(initialValue);
+        }
         break;
       case SkyFormType.skyCheckboxGroup:
+        dynamic initialValue = getInitialValue(widget.prop);
+        if (initialValue == "") {
+          _setValue(<String>[]);
+        } else {
+          _setValue(initialValue);
+        }
         break;
       case SkyFormType.skySwitch:
         break;
@@ -192,8 +204,14 @@ class SkyFormFieldState extends State<SkyFormField> {
         }
         break;
       case SkyFormType.skyCheckbox:
+        if (checkType(val)) {
+          _setValue(val);
+        } else {
+          _setValue("");
+        }
         break;
       case SkyFormType.skyCheckboxGroup:
+        _setValue(val);
         break;
       case SkyFormType.skySwitch:
         break;
@@ -260,8 +278,10 @@ class SkyFormFieldState extends State<SkyFormField> {
         value = val;
         break;
       case SkyFormType.skyCheckbox:
+        value = val;
         break;
       case SkyFormType.skyCheckboxGroup:
+        value = val;
         break;
       case SkyFormType.skySwitch:
         break;
@@ -319,7 +339,7 @@ class SkyFormFieldState extends State<SkyFormField> {
                   child: Container(
                     alignment: Alignment.centerRight,
                     width: _labelWidth,
-                    // color: Colors.red,
+                    color: Colors.red,
                     child: Text.rich(
                       TextSpan(
                         children: [
@@ -368,9 +388,9 @@ class SkyFormFieldState extends State<SkyFormField> {
   }
 
   @override
-  void dispose() {
+  void deactivate() {
     SkyForm.maybeOf(context)?._unregister(this);
-    super.dispose();
+    super.deactivate();
   }
 }
 

@@ -32,7 +32,7 @@ class SkyDatePickerSingle<T> extends SkyFormFieldBridge<SkyDatePickerSingle> {
 }
 
 class _SkyDatePickerSingleState<T> extends SkyFormFieldBridgeState<SkyDatePickerSingle> {
-  late SkyDatePickerSingle<T> _widget = super.widget as SkyDatePickerSingle<T>;
+  SkyDatePickerSingle<T> get _widget => super.widget as SkyDatePickerSingle<T>;
   TextEditingController textController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   final MenuController menuController = MenuController();

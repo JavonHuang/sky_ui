@@ -32,7 +32,7 @@ class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
 }
 
 class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
-  late SkyRadio _widget = super.widget as SkyRadio;
+  SkyRadio get _widget => super.widget as SkyRadio;
 
   late String value = "";
 

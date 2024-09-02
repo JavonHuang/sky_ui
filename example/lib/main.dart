@@ -98,7 +98,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Map<String, Widget> showMenu = {'InputTest': const InputTest()};
+  late Map<String, Widget> showMenu = {'CheckBoxText': const CheckBoxText()};
   late List<Map<String, Widget>> menuList = [];
 
   Widget _renderTab() {

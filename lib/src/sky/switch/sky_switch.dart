@@ -31,7 +31,7 @@ class SkySwitch<T> extends SkyFormFieldBridge<SkySwitch> {
 }
 
 class _SkySwitchState<T> extends SkyFormFieldBridgeState<SkySwitch> {
-  late SkySwitch _widget = super.widget as SkySwitch;
+  SkySwitch get _widget => super.widget as SkySwitch;
 
   late bool value = false;
   late bool onHoverTrue = false;

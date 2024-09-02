@@ -14,7 +14,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
     this.border = false,
   }) : super(
           fieldSize: size,
-          itemType: SkyFormType.skyRadio,
+          itemType: SkyFormType.skyCheckbox,
           fieldDisabled: disabled,
         );
   final SkySize size;
@@ -33,7 +33,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
 }
 
 class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
-  late SkyCheckbox _widget = super.widget as SkyCheckbox;
+  SkyCheckbox get _widget => super.widget as SkyCheckbox;
   late bool value = false;
   late bool onHover = false;
 
@@ -148,6 +148,9 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
 
   @override
   Widget build(BuildContext context) {
+    if (SkyCheckboxGroup.maybeOf(context) == null) {
+      super.build(context);
+    }
     return GestureDetector(
       onTap: () {
         if (_widget.disabled) {

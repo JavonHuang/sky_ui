@@ -22,9 +22,9 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
   final RestorableStringN _errorText = RestorableStringN(null);
   final RestorableBool _hasInteractedByUser = RestorableBool(false);
 
-  SkyForm? get skyForm => SkyFormField.maybeOf(context)?.skyForm;
-
   SkySize get size {
+    SkyForm? skyForm = SkyFormField.maybeOf(context)?.skyForm;
+
     if (skyForm != null && skyForm!.size != null) {
       return skyForm!.size!;
     } else {
@@ -33,6 +33,8 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
   }
 
   bool get disabled {
+    SkyForm? skyForm = SkyFormField.maybeOf(context)?.skyForm;
+
     if (skyForm != null && skyForm!.disabled != null) {
       return skyForm!.disabled!;
     } else {

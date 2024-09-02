@@ -40,7 +40,7 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
 }
 
 class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
-  late SkyInputNumber _widget = super.widget as SkyInputNumber;
+  SkyInputNumber get _widget => super.widget as SkyInputNumber;
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
