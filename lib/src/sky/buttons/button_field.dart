@@ -64,6 +64,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         MediaQuery.of(context).size.height * 0.25,
       );
     } else if (widget.circle) {
+      print(MediaQuery.of(context).size.height);
       return BorderRadius.circular(
         MediaQuery.of(context).size.height * 0.5,
       );
@@ -125,8 +126,6 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         },
         child: UnconstrainedBox(
           child: Container(
-            height: widget.size.height,
-            width: widget.circle ? widget.size.height : null,
             decoration: BoxDecoration(
               color: type.getBackgroundColor(
                 context: context,
@@ -183,22 +182,19 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                         size: widget.size.iconSize,
                       ),
                     if (widget.text.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.scaleSpacing),
-                        child: Text(
-                          widget.text,
-                          style: TextStyle(
-                            fontSize: size.textSize,
-                            color: type.getTextColor(
-                              context: context,
-                              plain: widget.plain,
-                              onHover: onHover,
-                              active: active,
-                              disabled: widget.disabled,
-                              loading: widget.loading,
-                              customizeColor: widget.customTextColor,
-                              customHoverColor: widget.customHoverColor,
-                            ),
+                      Text(
+                        widget.text,
+                        style: TextStyle(
+                          fontSize: size.textSize,
+                          color: type.getTextColor(
+                            context: context,
+                            plain: widget.plain,
+                            onHover: onHover,
+                            active: active,
+                            disabled: widget.disabled,
+                            loading: widget.loading,
+                            customizeColor: widget.customTextColor,
+                            customHoverColor: widget.customHoverColor,
                           ),
                         ),
                       ),
