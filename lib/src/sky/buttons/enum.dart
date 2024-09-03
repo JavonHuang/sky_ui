@@ -11,6 +11,7 @@ extension SkyButtonType on SkyType {
     bool plain = false,
     required bool active,
     required bool onHover,
+    Color? customHoverColor,
   }) {
     late Color? textColor;
     switch (this) {
@@ -46,6 +47,9 @@ extension SkyButtonType on SkyType {
       }
       if (this == SkyType.text) {
         textColor = (customizeColor ?? SkyColors().primary).withOpacity(0.6);
+      }
+      if (onHover && customHoverColor != null) {
+        return customHoverColor;
       }
     }
     return (disabled || loading) ? textColor.withOpacity(0.6) : textColor;
@@ -106,10 +110,12 @@ extension SkyButtonType on SkyType {
     bool active = false,
     bool onHover = false,
     bool chosenButton = false,
+    Color? onHoverColor,
   }) {
     if (customizeColor != null) {
       return (disabled || loading) ? customizeColor.withOpacity(0.4) : customizeColor;
     }
+
     late Color backgroundColor;
     switch (this) {
       case SkyType.normal:

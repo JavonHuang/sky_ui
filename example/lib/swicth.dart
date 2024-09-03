@@ -10,7 +10,7 @@ class SwicthTest extends StatefulWidget {
 
 class _SwicthTestState extends State<SwicthTest> {
   late GlobalKey<SkyFormState> myForm = GlobalKey();
-  late bool model = true;
+  late bool model = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -64,7 +64,7 @@ class _SwicthTestState extends State<SwicthTest> {
           text: "改变",
           onTap: () {
             setState(() {
-              model = true;
+              model = !model;
             });
           },
         ),

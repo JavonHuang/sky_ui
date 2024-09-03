@@ -7,7 +7,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
     this.text,
     this.disabled = false,
     this.onTap,
-    this.model = false,
+    this.model,
     required this.label,
     this.buttonStyle = false,
     this.onChanged,
@@ -21,7 +21,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
   final String? text;
   final bool disabled;
   final Function()? onTap;
-  final bool model;
+  final bool? model;
   final String label;
   final bool buttonStyle;
 
@@ -43,7 +43,7 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
   void initState() {
     super.initState();
     setState(() {
-      value = _widget.model;
+      value = _widget.model ?? false;
     });
   }
 

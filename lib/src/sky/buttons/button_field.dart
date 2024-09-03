@@ -16,6 +16,7 @@ class ButtonField<T> extends StatefulWidget {
     this.onTap,
     this.buttonKey,
     this.customTextColor,
+    this.customHoverColor,
 
     // required this.builder,
   });
@@ -35,6 +36,8 @@ class ButtonField<T> extends StatefulWidget {
   final Function()? onTap;
   final String? buttonKey;
   final Color? customTextColor;
+  final Color? customHoverColor;
+
   @override
   ButtonFieldState<T> createState() => ButtonFieldState<T>();
 }
@@ -161,6 +164,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                           onHover: onHover,
                           active: active,
                           loading: widget.loading,
+                          customHoverColor: widget.customHoverColor,
                         ),
                         ElementIcons.loading,
                         size: widget.size.iconSize,
@@ -173,6 +177,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                           onHover: onHover,
                           active: active,
                           loading: widget.loading,
+                          customHoverColor: widget.customHoverColor,
                         ),
                         widget.leftIcon,
                         size: widget.size.iconSize,
@@ -192,6 +197,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                               disabled: widget.disabled,
                               loading: widget.loading,
                               customizeColor: widget.customTextColor,
+                              customHoverColor: widget.customHoverColor,
                             ),
                           ),
                         ),
@@ -204,6 +210,8 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                           onHover: onHover,
                           active: active,
                           loading: widget.loading,
+                          customizeColor: widget.customTextColor,
+                          customHoverColor: widget.customHoverColor,
                         ),
                         widget.rightIcon,
                         size: widget.size.iconSize,

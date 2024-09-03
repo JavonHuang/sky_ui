@@ -35,15 +35,11 @@ class SkyFormFieldState extends State<SkyFormField> {
   late SkyFormType? itemType;
   late ValidatorResult _validatorResult = ValidatorResult(result: true, message: '');
 
-  late SkyInput _skyInput;
-  late SkyInputNumber _skyInputNumber;
-  late SkyRadio _skyRadio;
-  late SkyGroupRadio _skyGroupRadio;
-
   SkyForm? get skyForm => SkyForm.maybeOfSkyForm(context);
 
   double? get _labelWidth => widget.labelWidth ?? skyForm?.labelWidth;
 
+  late dynamic field;
   late void Function(dynamic e) _setValue;
   late dynamic Function() _getValue;
 
@@ -55,56 +51,61 @@ class SkyFormFieldState extends State<SkyFormField> {
   }
 
   void register(e, SkyFormType type, setValue, getValue) {
+    field = e;
     _setValue = setValue;
     _getValue = getValue;
     itemType = type;
     switch (itemType) {
       case SkyFormType.skyInput:
-        _skyInput = e;
-        dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue.toString().isNotEmpty || _skyInput.model != null) {
-          String val = _skyInput.model!.isNotEmpty ? _skyInput.model! : initialValue.toString();
-          setValue!.call(val);
+        e as SkyInput;
+        if (e.model == null) {
+          dynamic initialValue = getInitialValue(widget.prop);
+          setValue!.call(initialValue);
         }
         break;
       case SkyFormType.skyInputNumber:
-        _skyInputNumber = e;
-        dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue.toString().isNotEmpty || (_skyInputNumber.model != null && _skyInputNumber.model.toString().isNotEmpty)) {
-          String val = _skyInputNumber.model != null ? _skyInputNumber.model.toString() : initialValue.toString();
+        e as SkyInputNumber;
+        if (e.model == null) {
+          dynamic initialValue = getInitialValue(widget.prop);
+          String val = initialValue.toString();
           setValue!.call(val.toDoubleText());
         }
         break;
       case SkyFormType.skyRadio:
-        _skyRadio = e;
-        dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue != "") {
+        e as SkyRadio;
+        if (e.model == null) {
+          dynamic initialValue = getInitialValue(widget.prop);
           setValue!.call(initialValue);
         }
         break;
       case SkyFormType.skyGroupRadio:
-        _skyGroupRadio = e;
-        dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue != "") {
+        e as SkyGroupRadio;
+        if (e.model == null) {
+          dynamic initialValue = getInitialValue(widget.prop);
           setValue!.call(initialValue);
         }
         break;
       case SkyFormType.skyCheckbox:
-        dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue != "") {
+        e as SkyCheckbox;
+        if (e.model == null) {
+          dynamic initialValue = getInitialValue(widget.prop);
           setValue!.call(initialValue);
         }
         break;
       case SkyFormType.skyCheckboxGroup:
-        dynamic initialValue = getInitialValue(widget.prop) ?? [];
-        if (initialValue != "") {
-          setValue!.call(initialValue);
+        e as SkyCheckboxGroup;
+        if (e.model.isEmpty) {
+          dynamic initialValue = getInitialValue(widget.prop) ?? [];
+          setValue!.call(initialValue == "" ? <String>[] : initialValue);
         }
         break;
       case SkyFormType.skySwitch:
-        dynamic initialValue = getInitialValue(widget.prop);
-        if (initialValue != "") {
-          setValue!.call(initialValue);
+        e as SkySwitch;
+        if (e.model == null) {
+          dynamic initialValue = getInitialValue(widget.prop);
+          if (initialValue != "") {
+            setValue!.call(initialValue == "" ? <String>[] : initialValue);
+          }
         }
         break;
       case SkyFormType.skySelect:
@@ -142,7 +143,7 @@ class SkyFormFieldState extends State<SkyFormField> {
 
         if (initialValue.isNotEmpty && initialValue.toString().isNotEmpty) {
           String val = initialValue.toString();
-          _setValue(double.parse(val).getMaxPrecision(maxDigits: _skyInputNumber.precision).toString());
+          _setValue(double.parse(val).getMaxPrecision(maxDigits: field.precision).toString());
         } else {
           _setValue('');
         }
