@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'button_demo.dart';
+import 'icon_demo.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -33,10 +34,11 @@ class _MyMainState extends State<MyMain> {
   late Map<String, dynamic> showMenu = {"widget": const ButtonDemo(), "name": "Button 按钮"};
   late List<Map<String, dynamic>> menuList = [
     {"widget": const ButtonDemo(), "name": "Button 按钮"},
+    {"widget": const IconDemo(), "name": "Icon 图标"},
   ];
 
   Widget renderMenu() {
-    return Row(
+    return Column(
       children: menuList.map((item) {
         return SkyButton(
           size: SkySize.medium,
@@ -44,6 +46,11 @@ class _MyMainState extends State<MyMain> {
           text: item["name"],
           customTextColor: SkyColors().primaryText,
           customHoverColor: SkyColors().primary,
+          onTap: () {
+            setState(() {
+              showMenu = item;
+            });
+          },
         );
       }).toList(),
     );

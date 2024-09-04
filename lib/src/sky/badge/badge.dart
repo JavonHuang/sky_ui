@@ -50,7 +50,7 @@ class _SkyBadgeState extends State<SkyBadge> {
                 child: Text(
                   widget.text,
                   style: TextStyle(
-                    fontSize: SkyFontSizes().s12,
+                    fontSize: SkyFontSizes().auxiliaryFont,
                     color: SkyColors().white,
                   ),
                 ),

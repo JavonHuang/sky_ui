@@ -169,17 +169,20 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                         size: widget.size.iconSize,
                       ),
                     if (widget.leftIcon != null)
-                      Icon(
-                        color: type.getTextColor(
-                          context: context,
-                          plain: widget.plain,
-                          onHover: onHover,
-                          active: active,
-                          loading: widget.loading,
-                          customHoverColor: widget.customHoverColor,
+                      Padding(
+                        padding: EdgeInsets.only(right: 5.scaleSpacing),
+                        child: Icon(
+                          color: type.getTextColor(
+                            context: context,
+                            plain: widget.plain,
+                            onHover: onHover,
+                            active: active,
+                            loading: widget.loading,
+                            customHoverColor: widget.customHoverColor,
+                          ),
+                          widget.leftIcon,
+                          size: widget.size.iconSize,
                         ),
-                        widget.leftIcon,
-                        size: widget.size.iconSize,
                       ),
                     if (widget.text.isNotEmpty)
                       Text(
@@ -199,19 +202,22 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                         ),
                       ),
                     if (widget.rightIcon != null)
-                      Icon(
-                        color: type.getTextColor(
-                          context: context,
-                          plain: widget.plain,
-                          onHover: onHover,
-                          active: active,
-                          loading: widget.loading,
-                          customizeColor: widget.customTextColor,
-                          customHoverColor: widget.customHoverColor,
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.scaleSpacing),
+                        child: Icon(
+                          color: type.getTextColor(
+                            context: context,
+                            plain: widget.plain,
+                            onHover: onHover,
+                            active: active,
+                            loading: widget.loading,
+                            customizeColor: widget.customTextColor,
+                            customHoverColor: widget.customHoverColor,
+                          ),
+                          widget.rightIcon,
+                          size: widget.size.iconSize,
                         ),
-                        widget.rightIcon,
-                        size: widget.size.iconSize,
-                      ),
+                      )
                   ],
                 ),
               ),

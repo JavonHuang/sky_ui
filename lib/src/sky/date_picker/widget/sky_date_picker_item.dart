@@ -264,7 +264,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontWeight: FontWeight.w500,
-                      fontSize: SkyFontSizes().s16,
+                      fontSize: SkyFontSizes().titleSmallFont,
                     ),
                   );
                 },
@@ -281,7 +281,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontWeight: FontWeight.w500,
-                      fontSize: SkyFontSizes().s16,
+                      fontSize: SkyFontSizes().titleSmallFont,
                     ),
                   );
                 },
@@ -300,7 +300,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                 style: TextStyle(
                   color: SkyColors().regularText,
                   fontWeight: FontWeight.w500,
-                  fontSize: SkyFontSizes().s16,
+                  fontSize: SkyFontSizes().titleSmallFont,
                 ),
               )
             ],
@@ -325,7 +325,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontWeight: FontWeight.w500,
-                      fontSize: SkyFontSizes().s16,
+                      fontSize: SkyFontSizes().titleSmallFont,
                     ),
                   );
                 },
@@ -353,7 +353,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               child: Icon(
                 color: textColor,
                 ElementIcons.arrowRight,
-                size: SkyFontSizes().s12,
+                size: SkyIconSizes().smallFont,
               ),
             );
           },
@@ -378,7 +378,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               child: Icon(
                 color: textColor,
                 ElementIcons.dArrowRight,
-                size: SkyFontSizes().s12,
+                size: SkyIconSizes().smallFont,
               ),
             );
           },
@@ -531,7 +531,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               textAlign: TextAlign.center,
               time.day.toString(),
               style: TextStyle(
-                fontSize: SkyFontSizes().s12,
+                fontSize: SkyFontSizes().auxiliaryFont,
               ).merge(dayItemMainTextColor(time, content, h)),
             ),
           );
@@ -561,7 +561,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
       return TextStyle(
         color: SkyColors().primary,
         fontWeight: FontWeight.w700,
-        fontSize: SkyFontSizes().s12,
+        fontSize: SkyFontSizes().auxiliaryFont,
       );
     } else {
       return TextStyle(
@@ -611,7 +611,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                   textAlign: TextAlign.center,
                   str,
                   style: TextStyle(
-                    fontSize: SkyFontSizes().s12,
+                    fontSize: SkyFontSizes().auxiliaryFont,
                   ).merge(dayItemMainTextColor(DateTime(year, e), true, h)),
                 ),
               );

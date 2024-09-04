@@ -260,7 +260,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
               textAlign: TextAlign.center,
               time.day.toString(),
               style: TextStyle(
-                fontSize: SkyFontSizes().s12,
+                fontSize: SkyFontSizes().auxiliaryFont,
               ).merge(dayItemMainTextColor(time, content, h)),
             ),
           );
@@ -324,7 +324,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                 textAlign: TextAlign.center,
                 e.toString(),
                 style: TextStyle(
-                  fontSize: SkyFontSizes().s12,
+                  fontSize: SkyFontSizes().auxiliaryFont,
                 ).merge(yearItemTextColor),
               ),
             );
@@ -354,7 +354,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
       return TextStyle(
         color: SkyColors().primary,
         fontWeight: FontWeight.w700,
-        fontSize: SkyFontSizes().s12,
+        fontSize: SkyFontSizes().auxiliaryFont,
       );
     } else {
       return TextStyle(
@@ -389,7 +389,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                 textAlign: TextAlign.center,
                 str,
                 style: TextStyle(
-                  fontSize: SkyFontSizes().s12,
+                  fontSize: SkyFontSizes().auxiliaryFont,
                 ).merge(getMonthItemTextColor(h, e)),
               );
             },
@@ -470,7 +470,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontWeight: FontWeight.w500,
-                      fontSize: SkyFontSizes().s16,
+                      fontSize: SkyFontSizes().titleSmallFont,
                     ),
                   );
                 },
@@ -487,7 +487,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontWeight: FontWeight.w500,
-                      fontSize: SkyFontSizes().s16,
+                      fontSize: SkyFontSizes().titleSmallFont,
                     ),
                   );
                 },
@@ -506,7 +506,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                 style: TextStyle(
                   color: SkyColors().regularText,
                   fontWeight: FontWeight.w500,
-                  fontSize: SkyFontSizes().s16,
+                  fontSize: SkyFontSizes().titleSmallFont,
                 ),
               )
             ],
@@ -531,7 +531,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
                       fontWeight: FontWeight.w500,
-                      fontSize: SkyFontSizes().s16,
+                      fontSize: SkyFontSizes().titleSmallFont,
                     ),
                   );
                 },
@@ -551,7 +551,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
               child: Icon(
                 color: h ? SkyColors().primary : SkyColors().primaryText,
                 ElementIcons.arrowRight,
-                size: SkyFontSizes().s12,
+                size: SkyIconSizes().smallFont,
               ),
             );
           },
@@ -567,7 +567,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
             child: Icon(
               color: h ? SkyColors().primary : SkyColors().primaryText,
               ElementIcons.dArrowRight,
-              size: SkyFontSizes().s12,
+              size: SkyIconSizes().smallFont,
             ),
           );
         },
@@ -606,7 +606,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                     e.text,
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
-                      fontSize: SkyFontSizes().s14,
+                      fontSize: SkyFontSizes().textFont,
                     ),
                   );
                 },

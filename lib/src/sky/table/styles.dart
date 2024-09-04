@@ -6,7 +6,7 @@ class SkyGridTableStyle {
 
   static TextStyle headerStyle = TextStyle(
     color: SkyColors().secondaryText,
-    fontSize: SkyFontSizes().s14,
+    fontSize: SkyFontSizes().textFont,
     fontWeight: FontWeight.w500,
   );
 }

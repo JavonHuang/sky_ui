@@ -85,7 +85,7 @@ class _SkyLinkState extends State<SkyLink> {
                         onHover: onHover,
                       ),
                       widget.leftIcon,
-                      size: SkyFontSizes().s14,
+                      size: SkyFontSizes().textFont,
                     ),
                   if (widget.text.isNotEmpty)
                     Padding(

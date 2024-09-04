@@ -366,7 +366,7 @@ class SkyFormFieldState extends State<SkyFormField> {
                 Text(
                   '',
                   style: TextStyle(
-                    fontSize: SkyFontSizes().s12,
+                    fontSize: SkyFontSizes().auxiliaryFont,
                   ),
                 ),
               ],
@@ -386,7 +386,7 @@ class SkyFormFieldState extends State<SkyFormField> {
                       maxLines: 1,
                       softWrap: true,
                       style: TextStyle(
-                        fontSize: SkyFontSizes().s12,
+                        fontSize: SkyFontSizes().auxiliaryFont,
                         color: SkyColors().danger,
                       ),
                     ),

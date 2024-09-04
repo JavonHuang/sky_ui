@@ -30,11 +30,11 @@ enum SkyLinkSize {
   double get textSize {
     switch (this) {
       case large:
-        return SkyFontSizes().s16;
+        return SkyFontSizes().titleSmallFont;
       case medium:
-        return SkyFontSizes().s14;
+        return SkyFontSizes().textFont;
       case small:
-        return SkyFontSizes().s12;
+        return SkyFontSizes().auxiliaryFont;
     }
   }
 }

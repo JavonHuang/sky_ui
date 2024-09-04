@@ -80,7 +80,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
                     e.text,
                     style: TextStyle(
                       color: h ? SkyColors().primary : SkyColors().regularText,
-                      fontSize: SkyFontSizes().s14,
+                      fontSize: SkyFontSizes().textFont,
                     ),
                   );
                 },

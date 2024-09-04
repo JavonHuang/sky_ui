@@ -64,13 +64,13 @@ enum SkySize {
   double get textSize {
     switch (this) {
       case large:
-        return SkyFontSizes().s14;
+        return SkyIconSizes().mediumFont;
       case medium:
-        return SkyFontSizes().s14;
+        return SkyIconSizes().mediumFont;
       case small:
-        return SkyFontSizes().s12;
+        return SkyIconSizes().smallFont;
       case mini:
-        return SkyFontSizes().s12;
+        return SkyIconSizes().smallFont;
     }
   }
 

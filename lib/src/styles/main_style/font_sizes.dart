@@ -13,15 +13,15 @@ class SkyFontSizes {
 
   double get scale => _scale;
 
-  double get s12 => 12 * _scale;
+  double get auxiliaryFont => 12 * _scale;
 
-  double get s13 => 13 * _scale;
+  double get textSmallFont => 13 * _scale;
 
-  double get s14 => 14 * _scale;
+  double get textFont => 14 * _scale;
 
-  double get s16 => 16 * _scale;
+  double get titleSmallFont => 16 * _scale;
 
-  double get s18 => 18 * _scale;
+  double get titleFont => 18 * _scale;
 
-  double get s20 => 20 * _scale;
+  double get titleMainFont => 20 * _scale;
 }
