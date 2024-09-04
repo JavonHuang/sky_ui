@@ -69,6 +69,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
                   text: '主要按钮',
                   type: SkyType.primary,
                   plain: true,
+                  size: SkySize.medium,
                 ),
                 SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(

@@ -185,7 +185,7 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
         child: UnconstrainedBox(
           child: _widget.buttonStyle
               ? Container(
-                  height: _widget.size.height,
+                  // height: _widget.size.height,
                   decoration: BoxDecoration(
                     color: bgColor,
                     border: border,
@@ -211,7 +211,7 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
                   ),
                 )
               : Container(
-                  height: _widget.size.height,
+                  // height: _widget.size.height,
                   padding: _widget.size.padding(),
                   decoration: _widget.border
                       ? BoxDecoration(
@@ -226,7 +226,7 @@ class _SkyRadioState<T> extends SkyFormFieldBridgeState<SkyRadio> {
                         child: Container(
                           height: _widget.size.height * 0.4,
                           width: _widget.size.height * 0.4,
-                          margin: EdgeInsets.only(right: 4.scaleSpacing),
+                          margin: EdgeInsets.only(right: 10.scaleSpacing),
                           decoration: BoxDecoration(
                             color: checked && !_widget.disabled ? SkyColors().primary : SkyColors().defaultBg,
                             border: Border.all(

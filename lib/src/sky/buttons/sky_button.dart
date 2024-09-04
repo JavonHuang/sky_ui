@@ -5,7 +5,7 @@ class SkyButton extends ButtonField<SkyButton> {
     super.key,
     super.text,
     super.type,
-    super.size = SkySize.small,
+    super.size = SkySize.medium,
     super.disabled,
     super.loading,
     super.plain,

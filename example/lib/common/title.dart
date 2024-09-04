@@ -22,7 +22,12 @@ class DemoTitle extends StatelessWidget {
         ),
         Container(
           padding: DemoSpace.vMain,
-          child: Text(descr, style: DemoStyle().text),
+          child: Text(
+            descr,
+            style: const TextStyle(
+              color: Color(0xFF5e6d82),
+            ).merge(DemoStyle().text),
+          ),
         )
       ],
     );

@@ -170,7 +170,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       ),
                     if (widget.leftIcon != null)
                       Padding(
-                        padding: EdgeInsets.only(right: 5.scaleSpacing),
+                        padding: EdgeInsets.only(right: widget.circle ? 0 : 5.scaleSpacing),
                         child: Icon(
                           color: type.getTextColor(
                             context: context,
@@ -188,7 +188,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       Text(
                         widget.text,
                         style: TextStyle(
-                          fontSize: size.textSize,
+                          fontSize: widget.size.textSize,
                           color: type.getTextColor(
                             context: context,
                             plain: widget.plain,
@@ -203,7 +203,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       ),
                     if (widget.rightIcon != null)
                       Padding(
-                        padding: EdgeInsets.only(left: 5.scaleSpacing),
+                        padding: EdgeInsets.only(left: widget.circle ? 0 : 5.scaleSpacing),
                         child: Icon(
                           color: type.getTextColor(
                             context: context,
@@ -234,5 +234,3 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
     super.dispose();
   }
 }
-
-typedef ButtonFieldBuilder<T> = Widget Function(ButtonFieldState<T> field);

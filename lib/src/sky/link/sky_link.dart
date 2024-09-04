@@ -83,6 +83,7 @@ class _SkyLinkState extends State<SkyLink> {
                       color: widget.type.getTextColor(
                         context: context,
                         onHover: onHover,
+                        disabled: widget.disabled,
                       ),
                       widget.leftIcon,
                       size: SkyFontSizes().textFont,
@@ -97,6 +98,7 @@ class _SkyLinkState extends State<SkyLink> {
                           color: widget.type.getTextColor(
                             context: context,
                             onHover: onHover,
+                            disabled: widget.disabled,
                           ),
                         ),
                       ),
@@ -106,6 +108,7 @@ class _SkyLinkState extends State<SkyLink> {
                       color: widget.type.getTextColor(
                         context: context,
                         onHover: onHover,
+                        disabled: widget.disabled,
                       ),
                       widget.rightIcon,
                       size: widget.size.iconSize,
