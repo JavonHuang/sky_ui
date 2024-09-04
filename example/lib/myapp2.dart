@@ -43,6 +43,7 @@ class _MyMainState extends State<MyMain> {
 
   Widget renderMenu() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: menuList.map((item) {
         return SkyButton(
           size: SkySize.medium,
