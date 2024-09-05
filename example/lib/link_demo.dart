@@ -27,7 +27,7 @@ class _LinkDemoState extends State<LinkDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
               children: [
                 const SkyLink(
                   text: "默认链接",
@@ -74,7 +74,7 @@ class _LinkDemoState extends State<LinkDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
               children: [
                 const SkyLink(
                   text: "默认链接",
@@ -121,7 +121,7 @@ class _LinkDemoState extends State<LinkDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
               children: [
                 const SkyLink(
                   type: SkyLinkType.normal,
@@ -143,7 +143,7 @@ class _LinkDemoState extends State<LinkDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
               children: [
                 const SkyLink(
                   text: "编辑",

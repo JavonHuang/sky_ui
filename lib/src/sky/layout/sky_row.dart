@@ -4,79 +4,62 @@ class SkyRow extends StatelessWidget {
   const SkyRow({
     super.key,
     required this.children,
-    this.gutter,
+    this.gutter = 0,
+    this.alignment = WrapAlignment.start,
   });
-  final List<SkyCol> children;
+  final List<Widget> children;
   final double? gutter;
+  final WrapAlignment alignment;
 
-  List<Widget> renderColList(double rowWidth) {
-    List<Widget> resultListRow = [];
-    List<Widget> resultRowListItem = [];
-
-    double sumWidth = 0;
-    for (int i = 0; i < children.length; i++) {
-      SkyCol item = children[i];
-      if (item.width == null && item.span == null) {
-        resultListRow.add(
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ...resultRowListItem,
-                Expanded(
-                  child: Container(color: Colors.blue, child: item),
-                ),
-              ],
-            ),
-          ),
-        );
-        resultRowListItem = [];
-      } else {
-        sumWidth += item.width != null ? item.width! / rowWidth : item.span!.value;
-        Widget colItem = Container(
-          color: Colors.blue,
-          width: item.width ?? item.span!.width(rowWidth),
-          child: item,
-        );
-        if (sumWidth < 24) {
-          resultRowListItem.add(colItem);
-        } else {
-          resultListRow.add(
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: resultRowListItem,
-              ),
-            ),
-          );
-          resultRowListItem = [];
-          sumWidth = 0;
-          resultRowListItem.add(colItem);
-        }
-        if (i == children.length - 1) {
-          resultListRow.add(
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: resultRowListItem,
-              ),
-            ),
-          );
-          sumWidth = 0;
-          resultRowListItem = [];
-        }
-      }
-    }
-    return resultListRow;
+  static _ParentWidthScope? maybeOf(BuildContext context) {
+    final _ParentWidthScope? widget = context.dependOnInheritedWidgetOfExactType<_ParentWidthScope>();
+    return widget;
   }
+
+  List<Widget> renderchildren() => children
+      .map((e) => LayoutBuilder(builder: (c, b) {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: gutter! * 0.5),
+              child: e,
+            );
+          }))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (c, b) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: renderColList(b.maxWidth),
+      return _ParentWidthScope(
+        width: b.maxWidth,
+        gutter: gutter ?? 0,
+        child: Wrap(
+          spacing: 0, // 主轴(水平)方向间距
+          runSpacing: 0, // 纵轴（垂直）方向间距
+          alignment: alignment,
+          children: renderchildren(),
+        ),
       );
     });
+  }
+}
+
+class _ParentWidthScope extends InheritedWidget {
+  const _ParentWidthScope({
+    required super.child,
+    required double width,
+    required double gutter,
+  })  : _width = width,
+        _gutter = gutter;
+
+  final double _width;
+  final double _gutter;
+
+  num get unit => (_width.getFloor(fixed: 5) / 24).getFloor(fixed: 9);
+
+  @override
+  bool updateShouldNotify(_ParentWidthScope oldWidget) {
+    // print(_width.getFloor(fixed: 5));
+    // print(_width.getFloor(fixed: 5) / 24);
+    // print(unit);
+    return _width != oldWidget._width;
   }
 }

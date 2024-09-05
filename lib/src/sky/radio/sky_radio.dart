@@ -3,7 +3,7 @@ part of 'index.dart';
 class SkyRadio<T> extends SkyFormFieldBridge<SkyRadio> {
   const SkyRadio({
     super.key,
-    this.size = SkySize.small,
+    this.size = SkySize.medium,
     this.text,
     this.disabled = false,
     this.onTap,

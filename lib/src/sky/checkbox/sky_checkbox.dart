@@ -3,7 +3,7 @@ part of 'index.dart';
 class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
   const SkyCheckbox({
     super.key,
-    this.size = SkySize.small,
+    this.size = SkySize.medium,
     this.text,
     this.disabled = false,
     this.onTap,
@@ -134,6 +134,17 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
     }
   }
 
+  Color get checkedBgColor {
+    if (_widget.disabled && value) {
+      return SkyColors().defaultBg;
+    } else if (value) {
+      return SkyColors().primary;
+    } else if (_widget.disabled) {
+      return SkyColors().white;
+    }
+    return SkyColors().white;
+  }
+
   @override
   void setValue(dynamic e) {
     setState(() {
@@ -226,7 +237,7 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
                           width: _widget.size.height * 0.4,
                           margin: EdgeInsets.only(right: 4.scaleSpacing),
                           decoration: BoxDecoration(
-                            color: value && !_widget.disabled ? SkyColors().primary : SkyColors().defaultBg,
+                            color: checkedBgColor,
                             border: Border.all(
                               width: 1,
                               color: outLineBorder,

@@ -57,63 +57,65 @@ class _SkyLinkState extends State<SkyLink> {
             onHover = false;
           });
         },
-        child: Container(
-          height: widget.size.height,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                width: 1,
-                color: widget.type.getUnderlineColor(
-                  context: context,
-                  onHover: onHover,
-                  underline: widget.underline,
-                )!,
+        child: UnconstrainedBox(
+          child: Container(
+            height: widget.size.height,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  width: 1,
+                  color: widget.type.getUnderlineColor(
+                    context: context,
+                    onHover: onHover,
+                    underline: widget.underline,
+                  )!,
+                ),
               ),
             ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.zero,
-            child: Center(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (widget.leftIcon != null)
-                    Icon(
-                      color: widget.type.getTextColor(
-                        context: context,
-                        onHover: onHover,
-                        disabled: widget.disabled,
+            child: Padding(
+              padding: EdgeInsets.zero,
+              child: Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.leftIcon != null)
+                      Icon(
+                        color: widget.type.getTextColor(
+                          context: context,
+                          onHover: onHover,
+                          disabled: widget.disabled,
+                        ),
+                        widget.leftIcon,
+                        size: SkyFontSizes().textFont,
                       ),
-                      widget.leftIcon,
-                      size: SkyFontSizes().textFont,
-                    ),
-                  if (widget.text.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2.scaleSpacing),
-                      child: Text(
-                        widget.text,
-                        style: TextStyle(
-                          fontSize: widget.size.textSize,
-                          color: widget.type.getTextColor(
-                            context: context,
-                            onHover: onHover,
-                            disabled: widget.disabled,
+                    if (widget.text.isNotEmpty)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.scaleSpacing),
+                        child: Text(
+                          widget.text,
+                          style: TextStyle(
+                            fontSize: widget.size.textSize,
+                            color: widget.type.getTextColor(
+                              context: context,
+                              onHover: onHover,
+                              disabled: widget.disabled,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  if (widget.rightIcon != null)
-                    Icon(
-                      color: widget.type.getTextColor(
-                        context: context,
-                        onHover: onHover,
-                        disabled: widget.disabled,
+                    if (widget.rightIcon != null)
+                      Icon(
+                        color: widget.type.getTextColor(
+                          context: context,
+                          onHover: onHover,
+                          disabled: widget.disabled,
+                        ),
+                        widget.rightIcon,
+                        size: widget.size.iconSize,
                       ),
-                      widget.rightIcon,
-                      size: widget.size.iconSize,
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

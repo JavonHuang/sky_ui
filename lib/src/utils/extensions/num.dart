@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../../styles/styles.dart';
 
 extension SkyNumEx on num {
@@ -20,5 +22,10 @@ extension SkyNumEx on num {
         "",
       ),
     );
+  }
+
+  num getFloor({int fixed = 0}) {
+    num result = this * pow(10, fixed);
+    return result.floor() * pow(10, -fixed);
   }
 }

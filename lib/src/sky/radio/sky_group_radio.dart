@@ -3,7 +3,7 @@ part of 'index.dart';
 class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
   const SkyGroupRadio({
     super.key,
-    this.size = SkySize.small,
+    this.size = SkySize.medium,
     this.disabled = false,
     this.onTap,
     this.model,
@@ -46,9 +46,9 @@ class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
             key: item.key,
             size: _widget.size,
             text: item.option.text,
-            disabled: item.option.disabled!,
+            disabled: _widget.disabled ? _widget.disabled : item.option.disabled!,
             model: item.model,
-            buttonStyle: _widget.buttonStyle!,
+            buttonStyle: _widget.buttonStyle,
             label: item.option.label,
             onChanged: (e) {
               // item.onChanged?.call(e);

@@ -35,6 +35,7 @@ class DisplayBlock extends StatelessWidget {
               borderRadius: SkyBorderRadius().normalBorderRadius,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: children,
             ),
           ),

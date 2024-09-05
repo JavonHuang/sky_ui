@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'button_demo.dart';
+import 'checkbox_demo.dart';
 import 'icon_demo.dart';
+import 'layout_demo.dart';
 import 'link_demo.dart';
 import 'radio_demo.dart';
 
@@ -35,10 +37,12 @@ class MyMain extends StatefulWidget {
 class _MyMainState extends State<MyMain> {
   late Map<String, dynamic> showMenu = {"widget": const ButtonDemo(), "name": "Button 按钮"};
   late List<Map<String, dynamic>> menuList = [
+    {"widget": const LayoutDemo(), "name": "Layout 布局"},
     {"widget": const IconDemo(), "name": "Icon 图标"},
     {"widget": const ButtonDemo(), "name": "Button 按钮"},
     {"widget": const LinkDemo(), "name": "Link 文字链接"},
-    {"widget": const RadioDemo(), "name": "Radio 单选框"}
+    {"widget": const RadioDemo(), "name": "Radio 单选框"},
+    {"widget": const CheckboxDemo(), "name": "Checkbox 多选框"}
   ];
 
   Widget renderMenu() {

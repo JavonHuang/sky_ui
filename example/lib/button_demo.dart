@@ -24,33 +24,29 @@ class _ButtonDemoState extends State<ButtonDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 SkyButton(
                   text: '默认按钮',
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 SkyButton(
                   text: '主要按钮',
                   type: SkyType.primary,
                   onTap: () {},
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
@@ -58,37 +54,33 @@ class _ButtonDemoState extends State<ButtonDemo> {
               ],
             ),
             DemoSpace.vGap20,
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 SkyButton(
                   text: '朴素按钮',
                   plain: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 SkyButton(
                   text: '主要按钮',
                   type: SkyType.primary,
                   plain: true,
                   size: SkySize.medium,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                   plain: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                   plain: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
@@ -97,37 +89,33 @@ class _ButtonDemoState extends State<ButtonDemo> {
               ],
             ),
             DemoSpace.vGap20,
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 const SkyButton(
                   text: '默认按钮',
                   round: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '主要按钮',
                   type: SkyType.primary,
                   round: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                   round: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                   round: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                   round: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
@@ -136,37 +124,33 @@ class _ButtonDemoState extends State<ButtonDemo> {
               ],
             ),
             DemoSpace.vGap20,
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 const SkyButton(
                   leftIcon: ElementIcons.search,
                   circle: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   leftIcon: ElementIcons.starOff,
                   type: SkyType.primary,
                   circle: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   leftIcon: ElementIcons.message,
                   type: SkyType.success,
                   circle: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   leftIcon: ElementIcons.check,
                   type: SkyType.info,
                   circle: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   leftIcon: ElementIcons.edit,
                   type: SkyType.warning,
                   circle: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   leftIcon: ElementIcons.delete,
                   type: SkyType.danger,
@@ -182,37 +166,33 @@ class _ButtonDemoState extends State<ButtonDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 const SkyButton(
                   text: '默认按钮',
                   disabled: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '主要按钮',
                   type: SkyType.primary,
                   disabled: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                   disabled: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                   disabled: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                   disabled: true,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
@@ -228,13 +208,13 @@ class _ButtonDemoState extends State<ButtonDemo> {
         ),
         DisplayBlock(
           children: [
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 const SkyButton(
                   text: '文字按钮',
                   type: SkyType.text,
                 ),
-                SizedBox(width: SkySpacings().mainSpacing),
                 const SkyButton(
                   text: '文字按钮',
                   type: SkyType.text,
@@ -249,29 +229,26 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "带图标的按钮可增强辨识度（有文字）或节省空间（无文字）。",
         ),
         DisplayBlock(children: [
-          Row(
+          SkyRow(
+            gutter: 10,
             children: [
               const SkyButton(
                 type: SkyType.primary,
                 leftIcon: ElementIcons.edit,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               const SkyButton(
                 type: SkyType.primary,
                 leftIcon: ElementIcons.share,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               const SkyButton(
                 type: SkyType.primary,
                 leftIcon: ElementIcons.delete,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               const SkyButton(
                 text: '搜索',
                 type: SkyType.primary,
                 leftIcon: ElementIcons.search,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               const SkyButton(
                 text: '上传',
                 type: SkyType.primary,
@@ -286,7 +263,8 @@ class _ButtonDemoState extends State<ButtonDemo> {
         ),
         const DisplayBlock(
           children: [
-            Row(
+            SkyRow(
+              gutter: 10,
               children: [
                 SkyButton(
                   text: '加载中',
@@ -302,26 +280,24 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "Button 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。",
         ),
         DisplayBlock(children: [
-          Row(
+          SkyRow(
+            gutter: 10,
             children: [
               SkyButton(
                 text: 'large按钮',
                 size: SkySize.large,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               SkyButton(
                 text: 'medium按钮',
                 type: SkyType.primary,
                 onTap: () {},
                 size: SkySize.medium,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               const SkyButton(
                 text: 'small按钮',
                 type: SkyType.success,
                 size: SkySize.small,
               ),
-              SizedBox(width: SkySpacings().mainSpacing),
               const SkyButton(
                 text: 'mini按钮',
                 type: SkyType.info,
