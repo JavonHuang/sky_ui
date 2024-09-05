@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'common/display_block.dart';
+import 'common/space.dart';
 import 'common/title.dart';
 
 class CheckboxDemo extends StatefulWidget {
@@ -97,6 +98,268 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
                     ),
                   ],
                 )
+              ],
+            ),
+          ],
+        ),
+        const DemoTitle(
+          title: "indeterminate 状态",
+          descr: "indeterminate 属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果",
+        ),
+        const DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 10,
+              children: [
+                SkyCheckbox(
+                  text: "备选项1",
+                  label: "备选项1",
+                  disabled: true,
+                  indeterminate: true,
+                ),
+              ],
+            ),
+          ],
+        ),
+        const DemoTitle(
+          title: "可选项目数量的限制",
+          descr: "使用 min 和 max 属性能够限制可以被勾选的项目的数量。",
+        ),
+        DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 10,
+              children: [
+                SkyCheckboxGroup(
+                  model: ["val1", "val3"],
+                  min: 1,
+                  max: 2,
+                  children: [
+                    SkyCheckboxOption(
+                      text: "上海",
+                      label: "val1",
+                    ),
+                    SkyCheckboxOption(
+                      text: "广州",
+                      label: "val2",
+                    ),
+                    SkyCheckboxOption(
+                      text: "深圳",
+                      label: "val3",
+                    ),
+                    SkyCheckboxOption(
+                      text: "北京",
+                      label: "val4",
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
+        const DemoTitle(
+          title: "按钮样式",
+          descr: "按钮样式的多选组合。",
+        ),
+        DisplayBlock(
+          children: [
+            SkyRow(
+              children: [
+                SkyCheckboxGroup(
+                  model: ["val1"],
+                  buttonStyle: true,
+                  size: SkySize.large,
+                  children: [
+                    SkyCheckboxOption(
+                      text: "上海",
+                      label: "val1",
+                    ),
+                    SkyCheckboxOption(
+                      text: "广州",
+                      label: "val2",
+                    ),
+                    SkyCheckboxOption(
+                      text: "深圳",
+                      label: "val3",
+                    ),
+                    SkyCheckboxOption(
+                      text: "北京",
+                      label: "val4",
+                    ),
+                  ],
+                )
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              children: [
+                SkyCheckboxGroup(
+                  model: ["val1"],
+                  buttonStyle: true,
+                  size: SkySize.medium,
+                  children: [
+                    SkyCheckboxOption(
+                      text: "上海",
+                      label: "val1",
+                    ),
+                    SkyCheckboxOption(
+                      text: "广州",
+                      label: "val2",
+                    ),
+                    SkyCheckboxOption(
+                      text: "深圳",
+                      label: "val3",
+                    ),
+                    SkyCheckboxOption(
+                      text: "北京",
+                      label: "val4",
+                    ),
+                  ],
+                )
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              children: [
+                SkyCheckboxGroup(
+                  model: ["val1"],
+                  buttonStyle: true,
+                  size: SkySize.small,
+                  children: [
+                    SkyCheckboxOption(
+                      text: "上海",
+                      label: "val1",
+                    ),
+                    SkyCheckboxOption(
+                      text: "广州",
+                      label: "val2",
+                    ),
+                    SkyCheckboxOption(
+                      text: "深圳",
+                      label: "val3",
+                    ),
+                    SkyCheckboxOption(
+                      text: "北京",
+                      label: "val4",
+                    ),
+                  ],
+                )
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              children: [
+                SkyCheckboxGroup(
+                  model: ["val1"],
+                  buttonStyle: true,
+                  size: SkySize.mini,
+                  children: [
+                    SkyCheckboxOption(
+                      text: "上海",
+                      label: "val1",
+                    ),
+                    SkyCheckboxOption(
+                      text: "广州",
+                      label: "val2",
+                    ),
+                    SkyCheckboxOption(
+                      text: "深圳",
+                      label: "val3",
+                    ),
+                    SkyCheckboxOption(
+                      text: "北京",
+                      label: "val4",
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
+        const DemoTitle(
+          title: "带有边框",
+          descr: "",
+        ),
+        const DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCheckbox(
+                  text: "备选项1",
+                  label: "备选项1",
+                  border: true,
+                  model: true,
+                  size: SkySize.large,
+                ),
+                SkyCheckbox(
+                  text: "备选项2",
+                  label: "备选项2",
+                  border: true,
+                  model: false,
+                  size: SkySize.large,
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCheckbox(
+                  text: "备选项1",
+                  label: "备选项1",
+                  border: true,
+                  model: false,
+                  size: SkySize.medium,
+                ),
+                SkyCheckbox(
+                  text: "备选项2",
+                  label: "备选项2",
+                  border: true,
+                  model: true,
+                  size: SkySize.medium,
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCheckbox(
+                  text: "备选项1",
+                  label: "备选项1",
+                  border: true,
+                  model: false,
+                  size: SkySize.small,
+                ),
+                SkyCheckbox(
+                  text: "备选项2",
+                  label: "备选项2",
+                  border: true,
+                  disabled: true,
+                  size: SkySize.small,
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCheckbox(
+                  text: "备选项1",
+                  label: "备选项1",
+                  border: true,
+                  model: false,
+                  disabled: true,
+                  size: SkySize.mini,
+                ),
+                SkyCheckbox(
+                  text: "备选项2",
+                  label: "备选项2",
+                  border: true,
+                  disabled: true,
+                  size: SkySize.mini,
+                ),
               ],
             ),
           ],

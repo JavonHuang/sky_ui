@@ -80,24 +80,24 @@ enum SkySize {
     if (circle) {
       switch (this) {
         case SkySize.large:
-          return const EdgeInsets.all(12);
+          return const EdgeInsets.all(10);
         case SkySize.medium:
           return const EdgeInsets.all(8);
         case SkySize.small:
-          return const EdgeInsets.all(5);
+          return const EdgeInsets.all(7);
         case SkySize.mini:
-          return const EdgeInsets.all(1);
+          return const EdgeInsets.all(5);
       }
     }
     switch (this) {
       case SkySize.large:
-        return EdgeInsets.symmetric(horizontal: 19.scaleSpacing, vertical: 12.scaleSpacing);
+        return EdgeInsets.symmetric(horizontal: 20.scaleSpacing, vertical: 10.scaleSpacing);
       case SkySize.medium:
-        return EdgeInsets.symmetric(horizontal: 15.scaleSpacing, vertical: 8.scaleSpacing);
+        return EdgeInsets.symmetric(horizontal: 20.scaleSpacing, vertical: 8.scaleSpacing);
       case SkySize.small:
-        return EdgeInsets.symmetric(horizontal: 11.scaleSpacing, vertical: 5.scaleSpacing);
+        return EdgeInsets.symmetric(horizontal: 15.scaleSpacing, vertical: 7.scaleSpacing);
       case SkySize.mini:
-        return EdgeInsets.symmetric(horizontal: 7.scaleSpacing, vertical: 1.scaleSpacing);
+        return EdgeInsets.symmetric(horizontal: 15.scaleSpacing, vertical: 5.scaleSpacing);
     }
   }
 

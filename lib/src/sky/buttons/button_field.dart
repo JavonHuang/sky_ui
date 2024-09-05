@@ -64,7 +64,6 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         MediaQuery.of(context).size.height * 0.25,
       );
     } else if (widget.circle) {
-      print(MediaQuery.of(context).size.height);
       return BorderRadius.circular(
         MediaQuery.of(context).size.height * 0.5,
       );

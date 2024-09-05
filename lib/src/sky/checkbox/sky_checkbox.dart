@@ -12,6 +12,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
     this.buttonStyle = false,
     this.onChanged,
     this.border = false,
+    this.indeterminate = false,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyCheckbox,
@@ -27,6 +28,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
 
   final Function(bool label)? onChanged;
   final bool border;
+  final bool indeterminate;
 
   @override
   SkyFormFieldBridgeState<SkyCheckbox> createState() => _SkyCheckboxState();
@@ -37,7 +39,13 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
   late bool value = false;
   late bool onHover = false;
 
-  Color get outLineBorder => (onHover || value) && !_widget.disabled ? SkyColors().primary : SkyColors().baseBorder;
+  Color get outLineBorderColor {
+    if ((onHover || value) && !_widget.disabled || _widget.indeterminate) {
+      return SkyColors().primary;
+    } else {
+      return SkyColors().baseBorder;
+    }
+  }
 
   @override
   void initState() {
@@ -55,34 +63,34 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
     }
   }
 
-  BoxBorder? get border {
-    // if (SkyGroupRadio.maybeOf(context) != null) {
-    //   int groupItemIndex = SkyGroupRadio.maybeOf(context)!.getItemGroupIndex(_widget.key);
-    //   BorderSide b = BorderSide(
-    //     width: 1.0,
-    //     color: checked ? SkyColors().primary : SkyColors().baseBorder,
-    //   );
-    //   if (groupItemIndex == 0) {
-    //     return Border(
-    //       left: b,
-    //       right: b,
-    //       top: b,
-    //       bottom: b,
-    //     );
-    //   } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!._widget.children.length - 1) {
-    //     return Border(
-    //       right: b,
-    //       top: b,
-    //       bottom: b,
-    //     );
-    //   } else {
-    //     return Border(
-    //       right: b,
-    //       top: b,
-    //       bottom: b,
-    //     );
-    //   }
-    // }
+  BoxBorder? get outLineBorder {
+    if (SkyCheckboxGroup.maybeOf(context) != null) {
+      int groupItemIndex = SkyCheckboxGroup.maybeOf(context)!.getItemGroupIndex(_widget.key);
+      BorderSide b = BorderSide(
+        width: 1.0,
+        color: value ? SkyColors().primary : SkyColors().baseBorder,
+      );
+      if (groupItemIndex == 0) {
+        return Border(
+          left: b,
+          right: b,
+          top: b,
+          bottom: b,
+        );
+      } else if (groupItemIndex == SkyCheckboxGroup.maybeOf(context)!._widget.children.length - 1) {
+        return Border(
+          right: b,
+          top: b,
+          bottom: b,
+        );
+      } else {
+        return Border(
+          right: b,
+          top: b,
+          bottom: b,
+        );
+      }
+    }
     return Border.all(
       width: 1,
       color: value ? SkyColors().primary : SkyColors().baseBorder,
@@ -90,25 +98,24 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
   }
 
   BorderRadiusGeometry? get borderRadius {
-    return SkyBorderRadius().normalBorderRadius;
-    // if (SkyGroupRadio.maybeOf(context) != null) {
-    //   int groupItemIndex = SkyGroupRadio.maybeOf(context)!.getItemGroupIndex(_widget.key);
-    //   if (groupItemIndex == 0) {
-    //     return BorderRadius.only(
-    //       topLeft: SkyBorderRadius().normalCircular,
-    //       bottomLeft: SkyBorderRadius().normalCircular,
-    //     );
-    //   } else if (groupItemIndex == SkyGroupRadio.maybeOf(context)!._widget.children.length - 1) {
-    //     return BorderRadius.only(
-    //       topRight: SkyBorderRadius().normalCircular,
-    //       bottomRight: SkyBorderRadius().normalCircular,
-    //     );
-    //   } else {
-    //     return null;
-    //   }
-    // } else {
-    //   return SkyBorderRadius().normalBorderRadius;
-    // }
+    if (SkyCheckboxGroup.maybeOf(context) != null) {
+      int groupItemIndex = SkyCheckboxGroup.maybeOf(context)!.getItemGroupIndex(_widget.key);
+      if (groupItemIndex == 0) {
+        return BorderRadius.only(
+          topLeft: SkyBorderRadius().normalCircular,
+          bottomLeft: SkyBorderRadius().normalCircular,
+        );
+      } else if (groupItemIndex == SkyCheckboxGroup.maybeOf(context)!._widget.children.length - 1) {
+        return BorderRadius.only(
+          topRight: SkyBorderRadius().normalCircular,
+          bottomRight: SkyBorderRadius().normalCircular,
+        );
+      } else {
+        return null;
+      }
+    } else {
+      return SkyBorderRadius().normalBorderRadius;
+    }
   }
 
   Color? get bgColor {
@@ -137,10 +144,21 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
   Color get checkedBgColor {
     if (_widget.disabled && value) {
       return SkyColors().defaultBg;
-    } else if (value) {
+    } else if (value || _widget.indeterminate) {
       return SkyColors().primary;
     } else if (_widget.disabled) {
       return SkyColors().white;
+    }
+    return SkyColors().white;
+  }
+
+  Color get checkedTextColor {
+    if (_widget.disabled && value) {
+      return SkyColors().placeholderText;
+    } else if (value || _widget.indeterminate) {
+      return SkyColors().white;
+    } else if (_widget.disabled) {
+      return SkyColors().defaultBg;
     }
     return SkyColors().white;
   }
@@ -194,10 +212,9 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
         child: UnconstrainedBox(
           child: _widget.buttonStyle
               ? Container(
-                  height: _widget.size.height,
                   decoration: BoxDecoration(
                     color: bgColor,
-                    border: border,
+                    border: outLineBorder,
                     borderRadius: borderRadius,
                   ),
                   child: Padding(
@@ -220,11 +237,10 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
                   ),
                 )
               : Container(
-                  height: _widget.size.height,
                   padding: _widget.size.padding(),
                   decoration: _widget.border
                       ? BoxDecoration(
-                          border: border,
+                          border: outLineBorder,
                           borderRadius: borderRadius,
                         )
                       : null,
@@ -240,16 +256,22 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
                             color: checkedBgColor,
                             border: Border.all(
                               width: 1,
-                              color: outLineBorder,
+                              color: outLineBorderColor,
                             ),
                             borderRadius: SkyBorderRadius().smallBorderRadius,
                           ),
                           child: Center(
-                            child: Icon(
-                              ElementIcons.check,
-                              size: _widget.size.textSize - 2.scaleFontSize,
-                              color: SkyColors().white,
-                            ),
+                            child: _widget.indeterminate
+                                ? Container(
+                                    height: 1.scaleSpacing,
+                                    width: _widget.size.height * 0.15,
+                                    color: SkyColors().white,
+                                  )
+                                : Icon(
+                                    ElementIcons.check,
+                                    size: _widget.size.textSize - 2.scaleFontSize,
+                                    color: checkedTextColor,
+                                  ),
                           ),
                         ),
                       ),

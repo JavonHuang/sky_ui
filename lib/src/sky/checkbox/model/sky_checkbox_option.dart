@@ -2,7 +2,7 @@ part of '../index.dart';
 
 class SkyCheckboxOption {
   final String? text;
-  final bool? disabled;
+  late bool? disabled;
   final String label;
 
   SkyCheckboxOption({
