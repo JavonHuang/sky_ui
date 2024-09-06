@@ -1,3 +1,4 @@
+import 'package:example/common/space.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
@@ -140,11 +141,106 @@ class _InputDemoState extends State<InputDemo> {
               gutter: 20,
               children: [
                 SkyCol(
-                  span: 6,
+                  span: 24,
                   child: SkyInput(
                     minLines: 3,
-                    maxLines: 4,
+                    maxLines: 3,
                     placeholder: "请输入内容",
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        DemoTitle(
+          title: "可自适应文本高度的文本域",
+          descr: "通过设置 minLines，maxLines，属性可以使得文本域的高度能够根据文本内容自动进行调整，并且 autosize 还可以设定为一个对象，指定最小行数和最大行数。",
+        ),
+        DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCol(
+                  span: 24,
+                  child: SkyInput(
+                    minLines: 3,
+                    placeholder: "请输入内容",
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        DemoTitle(
+          title: "尺寸",
+          descr: "",
+        ),
+        DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCol(
+                  span: 6,
+                  child: SkyInput(
+                    placeholder: "请输入内容",
+                    size: SkySize.large,
+                  ),
+                ),
+                SkyCol(
+                  span: 6,
+                  child: SkyInput(
+                    placeholder: "请输入内容",
+                    size: SkySize.medium,
+                  ),
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCol(
+                  span: 6,
+                  child: SkyInput(
+                    placeholder: "请输入内容",
+                    size: SkySize.small,
+                  ),
+                ),
+                SkyCol(
+                  span: 6,
+                  child: SkyInput(
+                    placeholder: "请输入内容",
+                    size: SkySize.mini,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        DemoTitle(
+          title: "输入长度限制",
+          descr: "",
+        ),
+        DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCol(
+                  span: 6,
+                  child: SkyInput(
+                    placeholder: "请输入内容",
+                    size: SkySize.large,
+                    maxLength: 5,
+                  ),
+                ),
+                SkyCol(
+                  span: 6,
+                  child: SkyInput(
+                    placeholder: "请输入内容",
+                    size: SkySize.medium,
                   ),
                 ),
               ],

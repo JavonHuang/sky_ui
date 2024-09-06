@@ -13,8 +13,9 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
     this.model = "",
     this.placeholder,
     this.showPassword = false,
-    this.maxLines = 1,
-    this.minLines = 1,
+    this.maxLines,
+    this.minLines,
+    this.maxLength,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyInput,
@@ -30,8 +31,10 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
   final String? model;
   final String? placeholder;
   final bool showPassword;
-  final int maxLines;
-  final int minLines;
+  final int? maxLines;
+  final int? minLines;
+  final int? maxLength;
+
   @override
   SkyFormFieldBridgeState<SkyInput> createState() => _SkyInputState();
 }
@@ -159,6 +162,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
               obscureText: _widget.showPassword,
               maxLines: _widget.maxLines,
               minLines: _widget.minLines,
+              maxLength: _widget.maxLength,
             ),
           ),
           if (_showCloseIcon)

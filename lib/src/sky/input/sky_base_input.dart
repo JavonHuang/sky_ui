@@ -14,8 +14,9 @@ class SkyBaseInput extends StatelessWidget {
     this.onChanged,
     this.onTap,
     this.obscureText = false,
-    this.maxLines=1,
-    this.minLines=1,
+    this.maxLines,
+    this.minLines,
+    this.maxLength,
   });
 
   final TextEditingController controller;
@@ -32,12 +33,13 @@ class SkyBaseInput extends StatelessWidget {
   final bool obscureText;
   final int? maxLines;
   final int? minLines;
-
+  final int? maxLength;
   @override
   Widget build(BuildContext context) {
     return UnmanagedRestorationScope(
       bucket: bucket,
       child: TextField(
+        maxLength: maxLength,
         maxLines: obscureText ? 1 : maxLines,
         minLines: minLines,
         restorationId: restorationId,
@@ -52,25 +54,25 @@ class SkyBaseInput extends StatelessWidget {
           fontSize: size.textSize,
         ),
         decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: SkyBorderRadius().normalBorderRadius,
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: SkyBorderRadius().normalBorderRadius,
-            borderSide: BorderSide.none,
-          ),
-          filled: true,
-          fillColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
-          hoverColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
-          contentPadding: size.contentPadding,
-          hintText: placeholder,
-          hintStyle: TextStyle(
-            color: SkyColors().placeholderText,
-            fontSize: size.textSize,
-          ),
-          isDense: true,
-        ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: SkyBorderRadius().normalBorderRadius,
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: SkyBorderRadius().normalBorderRadius,
+              borderSide: BorderSide.none,
+            ),
+            filled: true,
+            fillColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
+            hoverColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
+            contentPadding: size.contentPadding,
+            hintText: placeholder,
+            hintStyle: TextStyle(
+              color: SkyColors().placeholderText,
+              fontSize: size.textSize,
+            ),
+            isDense: true,
+            counterText: ""),
         obscureText: obscureText,
       ),
     );
