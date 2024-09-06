@@ -27,7 +27,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
             SkyRow(
               gutter: 10,
               children: [
-                SkyButton(
+                const SkyButton(
                   text: '默认按钮',
                 ),
                 SkyButton(
@@ -54,7 +54,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
               ],
             ),
             DemoSpace.vGap20,
-            SkyRow(
+            const SkyRow(
               gutter: 10,
               children: [
                 SkyButton(
@@ -67,21 +67,21 @@ class _ButtonDemoState extends State<ButtonDemo> {
                   plain: true,
                   size: SkySize.medium,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                   plain: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                   plain: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
                   plain: true,
@@ -89,34 +89,34 @@ class _ButtonDemoState extends State<ButtonDemo> {
               ],
             ),
             DemoSpace.vGap20,
-            SkyRow(
+            const SkyRow(
               gutter: 10,
               children: [
-                const SkyButton(
+                SkyButton(
                   text: '默认按钮',
                   round: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '主要按钮',
                   type: SkyType.primary,
                   round: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                   round: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                   round: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                   round: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
                   round: true,
@@ -124,34 +124,34 @@ class _ButtonDemoState extends State<ButtonDemo> {
               ],
             ),
             DemoSpace.vGap20,
-            SkyRow(
+            const SkyRow(
               gutter: 10,
               children: [
-                const SkyButton(
+                SkyButton(
                   leftIcon: ElementIcons.search,
                   circle: true,
                 ),
-                const SkyButton(
-                  leftIcon: ElementIcons.starOff,
+                SkyButton(
+                  leftIcon: ElementIcons.edit,
                   type: SkyType.primary,
                   circle: true,
                 ),
-                const SkyButton(
-                  leftIcon: ElementIcons.message,
+                SkyButton(
+                  leftIcon: ElementIcons.check,
                   type: SkyType.success,
                   circle: true,
                 ),
-                const SkyButton(
-                  leftIcon: ElementIcons.check,
+                SkyButton(
+                  leftIcon: ElementIcons.message,
                   type: SkyType.info,
                   circle: true,
                 ),
-                const SkyButton(
-                  leftIcon: ElementIcons.edit,
+                SkyButton(
+                  leftIcon: ElementIcons.starOff,
                   type: SkyType.warning,
                   circle: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   leftIcon: ElementIcons.delete,
                   type: SkyType.danger,
                   circle: true,
@@ -164,39 +164,80 @@ class _ButtonDemoState extends State<ButtonDemo> {
           title: "禁用状态",
           descr: "按钮不可用状态。",
         ),
-        DisplayBlock(
+        const DisplayBlock(
           children: [
             SkyRow(
               gutter: 10,
               children: [
-                const SkyButton(
+                SkyButton(
                   text: '默认按钮',
                   disabled: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '主要按钮',
                   type: SkyType.primary,
                   disabled: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '成功按钮',
                   type: SkyType.success,
                   disabled: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '信息按钮',
                   type: SkyType.info,
                   disabled: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '警告按钮',
                   type: SkyType.warning,
                   disabled: true,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '危险按钮',
                   type: SkyType.danger,
                   disabled: true,
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyRow(
+              gutter: 10,
+              children: [
+                SkyButton(
+                  text: '朴素按钮',
+                  disabled: true,
+                  plain: true,
+                ),
+                SkyButton(
+                  text: '主要按钮',
+                  type: SkyType.primary,
+                  disabled: true,
+                  plain: true,
+                ),
+                SkyButton(
+                  text: '成功按钮',
+                  type: SkyType.success,
+                  disabled: true,
+                  plain: true,
+                ),
+                SkyButton(
+                  text: '信息按钮',
+                  type: SkyType.info,
+                  disabled: true,
+                  plain: true,
+                ),
+                SkyButton(
+                  text: '警告按钮',
+                  type: SkyType.warning,
+                  disabled: true,
+                  plain: true,
+                ),
+                SkyButton(
+                  text: '危险按钮',
+                  type: SkyType.danger,
+                  disabled: true,
+                  plain: true,
                 ),
               ],
             ),
@@ -206,16 +247,16 @@ class _ButtonDemoState extends State<ButtonDemo> {
           title: "文字按钮",
           descr: "没有边框和背景色的按钮。",
         ),
-        DisplayBlock(
+        const DisplayBlock(
           children: [
             SkyRow(
               gutter: 10,
               children: [
-                const SkyButton(
+                SkyButton(
                   text: '文字按钮',
                   type: SkyType.text,
                 ),
-                const SkyButton(
+                SkyButton(
                   text: '文字按钮',
                   type: SkyType.text,
                   disabled: true,
@@ -228,28 +269,28 @@ class _ButtonDemoState extends State<ButtonDemo> {
           title: "图标按钮",
           descr: "带图标的按钮可增强辨识度（有文字）或节省空间（无文字）。",
         ),
-        DisplayBlock(children: [
+        const DisplayBlock(children: [
           SkyRow(
             gutter: 10,
             children: [
-              const SkyButton(
+              SkyButton(
                 type: SkyType.primary,
                 leftIcon: ElementIcons.edit,
               ),
-              const SkyButton(
+              SkyButton(
                 type: SkyType.primary,
                 leftIcon: ElementIcons.share,
               ),
-              const SkyButton(
+              SkyButton(
                 type: SkyType.primary,
                 leftIcon: ElementIcons.delete,
               ),
-              const SkyButton(
+              SkyButton(
                 text: '搜索',
                 type: SkyType.primary,
                 leftIcon: ElementIcons.search,
               ),
-              const SkyButton(
+              SkyButton(
                 text: '上传',
                 type: SkyType.primary,
                 rightIcon: ElementIcons.upload,
@@ -257,6 +298,54 @@ class _ButtonDemoState extends State<ButtonDemo> {
             ],
           ),
         ]),
+        const DemoTitle(
+          title: "按钮组",
+          descr: "以按钮组的方式出现，常用于多项类似操作。",
+        ),
+        const DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 10,
+              children: [
+                ButtonGroup(
+                  type: SkyType.primary,
+                  children: [
+                    SkyButton(
+                      leftIcon: ElementIcons.arrowLeft,
+                      text: '上一页',
+                      buttonKey: '1',
+                    ),
+                    SkyButton(
+                      rightIcon: ElementIcons.arrowRight,
+                      text: '下一页',
+                      buttonKey: '2',
+                    ),
+                  ],
+                ),
+                ButtonGroup(
+                  type: SkyType.primary,
+                  children: [
+                    SkyButton(
+                      leftIcon: ElementIcons.edit,
+                      text: '',
+                      buttonKey: '1',
+                    ),
+                    SkyButton(
+                      rightIcon: ElementIcons.link,
+                      text: '',
+                      buttonKey: '2',
+                    ),
+                    SkyButton(
+                      rightIcon: ElementIcons.delete,
+                      text: '',
+                      buttonKey: '3',
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
         const DemoTitle(
           title: "加载中",
           descr: "点击按钮后进行数据加载操作，在按钮上显示加载状态。",
@@ -283,25 +372,49 @@ class _ButtonDemoState extends State<ButtonDemo> {
           SkyRow(
             gutter: 10,
             children: [
-              SkyButton(
-                text: 'large按钮',
+              const SkyButton(
+                text: '大型按钮',
                 size: SkySize.large,
               ),
               SkyButton(
-                text: 'medium按钮',
-                type: SkyType.primary,
+                text: '中等按钮',
                 onTap: () {},
                 size: SkySize.medium,
               ),
               const SkyButton(
-                text: 'small按钮',
-                type: SkyType.success,
+                text: '小型按钮',
                 size: SkySize.small,
               ),
               const SkyButton(
-                text: 'mini按钮',
-                type: SkyType.info,
+                text: '超小按钮',
                 size: SkySize.mini,
+              ),
+            ],
+          ),
+          DemoSpace.vGap20,
+          SkyRow(
+            gutter: 10,
+            children: [
+              const SkyButton(
+                text: '大型按钮',
+                size: SkySize.large,
+                round: true,
+              ),
+              SkyButton(
+                text: '中等按钮',
+                onTap: () {},
+                size: SkySize.medium,
+                round: true,
+              ),
+              const SkyButton(
+                text: '小型按钮',
+                size: SkySize.small,
+                round: true,
+              ),
+              const SkyButton(
+                text: '超小按钮',
+                size: SkySize.mini,
+                round: true,
               ),
             ],
           ),

@@ -6,11 +6,12 @@ class SkyRow extends StatelessWidget {
     required this.children,
     this.gutter = 0,
     this.alignment = WrapAlignment.start,
+    this.crossAxisAlignment = WrapCrossAlignment.center,
   });
   final List<Widget> children;
   final double? gutter;
   final WrapAlignment alignment;
-
+  final WrapCrossAlignment crossAxisAlignment;
   static _ParentWidthScope? maybeOf(BuildContext context) {
     final _ParentWidthScope? widget = context.dependOnInheritedWidgetOfExactType<_ParentWidthScope>();
     return widget;
@@ -35,6 +36,7 @@ class SkyRow extends StatelessWidget {
           spacing: 0, // 主轴(水平)方向间距
           runSpacing: 0, // 纵轴（垂直）方向间距
           alignment: alignment,
+          crossAxisAlignment: crossAxisAlignment,
           children: renderchildren(),
         ),
       );

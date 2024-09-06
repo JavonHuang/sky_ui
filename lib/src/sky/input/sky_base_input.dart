@@ -13,6 +13,9 @@ class SkyBaseInput extends StatelessWidget {
     this.bucket,
     this.onChanged,
     this.onTap,
+    this.obscureText = false,
+    this.maxLines=1,
+    this.minLines=1,
   });
 
   final TextEditingController controller;
@@ -26,11 +29,17 @@ class SkyBaseInput extends StatelessWidget {
   final RestorationBucket? bucket;
   final Function(String)? onChanged;
   final Function()? onTap;
+  final bool obscureText;
+  final int? maxLines;
+  final int? minLines;
+
   @override
   Widget build(BuildContext context) {
     return UnmanagedRestorationScope(
       bucket: bucket,
       child: TextField(
+        maxLines: obscureText ? 1 : maxLines,
+        minLines: minLines,
         restorationId: restorationId,
         mouseCursor: disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         controller: controller,
@@ -60,7 +69,9 @@ class SkyBaseInput extends StatelessWidget {
             color: SkyColors().placeholderText,
             fontSize: size.textSize,
           ),
+          isDense: true,
         ),
+        obscureText: obscureText,
       ),
     );
   }

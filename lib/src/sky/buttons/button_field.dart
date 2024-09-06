@@ -125,6 +125,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         },
         child: UnconstrainedBox(
           child: Container(
+            padding: widget.size.padding(circle: widget.circle),
             decoration: BoxDecoration(
               color: type.getBackgroundColor(
                 context: context,
@@ -148,7 +149,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
               borderRadius: borderRadius,
             ),
             child: Padding(
-              padding: widget.size.padding(circle: widget.circle),
+              padding: EdgeInsets.zero,
               child: Center(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +170,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       ),
                     if (widget.leftIcon != null)
                       Padding(
-                        padding: EdgeInsets.only(right: widget.circle ? 0 : 5.scaleSpacing),
+                        padding: EdgeInsets.only(right: widget.circle || widget.text.isEmpty ? 0 : 5.scaleSpacing),
                         child: Icon(
                           color: type.getTextColor(
                             context: context,
@@ -183,26 +184,25 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                           size: widget.size.iconSize,
                         ),
                       ),
-                    if (widget.text.isNotEmpty)
-                      Text(
-                        widget.text,
-                        style: TextStyle(
-                          fontSize: widget.size.textSize,
-                          color: type.getTextColor(
-                            context: context,
-                            plain: widget.plain,
-                            onHover: onHover,
-                            active: active,
-                            disabled: widget.disabled,
-                            loading: widget.loading,
-                            customizeColor: widget.customTextColor,
-                            customHoverColor: widget.customHoverColor,
-                          ),
+                    Text(
+                      widget.text,
+                      style: TextStyle(
+                        fontSize: widget.size.textSize,
+                        color: type.getTextColor(
+                          context: context,
+                          plain: widget.plain,
+                          onHover: onHover,
+                          active: active,
+                          disabled: widget.disabled,
+                          loading: widget.loading,
+                          customizeColor: widget.customTextColor,
+                          customHoverColor: widget.customHoverColor,
                         ),
                       ),
+                    ),
                     if (widget.rightIcon != null)
                       Padding(
-                        padding: EdgeInsets.only(left: widget.circle ? 0 : 5.scaleSpacing),
+                        padding: EdgeInsets.only(left: widget.circle || widget.text.isEmpty ? 0 : 5.scaleSpacing),
                         child: Icon(
                           color: type.getTextColor(
                             context: context,
