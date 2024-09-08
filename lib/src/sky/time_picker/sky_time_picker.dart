@@ -11,6 +11,7 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
     this.arrowControl = false,
     this.model,
     this.editable = false,
+    this.onChanged,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyRadio,
@@ -24,6 +25,8 @@ class SkyTimePicker extends SkyFormFieldBridge<SkyTimePicker> {
   final bool arrowControl;
   final int? model;
   final bool editable;
+  final Function(String)? onChanged;
+
   @override
   SkyFormFieldBridgeState<SkyTimePicker> createState() => _SkyTimePickerState();
 }
@@ -59,6 +62,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     setState(() {
       value = e;
     });
+    _widget.onChanged?.call(e);
   }
 
   @override

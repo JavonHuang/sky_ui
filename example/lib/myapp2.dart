@@ -5,9 +5,12 @@ import 'button_demo.dart';
 import 'checkbox_demo.dart';
 import 'icon_demo.dart';
 import 'input_demo.dart';
+import 'input_number_demo.dart';
 import 'layout_demo.dart';
 import 'link_demo.dart';
 import 'radio_demo.dart';
+import 'swicth_demo.dart';
+import 'time_picker_demo.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -44,7 +47,10 @@ class _MyMainState extends State<MyMain> {
     {"widget": const LinkDemo(), "name": "Link 文字链接"},
     {"widget": const RadioDemo(), "name": "Radio 单选框"},
     {"widget": const CheckboxDemo(), "name": "Checkbox 多选框"},
-    {"widget": const InputDemo(), "name": "Input 输入框"}
+    {"widget": const InputDemo(), "name": "Input 输入框"},
+    {"widget": const InputNumberDemo(), "name": "InputNumber 计数器"},
+    {"widget": const SwicthDemo(), "name": "Switch 开关"},
+    {"widget": const TimePickerDemo(), "name": "TimePicker 时间选择器"}
   ];
 
   Widget renderMenu() {

@@ -56,6 +56,12 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     if (_widget.controller != null) {
       _textController = _widget.controller!;
     }
+    if (_widget.model != null) {
+      setValue(_widget.model!.getMaxPrecision(maxDigits: _widget.precision).toString());
+    } else {
+      setValue("");
+    }
+
     super.initState();
     _focusNode.addListener(_focusNodeListener);
   }
@@ -264,15 +270,17 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
 
     Widget intpuWidget = Expanded(
       child: SkyBaseInput(
-          restorationId: restorationId,
-          bucket: bucket,
-          controller: _textController,
-          focusNode: _focusNode,
-          disabled: super.disabled,
-          readOnly: _widget.readOnly,
-          size: super.size,
-          placeholder: _widget.placeholder,
-          onChanged: _onChanged),
+        restorationId: restorationId,
+        bucket: bucket,
+        controller: _textController,
+        focusNode: _focusNode,
+        disabled: super.disabled,
+        readOnly: _widget.readOnly,
+        size: super.size,
+        placeholder: _widget.placeholder,
+        onChanged: _onChanged,
+        textAlign: TextAlign.center,
+      ),
     );
     return Container(
       height: super.size.height,

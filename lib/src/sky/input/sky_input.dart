@@ -42,10 +42,10 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
 class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   SkyInput get _widget => super.widget as SkyInput;
   late Color outLineBorder = SkyColors().baseBorder;
-
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   late bool _textIsNotEmpty = true;
+  late int currentLength = 0;
   bool get _showCloseIcon {
     return _focusNode.hasFocus && _widget.clearable && _textIsNotEmpty && !super.disabled;
   }
@@ -59,6 +59,9 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
     _focusNode.addListener(_focusNodeListener);
     _textController.addListener(_textListener);
     _textController.text = _widget.model ?? "";
+    setState(() {
+      currentLength = _textController.text.length;
+    });
   }
 
   _focusNodeListener() {
@@ -110,12 +113,17 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
   }
 
   void _onChanged(String e) {
-    print(e);
+    setState(() {
+      currentLength = e.length;
+    });
   }
 
   @override
   void setValue(dynamic e) {
     _textController.text = e;
+    setState(() {
+      currentLength = e.length;
+    });
   }
 
   @override
@@ -135,64 +143,114 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
         ),
         borderRadius: SkyBorderRadius().normalBorderRadius,
       ),
-      child: Row(
+      child: Stack(
         children: [
-          if (_widget.leftIcon != null)
-            Padding(
-              padding: EdgeInsets.only(left: 4.scaleSpacing),
-              child: Center(
-                child: Icon(
-                  color: SkyColors().baseBorder,
-                  _widget.leftIcon,
-                  size: super.size.iconSize,
+          Row(
+            children: [
+              if (_widget.leftIcon != null)
+                Padding(
+                  padding: EdgeInsets.only(left: 4.scaleSpacing),
+                  child: Center(
+                    child: Icon(
+                      color: SkyColors().baseBorder,
+                      _widget.leftIcon,
+                      size: super.size.iconSize,
+                    ),
+                  ),
+                ),
+              Expanded(
+                child: SkyBaseInput(
+                  restorationId: restorationId,
+                  bucket: bucket,
+                  controller: _textController,
+                  focusNode: _focusNode,
+                  disabled: super.disabled,
+                  readOnly: _widget.readOnly,
+                  size: super.size,
+                  placeholder: _widget.placeholder,
+                  onChanged: _onChanged,
+                  obscureText: _widget.showPassword,
+                  maxLines: _widget.maxLines,
+                  minLines: _widget.minLines,
+                  maxLength: _widget.maxLength,
                 ),
               ),
-            ),
-          Expanded(
-            child: SkyBaseInput(
-              restorationId: restorationId,
-              bucket: bucket,
-              controller: _textController,
-              focusNode: _focusNode,
-              disabled: super.disabled,
-              readOnly: _widget.readOnly,
-              size: super.size,
-              placeholder: _widget.placeholder,
-              onChanged: _onChanged,
-              obscureText: _widget.showPassword,
-              maxLines: _widget.maxLines,
-              minLines: _widget.minLines,
-              maxLength: _widget.maxLength,
-            ),
+              if (_showCloseIcon)
+                GestureDetector(
+                  onTap: onClear,
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.scaleSpacing,
+                      ),
+                      child: Icon(
+                        color: SkyColors().baseBorder,
+                        ElementIcons.circleClose,
+                        size: super.size.iconSize,
+                      ),
+                    ),
+                  ),
+                ),
+              if (_widget.rightIcon != null)
+                Padding(
+                  padding: EdgeInsets.only(right: 4.scaleSpacing),
+                  child: Center(
+                    child: Icon(
+                      color: SkyColors().baseBorder,
+                      _widget.rightIcon,
+                      size: super.size.iconSize,
+                    ),
+                  ),
+                ),
+              if (_showCloseIcon)
+                GestureDetector(
+                  onTap: onClear,
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.scaleSpacing,
+                      ),
+                      child: Icon(
+                        color: SkyColors().baseBorder,
+                        ElementIcons.circleClose,
+                        size: super.size.iconSize,
+                      ),
+                    ),
+                  ),
+                ),
+              if (_widget.maxLines == null && _widget.minLines == null && _widget.maxLength != null)
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      right: 4.scaleSpacing,
+                    ),
+                    child: Text(
+                      "$currentLength/${_widget.maxLength}",
+                      style: TextStyle(
+                        color: SkyColors().placeholderText,
+                        fontSize: SkyFontSizes().auxiliaryFont,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
-          if (_showCloseIcon)
-            GestureDetector(
-              onTap: onClear,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.scaleSpacing,
-                  ),
-                  child: Icon(
-                    color: SkyColors().baseBorder,
-                    ElementIcons.circleClose,
-                    size: super.size.iconSize,
-                  ),
-                ),
-              ),
-            ),
-          if (_widget.rightIcon != null)
-            Padding(
-              padding: EdgeInsets.only(right: 4.scaleSpacing),
+          if ((_widget.maxLines != null || _widget.minLines != null) && _widget.maxLength != null)
+            Positioned(
+              bottom: 4.scaleSpacing,
+              right: 4.scaleSpacing,
               child: Center(
-                child: Icon(
-                  color: SkyColors().baseBorder,
-                  _widget.rightIcon,
-                  size: super.size.iconSize,
+                child: Text(
+                  "$currentLength/${_widget.maxLength}",
+                  style: TextStyle(
+                    color: SkyColors().placeholderText,
+                    fontSize: SkyFontSizes().auxiliaryFont,
+                  ),
                 ),
               ),
-            ),
+            )
         ],
       ),
     );

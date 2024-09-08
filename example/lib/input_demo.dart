@@ -165,6 +165,8 @@ class _InputDemoState extends State<InputDemo> {
                   span: 24,
                   child: SkyInput(
                     minLines: 3,
+                    model: "JavonHuang",
+                    maxLength: 500,
                     placeholder: "请输入内容",
                   ),
                 ),
@@ -233,7 +235,7 @@ class _InputDemoState extends State<InputDemo> {
                   child: SkyInput(
                     placeholder: "请输入内容",
                     size: SkySize.large,
-                    maxLength: 5,
+                    maxLength: 50,
                   ),
                 ),
                 SkyCol(

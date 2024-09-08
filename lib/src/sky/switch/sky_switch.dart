@@ -3,10 +3,10 @@ part of 'index.dart';
 class SkySwitch<T> extends SkyFormFieldBridge<SkySwitch> {
   const SkySwitch({
     super.key,
-    this.size = SkySize.small,
+    this.size = SkySize.medium,
     this.disabled = false,
-    this.activeText = "",
-    this.inactiveText = "",
+    this.activeText,
+    this.inactiveText,
     this.model,
     this.activeValue,
     this.inactiveValue,
@@ -19,8 +19,8 @@ class SkySwitch<T> extends SkyFormFieldBridge<SkySwitch> {
         );
   final SkySize size;
   final bool disabled;
-  final String activeText;
-  final String inactiveText;
+  final String? activeText;
+  final String? inactiveText;
   final T? model;
   final T? activeValue;
   final T? inactiveValue;
@@ -124,13 +124,17 @@ class _SkySwitchState<T> extends SkyFormFieldBridgeState<SkySwitch> {
     return Container(
       child: Row(
         children: [
-          renderText(_widget.inactiveText, 1),
+          if (_widget.inactiveText != null) renderText(_widget.inactiveText!, 1),
           GestureDetector(
             onTap: () {
               if (_widget.disabled) {
                 return;
               }
-              setValue(!value);
+              if (_widget.activeValue != null && _widget.inactiveValue != null) {
+                setValue(!value ? _widget.activeValue : _widget.inactiveValue);
+              } else {
+                setValue(!value);
+              }
             },
             child: MouseRegion(
               cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
@@ -169,7 +173,7 @@ class _SkySwitchState<T> extends SkyFormFieldBridgeState<SkySwitch> {
               ),
             ),
           ),
-          renderText(_widget.activeText, 2),
+          if (_widget.activeText != null) renderText(_widget.activeText!, 2),
         ],
       ),
     );

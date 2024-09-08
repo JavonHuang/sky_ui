@@ -17,6 +17,7 @@ class SkyBaseInput extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.maxLength,
+    this.textAlign = TextAlign.start,
   });
 
   final TextEditingController controller;
@@ -34,13 +35,14 @@ class SkyBaseInput extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
   final int? maxLength;
+  final TextAlign textAlign;
   @override
   Widget build(BuildContext context) {
     return UnmanagedRestorationScope(
       bucket: bucket,
       child: TextField(
         maxLength: maxLength,
-        maxLines: obscureText ? 1 : maxLines,
+        maxLines: obscureText || (maxLines == null && minLines == null) ? 1 : maxLines,
         minLines: minLines,
         restorationId: restorationId,
         mouseCursor: disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
@@ -54,26 +56,28 @@ class SkyBaseInput extends StatelessWidget {
           fontSize: size.textSize,
         ),
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: SkyBorderRadius().normalBorderRadius,
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: SkyBorderRadius().normalBorderRadius,
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
-            hoverColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
-            contentPadding: size.contentPadding,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              color: SkyColors().placeholderText,
-              fontSize: size.textSize,
-            ),
-            isDense: true,
-            counterText: ""),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: SkyBorderRadius().normalBorderRadius,
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: SkyBorderRadius().normalBorderRadius,
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
+          hoverColor: disabled ? SkyColors().defaultBg : SkyColors().transparent,
+          contentPadding: size.contentPadding,
+          hintText: placeholder,
+          hintStyle: TextStyle(
+            color: SkyColors().placeholderText,
+            fontSize: size.textSize,
+          ),
+          isDense: true,
+          counterText: "",
+        ),
         obscureText: obscureText,
+        textAlign: textAlign,
       ),
     );
   }
