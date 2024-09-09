@@ -3,6 +3,7 @@ import 'package:sky_ui/sky_ui.dart';
 
 import 'button_demo.dart';
 import 'checkbox_demo.dart';
+import 'date_picker_demo.dart';
 import 'icon_demo.dart';
 import 'input_demo.dart';
 import 'input_number_demo.dart';
@@ -50,7 +51,8 @@ class _MyMainState extends State<MyMain> {
     {"widget": const InputDemo(), "name": "Input 输入框"},
     {"widget": const InputNumberDemo(), "name": "InputNumber 计数器"},
     {"widget": const SwicthDemo(), "name": "Switch 开关"},
-    {"widget": const TimePickerDemo(), "name": "TimePicker 时间选择器"}
+    {"widget": const TimePickerDemo(), "name": "TimePicker 时间选择器"},
+    {"widget": const DatePickerDemo(), "name": "DatePicker 日期选择器"}
   ];
 
   Widget renderMenu() {

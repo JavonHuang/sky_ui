@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'common/display_block.dart';
-import 'common/space.dart';
 import 'common/title.dart';
 
 class TimePickerDemo extends StatefulWidget {
@@ -129,6 +128,29 @@ class _TimePickerDemoState extends State<TimePickerDemo> {
                     ),
                   ),
                 )
+              ],
+            ),
+          ],
+        ),
+        const DemoTitle(
+          title: "任意时间范围",
+          descr: "可选择任意的时间范围",
+        ),
+        DisplayBlock(
+          children: [
+            SkyRow(
+              gutter: 20,
+              children: [
+                SkyCol(
+                  span: 12,
+                  child: SkyTimePickerRange(
+                    clearable: true,
+                    model: [DateTime.now().millisecondsSinceEpoch, DateTime.now().add(const Duration(minutes: 10)).millisecondsSinceEpoch],
+                    pickerRangeOptions: SkyPickerRangeOptions(
+                      maxTime: "23:20:54",
+                    ),
+                  ),
+                ),
               ],
             ),
           ],

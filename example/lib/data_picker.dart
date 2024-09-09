@@ -15,42 +15,42 @@ class _DataPickerTestState extends State<DataPickerTest> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // SkyDatePicker(
-        //   clearable: true,
-        //   model: model,
-        //   format: "yyyy年MM月dd日",
-        //   pickerOptions: SkyPickerOptions(
-        //     disabledDate: (e) {
-        //       return e.isAfter(DateTime.now());
-        //     },
-        //     shortcuts: [
-        //       Shortcut(
-        //         text: "今天",
-        //         onTap: (today, setValue) {
-        //           setValue(today);
-        //         },
-        //       ),
-        //       Shortcut(
-        //         text: "昨天",
-        //         onTap: (today, setValue) {
-        //           setValue(today.subtract(const Duration(days: 1)));
-        //         },
-        //       ),
-        //       Shortcut(
-        //         text: "一周前",
-        //         onTap: (today, setValue) {
-        //           setValue(today.subtract(const Duration(days: 7)));
-        //         },
-        //       ),
-        //       Shortcut(
-        //         text: "一周后",
-        //         onTap: (today, setValue) {
-        //           setValue(today.add(const Duration(days: 7)));
-        //         },
-        //       )
-        //     ],
-        //   ),
-        // ),
+        SkyDatePicker(
+          clearable: true,
+          model: model,
+          format: "yyyy年MM月dd日",
+          pickerOptions: SkyPickerOptions(
+            disabledDate: (e) {
+              return e.isAfter(DateTime.now());
+            },
+            shortcuts: [
+              Shortcut(
+                text: "今天",
+                onTap: (today, setValue) {
+                  setValue(today);
+                },
+              ),
+              Shortcut(
+                text: "昨天",
+                onTap: (today, setValue) {
+                  setValue(today.subtract(const Duration(days: 1)));
+                },
+              ),
+              Shortcut(
+                text: "一周前",
+                onTap: (today, setValue) {
+                  setValue(today.subtract(const Duration(days: 7)));
+                },
+              ),
+              Shortcut(
+                text: "一周后",
+                onTap: (today, setValue) {
+                  setValue(today.add(const Duration(days: 7)));
+                },
+              )
+            ],
+          ),
+        ),
         // SizedBox(
         //   height: SkySpacings().mainSpacing,
         // ),

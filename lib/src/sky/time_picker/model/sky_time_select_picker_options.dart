@@ -3,7 +3,7 @@ part of '../index.dart';
 class SkyTimeSelectPickerOptions {
   SkyTimeSelectPickerOptions({
     this.key,
-    this.start,
+    this.start = "00:00",
     this.end,
     this.step,
     this.minTime,

@@ -62,7 +62,6 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
     setState(() {
       value = e;
     });
-    _widget.onChanged?.call(e);
   }
 
   @override
@@ -152,6 +151,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
                 String? e = picker.currentState!.getValue();
                 if (e != null && SkyTimePickerUtils().compareTimePickerOption(_widget.pickerOptions!.minTime, _widget.pickerOptions!.maxTime, e)) {
                   _setSelectValue(e);
+                  _widget.onChanged?.call(e);
                   _menuController.close();
                 }
               },
