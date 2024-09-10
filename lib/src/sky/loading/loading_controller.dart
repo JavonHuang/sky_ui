@@ -42,9 +42,14 @@ class SkyLoadingController {
 
   void show() {
     if (statusLoading) return;
-    setStatusLoading(true);
-    setW(_defaultW);
-    _markNeedsBuild();
+    print("45145");
+    try {
+      setStatusLoading(true);
+      setW(_defaultW);
+      _markNeedsBuild();
+    } catch (e) {
+      print(e);
+    }
   }
 
   void dismiss() {

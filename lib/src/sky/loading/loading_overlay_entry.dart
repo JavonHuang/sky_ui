@@ -11,13 +11,18 @@ class TekLoadingOverlayEntry extends OverlayEntry {
 
   @override
   void markNeedsBuild() {
+    print("45145");
+
     if (_ambiguate(SchedulerBinding.instance)!.schedulerPhase == SchedulerPhase.persistentCallbacks) {
       _ambiguate(SchedulerBinding.instance)!.addPostFrameCallback(
         (_) {
+          print("45145");
+
           super.markNeedsBuild();
         },
       );
     } else {
+      print("45");
       super.markNeedsBuild();
     }
   }
