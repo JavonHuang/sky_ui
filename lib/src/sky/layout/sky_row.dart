@@ -30,7 +30,7 @@ class SkyRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (c, b) {
       return _ParentWidthScope(
-        width: b.maxWidth,
+        width: b.maxWidth - 1,
         gutter: gutter ?? 0,
         child: Wrap(
           spacing: 0, // 主轴(水平)方向间距

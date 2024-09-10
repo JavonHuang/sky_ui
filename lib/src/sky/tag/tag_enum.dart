@@ -3,7 +3,7 @@ part of 'sky_tag.dart';
 extension SkyTagSize on SkySize {}
 
 extension SkyTagType on SkyType {
-  Color? getTextColor({
+  Color? getTagTextColor({
     required BuildContext context,
     Color? customizeColor,
     bool plain = false,
@@ -36,7 +36,7 @@ extension SkyTagType on SkyType {
     return textColor;
   }
 
-  Color? getBorderColor({
+  Color? getTagBorderColor({
     required BuildContext context,
     Color? customizeColor,
   }) {
@@ -67,7 +67,7 @@ extension SkyTagType on SkyType {
     return borderColor;
   }
 
-  Color? getBackgroundColor({
+  Color? getTagBackgroundColor({
     required BuildContext context,
     Color? customizeColor,
     bool plain = false,
@@ -104,7 +104,7 @@ extension SkyTagType on SkyType {
     return backgroundColor;
   }
 
-  Color? getCloseBackgroundColor({
+  Color? getTagCloseBackgroundColor({
     required BuildContext context,
     Color? customizeColor,
     bool plain = false,
@@ -147,7 +147,7 @@ extension SkyTagType on SkyType {
     return backgroundColor;
   }
 
-  Color? getCloseColor({
+  Color? getTagCloseColor({
     required BuildContext context,
     Color? customizeColor,
     bool plain = false,

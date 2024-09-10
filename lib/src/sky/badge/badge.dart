@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sky_ui/src/sky/sky.dart';
 import 'package:sky_ui/src/utils/utils.dart';
 
 import '../../styles/styles.dart';
@@ -14,7 +13,7 @@ class SkyBadge extends StatefulWidget {
     this.type = SkyBadgeType.primary,
   });
   final String text;
-  final SkyButton child;
+  final Widget child;
   final SkyBadgeType type;
 
   @override
@@ -28,36 +27,50 @@ class _SkyBadgeState extends State<SkyBadge> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: EdgeInsets.all(5.scaleSpacing),
-          child: widget.child,
-        ),
-        if (widget.text.isNotEmpty)
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 6.scaleSpacing, vertical: 1.scaleSpacing),
-
-              constraints: BoxConstraints(minWidth: 18.scaleSpacing), // 最小宽度为100
-              decoration: BoxDecoration(
-                color: widget.type.getBackgroundColor(context: context),
-                borderRadius: borderRadius,
+    return UnconstrainedBox(
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(4.scaleSpacing),
+            child: widget.child,
+          ),
+          if (widget.text.isEmpty)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing, vertical: 4.scaleSpacing),
+                decoration: BoxDecoration(
+                  color: widget.type.getBackgroundColor(context: context),
+                  borderRadius: BorderRadius.circular(4.scaleSpacing),
+                ),
               ),
-              child: Center(
-                child: Text(
-                  widget.text,
-                  style: TextStyle(
-                    fontSize: SkyFontSizes().auxiliaryFont,
-                    color: SkyColors().white,
+            ),
+          if (widget.text.isNotEmpty)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 6.scaleSpacing, vertical: 1.scaleSpacing),
+
+                constraints: BoxConstraints(minWidth: 18.scaleSpacing), // 最小宽度为100
+                decoration: BoxDecoration(
+                  color: widget.type.getBackgroundColor(context: context),
+                  borderRadius: borderRadius,
+                ),
+                child: Center(
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(
+                      fontSize: SkyFontSizes().auxiliaryFont,
+                      color: SkyColors().white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

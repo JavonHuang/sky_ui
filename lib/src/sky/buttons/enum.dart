@@ -3,7 +3,7 @@ part of 'buttons.dart';
 extension SkyButtonSize on SkySize {}
 
 extension SkyButtonType on SkyType {
-  Color? getTextColor({
+  Color? getBtnTextColor({
     required BuildContext context,
     Color? customizeColor,
     bool disabled = false,
@@ -55,7 +55,7 @@ extension SkyButtonType on SkyType {
     return (disabled || loading) ? textColor.withOpacity(0.6) : textColor;
   }
 
-  Color? getBorderColor({
+  Color? getBtnBorderColor({
     required BuildContext context,
     Color? customizeColor,
     bool disabled = false,
@@ -101,7 +101,7 @@ extension SkyButtonType on SkyType {
     return (disabled || loading) ? borderColor.withOpacity(0.4) : borderColor;
   }
 
-  Color? getBackgroundColor({
+  Color? getBtnBackgroundColor({
     required BuildContext context,
     bool disabled = false,
     bool loading = false,

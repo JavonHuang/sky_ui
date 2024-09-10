@@ -36,13 +36,13 @@ class _SkyTagState extends State<SkyTag> {
     return Container(
       height: widget.size.height,
       decoration: BoxDecoration(
-        color: widget.type.getBackgroundColor(
+        color: widget.type.getTagBackgroundColor(
           context: context,
           plain: widget.plain,
         ),
         border: Border.all(
           width: 1,
-          color: widget.type.getBorderColor(
+          color: widget.type.getTagBorderColor(
             context: context,
           )!,
         ),
@@ -61,7 +61,7 @@ class _SkyTagState extends State<SkyTag> {
                   widget.text,
                   style: TextStyle(
                     fontSize: widget.size.textSize,
-                    color: widget.type.getTextColor(
+                    color: widget.type.getTagTextColor(
                       context: context,
                       plain: widget.plain,
                     ),
@@ -86,7 +86,7 @@ class _SkyTagState extends State<SkyTag> {
                   child: Container(
                     padding: EdgeInsets.all(2.scaleSpacing),
                     decoration: BoxDecoration(
-                      color: widget.type.getCloseBackgroundColor(
+                      color: widget.type.getTagCloseBackgroundColor(
                         context: context,
                         onHover: onHover,
                         plain: widget.plain,
@@ -94,7 +94,7 @@ class _SkyTagState extends State<SkyTag> {
                       borderRadius: BorderRadius.circular(widget.size.iconSize * 0.5),
                     ),
                     child: Icon(
-                      color: widget.type.getCloseColor(
+                      color: widget.type.getTagCloseColor(
                         context: context,
                         plain: widget.plain,
                         onHover: onHover,

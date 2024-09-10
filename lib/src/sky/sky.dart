@@ -1,3 +1,4 @@
+export 'alert/index.dart';
 export 'badge/badge.dart';
 export 'buttons/buttons.dart';
 export 'checkbox/index.dart';
@@ -7,6 +8,7 @@ export 'infinite_scroll/infinite_scroll.dart';
 export 'input/index.dart';
 export 'layout/index.dart';
 export 'link/sky_link.dart';
+export 'loading/index.dart';
 export 'radio/index.dart';
 export 'switch/index.dart';
 export 'table/sky_table.dart';

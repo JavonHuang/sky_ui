@@ -127,7 +127,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
           child: Container(
             padding: widget.size.padding(circle: widget.circle),
             decoration: BoxDecoration(
-              color: type.getBackgroundColor(
+              color: type.getBtnBackgroundColor(
                 context: context,
                 disabled: widget.disabled,
                 loading: widget.loading,
@@ -138,7 +138,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
               ),
               border: Border.all(
                 width: 1,
-                color: type.getBorderColor(
+                color: type.getBtnBorderColor(
                   context: context,
                   onHover: onHover,
                   active: active,
@@ -157,7 +157,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                   children: [
                     if (widget.loading)
                       Icon(
-                        color: type.getTextColor(
+                        color: type.getBtnTextColor(
                           context: context,
                           plain: widget.plain,
                           onHover: onHover,
@@ -172,7 +172,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       Padding(
                         padding: EdgeInsets.only(right: widget.circle || widget.text.isEmpty ? 0 : 5.scaleSpacing),
                         child: Icon(
-                          color: type.getTextColor(
+                          color: type.getBtnTextColor(
                             context: context,
                             plain: widget.plain,
                             onHover: onHover,
@@ -188,7 +188,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       widget.text,
                       style: TextStyle(
                         fontSize: widget.size.textSize,
-                        color: type.getTextColor(
+                        color: type.getBtnTextColor(
                           context: context,
                           plain: widget.plain,
                           onHover: onHover,
@@ -204,7 +204,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                       Padding(
                         padding: EdgeInsets.only(left: widget.circle || widget.text.isEmpty ? 0 : 5.scaleSpacing),
                         child: Icon(
-                          color: type.getTextColor(
+                          color: type.getBtnTextColor(
                             context: context,
                             plain: widget.plain,
                             onHover: onHover,

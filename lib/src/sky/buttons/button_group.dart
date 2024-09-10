@@ -86,7 +86,7 @@ class ButtonGroupState extends State<ButtonGroup> {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 1.scaleSpacing),
           decoration: BoxDecoration(
-            color: type.getBackgroundColor(context: context),
+            color: type.getBtnBackgroundColor(context: context),
             borderRadius: BorderRadius.circular(5.scaleSpacing),
           ),
           child: Row(
