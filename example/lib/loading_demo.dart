@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 import 'common/display_block.dart';
-import 'common/space.dart';
 import 'common/title.dart';
 
 class LoadingDemo extends StatefulWidget {
@@ -12,8 +11,13 @@ class LoadingDemo extends StatefulWidget {
 }
 
 class _LoadingDemoState extends State<LoadingDemo> {
-  late SkyLoading skyLoading_1 = SkyLoading();
-  late SkyLoading skyLoading_2 = SkyLoading();
+  late SkyLoading skyLoading_1 = SkyLoading(hidden: false);
+  late SkyLoading skyLoading_2 = SkyLoading(hidden: false, customizeColor: const Color.fromARGB(61, 0, 0, 0));
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +33,52 @@ class _LoadingDemoState extends State<LoadingDemo> {
           descr: "在表格等容器中加载数据时显示。",
         ),
         DisplayBlock(
-          description: "Alert 组件提供四种主题，由type属性指定，默认值为info。",
+          description: "Sky-ui 提供了类对象的服务控制。通过SkyLoading实例对象可以在指定实现局部加载，通过hide，show函数可以实现显示隐藏。",
           children: [
             skyLoading_1.builder(
               context,
-              child: Container(
+              child: const SizedBox(
                 height: 100,
-                // color: Colors.blue,
+                child: Text("内容区域区域加载"),
               ),
             ),
+          ],
+        ),
+        const DemoTitle(
+          title: "自定义",
+          descr: "可自定义加载文案、图标和背景色。",
+        ),
+        DisplayBlock(
+          description: "Sky-ui 提供了类对象的服务控制。通过SkyLoading实例对象可以在指定实现局部加载，通过hide，show函数可以实现显示隐藏。",
+          children: [
             skyLoading_2.builder(
               context,
-              child: Container(
+              loadingText: "自定义加载文案",
+              textWidget: Icon(
+                size: 40,
+                ElementIcons.loading,
+                color: SkyColors().primary,
+              ),
+              child: const SizedBox(
                 height: 100,
-                // color: Colors.green,
+                child: Text("内容区域区域加载"),
               ),
             ),
+          ],
+        ),
+        const DemoTitle(
+          title: "整页加载",
+          descr: "页面数据加载时显示。",
+        ),
+        DisplayBlock(
+          description: "Sky-ui SkyLoading静态对象实现了全局遮罩，通过service，close控制显示隐藏",
+          children: [
             SkyRow(
               gutter: 20,
               children: [
                 SkyButton(
-                  text: "全局",
+                  text: "全局2秒",
+                  type: SkyType.primary,
                   onTap: () {
                     SkyLoading.service();
                     Future.delayed(const Duration(seconds: 2)).then((e) {
@@ -57,7 +86,6 @@ class _LoadingDemoState extends State<LoadingDemo> {
                     });
                   },
                 ),
-                // ),
               ],
             ),
           ],

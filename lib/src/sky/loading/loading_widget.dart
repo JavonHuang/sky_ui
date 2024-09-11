@@ -5,11 +5,17 @@ import '../../../sky_ui.dart';
 class SkyLoadingWidget extends StatefulWidget {
   final bool body;
   final Widget? textWidget;
+  final bool hidden;
+  final Color? color;
+  final String? loadingText;
 
   const SkyLoadingWidget({
     super.key,
     required this.body,
     this.textWidget,
+    this.hidden = true,
+    this.color,
+    this.loadingText,
   });
 
   @override
@@ -18,6 +24,7 @@ class SkyLoadingWidget extends StatefulWidget {
 
 class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
+  late bool hidden = true;
 
   @override
   void initState() {
@@ -26,12 +33,27 @@ class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerPro
       vsync: this,
       duration: const Duration(seconds: 1),
     )..repeat();
+    setState(() {
+      hidden = widget.hidden;
+    });
   }
 
   @override
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  void hide() {
+    setState(() {
+      hidden = true;
+    });
+  }
+
+  void display() {
+    setState(() {
+      hidden = false;
+    });
   }
 
   Widget _loadingItem(double opacity) => Container(
@@ -49,38 +71,36 @@ class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerPro
       children: <Widget>[
         RotationTransition(
           turns: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-          child: SizedBox(
-            width: 36,
-            height: 36,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
+          child: widget.textWidget ??
+              SizedBox(
+                width: 36,
+                height: 36,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    _loadingItem(0.4),
-                    _loadingItem(0.6),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        _loadingItem(0.4),
+                        _loadingItem(0.6),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        _loadingItem(0.8),
+                        _loadingItem(1),
+                      ],
+                    )
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    _loadingItem(0.8),
-                    _loadingItem(1),
-                  ],
-                )
-              ],
-            ),
-          ),
+              ),
         ),
         SizedBox(
           height: SkySpacings().textSpacing,
         ),
-        if(widget.textWidget!=null)
-        widget.textWidget!,
- if(widget.textWidget==null)
         Text(
-          SkyLoading().defaultLoadingText,
+          widget.loadingText ?? '',
           style: TextStyle(
             decoration: TextDecoration.none,
             color: SkyColors().primaryText,
@@ -95,6 +115,9 @@ class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerPro
 
   @override
   Widget build(BuildContext context) {
+    if (hidden) {
+      return const SizedBox.shrink();
+    }
     if (widget.body) {
       return _buildLoading();
     } else {
@@ -103,7 +126,10 @@ class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerPro
         left: 0,
         right: 0,
         bottom: 0,
-        child: _buildLoading(),
+        child: Container(
+          color: widget.color ?? const Color.fromARGB(185, 255, 255, 255), // 红色透明度为70%
+          child: _buildLoading(),
+        ),
       );
     }
   }
