@@ -21,8 +21,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<NavigatorState> globalNavigatorState = GlobalKey<NavigatorState>();
+    SkyLoading.register(globalNavigatorState);
     return MaterialApp(
       title: 'Flutter Demo',
+      navigatorKey: globalNavigatorState,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

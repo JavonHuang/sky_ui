@@ -12,6 +12,9 @@ class LoadingDemo extends StatefulWidget {
 }
 
 class _LoadingDemoState extends State<LoadingDemo> {
+  late SkyLoading skyLoading_1 = SkyLoading();
+  late SkyLoading skyLoading_2 = SkyLoading();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,18 +31,33 @@ class _LoadingDemoState extends State<LoadingDemo> {
         DisplayBlock(
           description: "Alert 组件提供四种主题，由type属性指定，默认值为info。",
           children: [
+            skyLoading_1.builder(
+              context,
+              child: Container(
+                height: 100,
+                // color: Colors.blue,
+              ),
+            ),
+            skyLoading_2.builder(
+              context,
+              child: Container(
+                height: 100,
+                // color: Colors.green,
+              ),
+            ),
             SkyRow(
               gutter: 20,
               children: [
                 SkyButton(
                   text: "全局",
                   onTap: () {
-                    SkyLoading.appLoading.show();
-                    Future.delayed(Duration(seconds: 2)).then((e) {
-                      SkyLoading.appLoading.dismiss();
+                    SkyLoading.service();
+                    Future.delayed(const Duration(seconds: 2)).then((e) {
+                      SkyLoading.close();
                     });
                   },
-                )
+                ),
+                // ),
               ],
             ),
           ],

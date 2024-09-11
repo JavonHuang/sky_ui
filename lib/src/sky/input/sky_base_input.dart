@@ -41,6 +41,7 @@ class SkyBaseInput extends StatelessWidget {
     return UnmanagedRestorationScope(
       bucket: bucket,
       child: TextField(
+        keyboardType: TextInputType.multiline,
         maxLength: maxLength,
         maxLines: obscureText || (maxLines == null && minLines == null) ? 1 : maxLines,
         minLines: minLines,

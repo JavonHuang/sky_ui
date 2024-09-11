@@ -1,13 +1,22 @@
-part of 'index.dart';
+import 'package:flutter/material.dart';
 
-class TekLoadingWidget extends StatefulWidget {
-  const TekLoadingWidget({Key? key}) : super(key: key);
+import '../../../sky_ui.dart';
+
+class SkyLoadingWidget extends StatefulWidget {
+  final bool body;
+  final Widget? textWidget;
+
+  const SkyLoadingWidget({
+    super.key,
+    required this.body,
+    this.textWidget,
+  });
 
   @override
-  State<TekLoadingWidget> createState() => TekLoadingWidgetState();
+  State<SkyLoadingWidget> createState() => SkyLoadingWidgetState();
 }
 
-class TekLoadingWidgetState extends State<TekLoadingWidget> with SingleTickerProviderStateMixin {
+class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
 
   @override
@@ -29,7 +38,7 @@ class TekLoadingWidgetState extends State<TekLoadingWidget> with SingleTickerPro
         height: 14,
         width: 14,
         decoration: BoxDecoration(
-          // color: TekColors().primary.withOpacity(opacity),
+          color: SkyColors().primary.withOpacity(opacity),
           shape: BoxShape.circle,
         ),
       );
@@ -64,15 +73,21 @@ class TekLoadingWidgetState extends State<TekLoadingWidget> with SingleTickerPro
             ),
           ),
         ),
-        // TekVSpace.p14,
+        SizedBox(
+          height: SkySpacings().textSpacing,
+        ),
+        if(widget.textWidget!=null)
+        widget.textWidget!,
+ if(widget.textWidget==null)
         Text(
           SkyLoading().defaultLoadingText,
-          // style: TekTextStyles().titleMedium.copyWith(
-          //       color: TekColors().primary,
-          //       fontWeight: FontWeight.w600,
-          //       letterSpacing: 2,
-          //       fontSize: 17,
-          //     ),
+          style: TextStyle(
+            decoration: TextDecoration.none,
+            color: SkyColors().primaryText,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 2,
+            fontSize: 17,
+          ),
         ),
       ],
     );
@@ -80,6 +95,16 @@ class TekLoadingWidgetState extends State<TekLoadingWidget> with SingleTickerPro
 
   @override
   Widget build(BuildContext context) {
-    return _buildLoading();
+    if (widget.body) {
+      return _buildLoading();
+    } else {
+      return Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        child: _buildLoading(),
+      );
+    }
   }
 }
