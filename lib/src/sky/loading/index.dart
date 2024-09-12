@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../register/index.dart';
 import 'loading_widget.dart';
 
 class SkyLoading {
@@ -12,12 +13,6 @@ class SkyLoading {
     this.customizeColor,
     this.loadingText,
   });
-
-  static GlobalKey<NavigatorState>? _navigatorKey;
-
-  static void register(GlobalKey<NavigatorState> navigatorKey) {
-    _navigatorKey = navigatorKey;
-  }
 
   late GlobalKey<SkyLoadingWidgetState>? _skyLoadingWidgetState = GlobalKey<SkyLoadingWidgetState>();
 
@@ -61,8 +56,9 @@ class SkyLoading {
     Color? customizeColor,
     String? loadingText,
   }) {
-    if (_navigatorKey == null) {
-      assert(_navigatorKey != null, "service need to run register function");
+    GlobalKey<NavigatorState>? navigatorKey = SkyInit().navigatorKey;
+    if (navigatorKey == null) {
+      assert(navigatorKey != null, "service need to run register function");
       return;
     }
 
@@ -70,7 +66,7 @@ class SkyLoading {
     _overlayEntry = OverlayEntry(
       builder: (context) {
         return Material(
-          color: customizeColor ?? const Color.fromARGB(50, 0, 0, 0), // 红色透明度为70%
+          color: customizeColor ?? const Color.fromARGB(50, 0, 0, 0),
           child: Center(
             child: SkyLoadingWidget(
               body: true,
@@ -83,7 +79,7 @@ class SkyLoading {
       },
     );
 
-    _navigatorKey!.currentState!.overlay!.insert(_overlayEntry!);
+    navigatorKey!.currentState!.overlay!.insert(_overlayEntry!);
     if (time != null) {
       Future.delayed(time).then((e) {
         close();

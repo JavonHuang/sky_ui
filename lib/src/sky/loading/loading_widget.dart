@@ -106,7 +106,7 @@ class SkyLoadingWidgetState extends State<SkyLoadingWidget> with SingleTickerPro
             color: SkyColors().primaryText,
             fontWeight: FontWeight.w600,
             letterSpacing: 2,
-            fontSize: 17,
+            fontSize: 14,
           ),
         ),
       ],

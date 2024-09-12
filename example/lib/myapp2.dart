@@ -12,6 +12,7 @@ import 'input_number_demo.dart';
 import 'layout_demo.dart';
 import 'link_demo.dart';
 import 'loading_demo.dart';
+import 'message_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
 import 'time_picker_demo.dart';
@@ -22,8 +23,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GlobalKey<NavigatorState> globalNavigatorState = GlobalKey<NavigatorState>();
-    SkyLoading.register(globalNavigatorState);
     return MaterialApp(
+      builder: FToastBuilder(),
       title: 'Flutter Demo',
       navigatorKey: globalNavigatorState,
       theme: ThemeData(
@@ -33,13 +34,15 @@ class App extends StatelessWidget {
       ),
       initialRoute: "/",
       // routes: routes,
-      home: const MyMain(),
+      home: MyMain(globalNavigatorState: globalNavigatorState),
     );
   }
 }
 
 class MyMain extends StatefulWidget {
-  const MyMain({super.key});
+  MyMain({super.key, globalNavigatorState}) {
+    SkyInit().register(globalNavigatorState);
+  }
 
   @override
   State<MyMain> createState() => _MyMainState();
@@ -66,6 +69,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": null, "name": "Notice", "type": 0},
     {"widget": const AlertDemo(), "name": "Alert 警告", "type": 1},
     {"widget": const LoadingDemo(), "name": "Loading 加载", "type": 1},
+    {"widget": const MessageDemo(), "name": "Message 消息提示", "type": 1},
     {"widget": null, "name": "Navigation", "type": 0},
     {"widget": null, "name": "Others", "type": 0},
   ];
