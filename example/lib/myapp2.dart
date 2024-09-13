@@ -24,7 +24,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<NavigatorState> globalNavigatorState = GlobalKey<NavigatorState>();
     return MaterialApp(
-      builder: FToastBuilder(),
       title: 'Flutter Demo',
       navigatorKey: globalNavigatorState,
       theme: ThemeData(

@@ -43,11 +43,11 @@ class MessageFuture {
 
   void insertEntry(OverlayState overlay) {
     overlay.insert(entry);
-    if (duration != Duration.zero) {
-      _timer = Timer(duration, () {
-        dismiss();
-      });
-    }
+    // if (duration != Duration.zero) {
+    //   _timer = Timer(duration, () {
+    //     dismiss();
+    //   });
+    // }
   }
 
   void _removeEntry() {
