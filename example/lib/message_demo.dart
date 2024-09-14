@@ -12,13 +12,13 @@ class MessageDemo extends StatefulWidget {
 }
 
 class _MessageDemoState extends State<MessageDemo> {
-  SkyMessage fToast = SkyMessage();
+  // SkyMessage fToast = SkyMessage();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    fToast.init(context);
+    // fToast.init(context);
   }
 
   @override
@@ -43,11 +43,11 @@ class _MessageDemoState extends State<MessageDemo> {
                 SkyButton(
                   text: "打开消息",
                   onTap: () {
-                    // SkyMessage(message: "测试").open();
-                    fToast.showToast(
-                      child: Text("787878"),
-                      toastDuration: Duration(seconds: 2),
-                    );
+                    SkyMessage(message: "测试").open();
+                    // fToast.showToast(
+                    //   child: Text("787878"),
+                    //   toastDuration: Duration(seconds: 2),
+                    // );
                   },
                 ),
                 SkyButton(

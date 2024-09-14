@@ -22,4 +22,10 @@ class MessageManager {
   void addFuture(MessageFuture future) {
     MessageSet.add(future);
   }
+
+  String _defaultLoadingText = 'Loading...';
+
+  void setDefaultLoadingText(String text) => _defaultLoadingText = text;
+
+  get defaultLoadingText => _defaultLoadingText;
 }

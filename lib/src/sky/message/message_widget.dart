@@ -13,10 +13,10 @@ class MessageWidget extends StatefulWidget {
   });
 
   @override
-  State<MessageWidget> createState() => _MessageWidgetState();
+  State<MessageWidget> createState() => MessageWidgetState();
 }
 
-class _MessageWidgetState extends State<MessageWidget> with SingleTickerProviderStateMixin {
+class MessageWidgetState extends State<MessageWidget> with SingleTickerProviderStateMixin {
   /// Start the showing animations for the toast
   showIt() {
     _animationController!.forward();
@@ -38,7 +38,7 @@ class _MessageWidgetState extends State<MessageWidget> with SingleTickerProvider
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 3000),
+      duration: Duration(milliseconds: 300),
     );
     _fadeAnimation = CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
     super.initState();
@@ -71,8 +71,8 @@ class _MessageWidgetState extends State<MessageWidget> with SingleTickerProvider
         child: FadeTransition(
           opacity: _fadeAnimation as Animation<double>,
           child: Center(
-            child: Material(
-              color: Colors.transparent,
+            child: Container(
+              color: Color.fromARGB(255, 213, 14, 14),
               child: widget.child,
             ),
           ),
