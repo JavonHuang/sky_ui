@@ -11,7 +11,7 @@ class MessageManager {
 
   void dismissAll() {
     MessageSet.toList().forEach((MessageFuture v) {
-      v.dismiss();
+      MessageSet.remove(v);
     });
   }
 
@@ -23,9 +23,7 @@ class MessageManager {
     MessageSet.add(future);
   }
 
-  String _defaultLoadingText = 'Loading...';
-
-  void setDefaultLoadingText(String text) => _defaultLoadingText = text;
-
-  get defaultLoadingText => _defaultLoadingText;
+  MessageFuture getFutureByIndex(int index) {
+    return MessageSet.toList()[index];
+  }
 }

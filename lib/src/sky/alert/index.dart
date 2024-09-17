@@ -13,6 +13,7 @@ class SkyAlert extends StatefulWidget {
   final bool closable;
   final Future<bool> Function()? close;
   final bool center;
+  final TextStyle? textStyle;
   const SkyAlert({
     super.key,
     required this.title,
@@ -24,6 +25,7 @@ class SkyAlert extends StatefulWidget {
     this.closable = false,
     this.close,
     this.center = false,
+    this.textStyle,
   });
 
   @override
@@ -70,14 +72,20 @@ class _SkyAlertState extends State<SkyAlert> {
                     Text(
                       widget.title,
                       style: TextStyle(
-                          fontSize: SkyFontSizes().textSmallFont,
-                          fontWeight: widget.description != null ? FontWeight.w700 : null,
-                          color: widget.effect == SkyAlertEffect.light ? widget.type.getBackgroundColor(context: context) : SkyColors().white),
+                        fontSize: SkyFontSizes().textSmallFont,
+                        fontWeight: widget.description != null ? FontWeight.w700 : null,
+                        color: widget.effect == SkyAlertEffect.light ? widget.type.getBackgroundColor(context: context) : SkyColors().white,
+                        decoration: TextDecoration.none,
+                      ),
                     ),
                     if (widget.description != null)
                       Text(
                         widget.description!,
-                        style: TextStyle(fontSize: SkyFontSizes().auxiliaryFont, color: widget.effect == SkyAlertEffect.light ? widget.type.getBackgroundColor(context: context) : SkyColors().white),
+                        style: TextStyle(
+                          fontSize: SkyFontSizes().auxiliaryFont,
+                          color: widget.effect == SkyAlertEffect.light ? widget.type.getBackgroundColor(context: context) : SkyColors().white,
+                          decoration: TextDecoration.none,
+                        ),
                       ),
                   ],
                 ),

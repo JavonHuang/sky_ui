@@ -69,7 +69,7 @@ extension SkyButtonType on SkyType {
     late Color? borderColor;
     switch (this) {
       case SkyType.normal:
-        borderColor = SkyColors().primaryText;
+        borderColor = SkyColors().baseBorder;
         break;
       case SkyType.primary:
         borderColor = SkyColors().primary;

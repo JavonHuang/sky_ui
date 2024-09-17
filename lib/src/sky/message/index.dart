@@ -1,41 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:sky_ui/src/styles/styles.dart';
 
+import '../../utils/utils.dart';
 import '../alert/index.dart';
+import '../common/generate_uuid.dart';
 import '../register/index.dart';
 import 'message_future.dart';
 import 'message_manager.dart';
-import 'message_widget.dart';
-import 'overlay_layout.dart';
+part 'overlay_layout.dart';
 
 class SkyMessage {
   final String message;
   final SkyAlertType type;
   final Duration duration;
-  final bool showClose;
   final bool center;
   final Function()? onClose;
-  final double offset;
+  final SkyAlertEffect effect;
+  final bool showIcon;
+
   SkyMessage({
     required this.message,
     this.type = SkyAlertType.info,
     this.duration = const Duration(milliseconds: 3000),
-    this.showClose = false,
     this.center = false,
     this.onClose,
-    this.offset = 20,
+    this.effect = SkyAlertEffect.light,
+    this.showIcon = false,
   });
 
   MessageFuture open() {
-    if (MessageManager().MessageSet.isEmpty) {
-      OverlayLayout().init();
-    }
-    final MessageFuture future = MessageFuture(entry: OverlayLayout.layout, duration: duration);
-    MessageManager().addFuture(future);
-    Future.delayed(Duration(milliseconds: 300)).then((e) {
-      OverlayLayout().insertEntry();
-    });
-    // future.insertEntry(navigatorKey!.currentState!.overlay!);
+    final MessageFuture future = MessageFuture(
+      duration: duration,
+      id: GenerateUuid.keyV1(),
+      title: message,
+      effect: effect,
+      type: type,
+      showIcon: showIcon,
+    );
+    OverlayLayout().insertEntry(future);
     return future;
   }
 }

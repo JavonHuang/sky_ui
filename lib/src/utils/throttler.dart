@@ -7,6 +7,13 @@ class Throttler {
   final Duration _interval;
   void Function()? callback;
   Throttler(this._interval);
+  bool get isActive {
+    if (_throttledAction == null) {
+      return false;
+    } else {
+      return _throttledAction!.isActive;
+    }
+  }
 
   Future<void> trigger() async {
     if (_throttledAction != null) {
@@ -16,6 +23,12 @@ class Throttler {
   }
 
   Future<void> dispose() async {
+    if (_throttledAction != null) {
+      _throttledAction!.cancel();
+    }
+  }
+
+  Future<void> cancel() async {
     if (_throttledAction != null) {
       _throttledAction!.cancel();
     }

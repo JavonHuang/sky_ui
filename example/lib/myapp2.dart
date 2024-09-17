@@ -12,6 +12,7 @@ import 'input_number_demo.dart';
 import 'layout_demo.dart';
 import 'link_demo.dart';
 import 'loading_demo.dart';
+import 'message_box_demo.dart';
 import 'message_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
@@ -69,6 +70,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": const AlertDemo(), "name": "Alert 警告", "type": 1},
     {"widget": const LoadingDemo(), "name": "Loading 加载", "type": 1},
     {"widget": const MessageDemo(), "name": "Message 消息提示", "type": 1},
+    {"widget": const MessageBoxDemo(), "name": "MessageBox 弹框", "type": 1},
     {"widget": null, "name": "Navigation", "type": 0},
     {"widget": null, "name": "Others", "type": 0},
   ];

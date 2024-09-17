@@ -10,8 +10,7 @@ export 'layout/index.dart';
 export 'link/sky_link.dart';
 export 'loading/index.dart';
 export 'message/index.dart';
-// export 'message/new_index.dart';
-
+export 'message_box/index.dart';
 export 'radio/index.dart';
 export 'register/index.dart';
 export 'switch/index.dart';
