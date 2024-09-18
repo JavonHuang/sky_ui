@@ -20,7 +20,7 @@ class SkyMessage {
 
   SkyMessage({
     required this.message,
-    this.type = SkyAlertType.info,
+    this.type = SkyAlertType.success,
     this.duration = const Duration(milliseconds: 3000),
     this.center = false,
     this.onClose,

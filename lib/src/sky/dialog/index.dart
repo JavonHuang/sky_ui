@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sky_ui/sky_ui.dart';
+import 'package:sky_ui/src/sky/layout/index.dart';
+import 'package:sky_ui/src/utils/utils.dart';
+import '../../styles/styles.dart';
+import '../buttons/buttons.dart';
+import '../register/index.dart';
 
-part 'message_box_widget.dart';
+part 'dialog_layout.dart';
 
-class SkyMessageBox {
+class SkyDialog {
   OverlayEntry? _overlayEntry;
   Future<bool> Function()? _onClose;
 
@@ -31,7 +35,7 @@ class SkyMessageBox {
     }
   }
 
-  SkyMessageBox open(
+  SkyDialog open(
     String title, {
     String? confirmButtonText,
     String? cancelButtonText,
@@ -41,11 +45,13 @@ class SkyMessageBox {
     Future<bool> Function(dynamic e)? onCancel,
     Future<bool> Function(dynamic e)? onConfirm,
     Future<bool> Function()? onClose,
+    bool fullscreen = false,
+    Widget? foot,
   }) {
     GlobalKey<NavigatorState>? navigatorKey = SkyInit().navigatorKey;
     if (navigatorKey == null) {
       assert(navigatorKey != null, "service need to run register function");
-      return SkyMessageBox();
+      return this;
     }
     _onClose = onClose;
 
@@ -59,16 +65,18 @@ class SkyMessageBox {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {},
-                child: MessageBoxWidget(
+                child: DialogLayout(
                   title: title,
                   width: width,
                   maxHeight: maxHeight,
+                  fullscreen: fullscreen,
                   close: close,
                   withOnClose: withOnClose,
                   cancelButtonText: cancelButtonText,
                   confirmButtonText: confirmButtonText,
                   onCancel: onCancel,
                   onConfirm: onConfirm,
+                  foot: foot,
                   child: child,
                 ),
               ),

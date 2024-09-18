@@ -6,6 +6,8 @@ import 'badge_demo.dart';
 import 'button_demo.dart';
 import 'checkbox_demo.dart';
 import 'date_picker_demo.dart';
+import 'descriptions_demo.dart';
+import 'dialog_demo.dart';
 import 'icon_demo.dart';
 import 'input_demo.dart';
 import 'input_number_demo.dart';
@@ -66,6 +68,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": const DatePickerDemo(), "name": "DatePicker 日期选择器", "type": 1},
     {"widget": null, "name": "Data", "type": 0},
     {"widget": const BadgeDemo(), "name": "Badge 标记", "type": 1},
+    {"widget": const DescriptionsDemo(), "name": "Descriptions 描述列表", "type": 1},
     {"widget": null, "name": "Notice", "type": 0},
     {"widget": const AlertDemo(), "name": "Alert 警告", "type": 1},
     {"widget": const LoadingDemo(), "name": "Loading 加载", "type": 1},
@@ -73,6 +76,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": const MessageBoxDemo(), "name": "MessageBox 弹框", "type": 1},
     {"widget": null, "name": "Navigation", "type": 0},
     {"widget": null, "name": "Others", "type": 0},
+    {"widget": const DialogDemo(), "name": "Dialog 对话框", "type": 1},
   ];
 
   Widget renderMenu() {

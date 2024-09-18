@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class MessageBoxWidget extends StatefulWidget {
+class DialogLayout extends StatefulWidget {
   final String title;
   final Widget child;
   final double width;
@@ -9,10 +9,11 @@ class MessageBoxWidget extends StatefulWidget {
   final String? cancelButtonText;
   final Function() close;
   final Function() withOnClose;
-
   final Future<bool> Function(dynamic e)? onCancel;
   final Future<bool> Function(dynamic e)? onConfirm;
-  const MessageBoxWidget({
+  final bool fullscreen;
+  final Widget? foot;
+  const DialogLayout({
     super.key,
     required this.title,
     required this.child,
@@ -24,45 +25,59 @@ class MessageBoxWidget extends StatefulWidget {
     this.cancelButtonText,
     this.onCancel,
     this.onConfirm,
+    required this.fullscreen,
+    this.foot,
   });
-  static _MessageBoxWidgetState? maybeOf(BuildContext context) {
-    final _MessageBoxScope? scope = context.dependOnInheritedWidgetOfExactType<_MessageBoxScope>();
-    return scope?.messageBoxWidgetState;
+
+  static _DialogLayoutState? maybeOf(BuildContext context) {
+    final _DialogLayoutScope? scope = context.dependOnInheritedWidgetOfExactType<_DialogLayoutScope>();
+    return scope?.dialogLayoutState;
   }
 
   @override
-  State<MessageBoxWidget> createState() => _MessageBoxWidgetState();
+  State<DialogLayout> createState() => _DialogLayoutState();
 }
 
-class _MessageBoxWidgetState extends State<MessageBoxWidget> {
+class _DialogLayoutState extends State<DialogLayout> {
   late dynamic _value = null;
   void setValue(dynamic e) {
     _value = e;
   }
 
   dynamic get value => _value;
+
+  void close() {
+    widget.close.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     return UnconstrainedBox(
-      child: _MessageBoxScope(
-        messageBoxWidgetState: this,
+      child: _DialogLayoutScope(
+        dialogLayoutState: this,
         child: Stack(
           children: [
             Container(
-              width: widget.width,
-              constraints: BoxConstraints(maxWidth: widget.width, maxHeight: widget.maxHeight, minHeight: 100, minWidth: 100),
+              width: widget.fullscreen ? MediaQuery.of(context).size.width : widget.width,
+              height: widget.fullscreen ? MediaQuery.of(context).size.height : null,
+              constraints: BoxConstraints(
+                maxWidth: widget.fullscreen ? MediaQuery.of(context).size.width : widget.width,
+                maxHeight: widget.fullscreen ? MediaQuery.of(context).size.height : widget.maxHeight + 120,
+                minHeight: 100,
+                minWidth: 100,
+              ),
               decoration: BoxDecoration(
                 color: SkyColors().white,
-                borderRadius: SkyBorderRadius().normalBorderRadius,
+                borderRadius: widget.fullscreen ? null : SkyBorderRadius().normalBorderRadius,
               ),
-              padding: EdgeInsets.only(top: 40.scaleSpacing, bottom: 60.scaleSpacing),
+              padding: const EdgeInsets.only(top: 40, bottom: 60),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min, // 主轴方向最小
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.scaleSpacing, horizontal: 15.scaleSpacing),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       child: SingleChildScrollView(
                         child: widget.child,
                       ),
@@ -74,13 +89,13 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
             Positioned(
               top: 0,
               left: 0,
-              width: widget.width,
+              width: widget.fullscreen ? MediaQuery.of(context).size.width : widget.width,
               child: Padding(
-                padding: EdgeInsets.only(
-                  top: 15.scaleSpacing,
-                  right: 15.scaleSpacing,
-                  bottom: 10.scaleSpacing,
-                  left: 15.scaleSpacing,
+                padding: const EdgeInsets.only(
+                  top: 15,
+                  right: 15,
+                  bottom: 10,
+                  left: 15,
                 ),
                 child: IntrinsicHeight(
                   child: Row(
@@ -102,8 +117,8 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                           child: MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 4.scaleSpacing,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
                               ),
                               child: Icon(
                                 color: SkyColors().baseBorder,
@@ -119,18 +134,18 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                 ),
               ),
             ),
-            if (widget.cancelButtonText != null || widget.confirmButtonText != null)
+            if ((widget.cancelButtonText != null || widget.confirmButtonText != null) && widget.foot == null)
               Positioned(
                 bottom: 0,
                 left: 0,
-                width: widget.width,
-                height: 60.scaleSpacing,
+                width: widget.fullscreen ? MediaQuery.of(context).size.width : widget.width,
+                height: 60,
                 child: Container(
-                  padding: EdgeInsets.only(right: 15.scaleSpacing, left: 15.scaleSpacing, top: 10.scaleSpacing),
+                  padding: const EdgeInsets.only(right: 15, left: 15, top: 10),
                   child: IntrinsicHeight(
                     child: SkyRow(
                       alignment: WrapAlignment.end,
-                      gutter: 20.scaleSpacing,
+                      gutter: 20,
                       children: [
                         if (widget.cancelButtonText != null)
                           SkyButton(
@@ -167,6 +182,19 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
                   ),
                 ),
               ),
+            if (widget.foot != null)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                width: widget.fullscreen ? MediaQuery.of(context).size.width : widget.width,
+                height: 60,
+                child: Container(
+                  padding: const EdgeInsets.only(right: 15, left: 15, top: 10),
+                  child: IntrinsicHeight(
+                    child: widget.foot!,
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -174,14 +202,14 @@ class _MessageBoxWidgetState extends State<MessageBoxWidget> {
   }
 }
 
-class _MessageBoxScope extends InheritedWidget {
-  const _MessageBoxScope({
+class _DialogLayoutScope extends InheritedWidget {
+  const _DialogLayoutScope({
     required super.child,
-    required this.messageBoxWidgetState,
+    required this.dialogLayoutState,
   });
 
-  final _MessageBoxWidgetState messageBoxWidgetState;
+  final _DialogLayoutState dialogLayoutState;
 
   @override
-  bool updateShouldNotify(_MessageBoxScope old) => messageBoxWidgetState != old.messageBoxWidgetState;
+  bool updateShouldNotify(_DialogLayoutScope old) => dialogLayoutState != old.dialogLayoutState;
 }
