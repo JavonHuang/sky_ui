@@ -80,13 +80,13 @@ enum SkySize {
     if (circle) {
       switch (this) {
         case SkySize.large:
-          return const EdgeInsets.all(10);
-        case SkySize.medium:
           return const EdgeInsets.all(8);
+        case SkySize.medium:
+          return const EdgeInsets.all(6);
         case SkySize.small:
-          return const EdgeInsets.all(7);
+          return const EdgeInsets.all(4);
         case SkySize.mini:
-          return const EdgeInsets.all(5);
+          return const EdgeInsets.all(2);
       }
     }
     switch (this) {

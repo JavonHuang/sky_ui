@@ -5,6 +5,7 @@ import 'alert_demo.dart';
 import 'badge_demo.dart';
 import 'button_demo.dart';
 import 'checkbox_demo.dart';
+import 'collapse_demo.dart';
 import 'date_picker_demo.dart';
 import 'descriptions_demo.dart';
 import 'dialog_demo.dart';
@@ -77,6 +78,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": null, "name": "Navigation", "type": 0},
     {"widget": null, "name": "Others", "type": 0},
     {"widget": const DialogDemo(), "name": "Dialog 对话框", "type": 1},
+    {"widget": const CollapseDemo(), "name": "Collapse 折叠面板", "type": 1},
   ];
 
   Widget renderMenu() {
@@ -122,15 +124,15 @@ class _MyMainState extends State<MyMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          children: [
-            Expanded(
-              child: Text("sky-ui"),
-            ),
-          ],
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: const Row(
+      //     children: [
+      //       Expanded(
+      //         child: Text("sky-ui"),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: Container(
         color: Colors.white,
         height: double.infinity,

@@ -29,7 +29,15 @@ class _DescriptionsDemoState extends State<DescriptionsDemo> {
           children: [
             SkyDescriptions(
               title: "用户信息",
-              children: [],
+              children: [
+                DescriptionsItem(label: "测试", value: "内容"),
+                DescriptionsItem(label: "测试", value: "内容"),
+                DescriptionsItem(label: "测试", value: "内容"),
+                DescriptionsItem(label: "测试87889", value: "内容"),
+                DescriptionsItem(label: "测试87889", value: "内容"),
+                DescriptionsItem(label: "测试87889", value: "内容"),
+                DescriptionsItem(label: "测试87889", value: "内容"),
+              ],
             ),
           ],
         ),

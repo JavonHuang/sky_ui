@@ -65,7 +65,7 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
       );
     } else if (widget.circle) {
       return BorderRadius.circular(
-        MediaQuery.of(context).size.height * 0.5,
+        MediaQuery.of(context).size.width * 0.5,
       );
     } else {
       return SkyBorderRadius().normalBorderRadius;
@@ -171,17 +171,21 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                     if (widget.leftIcon != null)
                       Padding(
                         padding: EdgeInsets.only(right: widget.circle || widget.text.isEmpty ? 0 : 5.scaleSpacing),
-                        child: Icon(
-                          color: type.getBtnTextColor(
-                            context: context,
-                            plain: widget.plain,
-                            onHover: onHover,
-                            active: active,
-                            loading: widget.loading,
-                            customHoverColor: widget.customHoverColor,
+                        child: SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: Icon(
+                            color: type.getBtnTextColor(
+                              context: context,
+                              plain: widget.plain,
+                              onHover: onHover,
+                              active: active,
+                              loading: widget.loading,
+                              customHoverColor: widget.customHoverColor,
+                            ),
+                            widget.leftIcon,
+                            size: widget.size.iconSize,
                           ),
-                          widget.leftIcon,
-                          size: widget.size.iconSize,
                         ),
                       ),
                     Text(
@@ -203,18 +207,22 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
                     if (widget.rightIcon != null)
                       Padding(
                         padding: EdgeInsets.only(left: widget.circle || widget.text.isEmpty ? 0 : 5.scaleSpacing),
-                        child: Icon(
-                          color: type.getBtnTextColor(
-                            context: context,
-                            plain: widget.plain,
-                            onHover: onHover,
-                            active: active,
-                            loading: widget.loading,
-                            customizeColor: widget.customTextColor,
-                            customHoverColor: widget.customHoverColor,
+                        child: SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: Icon(
+                            color: type.getBtnTextColor(
+                              context: context,
+                              plain: widget.plain,
+                              onHover: onHover,
+                              active: active,
+                              loading: widget.loading,
+                              customizeColor: widget.customTextColor,
+                              customHoverColor: widget.customHoverColor,
+                            ),
+                            widget.rightIcon,
+                            size: widget.size.iconSize,
                           ),
-                          widget.rightIcon,
-                          size: widget.size.iconSize,
                         ),
                       )
                   ],

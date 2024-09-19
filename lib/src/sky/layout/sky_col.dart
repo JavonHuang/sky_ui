@@ -20,9 +20,9 @@ class SkyCol extends StatelessWidget {
     double vwidth = (width ?? SkyRow.maybeOf(context)!.unit * span) as double;
     double voffset = (SkyRow.maybeOf(context)!.unit * offset) as double;
     double gutter = (width ?? SkyRow.maybeOf(context)!._gutter);
-
+    double _width = vwidth - gutter + voffset;
     return SizedBox(
-      width: (vwidth - gutter + voffset),
+      width: _width < 0 ? 0 : _width,
       height: height,
       child: Padding(
         padding: EdgeInsets.only(left: voffset),

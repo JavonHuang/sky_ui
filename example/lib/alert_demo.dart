@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:sky_ui/sky_ui.dart';
 import 'common/display_block.dart';
 import 'common/space.dart';
 import 'common/title.dart';
+// import 'package:flutter_highlight/theme_map.dart';
 
 class AlertDemo extends StatefulWidget {
   const AlertDemo({super.key});
@@ -17,6 +19,13 @@ class _AlertDemoState extends State<AlertDemo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // HighlightView(
+        //   " const DemoTitle()",
+        //   language: "dart",
+        //   theme: themeMap['github']!,
+        //   padding: EdgeInsets.all(12),
+        //   // textStyle: TextStyle(fontFamily: 'SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace'),
+        // ),
         const DemoTitle(
           title: "Alert 警告",
           descr: "用于页面中展示重要的提示信息。",

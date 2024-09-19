@@ -2,6 +2,7 @@ export 'alert/index.dart';
 export 'badge/badge.dart';
 export 'buttons/buttons.dart';
 export 'checkbox/index.dart';
+export 'collapse/index.dart';
 export 'dialog/index.dart';
 export 'date_picker/index.dart';
 export 'descriptions/index.dart';
