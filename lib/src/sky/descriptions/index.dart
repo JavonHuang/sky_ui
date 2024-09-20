@@ -9,7 +9,7 @@ part 'models/descriptions_item.dart';
 class SkyDescriptions extends StatefulWidget {
   final bool border;
   final int column;
-  final Axis scrollDirection;
+  final Axis axis;
   final SkySize size;
   final String? title;
   final String? extra;
@@ -19,7 +19,7 @@ class SkyDescriptions extends StatefulWidget {
     super.key,
     this.border = false,
     this.column = 3,
-    this.scrollDirection = Axis.horizontal,
+    this.axis = Axis.horizontal,
     this.size = SkySize.medium,
     this.title,
     this.extra,
@@ -34,6 +34,7 @@ class SkyDescriptions extends StatefulWidget {
 class _SkyDescriptionsState extends State<SkyDescriptions> {
   List<Widget> renderItem() {
     Compute compute = Compute(children: widget.children, column: widget.column, size: widget.size);
+    compute.axis = widget.axis;
     List<Widget> result = [];
     for (List<DescriptionsItem> row in compute.renderRow) {
       Color borderColor = widget.border ? SkyColors().lighterBorder : SkyColors().transparent;
@@ -58,17 +59,44 @@ class _SkyDescriptionsState extends State<SkyDescriptions> {
                   ),
                 ),
               ),
-              child: Row(
-                children: [
-                  compute.createLable(labelWidth, col.label ?? col.labelWidget, widget.border),
-                  Expanded(
-                    child: Padding(
-                      padding: widget.size.descriptionsPadding(border: widget.border),
-                      child: col.value != null ? Text(col.value ?? '') : col.valueWidget,
+              child: widget.axis == Axis.horizontal
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          color: col.bgLabelColor,
+                          child: compute.createLable(labelWidth, col.label ?? col.labelWidget, widget.border, col),
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: col.bgValueColor,
+                            child: Padding(
+                              padding: widget.size.descriptionsPadding(border: widget.border),
+                              child: col.value != null ? Text(col.value ?? '') : col.valueWidget,
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                            child: Container(
+                          color: col.bgLabelColor,
+                          child: compute.createLable(labelWidth, col.label ?? col.labelWidget, widget.border, col),
+                        )),
+                        Expanded(
+                          child: Container(
+                            color: col.bgValueColor,
+                            child: Padding(
+                              padding: widget.size.descriptionsPadding(border: widget.border),
+                              child: col.value != null ? Text(col.value ?? '') : col.valueWidget,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
             ),
           ),
         );
@@ -94,21 +122,22 @@ class _SkyDescriptionsState extends State<SkyDescriptions> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                widget.title ?? "",
-                style: TextStyle(
-                  fontSize: SkyFontSizes().titleSmallFont,
-                  color: SkyColors().primaryText,
-                  fontWeight: FontWeight.bold,
+        if (widget.title != null)
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  widget.title ?? "",
+                  style: TextStyle(
+                    fontSize: SkyFontSizes().titleSmallFont,
+                    color: SkyColors().primaryText,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Text(widget.extra ?? ""),
-          ],
-        ),
+              Text(widget.extra ?? ""),
+            ],
+          ),
         Container(
           decoration: BoxDecoration(
             border: Border(

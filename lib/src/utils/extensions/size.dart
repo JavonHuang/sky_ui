@@ -116,7 +116,16 @@ enum SkySize {
 
   EdgeInsets descriptionsPadding({bool border = true}) {
     if (border) {
-      return boxPadding;
+      switch (this) {
+        case SkySize.large:
+          return EdgeInsets.symmetric(horizontal: 12.scaleSpacing, vertical: 12.scaleSpacing);
+        case SkySize.medium:
+          return EdgeInsets.symmetric(horizontal: 10.scaleSpacing, vertical: 10.scaleSpacing);
+        case SkySize.small:
+          return EdgeInsets.symmetric(horizontal: 8.scaleSpacing, vertical: 8.scaleSpacing);
+        case SkySize.mini:
+          return EdgeInsets.symmetric(horizontal: 6.scaleSpacing, vertical: 4.scaleSpacing);
+      }
     } else {
       switch (this) {
         case SkySize.large:

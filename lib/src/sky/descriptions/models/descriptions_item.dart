@@ -7,6 +7,8 @@ class DescriptionsItem {
   final Widget? valueWidget;
   int span;
   final double? width;
+  final Color? bgLabelColor;
+  final Color? bgValueColor;
 
   DescriptionsItem({
     this.label,
@@ -15,6 +17,8 @@ class DescriptionsItem {
     this.valueWidget,
     this.span = 1,
     this.width,
+    this.bgLabelColor,
+    this.bgValueColor,
   });
   DescriptionsItem copy() {
     return DescriptionsItem(
@@ -24,6 +28,8 @@ class DescriptionsItem {
       valueWidget: valueWidget,
       span: span,
       width: width,
+      bgLabelColor: bgLabelColor,
+      bgValueColor: bgValueColor,
     );
   }
 }

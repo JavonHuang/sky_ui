@@ -9,6 +9,7 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
     this.model,
     this.buttonStyle = false,
     this.options = const <SkyRadioOption>[],
+    this.onChanged,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyGroupRadio,
@@ -20,6 +21,8 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
   final String? model;
   final bool buttonStyle;
   final List<SkyRadioOption> options;
+  final Function(String label)? onChanged;
+
   @override
   SkyFormFieldBridgeState<SkyGroupRadio> createState() => SkyGroupRadioState();
 
@@ -52,6 +55,7 @@ class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
             label: item.option.label,
             onChanged: (e) {
               // item.onChanged?.call(e);
+              _widget.onChanged?.call(e);
               setValue(e);
             },
           ),
