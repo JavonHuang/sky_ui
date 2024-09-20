@@ -113,4 +113,21 @@ enum SkySize {
         return EdgeInsets.symmetric(horizontal: 8.scaleSpacing, vertical: 8.scaleSpacing);
     }
   }
+
+  EdgeInsets descriptionsPadding({bool border = true}) {
+    if (border) {
+      return boxPadding;
+    } else {
+      switch (this) {
+        case SkySize.large:
+          return EdgeInsets.only(bottom: 12.scaleSpacing, right: 4.scaleSpacing);
+        case SkySize.medium:
+          return EdgeInsets.only(bottom: 10.scaleSpacing, right: 4.scaleSpacing);
+        case SkySize.small:
+          return EdgeInsets.only(bottom: 8.scaleSpacing, right: 4.scaleSpacing);
+        case SkySize.mini:
+          return EdgeInsets.only(bottom: 6.scaleSpacing, right: 4.scaleSpacing);
+      }
+    }
+  }
 }

@@ -9,7 +9,7 @@ class SkyTag extends StatefulWidget {
     super.key,
     this.text = '',
     this.type = SkyType.normal,
-    this.size = SkySize.small,
+    this.size = SkySize.medium,
     this.plain = false,
     this.closable = false,
     this.onTap,
@@ -34,7 +34,7 @@ class _SkyTagState extends State<SkyTag> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.size.height,
+      // height: widget.size.height,
       decoration: BoxDecoration(
         color: widget.type.getTagBackgroundColor(
           context: context,

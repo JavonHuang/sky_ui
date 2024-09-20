@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
+
+import 'models/compute.dart';
 part 'models/descriptions_item.dart';
 
 class SkyDescriptions extends StatefulWidget {
@@ -30,66 +32,53 @@ class SkyDescriptions extends StatefulWidget {
 }
 
 class _SkyDescriptionsState extends State<SkyDescriptions> {
-  int get span => (24 / widget.column).floor();
-  int get fill {
-    int count = (widget.children.length * span);
-    if (count < 24) {
-      return 24 - count;
-    } else {
-      int num = count % 24;
-      if (num == 0) {
-        return 0;
-      } else {
-        return 24 - num;
-      }
-    }
-  }
-
   List<Widget> renderItem() {
+    Compute compute = Compute(children: widget.children, column: widget.column, size: widget.size);
     List<Widget> result = [];
-    int i = 0;
-    for (DescriptionsItem item in widget.children) {
-      i++;
-      result.add(
-        SkyCol(
-          span: i == widget.children.length ? (span + fill) : span,
-          height: 36,
-          child: IntrinsicHeight(
+    for (List<DescriptionsItem> row in compute.renderRow) {
+      Color borderColor = widget.border ? SkyColors().lighterBorder : SkyColors().transparent;
+      List<Widget> colList = [];
+      int colIndex = 0;
+      for (DescriptionsItem col in row) {
+        double labelWidth = compute.columnLabelWidth(colIndex);
+        colList.add(
+          Flexible(
+            flex: col.span,
             child: Container(
               decoration: BoxDecoration(
                 color: SkyColors().white,
                 border: Border(
                   bottom: BorderSide(
                     width: 1,
-                    color: SkyColors().lighterBorder,
+                    color: borderColor,
                   ),
                   right: BorderSide(
                     width: 1,
-                    color: SkyColors().lighterBorder,
+                    color: borderColor,
                   ),
                 ),
               ),
               child: Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: SkyColors().tableRowBg,
-                      border: Border(
-                        right: BorderSide(
-                          width: 1,
-                          color: SkyColors().lighterBorder,
-                        ),
-                      ),
-                    ),
-                    padding: EdgeInsets.all(8),
-                    child: Text(item.label ?? ""),
-                  ),
+                  compute.createLable(labelWidth, col.label ?? col.labelWidget, widget.border),
                   Expanded(
-                    child: Text(item.value ?? ''),
+                    child: Padding(
+                      padding: widget.size.descriptionsPadding(border: widget.border),
+                      child: col.value != null ? Text(col.value ?? '') : col.valueWidget,
+                    ),
                   )
                 ],
               ),
             ),
+          ),
+        );
+        colIndex++;
+      }
+      result.add(
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: colList,
           ),
         ),
       );
@@ -99,6 +88,8 @@ class _SkyDescriptionsState extends State<SkyDescriptions> {
 
   @override
   Widget build(BuildContext context) {
+    Color borderColor = widget.border ? SkyColors().lighterBorder : SkyColors().transparent;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,16 +114,15 @@ class _SkyDescriptionsState extends State<SkyDescriptions> {
             border: Border(
               top: BorderSide(
                 width: 1,
-                color: SkyColors().lighterBorder,
+                color: borderColor,
               ),
               left: BorderSide(
                 width: 1,
-                color: SkyColors().lighterBorder,
+                color: borderColor,
               ),
             ),
           ),
-          child: SkyRow(
-            alignment: WrapAlignment.start,
+          child: Column(
             children: renderItem(),
           ),
         )
