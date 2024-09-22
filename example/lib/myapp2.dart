@@ -10,6 +10,7 @@ import 'date_picker_demo.dart';
 import 'descriptions_demo.dart';
 import 'dialog_demo.dart';
 import 'icon_demo.dart';
+import 'infinite_scroll_demo.dart';
 import 'input_demo.dart';
 import 'input_number_demo.dart';
 import 'layout_demo.dart';
@@ -19,6 +20,8 @@ import 'message_box_demo.dart';
 import 'message_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
+import 'tag_demo.dart';
+import 'tes.dart';
 import 'time_picker_demo.dart';
 
 class App extends StatelessWidget {
@@ -68,6 +71,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": const TimePickerDemo(), "name": "TimePicker 时间选择器", "type": 1},
     {"widget": const DatePickerDemo(), "name": "DatePicker 日期选择器", "type": 1},
     {"widget": null, "name": "Data", "type": 0},
+    {"widget": const TagDemo(), "name": "Tag 标签", "type": 1},
     {"widget": const BadgeDemo(), "name": "Badge 标记", "type": 1},
     {"widget": const DescriptionsDemo(), "name": "Descriptions 描述列表", "type": 1},
     {"widget": null, "name": "Notice", "type": 0},
@@ -79,6 +83,8 @@ class _MyMainState extends State<MyMain> {
     {"widget": null, "name": "Others", "type": 0},
     {"widget": const DialogDemo(), "name": "Dialog 对话框", "type": 1},
     {"widget": const CollapseDemo(), "name": "Collapse 折叠面板", "type": 1},
+    {"widget": const InfiniteScrollDemo(), "name": "InfiniteScroll 无限滚动", "type": 1},
+    {"widget": const TestDemo(), "name": "测试页面", "type": 1},
   ];
 
   Widget renderMenu() {

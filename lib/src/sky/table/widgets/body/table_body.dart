@@ -28,7 +28,7 @@ class _SkyTableBody<T> extends State<SkyTableBody<T>> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: InfiniteScroll(
+      child: SkyInfiniteScroll(
         loadFinish: widget.loadFinish,
         loading: widget.loading,
         data: widget.gridTableController.data,

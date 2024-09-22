@@ -2,8 +2,8 @@ library infinite_scroll;
 
 import 'package:flutter/material.dart';
 
-class InfiniteScroll<T> extends StatefulWidget {
-  const InfiniteScroll({
+class SkyInfiniteScroll<T> extends StatefulWidget {
+  const SkyInfiniteScroll({
     super.key,
     required this.loadFinish,
     required this.data,
@@ -24,10 +24,10 @@ class InfiniteScroll<T> extends StatefulWidget {
   final bool loading;
 
   @override
-  State<InfiniteScroll> createState() => _InfiniteScrollState();
+  State<SkyInfiniteScroll> createState() => _SkyInfiniteScrollState();
 }
 
-class _InfiniteScrollState extends State<InfiniteScroll> {
+class _SkyInfiniteScrollState extends State<SkyInfiniteScroll> {
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(

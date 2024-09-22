@@ -33,79 +33,81 @@ class _SkyTagState extends State<SkyTag> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: widget.size.height,
-      decoration: BoxDecoration(
-        color: widget.type.getTagBackgroundColor(
-          context: context,
-          plain: widget.plain,
-        ),
-        border: Border.all(
-          width: 1,
-          color: widget.type.getTagBorderColor(
+    return UnconstrainedBox(
+      child: Container(
+        // height: widget.size.height,
+        decoration: BoxDecoration(
+          color: widget.type.getTagBackgroundColor(
             context: context,
-          )!,
+            plain: widget.plain,
+          ),
+          border: Border.all(
+            width: 1,
+            color: widget.type.getTagBorderColor(
+              context: context,
+            )!,
+          ),
+          borderRadius: borderRadius,
         ),
-        borderRadius: borderRadius,
-      ),
-      child: Padding(
-        padding: widget.size.padding(),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (widget.text.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.only(right: 2.scaleSpacing),
-                child: Text(
-                  widget.text,
-                  style: TextStyle(
-                    fontSize: widget.size.textSize,
-                    color: widget.type.getTagTextColor(
-                      context: context,
-                      plain: widget.plain,
+        child: Padding(
+          padding: widget.size.padding(),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (widget.text.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(right: 2.scaleSpacing),
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(
+                      fontSize: widget.size.textSize,
+                      color: widget.type.getTagTextColor(
+                        context: context,
+                        plain: widget.plain,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            if (widget.closable)
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                onEnter: (e) {
-                  setState(() {
-                    onHover = true;
-                  });
-                },
-                onExit: (e) {
-                  setState(() {
-                    onHover = false;
-                  });
-                },
-                child: GestureDetector(
-                  onTap: widget.onTap,
-                  child: Container(
-                    padding: EdgeInsets.all(2.scaleSpacing),
-                    decoration: BoxDecoration(
-                      color: widget.type.getTagCloseBackgroundColor(
-                        context: context,
-                        onHover: onHover,
-                        plain: widget.plain,
+              if (widget.closable)
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  onEnter: (e) {
+                    setState(() {
+                      onHover = true;
+                    });
+                  },
+                  onExit: (e) {
+                    setState(() {
+                      onHover = false;
+                    });
+                  },
+                  child: GestureDetector(
+                    onTap: widget.onTap,
+                    child: Container(
+                      padding: EdgeInsets.all(2.scaleSpacing),
+                      decoration: BoxDecoration(
+                        color: widget.type.getTagCloseBackgroundColor(
+                          context: context,
+                          onHover: onHover,
+                          plain: widget.plain,
+                        ),
+                        borderRadius: BorderRadius.circular(widget.size.iconSize * 0.5),
                       ),
-                      borderRadius: BorderRadius.circular(widget.size.iconSize * 0.5),
-                    ),
-                    child: Icon(
-                      color: widget.type.getTagCloseColor(
-                        context: context,
-                        plain: widget.plain,
-                        onHover: onHover,
+                      child: Icon(
+                        color: widget.type.getTagCloseColor(
+                          context: context,
+                          plain: widget.plain,
+                          onHover: onHover,
+                        ),
+                        ElementIcons.close,
+                        size: widget.size.iconSize - 2 * 2.scaleSpacing,
                       ),
-                      ElementIcons.close,
-                      size: widget.size.iconSize - 2 * 2.scaleSpacing,
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,358 +1,95 @@
-// import 'package:tekflat_design/tekflat_design.dart';
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:sky_ui/sky_ui.dart';
 
-// class DemoDataTableModel {
-//   final int id;
-//   final String fullName;
-//   final String age;
-//   final List<String> columns;
+class TestDemo extends StatefulWidget {
+  const TestDemo({super.key});
 
-//   const DemoDataTableModel({
-//     required this.id,
-//     required this.fullName,
-//     required this.age,
-//     required this.columns,
-//   });
+  @override
+  State<TestDemo> createState() => _TestDemoState();
+}
 
-//   // to Json
-//   Map<String, dynamic> toJson() => <String, dynamic>{
-//         'id': id,
-//         'fullName': fullName,
-//         'age': age,
-//         'columns': columns,
-//       };
-// }
+class _TestDemoState extends State<TestDemo> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 500,
+      child: PageView(
+        children: [
+          Page1(),
+          Page2(),
+          Page3(),
+          Page4(),
+        ],
+      ),
+    );
+  }
+}
 
-// const String _fullNameKey = 'FULL_NAME_KEY';
-// const String _ageKey = 'AGE_KEY';
-// const String _columnKey = 'COLUMN_KEY';
-// const String _actionKey = 'ACTION_KEY';
+class Page1 extends StatefulWidget {
+  const Page1({super.key});
 
-// List<DataTableColumn<DemoDataTableModel>> _columnsDemoDataTable = [
-//   DataTableColumn(
-//     key: _fullNameKey,
-//     name: 'Full Name',
-//     fixedColumn: TekFixedColumn.left,
-//     width: 150,
-//     customizeItemWidget: (
-//       context,
-//       value,
-//       rowData,
-//       columnKey,
-//       columnName,
-//       width,
-//       showOnScreens,
-//     ) {
-//       return Align(
-//         alignment: Alignment.center,
-//         child: Text(
-//           rowData.fullName,
-//         ),
-//       );
-//     },
-//   ),
-//   DataTableColumn(
-//     key: _ageKey,
-//     name: 'Age',
-//     fixedColumn: TekFixedColumn.left,
-//     width: 70,
-//     customizeItemWidget: (
-//       context,
-//       value,
-//       rowData,
-//       columnKey,
-//       columnName,
-//       width,
-//       showOnScreens,
-//     ) {
-//       return Container(
-//         alignment: Alignment.center,
-//         child: Text(
-//           rowData.age,
-//         ),
-//       );
-//     },
-//   ),
-//   for (int index = 0; index < 9; index++)
-//     DataTableColumn(
-//       key: '${_columnKey}_$index',
-//       name: 'Column ${index + 1}',
-//       width: 150,
-//       customizeItemWidget: (
-//         context,
-//         value,
-//         rowData,
-//         columnKey,
-//         columnName,
-//         width,
-//         showOnScreens,
-//       ) {
-//         return Container(
-//           height: 100,
-//           alignment: Alignment.center,
-//           child: Text(
-//             rowData.columns[index],
-//           ),
-//         );
-//       },
-//     ),
-//   DataTableColumn(
-//     key: _actionKey,
-//     name: 'Action',
-//     fixedColumn: TekFixedColumn.right,
-//     width: 80,
-//     customizeItemWidget: (
-//       context,
-//       value,
-//       rowData,
-//       columnKey,
-//       columnName,
-//       width,
-//       showOnScreens,
-//     ) {
-//       return Align(
-//         alignment: Alignment.center,
-//         child: TekButtonGD(
-//           onPressed: () {},
-//           text: 'Action',
-//           // textColor: TekColors,
-//         ),
-//       );
-//     },
-//   ),
-// ];
+  @override
+  State<Page1> createState() => _Page1State();
+}
 
-// const List<DemoDataTableModel> _dataSourcesDemoDataTable = [
-//   DemoDataTableModel(
-//     id: 1,
-//     fullName: 'John Brown',
-//     age: '32',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 2,
-//     fullName: 'Jim Green',
-//     age: '42',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 3,
-//     fullName: 'Joe Black',
-//     age: '32',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 4,
-//     fullName: 'Keira White',
-//     age: '29',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 5,
-//     fullName: 'Elvia Delgado',
-//     age: '32',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5 \n 82387923749 \n 7898989\n',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 6,
-//     fullName: 'John Brown',
-//     age: '32',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 7,
-//     fullName: 'Jim Green',
-//     age: '42',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 8,
-//     fullName: 'Joe Black',
-//     age: '32',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 9,
-//     fullName: 'Keira White',
-//     age: '29',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-//   DemoDataTableModel(
-//     id: 10,
-//     fullName: 'Elvia Delgado',
-//     age: '32',
-//     columns: [
-//       'London Park no.1',
-//       'London Park no.2',
-//       'London Park no.3',
-//       'London Park no.4',
-//       'London Park no.5',
-//       'London Park no.6',
-//       'London Park no.7',
-//       'London Park no.8',
-//       'London Park no.9',
-//       'London Park no.10',
-//     ],
-//   ),
-// ];
+class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [SkyInput()],
+    );
+  }
+}
 
-// class DataTableFixedExampleWidget extends StatefulWidget {
-//   const DataTableFixedExampleWidget({super.key});
+class Page2 extends StatefulWidget {
+  const Page2({super.key});
 
-//   @override
-//   State<DataTableFixedExampleWidget> createState() => _DataTableFixedExampleWidgetState();
-// }
+  @override
+  State<Page2> createState() => _Page2State();
+}
 
-// class _DataTableFixedExampleWidgetState extends State<DataTableFixedExampleWidget> {
-//   final TekDataTableController<DemoDataTableModel> _controller = TekDataTableController<DemoDataTableModel>();
+class _Page2State extends State<Page2> {
+    Size childSize  =ChildLayoutHelper.layoutChild(Text("34567890") as RenderBox, constraints)
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [SkyInput(),],
+    );
+  }
+}
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _controller.initDataTableState(
-//         dataSources: List.generate(
-//             50,
-//             (index) => DemoDataTableModel(
-//                   id: 10,
-//                   fullName: 'Elvia Delgado${index}',
-//                   age: index % 2 == 0 ? 'London Park no.1' : 'London Park no.1 \n London Park no.1\n London Park no.1\n',
-//                   columns: [
-//                     'London Park no.1',
-//                     'London Park no.2',
-//                     'London Park no.3',
-//                     'London Park no.4',
-//                     'London Park no.5',
-//                     'London Park no.6',
-//                     'London Park no.7',
-//                     'London Park no.8',
-//                     'London Park no.9',
-//                     'London Park no.10',
-//                   ],
-//                 )).toList());
-//   }
+class Page3 extends StatefulWidget {
+  const Page3({super.key});
 
-//   void _handleChangeData({
-//     required int currentPage,
-//     required int itemsPerPage,
-//   }) {
-//     TekLogger.debugLog({
-//       'currentPage': currentPage,
-//       'itemsPerPage': itemsPerPage,
-//     });
-//   }
+  @override
+  State<Page3> createState() => _Page3State();
+}
 
-//   @override
-//   Widget build(BuildContext context) => SizedBox(
-//         height: 300,
-//         child: TekDataTable<DemoDataTableModel>(
-//           tableColumns: _columnsDemoDataTable,
-//           controller: _controller,
-//           handleChangeData: _handleChangeData,
-//           optionUI: const TekDataTableOptionUI(
-//             fixTableInAScreen: true,
-//           ),
-//           rowOption: const TekDataTableRowOption(
-//             bordered: true,
-//           ),
-//         ),
-//       );
-// }
+class _Page3State extends State<Page3> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [SkyInput()],
+    );
+  }
+}
+
+class Page4 extends StatefulWidget {
+  const Page4({super.key});
+
+  @override
+  State<Page4> createState() => _Page4State();
+}
+
+class _Page4State extends State<Page4> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [SkyInput()],
+    );
+  }
+}
