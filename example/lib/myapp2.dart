@@ -20,6 +20,7 @@ import 'message_box_demo.dart';
 import 'message_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
+import 'tabs_demo.dart';
 import 'tag_demo.dart';
 import 'tes.dart';
 import 'time_picker_demo.dart';
@@ -80,6 +81,7 @@ class _MyMainState extends State<MyMain> {
     {"widget": const MessageDemo(), "name": "Message 消息提示", "type": 1},
     {"widget": const MessageBoxDemo(), "name": "MessageBox 弹框", "type": 1},
     {"widget": null, "name": "Navigation", "type": 0},
+    {"widget": const TabsDemo(), "name": "Tabs 标签页", "type": 1},
     {"widget": null, "name": "Others", "type": 0},
     {"widget": const DialogDemo(), "name": "Dialog 对话框", "type": 1},
     {"widget": const CollapseDemo(), "name": "Collapse 折叠面板", "type": 1},

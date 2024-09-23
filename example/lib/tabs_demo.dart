@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import 'common/display_block.dart';
+import 'common/title.dart';
+import 'tabs/toly_tabs.dart';
 
 class TabsDemo extends StatefulWidget {
   const TabsDemo({super.key});
@@ -8,8 +12,51 @@ class TabsDemo extends StatefulWidget {
 }
 
 class _TabsDemoState extends State<TabsDemo> {
+  List<MenuMeta> items = const [
+    MenuMeta(label: 'Tab1', router: 'tab1'),
+    MenuMeta(label: 'Tab2', router: 'tab2'),
+    MenuMeta(label: 'Tab3', router: 'tab3'),
+    MenuMeta(label: 'Tab4', router: 'tab4'),
+  ];
+
+  String activeId = 'tab1';
+
+  MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
+  void _onSelect(MenuMeta meta) {
+    activeId = meta.id;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DemoTitle(
+          title: "Tabs 标签页",
+          descr: "分隔内容上有关联但属于不同类别的数据集合。",
+        ),
+        const DemoTitle(
+          title: "基础用法",
+          descr: "基础的、简洁的标签页。",
+        ),
+        DisplayBlock(
+          children: [
+            Container(
+              height: 40,
+              child: SkyTabs(
+                items: [
+                  TabOption(label: "用户管理", name: "first"),
+                  TabOption(label: "配置管理", name: "second"),
+                  TabOption(label: "角色管理", name: "third"),
+                  TabOption(label: "定时任务补偿", name: "fourth"),
+                ],
+              ),
+            ),
+            // TolyTabs(dividerHeight: 42, tabs: items, activeId: activeId, onSelect: _onSelect),
+          ],
+        ),
+      ],
+    );
   }
 }

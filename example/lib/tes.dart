@@ -53,11 +53,13 @@ class Page2 extends StatefulWidget {
 }
 
 class _Page2State extends State<Page2> {
-    Size childSize  =ChildLayoutHelper.layoutChild(Text("34567890") as RenderBox, constraints)
+  // Size childSize  =ChildLayoutHelper.layoutChild(Text("34567890") as RenderBox, constraints)
   @override
   Widget build(BuildContext context) {
     return const Column(
-      children: [SkyInput(),],
+      children: [
+        SkyInput(),
+      ],
     );
   }
 }
