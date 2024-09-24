@@ -17,6 +17,10 @@ class SkyTabs extends StatefulWidget {
 }
 
 class _SkyTabsState extends State<SkyTabs> {
+  bool _hasScrollbar = false;
+
+  final innerController = ScrollController();
+
   Widget renderOption() {
     List<Widget> list = [];
     for (int index = 0; index < widget.items.length; index++) {
@@ -38,21 +42,74 @@ class _SkyTabsState extends State<SkyTabs> {
       );
     }
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: list,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            renderOption(),
-            TabDivider(),
-          ],
+    return Row(
+      children: [
+        const Icon(ElementIcons.arrowLeft),
+        Expanded(
+          child: Stack(
+            children: [
+              Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: SkyColors().white,
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 2,
+                      color: SkyColors().baseBorder,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 40,
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    if (notification is ScrollUpdateNotification) {
+                      final ScrollMetrics metrics = notification.metrics;
+                      // 检查是否有滚动内容超出视图
+                      _hasScrollbar = metrics.extentAfter > 0;
+                    }
+                    print(_hasScrollbar);
+                    return false;
+                  },
+                  child: Scrollbar(
+                    controller: innerController,
+                    child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                      child: SingleChildScrollView(
+                        controller: innerController,
+                        scrollDirection: Axis.horizontal,
+                        child: IntrinsicWidth(
+                          child: Column(
+                            // mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: renderOption(),
+                              ),
+                              TabDivider(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        const Icon(ElementIcons.arrowRight),
+      ],
     );
   }
 }

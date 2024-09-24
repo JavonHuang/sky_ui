@@ -11,9 +11,22 @@ class TabDivider extends StatefulWidget {
 class _TabDividerState extends State<TabDivider> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 2,
-      color: SkyColors().baseBorder,
+    return Stack(
+      children: [
+        Container(
+          height: 2,
+          color: SkyColors().transparent,
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: Container(
+            height: 2,
+            width: 60,
+            color: SkyColors().primary,
+          ),
+        ),
+      ],
     );
   }
 }
