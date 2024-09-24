@@ -9,8 +9,10 @@ class SkyTabs extends StatefulWidget {
   const SkyTabs({
     super.key,
     required this.items,
+    this.controller,
   });
   final List<TabOption> items;
+  final SKyTabsController? controller;
 
   @override
   State<SkyTabs> createState() => _SkyTabsState();
@@ -18,8 +20,19 @@ class SkyTabs extends StatefulWidget {
 
 class _SkyTabsState extends State<SkyTabs> {
   bool _hasScrollbar = false;
-
+  SKyTabsController? _internalController;
   final innerController = ScrollController();
+
+  SKyTabsController get _controller => widget.controller ?? _internalController!;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller == null) {
+      _internalController = SKyTabsController();
+    }
+    _controller._attach(this);
+  }
 
   Widget renderOption() {
     List<Widget> list = [];
@@ -32,17 +45,14 @@ class _SkyTabsState extends State<SkyTabs> {
       if (option == widget.items.last) {
         padding = EdgeInsets.only(left: 20.scaleSpacing);
       }
-      list.add(
-        Container(
-          padding: padding,
-          child: SkyTabBar(
-            child: option,
-          ),
-        ),
-      );
+      list.add(SkyTabBar(
+        padding: padding,
+        child: option,
+      ));
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: list,
     );
   }
@@ -58,7 +68,7 @@ class _SkyTabsState extends State<SkyTabs> {
               Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: SkyColors().white,
+                  color: SkyColors().success,
                   border: Border(
                     bottom: BorderSide(
                       width: 2,
@@ -111,5 +121,26 @@ class _SkyTabsState extends State<SkyTabs> {
         const Icon(ElementIcons.arrowRight),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _controller._detach(this);
+    super.dispose();
+  }
+}
+
+class SKyTabsController {
+  _SkyTabsState? _state;
+  Map<String, double> itemsSize = {};
+
+  void _attach(_SkyTabsState state) {
+    _state = state;
+  }
+
+  void _detach(_SkyTabsState state) {
+    if (_state == state) {
+      _state = null;
+    }
   }
 }
