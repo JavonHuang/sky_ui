@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'divider.dart';
@@ -22,7 +23,7 @@ class _SkyTabsState extends State<SkyTabs> {
   bool _hasScrollbar = false;
   SKyTabsController? _internalController;
   final innerController = ScrollController();
-
+  GlobalKey<TabDividerState> tabDividerStateKey = GlobalKey<TabDividerState>();
   SKyTabsController get _controller => widget.controller ?? _internalController!;
 
   @override
@@ -45,10 +46,18 @@ class _SkyTabsState extends State<SkyTabs> {
       if (option == widget.items.last) {
         padding = EdgeInsets.only(left: 20.scaleSpacing);
       }
-      list.add(SkyTabBar(
-        padding: padding,
-        child: option,
-      ));
+      list.add(
+        SkyTabBar(
+          onTap: () {
+            _controller._movedX(index);
+          },
+          padding: padding,
+          child: option,
+          onSizeChange: (size) {
+            _controller._setSize(size, option.name);
+          },
+        ),
+      );
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -68,7 +77,6 @@ class _SkyTabsState extends State<SkyTabs> {
               Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  color: SkyColors().success,
                   border: Border(
                     bottom: BorderSide(
                       width: 2,
@@ -82,34 +90,22 @@ class _SkyTabsState extends State<SkyTabs> {
                 left: 0,
                 right: 0,
                 height: 40,
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: (ScrollNotification notification) {
-                    if (notification is ScrollUpdateNotification) {
-                      final ScrollMetrics metrics = notification.metrics;
-                      // 检查是否有滚动内容超出视图
-                      _hasScrollbar = metrics.extentAfter > 0;
-                    }
-                    print(_hasScrollbar);
-                    return false;
-                  },
-                  child: Scrollbar(
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                  child: SingleChildScrollView(
                     controller: innerController,
-                    child: ScrollConfiguration(
-                      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                      child: SingleChildScrollView(
-                        controller: innerController,
-                        scrollDirection: Axis.horizontal,
-                        child: IntrinsicWidth(
-                          child: Column(
-                            // mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(
-                                child: renderOption(),
-                              ),
-                              TabDivider(),
-                            ],
+                    scrollDirection: Axis.horizontal,
+                    child: IntrinsicWidth(
+                      child: Column(
+                        // mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: renderOption(),
                           ),
-                        ),
+                          TabDivider(
+                            key: tabDividerStateKey,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -132,7 +128,24 @@ class _SkyTabsState extends State<SkyTabs> {
 
 class SKyTabsController {
   _SkyTabsState? _state;
-  Map<String, double> itemsSize = {};
+  Map<String, Size> itemsSize = {};
+  String? selectName;
+
+  void _movedX(int index) {
+    List<TabOption> offsetXList = _state!.widget.items.sublist(0, index);
+    selectName = _state!.widget.items[index].name;
+    double offsetX = 0;
+    double offsetWidth = itemsSize[selectName]!.width;
+
+    for (TabOption tab in offsetXList) {
+      offsetX += itemsSize[tab.name]!.width;
+    }
+    _state!.tabDividerStateKey.currentState!.movedOffsetX(offsetX, offsetWidth);
+  }
+
+  void _setSize(Size size, String name) {
+    itemsSize[name] = size;
+  }
 
   void _attach(_SkyTabsState state) {
     _state = state;

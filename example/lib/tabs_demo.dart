@@ -12,37 +12,14 @@ class TabsDemo extends StatefulWidget {
 }
 
 class _TabsDemoState extends State<TabsDemo> {
-  List<MenuMeta> items = const [
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
-  ];
-
+  List<MenuMeta> items = List.generate(
+    20,
+    (index) => MenuMeta(label: 'Tab$index', router: 'tab$index'),
+  );
+  List<TabOption> options = List.generate(
+    20,
+    (index) => TabOption(label: 'Tab$index', name: 'tab$index'),
+  );
   String activeId = 'tab1';
 
   MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
@@ -69,20 +46,7 @@ class _TabsDemoState extends State<TabsDemo> {
             Container(
               height: 40,
               child: SkyTabs(
-                items: [
-                  TabOption(label: "用户管理", name: "first"),
-                  TabOption(label: "配置管理", name: "second"),
-                  TabOption(label: "角色管理", name: "third"),
-                  TabOption(label: "定时任务补偿", name: "fourth"),
-                  TabOption(label: "用户管理", name: "first"),
-                  TabOption(label: "配置管理", name: "second"),
-                  TabOption(label: "角色管理", name: "third"),
-                  TabOption(label: "定时任务补偿", name: "fourth"),
-                  TabOption(label: "用户管理", name: "first"),
-                  TabOption(label: "配置管理", name: "second"),
-                  TabOption(label: "角色管理", name: "third"),
-                  TabOption(label: "定时任务补偿", name: "fourth"),
-                ],
+                items: options,
               ),
             ),
             // TolyTabs(dividerHeight: 42, tabs: items, activeId: activeId, onSelect: _onSelect),

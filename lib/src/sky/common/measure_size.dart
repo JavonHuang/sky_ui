@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-typedef TekOnWidgetSizeChange = void Function(Size size);
+typedef SkyOnWidgetSizeChange = void Function(Size size);
 
 class TekMeasureSizeRenderObject extends RenderProxyBox {
   Size? oldSize;
-  final TekOnWidgetSizeChange onChange;
+  final SkyOnWidgetSizeChange onChange;
 
   TekMeasureSizeRenderObject(this.onChange);
 
@@ -22,7 +22,7 @@ class TekMeasureSizeRenderObject extends RenderProxyBox {
 }
 
 class TekMeasureSize extends SingleChildRenderObjectWidget {
-  final TekOnWidgetSizeChange onChange;
+  final SkyOnWidgetSizeChange onChange;
 
   const TekMeasureSize({required this.onChange, required Widget super.child, super.key});
 
