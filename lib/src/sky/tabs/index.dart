@@ -37,6 +37,10 @@ class _SkyTabsState extends State<SkyTabs> {
     _controller._setActiveKey(widget.activeKey);
   }
 
+  void reflesh() {
+    setState(() {});
+  }
+
   Widget renderOption() {
     List<Widget> list = [];
     for (int index = 0; index < widget.items.length; index++) {
@@ -163,6 +167,7 @@ class SKyTabsController {
         _totalWidth += _itemsSize[key]!.width;
       }
       _init = true;
+      _state!.reflesh();
       _movedX(index);
     }
   }
