@@ -11,7 +11,9 @@ class SkyTabs extends StatefulWidget {
     super.key,
     required this.items,
     this.controller,
+    required this.activeKey,
   });
+  final String activeKey;
   final List<TabOption> items;
   final SKyTabsController? controller;
 
@@ -20,12 +22,10 @@ class SkyTabs extends StatefulWidget {
 }
 
 class _SkyTabsState extends State<SkyTabs> {
-  bool _hasScrollbar = false;
   SKyTabsController? _internalController;
   final innerController = ScrollController();
   GlobalKey<TabDividerState> tabDividerStateKey = GlobalKey<TabDividerState>();
   SKyTabsController get _controller => widget.controller ?? _internalController!;
-
   @override
   void initState() {
     super.initState();
@@ -33,6 +33,8 @@ class _SkyTabsState extends State<SkyTabs> {
       _internalController = SKyTabsController();
     }
     _controller._attach(this);
+
+    _controller._setActiveKey(widget.activeKey);
   }
 
   Widget renderOption() {
@@ -68,55 +70,58 @@ class _SkyTabsState extends State<SkyTabs> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(ElementIcons.arrowLeft),
-        Expanded(
-          child: Stack(
-            children: [
-              Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 2,
-                      color: SkyColors().baseBorder,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: 40,
-                child: ScrollConfiguration(
-                  behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                  child: SingleChildScrollView(
-                    controller: innerController,
-                    scrollDirection: Axis.horizontal,
-                    child: IntrinsicWidth(
-                      child: Column(
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: renderOption(),
-                          ),
-                          TabDivider(
-                            key: tabDividerStateKey,
-                          ),
-                        ],
+    return LayoutBuilder(builder: (ctx, box) {
+      _controller._setViewtWidth(box.maxWidth);
+      return Row(
+        children: [
+          if (_controller.hasScrollbar) const Icon(ElementIcons.arrowLeft),
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 2,
+                        color: SkyColors().baseBorder,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: 40,
+                  child: ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                    child: SingleChildScrollView(
+                      controller: innerController,
+                      scrollDirection: Axis.horizontal,
+                      child: IntrinsicWidth(
+                        child: Column(
+                          // mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: renderOption(),
+                            ),
+                            TabDivider(
+                              key: tabDividerStateKey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const Icon(ElementIcons.arrowRight),
-      ],
-    );
+          if (_controller.hasScrollbar) const Icon(ElementIcons.arrowRight),
+        ],
+      );
+    });
   }
 
   @override
@@ -128,23 +133,45 @@ class _SkyTabsState extends State<SkyTabs> {
 
 class SKyTabsController {
   _SkyTabsState? _state;
-  Map<String, Size> itemsSize = {};
-  String? selectName;
+  Map<String, Size> _itemsSize = {};
+  bool _init = false;
+  double _totalWidth = 0;
+  double _viewtWidth = 0;
+
+  String? activeKey;
 
   void _movedX(int index) {
     List<TabOption> offsetXList = _state!.widget.items.sublist(0, index);
-    selectName = _state!.widget.items[index].name;
+    activeKey = _state!.widget.items[index].name;
     double offsetX = 0;
-    double offsetWidth = itemsSize[selectName]!.width;
+    double offsetWidth = _itemsSize[activeKey]!.width;
 
     for (TabOption tab in offsetXList) {
-      offsetX += itemsSize[tab.name]!.width;
+      offsetX += _itemsSize[tab.name]!.width;
     }
     _state!.tabDividerStateKey.currentState!.movedOffsetX(offsetX, offsetWidth);
   }
 
   void _setSize(Size size, String name) {
-    itemsSize[name] = size;
+    _itemsSize[name] = size;
+    if (!_init && _itemsSize.length == _state!.widget.items.length) {
+      int index = _state!.widget.items.indexWhere((e) => e.name == activeKey);
+      if (index == -1) {
+        return;
+      }
+      for (String key in _itemsSize.keys) {
+        _totalWidth += _itemsSize[key]!.width;
+      }
+      _init = true;
+      _movedX(index);
+    }
+  }
+
+  void _setActiveKey(String _activeKey) {
+    if (_state!.widget.items.isEmpty) {
+      return;
+    }
+    activeKey = _activeKey;
   }
 
   void _attach(_SkyTabsState state) {
@@ -156,4 +183,10 @@ class SKyTabsController {
       _state = null;
     }
   }
+
+  void _setViewtWidth(double value) {
+    _viewtWidth = value;
+  }
+
+  bool get hasScrollbar => _viewtWidth < _totalWidth;
 }

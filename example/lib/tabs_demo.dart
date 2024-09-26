@@ -14,11 +14,11 @@ class TabsDemo extends StatefulWidget {
 class _TabsDemoState extends State<TabsDemo> {
   List<MenuMeta> items = List.generate(
     20,
-    (index) => MenuMeta(label: 'Tab$index', router: 'tab$index'),
+    (index) => MenuMeta(label: 'Tab$index', router: 'Tab$index'),
   );
   List<TabOption> options = List.generate(
     20,
-    (index) => TabOption(label: 'Tab$index', name: 'tab$index'),
+    (index) => TabOption(label: 'Tab$index', name: 'Tab$index'),
   );
   String activeId = 'tab1';
 
@@ -46,6 +46,7 @@ class _TabsDemoState extends State<TabsDemo> {
             Container(
               height: 40,
               child: SkyTabs(
+                activeKey: "Tab3",
                 items: options,
               ),
             ),
