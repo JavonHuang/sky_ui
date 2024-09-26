@@ -17,10 +17,10 @@ class TabDividerState extends State<TabDivider> {
     super.initState();
   }
 
-  void movedOffsetX(double e, double w) {
+  void movedOffsetX(double e, double w, bool start, bool end) {
     setState(() {
-      offsetX = e;
-      offsetWidth = w;
+      offsetX = start ? e : e + 20;
+      offsetWidth = (start || end ? w - 20 : w - 40);
     });
   }
 

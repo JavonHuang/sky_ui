@@ -18,7 +18,7 @@ class _TabsDemoState extends State<TabsDemo> {
   );
   List<TabOption> options = List.generate(
     20,
-    (index) => TabOption(label: 'Tab$index', name: 'Tab$index'),
+    (index) => TabOption(label: 'Tab$index', name: 'Tab$index', child: Text('Tab$index')),
   );
   String activeId = 'tab1';
 
@@ -44,7 +44,7 @@ class _TabsDemoState extends State<TabsDemo> {
         DisplayBlock(
           children: [
             Container(
-              height: 40,
+              height: 100,
               child: SkyTabs(
                 activeKey: "Tab3",
                 items: options,

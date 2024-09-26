@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sky_ui/sky_ui.dart';
+import 'package:sky_ui/src/styles/styles.dart';
 
+import '../common/sky_hover.dart';
 import 'divider.dart';
 import 'tab_bar.dart';
 part 'models/tab_options.dart';
@@ -56,7 +58,9 @@ class _SkyTabsState extends State<SkyTabs> {
         SkyTabBar(
           onTap: () {
             _controller._movedX(index);
+            _controller._setActiveKey(option.name);
           },
+          controller: _controller,
           padding: padding,
           child: option,
           onSizeChange: (size) {
@@ -76,53 +80,96 @@ class _SkyTabsState extends State<SkyTabs> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (ctx, box) {
       _controller._setViewtWidth(box.maxWidth);
-      return Row(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (_controller.hasScrollbar) const Icon(ElementIcons.arrowLeft),
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 2,
-                        color: SkyColors().baseBorder,
-                      ),
+          Stack(
+            children: [
+              Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  // color: Colors.red,
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 2,
+                      color: SkyColors().baseBorder,
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: 40,
-                  child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                    child: SingleChildScrollView(
-                      controller: innerController,
-                      scrollDirection: Axis.horizontal,
-                      child: IntrinsicWidth(
-                        child: Column(
-                          // mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: renderOption(),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 40,
+                child: Row(
+                  children: [
+                    if (_controller.hasScrollbar)
+                      SkyHover(
+                        disabled: false,
+                        builder: (ctx, hover) {
+                          return Container(
+                            width: 20.scaleSpacing,
+                            alignment: Alignment.centerLeft,
+                            child: Icon(
+                              ElementIcons.arrowLeft,
+                              size: SkyIconSizes().mediumFont,
+                              color: hover ? SkyColors().primary : SkyColors().info,
                             ),
-                            TabDivider(
-                              key: tabDividerStateKey,
+                          );
+                        },
+                      ),
+                    Expanded(
+                      child: ScrollConfiguration(
+                        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                        child: SingleChildScrollView(
+                          controller: innerController,
+                          scrollDirection: Axis.horizontal,
+                          child: IntrinsicWidth(
+                            child: Column(
+                              // mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: renderOption(),
+                                ),
+                                TabDivider(
+                                  key: tabDividerStateKey,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    if (_controller.hasScrollbar)
+                      SkyHover(
+                        disabled: false,
+                        builder: (ctx, hover) {
+                          return Container(
+                            width: 20.scaleSpacing,
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                              ElementIcons.arrowRight,
+                              size: SkyIconSizes().mediumFont,
+                              color: hover ? SkyColors().primary : SkyColors().info,
+                            ),
+                          );
+                        },
+                      ),
+                  ],
                 ),
-              ],
-            ),
+              )
+            ],
           ),
-          if (_controller.hasScrollbar) const Icon(ElementIcons.arrowRight),
+          Expanded(
+            child: PageView.builder(
+              controller: _controller.controllerPage,
+              itemCount: widget.items.length,
+              itemBuilder: (ctx, index) {
+                return widget.items[index].child;
+              },
+            ),
+          )
         ],
       );
     });
@@ -138,28 +185,30 @@ class _SkyTabsState extends State<SkyTabs> {
 class SKyTabsController {
   _SkyTabsState? _state;
   Map<String, Size> _itemsSize = {};
+  PageController controllerPage = PageController();
   bool _init = false;
   double _totalWidth = 0;
   double _viewtWidth = 0;
 
-  String? activeKey;
+  String? _activeKey;
 
   void _movedX(int index) {
     List<TabOption> offsetXList = _state!.widget.items.sublist(0, index);
-    activeKey = _state!.widget.items[index].name;
+    _activeKey = _state!.widget.items[index].name;
     double offsetX = 0;
-    double offsetWidth = _itemsSize[activeKey]!.width;
+    double offsetWidth = _itemsSize[_activeKey]!.width;
 
     for (TabOption tab in offsetXList) {
       offsetX += _itemsSize[tab.name]!.width;
     }
-    _state!.tabDividerStateKey.currentState!.movedOffsetX(offsetX, offsetWidth);
+    _state!.tabDividerStateKey.currentState!.movedOffsetX(offsetX, offsetWidth, index == 0, index == _state!.widget.items.length - 1);
+    controllerPage.jumpToPage(index);
   }
 
   void _setSize(Size size, String name) {
     _itemsSize[name] = size;
     if (!_init && _itemsSize.length == _state!.widget.items.length) {
-      int index = _state!.widget.items.indexWhere((e) => e.name == activeKey);
+      int index = _state!.widget.items.indexWhere((e) => e.name == _activeKey);
       if (index == -1) {
         return;
       }
@@ -172,11 +221,12 @@ class SKyTabsController {
     }
   }
 
-  void _setActiveKey(String _activeKey) {
+  void _setActiveKey(String key) {
     if (_state!.widget.items.isEmpty) {
       return;
     }
-    activeKey = _activeKey;
+    _activeKey = key;
+    _state!.reflesh();
   }
 
   void _attach(_SkyTabsState state) {
@@ -194,4 +244,5 @@ class SKyTabsController {
   }
 
   bool get hasScrollbar => _viewtWidth < _totalWidth;
+  String? get activeKey => _activeKey;
 }

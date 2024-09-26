@@ -10,11 +10,13 @@ class SkyTabBar extends StatefulWidget {
     this.padding,
     required this.onSizeChange,
     this.onTap,
+    required this.controller,
   });
   final TabOption child;
   final EdgeInsetsGeometry? padding;
   final SkyOnWidgetSizeChange onSizeChange;
   final Function()? onTap;
+  final SKyTabsController controller;
 
   @override
   State<SkyTabBar> createState() => _SkyTabBarState();
@@ -31,8 +33,13 @@ class _SkyTabBarState extends State<SkyTabBar> {
           return Container(
             alignment: Alignment.center,
             padding: widget.padding,
-            // color: onHover ? SkyColors().primary : SkyColors().defaultBg,
-            child: Text(widget.child.label),
+            child: Text(
+              widget.child.label,
+              style: TextStyle(
+                color: onHover || widget.controller.activeKey == widget.child.name ? SkyColors().primary : SkyColors().primaryText,
+                fontSize: SkyFontSizes().textFont,
+              ),
+            ),
           );
         },
         disabled: false,
