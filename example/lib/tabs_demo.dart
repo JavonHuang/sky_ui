@@ -17,7 +17,7 @@ class _TabsDemoState extends State<TabsDemo> {
     (index) => MenuMeta(label: 'Tab$index', router: 'Tab$index'),
   );
   List<TabOption> options = List.generate(
-    20,
+    40,
     (index) => TabOption(label: 'Tab$index', name: 'Tab$index', child: Text('Tab$index')),
   );
   String activeId = 'tab1';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sky_ui/sky_ui.dart';
-import 'package:sky_ui/src/styles/styles.dart';
 
 import '../common/sky_hover.dart';
 import 'divider.dart';
@@ -107,6 +106,9 @@ class _SkyTabsState extends State<SkyTabs> {
                     if (_controller.hasScrollbar)
                       SkyHover(
                         disabled: false,
+                        onTap: () {
+                          _controller._offsetXMove("left");
+                        },
                         builder: (ctx, hover) {
                           return Container(
                             width: 20.scaleSpacing,
@@ -144,6 +146,9 @@ class _SkyTabsState extends State<SkyTabs> {
                     if (_controller.hasScrollbar)
                       SkyHover(
                         disabled: false,
+                        onTap: () {
+                          _controller._offsetXMove("right");
+                        },
                         builder: (ctx, hover) {
                           return Container(
                             width: 20.scaleSpacing,
@@ -163,6 +168,7 @@ class _SkyTabsState extends State<SkyTabs> {
           ),
           Expanded(
             child: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(), // 禁用滑动
               controller: _controller.controllerPage,
               itemCount: widget.items.length,
               itemBuilder: (ctx, index) {
@@ -241,6 +247,24 @@ class SKyTabsController {
 
   void _setViewtWidth(double value) {
     _viewtWidth = value;
+  }
+
+  void _offsetXMove(String direction) {
+    double unit = _state!.innerController.position.extentTotal * 0.1;
+    double offset = _state!.innerController.offset;
+    double maxScrollExtent = _state!.innerController.position.maxScrollExtent;
+
+    if (direction == "left") {
+      if (offset > 0) {
+        double moveX = offset - unit;
+        _state!.innerController.animateTo(moveX > 0 ? moveX : 0, duration: const Duration(milliseconds: 200), curve: Curves.linear);
+      }
+    }
+    if (direction == "right") {
+      if (offset < maxScrollExtent) {
+        _state!.innerController.animateTo(offset + unit, duration: const Duration(milliseconds: 200), curve: Curves.linear);
+      }
+    }
   }
 
   bool get hasScrollbar => _viewtWidth < _totalWidth;
