@@ -12,9 +12,11 @@ class SkyTabs extends StatefulWidget {
     super.key,
     required this.items,
     this.controller,
+    this.type = SkyTabType.normal,
     required this.activeKey,
   });
   final String activeKey;
+  final SkyTabType type;
   final List<TabOption> items;
   final SKyTabsController? controller;
 
@@ -38,6 +40,14 @@ class _SkyTabsState extends State<SkyTabs> {
     _controller._setActiveKey(widget.activeKey);
   }
 
+  @override
+  void didUpdateWidget(SkyTabs oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.activeKey != widget.activeKey && mounted) {
+      _controller._setActiveKey(widget.activeKey);
+    }
+  }
+
   void reflesh() {
     setState(() {});
   }
@@ -46,13 +56,7 @@ class _SkyTabsState extends State<SkyTabs> {
     List<Widget> list = [];
     for (int index = 0; index < widget.items.length; index++) {
       TabOption option = widget.items[index];
-      EdgeInsetsGeometry padding = EdgeInsets.symmetric(horizontal: 20.scaleSpacing);
-      if (index == 0) {
-        padding = EdgeInsets.only(right: 20.scaleSpacing);
-      }
-      if (option == widget.items.last) {
-        padding = EdgeInsets.only(left: 20.scaleSpacing);
-      }
+
       list.add(
         SkyTabBar(
           onTap: () {
@@ -60,7 +64,8 @@ class _SkyTabsState extends State<SkyTabs> {
             _controller._setActiveKey(option.name);
           },
           controller: _controller,
-          padding: padding,
+          padding: widget.type.padding(index == 0, option == widget.items.last),
+          decoration: widget.type.decoration(index == 0, option.name == _controller.activeKey),
           child: option,
           onSizeChange: (size) {
             _controller._setSize(size, option.name);
@@ -87,11 +92,10 @@ class _SkyTabsState extends State<SkyTabs> {
               Container(
                 height: 40,
                 decoration: BoxDecoration(
-                  // color: Colors.red,
                   border: Border(
                     bottom: BorderSide(
                       width: 2,
-                      color: SkyColors().baseBorder,
+                      color: widget.type.bottomColor(),
                     ),
                   ),
                 ),
@@ -136,6 +140,7 @@ class _SkyTabsState extends State<SkyTabs> {
                                 ),
                                 TabDivider(
                                   key: tabDividerStateKey,
+                                  type: widget.type,
                                 ),
                               ],
                             ),

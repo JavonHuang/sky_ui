@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/src/styles/styles.dart';
 
+import 'index.dart';
+
 class TabDivider extends StatefulWidget {
-  const TabDivider({super.key});
+  const TabDivider({
+    super.key,
+    required this.type,
+  });
+  final SkyTabType type;
 
   @override
   State<TabDivider> createState() => TabDividerState();
@@ -43,7 +49,7 @@ class TabDividerState extends State<TabDivider> {
           left: offsetX, // 开始位置
           // right: 150.0, // 结束位置
           child: Container(
-            color: SkyColors().primary,
+            color: widget.type.dividerColor,
             height: 2,
             width: offsetWidth,
           ),

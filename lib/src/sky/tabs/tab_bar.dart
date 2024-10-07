@@ -11,13 +11,14 @@ class SkyTabBar extends StatefulWidget {
     required this.onSizeChange,
     this.onTap,
     required this.controller,
+    this.decoration,
   });
   final TabOption child;
   final EdgeInsetsGeometry? padding;
   final SkyOnWidgetSizeChange onSizeChange;
   final Function()? onTap;
   final SKyTabsController controller;
-
+  final Decoration? decoration;
   @override
   State<SkyTabBar> createState() => _SkyTabBarState();
 }
@@ -33,6 +34,7 @@ class _SkyTabBarState extends State<SkyTabBar> {
           return Container(
             alignment: Alignment.center,
             padding: widget.padding,
+            decoration: widget.decoration,
             child: Text(
               widget.child.label,
               style: TextStyle(

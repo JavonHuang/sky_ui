@@ -53,6 +53,40 @@ class _TabsDemoState extends State<TabsDemo> {
             // TolyTabs(dividerHeight: 42, tabs: items, activeId: activeId, onSelect: _onSelect),
           ],
         ),
+        const DemoTitle(
+          title: "选项卡样式",
+          descr: "选项卡样式的标签页。",
+        ),
+        DisplayBlock(
+          children: [
+            Container(
+              height: 100,
+              child: SkyTabs(
+                type: SkyTabType.card,
+                activeKey: "Tab3",
+                items: options,
+              ),
+            ),
+            // TolyTabs(dividerHeight: 42, tabs: items, activeId: activeId, onSelect: _onSelect),
+          ],
+        ),
+        const DemoTitle(
+          title: "卡片化",
+          descr: "卡片化的标签页。",
+        ),
+        DisplayBlock(
+          children: [
+            Container(
+              height: 100,
+              child: SkyTabs(
+                type: SkyTabType.borderCard,
+                activeKey: "Tab3",
+                items: options,
+              ),
+            ),
+            // TolyTabs(dividerHeight: 42, tabs: items, activeId: activeId, onSelect: _onSelect),
+          ],
+        ),
       ],
     );
   }

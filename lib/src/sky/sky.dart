@@ -12,6 +12,7 @@ export 'input/index.dart';
 export 'layout/index.dart';
 export 'link/sky_link.dart';
 export 'loading/index.dart';
+export 'menu/index.dart';
 export 'message/index.dart';
 export 'message_box/index.dart';
 export 'radio/index.dart';

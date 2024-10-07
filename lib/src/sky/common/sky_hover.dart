@@ -36,8 +36,8 @@ class _SkyHoverState extends State<SkyHover> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return Listener(
+      onPointerDown: (e) {
         if (widget.disabled) {
           return;
         }

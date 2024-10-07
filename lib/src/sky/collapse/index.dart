@@ -18,7 +18,7 @@ typedef AnimatedTitleBuilder = Widget Function(
 class SkyCollapse extends StatefulWidget {
   const SkyCollapse({
     super.key,
-    required this.content,
+    this.content,
     this.title,
     this.opacityCurve = Curves.linear,
     this.sizeCurve = Curves.linear,
@@ -34,7 +34,7 @@ class SkyCollapse extends StatefulWidget {
     this.excludeBottomFocus = true,
   }) : assert(title == null && titleBuilder != null || titleBuilder == null && title != null || titleBuilder != null && title != null);
 
-  final Widget content;
+  final Widget? content;
   final Widget? title;
   final VoidCallback? onOpen;
   final VoidCallback? onClose;
@@ -222,17 +222,18 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
                 ),
               ),
               // Spacer(),
-              AnimatedBuilder(
-                animation: _controller,
-                builder: (_, child) => Transform.rotate(
-                  angle: pi * _controller.value / 2,
-                  child: child,
-                ),
-                child: Icon(
-                  ElementIcons.arrowRight,
-                  size: SkyIconSizes().mediumFont,
-                ),
-              )
+              if (widget.content != null)
+                AnimatedBuilder(
+                  animation: _controller,
+                  builder: (_, child) => Transform.rotate(
+                    angle: pi * _controller.value / 2,
+                    child: child,
+                  ),
+                  child: Icon(
+                    ElementIcons.arrowRight,
+                    size: SkyIconSizes().mediumFont,
+                  ),
+                )
             ],
           ));
     }
@@ -287,6 +288,9 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
   }
 
   void _open() {
+    if (widget.content == null) {
+      return;
+    }
     widget.onOpen?.call();
     _controller.forward();
   }
