@@ -4,14 +4,33 @@ class SkyMenuNode {
   final List<SkyMenuNode> children;
   final String index;
   final SkyMenuMeta data;
-
   bool get isLeaf => children.isEmpty;
 
-  const SkyMenuNode({
+  SkyMenuNode({
     this.children = const [],
     required this.data,
     required this.index,
   });
+
+  // late List<SkyMenuNode> _parentNode = [];
+
+  // set parentNode(List<SkyMenuNode> e) {
+  //   _parentNode = e;
+  // }
+
+  bool isCurrent(String? e) {
+    if (e == null) {
+      return false;
+    }
+    return e == index;
+  }
+
+  bool isInChildren(String? e) {
+    if (e == null) {
+      return false;
+    }
+    return find(e) != null;
+  }
 
   SkyMenuNode? find(String id) {
     return queryMenuNodeByPath(this, id);
@@ -36,26 +55,11 @@ class SkyMenuNode {
 class SkyMenuMeta {
   final String label;
   final IconData? icon;
-  final MenuMateExt? ext;
+  final Map<String, dynamic>? ext;
 
   const SkyMenuMeta({
     required this.label,
     this.icon,
     this.ext,
   });
-}
-
-abstract class MenuMateExt {
-  const MenuMateExt();
-
-  T? me<T extends MenuMateExt>() {
-    return call<T>();
-  }
-
-  T? call<T extends MenuMateExt>() {
-    if (this is T) {
-      return this as T;
-    }
-    return null;
-  }
 }

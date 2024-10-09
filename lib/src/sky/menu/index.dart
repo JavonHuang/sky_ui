@@ -7,11 +7,15 @@ class SkyMenu extends StatefulWidget {
   final List<SkyMenuNode> children;
   final SkyMenuController? controller;
   final String? activeIndex;
+  final Function(
+    String? e,
+  )? onchanged;
   const SkyMenu({
     super.key,
     required this.children,
     this.controller,
     this.activeIndex,
+    this.onchanged,
   });
 
   @override
@@ -30,7 +34,7 @@ class _SkyMenuState extends State<SkyMenu> {
     }
     _controller._attach(this);
     if (widget.activeIndex != null) {
-      _controller._setActiveIndex(widget.activeIndex!);
+      _controller.setActiveIndex(widget.activeIndex!);
     }
   }
 
@@ -43,6 +47,7 @@ class _SkyMenuState extends State<SkyMenu> {
     return SingleChildScrollView(
       child: MenuItem(
         children: widget.children,
+        controller: _controller,
       ),
     );
   }
@@ -56,11 +61,12 @@ class _SkyMenuState extends State<SkyMenu> {
 
 class SkyMenuController {
   _SkyMenuState? _state;
-  String? _activeIndex;
+  String? activeIndex;
 
-  void _setActiveIndex(String index) {
-    _activeIndex = index;
+  void setActiveIndex(String index) {
+    activeIndex = index;
     _state!.reflesh();
+    _state?.widget.onchanged?.call(activeIndex);
   }
 
   void _attach(_SkyMenuState state) {

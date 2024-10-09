@@ -13,6 +13,7 @@ typedef AnimatedTitleBuilder = Widget Function(
   BuildContext context,
   Animation<double> anima,
   CollapseController ctrl,
+  Widget icon,
 );
 
 class SkyCollapse extends StatefulWidget {
@@ -206,7 +207,27 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
     );
     Widget title;
     if (widget.titleBuilder != null) {
-      title = widget.titleBuilder!(context, _controller, _collapseCtrl);
+      title = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          _toggleCodePanel();
+        },
+        child: widget.titleBuilder!(
+            context,
+            _controller,
+            _collapseCtrl,
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (_, child) => Transform.rotate(
+                angle: pi * _controller.value / 2,
+                child: child,
+              ),
+              child: Icon(
+                ElementIcons.arrowRight,
+                size: SkyIconSizes().mediumFont,
+              ),
+            )),
+      );
     } else {
       title = GestureDetector(
           behavior: HitTestBehavior.opaque,

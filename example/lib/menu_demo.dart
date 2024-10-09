@@ -34,25 +34,34 @@ class _MenuDemoState extends State<MenuDemo> {
               child: Container(
                 width: 200,
                 // color: Colors.red,
-                height: 100,
-                child: const SkyMenu(
+                height: 200,
+                child: SkyMenu(
                   children: [
                     SkyMenuNode(
-                      data: SkyMenuMeta(
+                      data: const SkyMenuMeta(
                         icon: ElementIcons.addLocation,
                         label: '测试0-0',
                       ),
                       index: "0-0",
                       children: [
                         SkyMenuNode(
-                          data: SkyMenuMeta(
+                          data: const SkyMenuMeta(
                             icon: ElementIcons.addLocation,
                             label: '测试0-1',
                           ),
                           index: "0-1",
+                          children: [
+                            SkyMenuNode(
+                              data: const SkyMenuMeta(
+                                icon: ElementIcons.addLocation,
+                                label: '测试0-1-1',
+                              ),
+                              index: "0-1-1",
+                            ),
+                          ],
                         ),
                         SkyMenuNode(
-                          data: SkyMenuMeta(
+                          data: const SkyMenuMeta(
                             icon: ElementIcons.addLocation,
                             label: '测试0-2',
                           ),
@@ -61,21 +70,21 @@ class _MenuDemoState extends State<MenuDemo> {
                       ],
                     ),
                     SkyMenuNode(
-                      data: SkyMenuMeta(
+                      data: const SkyMenuMeta(
                         icon: ElementIcons.addLocation,
                         label: '测试1-0',
                       ),
                       index: "1-0",
                       children: [
                         SkyMenuNode(
-                          data: SkyMenuMeta(
+                          data: const SkyMenuMeta(
                             icon: ElementIcons.addLocation,
                             label: '测试1-1',
                           ),
                           index: "1-1",
                         ),
                         SkyMenuNode(
-                          data: SkyMenuMeta(
+                          data: const SkyMenuMeta(
                             icon: ElementIcons.addLocation,
                             label: '测试1-2',
                           ),
