@@ -409,7 +409,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    width: 200,
+                    width: 260,
                     decoration: BoxDecoration(
                       color: SkyColors().white,
                       border: Border(
