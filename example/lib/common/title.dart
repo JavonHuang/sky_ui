@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'space.dart';
 import 'text_style.dart';
 
 class DemoTitle extends StatelessWidget {
@@ -17,17 +16,16 @@ class DemoTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: DemoSpace.vlarge,
+          margin: const EdgeInsets.only(top: 55),
           child: Text(title, style: DemoStyle().largeTitle),
         ),
         if (descr != null)
           Container(
-            padding: DemoSpace.vMain,
+            // padding: DemoSpace.vMain,
+            margin: const EdgeInsets.symmetric(vertical: 14),
             child: Text(
               descr!,
-              style: const TextStyle(
-                color: Color(0xFF5e6d82),
-              ).merge(DemoStyle().text),
+              style: const TextStyle().merge(DemoStyle().text),
             ),
           )
       ],

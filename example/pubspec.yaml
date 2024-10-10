@@ -90,5 +90,9 @@ flutter:
     - family: element
       fonts:
       - asset: lib/asset/element.ttf
+      - asset: lib/asset/Helvetica.ttf
+    - family: Helvetica
+      fonts:
+      - asset: lib/asset/Helvetica.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

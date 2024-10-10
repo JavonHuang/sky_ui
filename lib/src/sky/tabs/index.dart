@@ -49,7 +49,9 @@ class _SkyTabsState extends State<SkyTabs> {
   }
 
   void reflesh() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Widget renderOption() {

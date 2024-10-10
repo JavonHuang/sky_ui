@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../collapse/index.dart';
 import 'menu_item.dart';
 part 'model/menu_node.dart';
 
@@ -7,9 +8,7 @@ class SkyMenu extends StatefulWidget {
   final List<SkyMenuNode> children;
   final SkyMenuController? controller;
   final String? activeIndex;
-  final Function(
-    String? e,
-  )? onchanged;
+  final Function(String? e, SkyMenuNode node)? onchanged;
   const SkyMenu({
     super.key,
     required this.children,
@@ -34,12 +33,18 @@ class _SkyMenuState extends State<SkyMenu> {
     }
     _controller._attach(this);
     if (widget.activeIndex != null) {
-      _controller.setActiveIndex(widget.activeIndex!);
+      SkyMenuNode? activeItem;
+      for (SkyMenuNode item in widget.children) {
+        activeItem = item.find(widget.activeIndex!);
+      }
+      _controller.setActiveIndex(widget.activeIndex!, activeItem!);
     }
   }
 
   void reflesh() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -62,11 +67,42 @@ class _SkyMenuState extends State<SkyMenu> {
 class SkyMenuController {
   _SkyMenuState? _state;
   String? activeIndex;
+  final Map<String, CollapseController> collapseCtrMap = {};
 
-  void setActiveIndex(String index) {
+  void setActiveIndex(String index, SkyMenuNode e) {
     activeIndex = index;
     _state!.reflesh();
-    _state?.widget.onchanged?.call(activeIndex);
+    _state?.widget.onchanged?.call(activeIndex, e);
+  }
+
+  CollapseController? getCollapse(SkyMenuNode node) {
+    if (node.children.isEmpty) {
+      return null;
+    }
+    if (collapseCtrMap[node.index] == null) {
+      collapseCtrMap[node.index] = CollapseController();
+    }
+    return collapseCtrMap[node.index]!;
+  }
+
+  void closeOtherCollapse(SkyMenuNode item) {
+    List<String> openList = [];
+    void add(SkyMenuNode e) {
+      if (e.parentNode != null) {
+        openList.add(e.parentNode!.index);
+        add(e.parentNode!);
+      } else {
+        return;
+      }
+    }
+
+    add(item);
+
+    for (String indexkey in collapseCtrMap.keys) {
+      if (!openList.contains(indexkey)) {
+        collapseCtrMap[indexkey]!.close();
+      }
+    }
   }
 
   void _attach(_SkyMenuState state) {

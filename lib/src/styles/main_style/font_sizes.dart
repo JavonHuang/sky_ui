@@ -24,4 +24,6 @@ class SkyFontSizes {
   double get titleFont => 18 * _scale;
 
   double get titleMainFont => 20 * _scale;
+
+  double get titleBigFont => 28 * _scale;
 }

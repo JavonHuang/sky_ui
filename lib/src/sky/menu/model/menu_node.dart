@@ -12,11 +12,7 @@ class SkyMenuNode {
     required this.index,
   });
 
-  // late List<SkyMenuNode> _parentNode = [];
-
-  // set parentNode(List<SkyMenuNode> e) {
-  //   _parentNode = e;
-  // }
+  late SkyMenuNode? parentNode;
 
   bool isCurrent(String? e) {
     if (e == null) {

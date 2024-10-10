@@ -467,14 +467,14 @@ class _LayoutDemoState extends State<LayoutDemo> {
           descr: "通过 Wrap 布局来对分栏进行灵活的对齐。",
         ),
         DisplayBlock(
-          description: "通过 Wrap 布局,及 alignment 属性来指定 start, center, end, space-between, space-around 其中的值来定义子元素的排版方式。",
+          description: "通过 Wrap 布局,及 crossAxisAlignment 属性来指定 start, center, end, 其中的值来定义子元素的排版方式。",
           children: [
             SkyRow(
-              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
               children: [
                 SkyCol(
                   span: 6,
-                  height: 36,
+                  height: 80,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFd3dce6),
@@ -484,7 +484,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
                 ),
                 SkyCol(
                   span: 6,
-                  height: 36,
+                  height: 60,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFe5e9f2),
@@ -506,11 +506,11 @@ class _LayoutDemoState extends State<LayoutDemo> {
             ),
             DemoSpace.vGap20,
             SkyRow(
-              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 SkyCol(
                   span: 6,
-                  height: 36,
+                  height: 80,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFd3dce6),
@@ -520,7 +520,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
                 ),
                 SkyCol(
                   span: 6,
-                  height: 36,
+                  height: 60,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFe5e9f2),
@@ -542,11 +542,11 @@ class _LayoutDemoState extends State<LayoutDemo> {
             ),
             DemoSpace.vGap20,
             SkyRow(
-              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.end,
               children: [
                 SkyCol(
                   span: 6,
-                  height: 36,
+                  height: 80,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFd3dce6),
@@ -556,79 +556,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
                 ),
                 SkyCol(
                   span: 6,
-                  height: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFe5e9f2),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  height: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFd3dce6),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              alignment: WrapAlignment.spaceBetween,
-              children: [
-                SkyCol(
-                  span: 6,
-                  height: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFd3dce6),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  height: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFe5e9f2),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  height: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFd3dce6),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              alignment: WrapAlignment.spaceAround,
-              children: [
-                SkyCol(
-                  span: 6,
-                  height: 36,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFd3dce6),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  height: 36,
+                  height: 60,
                   child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFFe5e9f2),

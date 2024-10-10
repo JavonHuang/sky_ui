@@ -42,7 +42,12 @@ class App extends StatelessWidget {
       ),
       initialRoute: "/",
       // routes: routes,
-      home: MyMain(globalNavigatorState: globalNavigatorState),
+      home: DefaultTextStyle(
+        style: const TextStyle(
+          fontFamily: "Helvetica",
+        ),
+        child: MyMain(globalNavigatorState: globalNavigatorState),
+      ),
     );
   }
 }
@@ -70,8 +75,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
   List<SkyMenuNode> menuData = [
     SkyMenuNode(
       data: const SkyMenuMeta(
-        icon: ElementIcons.addLocation,
-        label: 'Basic',
+        icon: ElementIcons.menu,
+        label: 'Basic 基础组件',
       ),
       index: "0",
       children: [
@@ -115,8 +120,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
     ),
     SkyMenuNode(
       data: const SkyMenuMeta(
-        icon: ElementIcons.addLocation,
-        label: 'Form',
+        icon: ElementIcons.sGrid,
+        label: 'Form 表单组件',
       ),
       index: "1",
       children: [
@@ -187,8 +192,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
     ),
     SkyMenuNode(
       data: const SkyMenuMeta(
-        icon: ElementIcons.addLocation,
-        label: 'Data',
+        icon: ElementIcons.sMarketing,
+        label: 'Data 数据展示',
       ),
       index: "2",
       children: [
@@ -232,8 +237,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
     ),
     SkyMenuNode(
       data: const SkyMenuMeta(
-        icon: ElementIcons.addLocation,
-        label: 'Notice',
+        icon: ElementIcons.sManagement,
+        label: 'Notice 信息展示',
       ),
       index: "3",
       children: [
@@ -277,8 +282,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
     ),
     SkyMenuNode(
       data: const SkyMenuMeta(
-        icon: ElementIcons.addLocation,
-        label: 'Navigation',
+        icon: ElementIcons.sPromotion,
+        label: 'Navigation 导航',
       ),
       index: "4",
       children: [
@@ -304,8 +309,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
     ),
     SkyMenuNode(
       data: const SkyMenuMeta(
-        icon: ElementIcons.addLocation,
-        label: 'Others',
+        icon: ElementIcons.sOperation,
+        label: 'Others 其他补充',
       ),
       index: "5",
       children: [
@@ -357,12 +362,12 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
     super.initState();
 
     controller = AnimationController(
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
     slideAnimation = Tween<Offset>(
-      begin: Offset(1.0, 0.0),
-      end: Offset(0.0, 0.0),
+      begin: const Offset(1.0, 0.0),
+      end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(
       parent: controller,
       curve: Curves.fastOutSlowIn,
@@ -378,7 +383,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
 
   void jampPage(int i) {
     setState(() {
-      showWiget = pageNodeList[i].data.ext!['widget'];
+      showWiget =SingleChildScrollView(
+                          child: pageNodeList[i].data.ext!['widget']);
       controller.reset();
       controller.forward();
     });
@@ -394,6 +400,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
           children: [
             Container(
               height: 40,
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: SkyColors().white,
                 border: Border(
@@ -402,6 +409,18 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
                     color: SkyColors().baseBorder,
                   ),
                 ),
+              ),
+              child: Row(
+                children: [
+                  Text(
+                    "SkyUI",
+                    style: TextStyle(
+                      color: SkyColors().primary,
+                      fontSize: SkyFontSizes().titleMainFont,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -421,9 +440,8 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
                     ),
                     child: SkyMenu(
                       children: menuData,
-                      onchanged: (index) {
+                      onchanged: (index, node) {
                         int i = pageNodeList.indexWhere((e) => e.index == index);
-
                         if (i > -1) {
                           jampPage(i);
                         }
@@ -435,9 +453,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: SlideTransition(
                         position: slideAnimation,
-                        child: SingleChildScrollView(
-                          child: showWiget,
-                        ),
+                        child: showWiget,
                       ),
                     ),
                   )
