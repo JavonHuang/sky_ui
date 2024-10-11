@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
+import 'badge_demo/badge_demo_1.dart';
+import 'badge_demo/badge_demo_2.dart';
 import 'common/display_block.dart';
 import 'common/title.dart';
 
@@ -26,68 +28,14 @@ class _BadgeDemoState extends State<BadgeDemo> {
         ),
         DisplayBlock(
           description: "Alert 组件提供四种主题，由type属性指定，默认值为info。",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyBadge(
-                  text: "12",
-                  type: SkyBadgeType.danger,
-                  child: SkyButton(
-                    text: "评论",
-                    plain: true,
-                  ),
-                ),
-                SkyBadge(
-                  text: "3",
-                  type: SkyBadgeType.danger,
-                  child: SkyButton(
-                    text: "回复",
-                  ),
-                ),
-                SkyBadge(
-                  text: "3",
-                  type: SkyBadgeType.primary,
-                  child: SkyButton(
-                    text: "评论",
-                  ),
-                ),
-                SkyBadge(
-                  text: "3",
-                  type: SkyBadgeType.warning,
-                  child: SkyButton(
-                    text: "回复",
-                  ),
-                ),
-              ],
-            ),
-          ],
+          child: BadgeDemo1(),
         ),
         DemoTitle(
           title: "小红点",
           descr: "以红点的形式标注需要关注的内容。",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyBadge(
-                  text: "",
-                  type: SkyBadgeType.danger,
-                  child: Text("数据查询"),
-                ),
-                SkyBadge(
-                  text: "",
-                  type: SkyBadgeType.danger,
-                  child: SkyButton(
-                    type: SkyType.primary,
-                    leftIcon: ElementIcons.share,
-                  ),
-                ),
-              ],
-            ),
-          ],
+          child: BadgeDemo2(),
         ),
       ],
     );

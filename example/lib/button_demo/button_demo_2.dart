@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class ButtonDemo2 extends StatefulWidget {
+  const ButtonDemo2({super.key});
+
+  @override
+  State<ButtonDemo2> createState() => _ButtonDemo2State();
+}
+
+class _ButtonDemo2State extends State<ButtonDemo2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 10,
+          children: [
+            SkyButton(
+              text: '默认按钮',
+              disabled: true,
+            ),
+            SkyButton(
+              text: '主要按钮',
+              type: SkyType.primary,
+              disabled: true,
+            ),
+            SkyButton(
+              text: '成功按钮',
+              type: SkyType.success,
+              disabled: true,
+            ),
+            SkyButton(
+              text: '信息按钮',
+              type: SkyType.info,
+              disabled: true,
+            ),
+            SkyButton(
+              text: '警告按钮',
+              type: SkyType.warning,
+              disabled: true,
+            ),
+            SkyButton(
+              text: '危险按钮',
+              type: SkyType.danger,
+              disabled: true,
+            ),
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          gutter: 10,
+          children: [
+            SkyButton(
+              text: '朴素按钮',
+              disabled: true,
+              plain: true,
+            ),
+            SkyButton(
+              text: '主要按钮',
+              type: SkyType.primary,
+              disabled: true,
+              plain: true,
+            ),
+            SkyButton(
+              text: '成功按钮',
+              type: SkyType.success,
+              disabled: true,
+              plain: true,
+            ),
+            SkyButton(
+              text: '信息按钮',
+              type: SkyType.info,
+              disabled: true,
+              plain: true,
+            ),
+            SkyButton(
+              text: '警告按钮',
+              type: SkyType.warning,
+              disabled: true,
+              plain: true,
+            ),
+            SkyButton(
+              text: '危险按钮',
+              type: SkyType.danger,
+              disabled: true,
+              plain: true,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class DescriptionsDemo2 extends StatefulWidget {
+  const DescriptionsDemo2({super.key});
+
+  @override
+  State<DescriptionsDemo2> createState() => _DescriptionsDemo2State();
+}
+
+class _DescriptionsDemo2State extends State<DescriptionsDemo2> {
+  late SkySize mysize = SkySize.medium;
+  late String model = "2";
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyGroupRadio(
+          model: model,
+          options: [
+            SkyRadioOption(
+              text: "大型",
+              label: "1",
+            ),
+            SkyRadioOption(
+              text: "中等",
+              label: "2",
+            ),
+            SkyRadioOption(
+              text: "小型",
+              label: "3",
+            ),
+            SkyRadioOption(
+              text: "超小",
+              label: "4",
+            ),
+          ],
+          onChanged: (e) {
+            model = e;
+            switch (e) {
+              case '1':
+                mysize = SkySize.large;
+                break;
+              case '2':
+                mysize = SkySize.medium;
+                break;
+              case '3':
+                mysize = SkySize.small;
+                break;
+              case '4':
+                mysize = SkySize.mini;
+                break;
+            }
+            setState(() {});
+          },
+        ),
+        Text(
+          '带边框列表',
+          style: TextStyle(
+            fontSize: SkyFontSizes().titleSmallFont,
+            color: SkyColors().primaryText,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        DemoSpace.vGap20,
+        SkyDescriptions(
+          border: true,
+          size: mysize,
+          children: [
+            DescriptionsItem(
+              labelWidget: Row(
+                children: [
+                  SizedBox(
+                    // height: 24,
+                    // width: 24,
+                    child: Icon(
+                      ElementIcons.user,
+                      size: SkyIconSizes().mediumFont,
+                      color: SkyColors().secondaryText,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "用户名",
+                    style: TextStyle(
+                      color: SkyColors().secondaryText,
+                    ),
+                  ),
+                ],
+              ),
+              value: "kooriookami",
+            ),
+            DescriptionsItem(
+              width: 200,
+              labelWidget: Row(
+                children: [
+                  SizedBox(
+                    // height: 24,
+                    // width: 24,
+                    child: Icon(
+                      ElementIcons.mobilePhone,
+                      size: SkyIconSizes().mediumFont,
+                      color: SkyColors().secondaryText,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    "电话",
+                    style: TextStyle(
+                      color: SkyColors().secondaryText,
+                    ),
+                  ),
+                ],
+              ),
+              value: "内容",
+            ),
+            DescriptionsItem(label: "测试测试测试容", value: "内容", span: 2),
+            DescriptionsItem(label: "测试3", value: "内容"),
+            DescriptionsItem(label: "测试4", value: "内容"),
+            DescriptionsItem(label: "测测试5测试5测试5试5", value: "内容"),
+            DescriptionsItem(label: "测试6", value: "内容"),
+            DescriptionsItem(label: "测试7", value: "内容"),
+          ],
+        ),
+      ],
+    );
+  }
+}

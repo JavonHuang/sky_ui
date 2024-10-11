@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class BadgeDemo2 extends StatefulWidget {
+  const BadgeDemo2({super.key});
+
+  @override
+  State<BadgeDemo2> createState() => _BadgeDemo2State();
+}
+
+class _BadgeDemo2State extends State<BadgeDemo2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyBadge(
+              text: "",
+              type: SkyBadgeType.danger,
+              child: Text("数据查询"),
+            ),
+            SkyBadge(
+              text: "",
+              type: SkyBadgeType.danger,
+              child: SkyButton(
+                type: SkyType.primary,
+                leftIcon: ElementIcons.share,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

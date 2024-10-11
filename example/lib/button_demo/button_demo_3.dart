@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class ButtonDemo3 extends StatefulWidget {
+  const ButtonDemo3({super.key});
+
+  @override
+  State<ButtonDemo3> createState() => _ButtonDemo3State();
+}
+
+class _ButtonDemo3State extends State<ButtonDemo3> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 10,
+          children: [
+            SkyButton(
+              text: '文字按钮',
+              type: SkyType.text,
+            ),
+            SkyButton(
+              text: '文字按钮',
+              type: SkyType.text,
+              disabled: true,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

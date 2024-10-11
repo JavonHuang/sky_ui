@@ -4,9 +4,11 @@ import 'package:sky_ui/sky_ui.dart';
 import 'space.dart';
 
 class DisplayBlock extends StatelessWidget {
-  final List<Widget> children;
+  final List<Widget>? children;
+  final Widget? child;
+
   final String? description;
-  const DisplayBlock({super.key, required this.children, this.description});
+  const DisplayBlock({super.key, this.children = const [], this.description, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +38,11 @@ class DisplayBlock extends StatelessWidget {
                   : null,
               borderRadius: SkyBorderRadius().normalBorderRadius,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
-            ),
+            child: child ??
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children ?? [],
+                ),
           ),
           if (description != null)
             Container(
