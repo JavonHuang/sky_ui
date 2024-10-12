@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class RadioDemo2 extends StatefulWidget {
+  const RadioDemo2({super.key});
+
+  @override
+  State<RadioDemo2> createState() => _RadioDemo2State();
+}
+
+class _RadioDemo2State extends State<RadioDemo2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyRadio(
+              text: "备选项",
+              label: "1",
+              disabled: true,
+            ),
+            SkyRadio(
+              text: "备选项",
+              label: "2",
+              model: "2",
+              disabled: true,
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}

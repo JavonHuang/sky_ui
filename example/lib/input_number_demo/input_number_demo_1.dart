@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class InputNumberDemo1 extends StatefulWidget {
+  const InputNumberDemo1({super.key});
+
+  @override
+  State<InputNumberDemo1> createState() => _InputNumberDemo1State();
+}
+
+class _InputNumberDemo1State extends State<InputNumberDemo1> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyInputNumber(
+                placeholder: "请输入数字",
+                max: 10,
+                min: 1,
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

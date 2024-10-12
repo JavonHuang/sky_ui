@@ -4,6 +4,10 @@ import 'package:sky_ui/sky_ui.dart';
 import 'common/display_block.dart';
 import 'common/space.dart';
 import 'common/title.dart';
+import 'swicth_demo/swicth_demo_1.dart';
+import 'swicth_demo/swicth_demo_2.dart';
+import 'swicth_demo/swicth_demo_3.dart';
+import 'swicth_demo/swicth_demo_4.dart';
 
 class SwicthDemo extends StatefulWidget {
   const SwicthDemo({super.key});
@@ -28,20 +32,7 @@ class _SwicthDemoState extends State<SwicthDemo> {
         ),
         DisplayBlock(
           description: "绑定model到一个Boolean类型的变量。可以使用active-color属性与inactive-color属性来设置开关的背景色。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkySwitch(
-                    model: true,
-                    activeColor: Color(0xff13ce66),
-                    inactiveColor: Color(0xffff4949),
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: SwicthDemo1(),
         ),
         DemoTitle(
           title: "文字描述",
@@ -49,35 +40,7 @@ class _SwicthDemoState extends State<SwicthDemo> {
         ),
         DisplayBlock(
           description: "使用active-text属性与inactive-text属性来设置开关的文字描述。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 8,
-                  child: SkySwitch(
-                    model: true,
-                    activeText: "按月付费",
-                    inactiveText: "按年付费",
-                  ),
-                )
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 8,
-                  child: SkySwitch(
-                    model: true,
-                    activeColor: Color(0xff13ce66),
-                    inactiveColor: Color(0xffff4949),
-                    activeText: "按月付费",
-                    inactiveText: "按年付费",
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: SwicthDemo2(),
         ),
         DemoTitle(
           title: "扩展的 value 类型",
@@ -85,48 +48,14 @@ class _SwicthDemoState extends State<SwicthDemo> {
         ),
         DisplayBlock(
           description: "设置active-value和inactive-value属性，接受Boolean, String或Number类型的值。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkySwitch(
-                    model: "0",
-                    activeColor: Color(0xff13ce66),
-                    inactiveColor: Color(0xffff4949),
-                    activeValue: "100",
-                    inactiveValue: "0",
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: SwicthDemo3(),
         ),
         DemoTitle(
           title: "禁用状态",
           descr: "",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 4,
-                  child: SkySwitch(
-                    model: true,
-                    disabled: true,
-                  ),
-                ),
-                SkyCol(
-                  span: 4,
-                  child: SkySwitch(
-                    model: false,
-                    disabled: true,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: SwicthDemo4(),
         ),
       ],
     );

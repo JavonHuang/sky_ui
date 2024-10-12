@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 import 'common/display_block.dart';
 import 'common/title.dart';
+import 'input_number_demo/input_number_demo_1.dart';
+import 'input_number_demo/input_number_demo_2.dart';
+import 'input_number_demo/input_number_demo_3.dart';
+import 'input_number_demo/input_number_demo_4.dart';
+import 'input_number_demo/input_number_demo_5.dart';
+import 'input_number_demo/input_number_demo_6.dart';
 
 class InputNumberDemo extends StatefulWidget {
   const InputNumberDemo({super.key});
@@ -27,40 +33,14 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "要使用它，只需要在SkyInputNumber中使用model绑定变量即可，变量的初始值即为默认值。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    max: 10,
-                    min: 1,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: InputNumberDemo1(),
         ),
         DemoTitle(
           title: "禁用状态",
           descr: "",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    disabled: true,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: InputNumberDemo2(),
         ),
         DemoTitle(
           title: "步数",
@@ -68,20 +48,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "设置step属性可以控制步长，接受一个Number。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    step: 2,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: InputNumberDemo3(),
         ),
         DemoTitle(
           title: "精度",
@@ -89,21 +56,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "precision 的值必须是一个非负整数，并且不能小于 step 的小数位数。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    step: 0.02,
-                    precision: 2,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: InputNumberDemo4(),
         ),
         DemoTitle(
           title: "尺寸",
@@ -111,45 +64,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "precision 的值必须是一个非负整数，并且不能小于 step 的小数位数。",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    size: SkySize.large,
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    size: SkySize.medium,
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    size: SkySize.small,
-                  ),
-                ),
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    size: SkySize.mini,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: InputNumberDemo5(),
         ),
         DemoTitle(
           title: "按钮位置",
@@ -157,20 +72,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "precision 的值必须是一个非负整数，并且不能小于 step 的小数位数。",
-          children: [
-            SkyRow(
-              children: [
-                SkyCol(
-                  span: 6,
-                  child: SkyInputNumber(
-                    placeholder: "请输入数字",
-                    model: 1,
-                    rightPosition: true,
-                  ),
-                )
-              ],
-            ),
-          ],
+          child: InputNumberDemo6(),
         ),
       ],
     );

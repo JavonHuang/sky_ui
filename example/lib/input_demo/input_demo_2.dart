@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class InputDemo2 extends StatefulWidget {
+  const InputDemo2({super.key});
+
+  @override
+  State<InputDemo2> createState() => _InputDemo2State();
+}
+
+class _InputDemo2State extends State<InputDemo2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyInput(
+                disabled: true,
+                placeholder: "请输入内容",
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

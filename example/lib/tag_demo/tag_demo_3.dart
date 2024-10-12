@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class TagDemo3 extends StatefulWidget {
+  const TagDemo3({super.key});
+
+  @override
+  State<TagDemo3> createState() => _TagDemo3State();
+}
+
+class _TagDemo3State extends State<TagDemo3> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyTag(
+              text: "标签一",
+              type: SkyType.primary,
+              plain: true,
+              closable: true,
+              size: SkySize.large,
+            ),
+            SkyTag(
+              text: "标签二",
+              type: SkyType.success,
+              plain: true,
+              closable: true,
+              size: SkySize.medium,
+            ),
+            SkyTag(
+              text: "标签三",
+              type: SkyType.info,
+              plain: true,
+              closable: true,
+              size: SkySize.small,
+            ),
+            SkyTag(
+              text: "标签四",
+              type: SkyType.warning,
+              plain: true,
+              closable: true,
+              size: SkySize.mini,
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}

@@ -5,6 +5,10 @@ import 'package:sky_ui/sky_ui.dart';
 
 import 'common/display_block.dart';
 import 'common/title.dart';
+import 'tag_demo/tag_demo_1.dart';
+import 'tag_demo/tag_demo_2.dart';
+import 'tag_demo/tag_demo_3.dart';
+import 'tag_demo/tag_demo_4.dart';
 
 class TagDemo extends StatefulWidget {
   const TagDemo({super.key});
@@ -28,185 +32,27 @@ class _TagDemoState extends State<TagDemo> {
         ),
         DisplayBlock(
           description: "由type属性来选择tag的类型，也可以通过color属性来自定义背景色。",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyTag(
-                  text: "标签一",
-                  type: SkyType.primary,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签二",
-                  type: SkyType.success,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签三",
-                  type: SkyType.info,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签四",
-                  type: SkyType.warning,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签一五",
-                  type: SkyType.danger,
-                  plain: true,
-                ),
-              ],
-            )
-          ],
+          child: TagDemo1(),
         ),
         DemoTitle(
           title: "可移除标签",
         ),
         DisplayBlock(
           description: "设置closable属性可以定义一个标签是否可移除。默认的标签移除时会附带渐变动画，如果不想使用，",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyTag(
-                  text: "标签一",
-                  type: SkyType.primary,
-                  plain: true,
-                  closable: true,
-                ),
-                SkyTag(
-                  text: "标签二",
-                  type: SkyType.success,
-                  plain: true,
-                  closable: true,
-                ),
-                SkyTag(
-                  text: "标签三",
-                  type: SkyType.info,
-                  plain: true,
-                  closable: true,
-                ),
-                SkyTag(
-                  text: "标签四",
-                  type: SkyType.warning,
-                  plain: true,
-                  closable: true,
-                ),
-                SkyTag(
-                  text: "标签一五",
-                  type: SkyType.danger,
-                  plain: true,
-                  closable: true,
-                ),
-              ],
-            )
-          ],
+          child: TagDemo2(),
         ),
         DemoTitle(
           title: "不同尺寸",
         ),
         DisplayBlock(
           description: "Tag 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyTag(
-                  text: "标签一",
-                  type: SkyType.primary,
-                  plain: true,
-                  closable: true,
-                  size: SkySize.large,
-                ),
-                SkyTag(
-                  text: "标签二",
-                  type: SkyType.success,
-                  plain: true,
-                  closable: true,
-                  size: SkySize.medium,
-                ),
-                SkyTag(
-                  text: "标签三",
-                  type: SkyType.info,
-                  plain: true,
-                  closable: true,
-                  size: SkySize.small,
-                ),
-                SkyTag(
-                  text: "标签四",
-                  type: SkyType.warning,
-                  plain: true,
-                  closable: true,
-                  size: SkySize.mini,
-                ),
-              ],
-            )
-          ],
+          child: TagDemo3(),
         ),
         DemoTitle(
           title: "不同主题",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyTag(
-                  text: "标签一",
-                  type: SkyType.primary,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签二",
-                  type: SkyType.success,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签三",
-                  type: SkyType.info,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签四",
-                  type: SkyType.warning,
-                  plain: true,
-                ),
-                SkyTag(
-                  text: "标签五",
-                  type: SkyType.danger,
-                  plain: true,
-                ),
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyTag(
-                  text: "标签一",
-                  type: SkyType.primary,
-                ),
-                SkyTag(
-                  text: "标签二",
-                  type: SkyType.success,
-                ),
-                SkyTag(
-                  text: "标签三",
-                  type: SkyType.info,
-                ),
-                SkyTag(
-                  text: "标签四",
-                  type: SkyType.warning,
-                ),
-                SkyTag(
-                  text: "标签五",
-                  type: SkyType.danger,
-                ),
-              ],
-            )
-          ],
+          child: TagDemo4(),
         ),
       ],
     );

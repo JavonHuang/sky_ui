@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class RadioDemo4 extends StatefulWidget {
+  const RadioDemo4({super.key});
+
+  @override
+  State<RadioDemo4> createState() => _RadioDemo4State();
+}
+
+class _RadioDemo4State extends State<RadioDemo4> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyGroupRadio(
+              model: "1",
+              buttonStyle: true,
+              size: SkySize.large,
+              options: [
+                SkyRadioOption(
+                  text: "上海",
+                  label: "1",
+                ),
+                SkyRadioOption(
+                  text: "北京",
+                  label: "2",
+                ),
+                SkyRadioOption(
+                  text: "广州",
+                  label: "3",
+                ),
+                SkyRadioOption(
+                  text: "深圳",
+                  label: "4",
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyGroupRadio(
+              model: "1",
+              buttonStyle: true,
+              options: [
+                SkyRadioOption(
+                  text: "上海",
+                  label: "1",
+                ),
+                SkyRadioOption(
+                  text: "北京",
+                  label: "2",
+                ),
+                SkyRadioOption(
+                  text: "广州",
+                  label: "3",
+                ),
+                SkyRadioOption(
+                  text: "深圳",
+                  label: "4",
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyGroupRadio(
+              model: "1",
+              buttonStyle: true,
+              size: SkySize.small,
+              options: [
+                SkyRadioOption(
+                  text: "上海",
+                  label: "1",
+                ),
+                SkyRadioOption(
+                  text: "北京",
+                  label: "2",
+                  disabled: true,
+                ),
+                SkyRadioOption(
+                  text: "广州",
+                  label: "3",
+                ),
+                SkyRadioOption(
+                  text: "深圳",
+                  label: "4",
+                ),
+              ],
+            ),
+            DemoSpace.vGap20,
+            SkyGroupRadio(
+              buttonStyle: true,
+              size: SkySize.mini,
+              disabled: true,
+              options: [
+                SkyRadioOption(
+                  text: "上海",
+                  label: "1",
+                ),
+                SkyRadioOption(
+                  text: "北京",
+                  label: "2",
+                ),
+                SkyRadioOption(
+                  text: "广州",
+                  label: "3",
+                ),
+                SkyRadioOption(
+                  text: "深圳",
+                  label: "4",
+                ),
+              ],
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

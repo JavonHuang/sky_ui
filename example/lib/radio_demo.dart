@@ -4,6 +4,11 @@ import 'package:sky_ui/sky_ui.dart';
 import 'common/display_block.dart';
 import 'common/space.dart';
 import 'common/title.dart';
+import 'radio_demo/radio_demo_1.dart';
+import 'radio_demo/radio_demo_2.dart';
+import 'radio_demo/radio_demo_3.dart';
+import 'radio_demo/radio_demo_4.dart';
+import 'radio_demo/radio_demo_5.dart';
 
 class RadioDemo extends StatefulWidget {
   const RadioDemo({super.key});
@@ -13,12 +18,6 @@ class RadioDemo extends StatefulWidget {
 }
 
 class _RadioDemoState extends State<RadioDemo> {
-  late String example1 = "1";
-  late String example2 = "1";
-  late String example3 = "1";
-  late String example4 = "1";
-  late String example5 = "1";
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,84 +33,21 @@ class _RadioDemoState extends State<RadioDemo> {
         ),
         DisplayBlock(
           description: "要使用 Radio 组件，只需要设置model绑定变量，选中意味着变量的值为相应 Radio label属性的值，label仅限String",
-          children: [
-            SkyRow(
-              children: [
-                SkyRadio(
-                  text: "备选项",
-                  label: "1",
-                  model: example1,
-                  onChanged: (e) {
-                    setState(() {
-                      example1 = e;
-                    });
-                  },
-                ),
-                SkyRadio(
-                  text: "备选项",
-                  label: "2",
-                  model: example1,
-                  onChanged: (e) {
-                    setState(() {
-                      example1 = e;
-                    });
-                  },
-                ),
-              ],
-            )
-          ],
+          child: RadioDemo1(),
         ),
         const DemoTitle(
           title: "禁用状态",
           descr: "单选框不可用的状态。",
         ),
         const DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                SkyRadio(
-                  text: "备选项",
-                  label: "1",
-                  disabled: true,
-                ),
-                SkyRadio(
-                  text: "备选项",
-                  label: "2",
-                  model: "2",
-                  disabled: true,
-                ),
-              ],
-            )
-          ],
+          child: RadioDemo2(),
         ),
         const DemoTitle(
           title: "单选框组",
           descr: "适用于在多个互斥的选项中选择的场景",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                SkyGroupRadio(
-                  model: "1",
-                  options: [
-                    SkyRadioOption(
-                      text: "备选项",
-                      label: "1",
-                    ),
-                    SkyRadioOption(
-                      text: "备选项",
-                      label: "2",
-                    ),
-                    SkyRadioOption(
-                      text: "备选项",
-                      label: "3",
-                    ),
-                  ],
-                )
-              ],
-            )
-          ],
+          child: RadioDemo3(),
         ),
         const DemoTitle(
           title: "按钮样式",
@@ -119,108 +55,7 @@ class _RadioDemoState extends State<RadioDemo> {
         ),
         DisplayBlock(
           description: "设置border属性可以渲染为带有边框的单选框。",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyGroupRadio(
-                  model: "1",
-                  buttonStyle: true,
-                  size: SkySize.large,
-                  options: [
-                    SkyRadioOption(
-                      text: "上海",
-                      label: "1",
-                    ),
-                    SkyRadioOption(
-                      text: "北京",
-                      label: "2",
-                    ),
-                    SkyRadioOption(
-                      text: "广州",
-                      label: "3",
-                    ),
-                    SkyRadioOption(
-                      text: "深圳",
-                      label: "4",
-                    ),
-                  ],
-                ),
-                DemoSpace.vGap20,
-                SkyGroupRadio(
-                  model: "1",
-                  buttonStyle: true,
-                  options: [
-                    SkyRadioOption(
-                      text: "上海",
-                      label: "1",
-                    ),
-                    SkyRadioOption(
-                      text: "北京",
-                      label: "2",
-                    ),
-                    SkyRadioOption(
-                      text: "广州",
-                      label: "3",
-                    ),
-                    SkyRadioOption(
-                      text: "深圳",
-                      label: "4",
-                    ),
-                  ],
-                ),
-                DemoSpace.vGap20,
-                SkyGroupRadio(
-                  model: "1",
-                  buttonStyle: true,
-                  size: SkySize.small,
-                  options: [
-                    SkyRadioOption(
-                      text: "上海",
-                      label: "1",
-                    ),
-                    SkyRadioOption(
-                      text: "北京",
-                      label: "2",
-                      disabled: true,
-                    ),
-                    SkyRadioOption(
-                      text: "广州",
-                      label: "3",
-                    ),
-                    SkyRadioOption(
-                      text: "深圳",
-                      label: "4",
-                    ),
-                  ],
-                ),
-                DemoSpace.vGap20,
-                SkyGroupRadio(
-                  buttonStyle: true,
-                  size: SkySize.mini,
-                  disabled: true,
-                  options: [
-                    SkyRadioOption(
-                      text: "上海",
-                      label: "1",
-                    ),
-                    SkyRadioOption(
-                      text: "北京",
-                      label: "2",
-                    ),
-                    SkyRadioOption(
-                      text: "广州",
-                      label: "3",
-                    ),
-                    SkyRadioOption(
-                      text: "深圳",
-                      label: "4",
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
+          child: RadioDemo4(),
         ),
         const DemoTitle(
           title: "带有边框",
@@ -228,127 +63,7 @@ class _RadioDemoState extends State<RadioDemo> {
         ),
         DisplayBlock(
           description: "设置border属性可以渲染为带有边框的单选框。",
-          children: [
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyRadio(
-                  text: "备选项1",
-                  label: "1",
-                  model: example2,
-                  border: true,
-                  size: SkySize.large,
-                  onChanged: (e) {
-                    setState(() {
-                      example2 = e;
-                    });
-                  },
-                ),
-                SkyRadio(
-                  text: "备选项2",
-                  label: "2",
-                  model: example1,
-                  border: true,
-                  size: SkySize.large,
-                  onChanged: (e) {
-                    setState(() {
-                      example2 = e;
-                    });
-                  },
-                ),
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyRadio(
-                  text: "备选项1",
-                  label: "1",
-                  model: example3,
-                  border: true,
-                  size: SkySize.medium,
-                  onChanged: (e) {
-                    setState(() {
-                      example3 = e;
-                    });
-                  },
-                ),
-                SkyRadio(
-                  text: "备选项2",
-                  label: "2",
-                  model: example3,
-                  border: true,
-                  size: SkySize.medium,
-                  onChanged: (e) {
-                    setState(() {
-                      example3 = e;
-                    });
-                  },
-                ),
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyRadio(
-                  text: "备选项1",
-                  label: "1",
-                  model: example4,
-                  border: true,
-                  size: SkySize.small,
-                  onChanged: (e) {
-                    setState(() {
-                      example4 = e;
-                    });
-                  },
-                ),
-                SkyRadio(
-                  text: "备选项2",
-                  label: "2",
-                  model: example4,
-                  border: true,
-                  size: SkySize.small,
-                  onChanged: (e) {
-                    setState(() {
-                      example4 = e;
-                    });
-                  },
-                ),
-              ],
-            ),
-            DemoSpace.vGap20,
-            SkyRow(
-              gutter: 20,
-              children: [
-                SkyRadio(
-                  text: "备选项1",
-                  label: "1",
-                  model: example5,
-                  border: true,
-                  size: SkySize.mini,
-                  onChanged: (e) {
-                    setState(() {
-                      example5 = e;
-                    });
-                  },
-                ),
-                SkyRadio(
-                  text: "备选项2",
-                  label: "2",
-                  model: example5,
-                  border: true,
-                  size: SkySize.mini,
-                  onChanged: (e) {
-                    setState(() {
-                      example5 = e;
-                    });
-                  },
-                ),
-              ],
-            )
-          ],
+          child: RadioDemo5(),
         ),
       ],
     );

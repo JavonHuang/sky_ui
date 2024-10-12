@@ -3,6 +3,10 @@ import 'package:sky_ui/sky_ui.dart';
 
 import 'common/display_block.dart';
 import 'common/title.dart';
+import 'link_demo/link_demo_1.dart';
+import 'link_demo/link_demo_2.dart';
+import 'link_demo/link_demo_3.dart';
+import 'link_demo/link_demo_4.dart';
 
 class LinkDemo extends StatefulWidget {
   const LinkDemo({super.key});
@@ -14,151 +18,40 @@ class LinkDemo extends StatefulWidget {
 class _LinkDemoState extends State<LinkDemo> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const DemoTitle(
+        DemoTitle(
           title: "Link 文字链接",
           descr: "文字链接",
         ),
-        const DemoTitle(
+        DemoTitle(
           title: "基础用法",
           descr: "基础的文字链接用法。",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                const SkyLink(
-                  text: "默认链接",
-                  type: SkyLinkType.normal,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.primary,
-                  text: "主要链接",
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.success,
-                  text: "成功链接",
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.warning,
-                  text: "警告链接",
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.danger,
-                  text: "危险链接",
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.info,
-                  text: "信息链接",
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.normal,
-                  text: "无下划线",
-                  underline: false,
-                ),
-              ],
-            ),
-          ],
+          child: LinkDemo1(),
         ),
-        const DemoTitle(
+        DemoTitle(
           title: "禁用状态",
           descr: "文字链接不可用状态。",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                const SkyLink(
-                  text: "默认链接",
-                  type: SkyLinkType.normal,
-                  disabled: true,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.primary,
-                  text: "主要链接",
-                  disabled: true,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.success,
-                  text: "成功链接",
-                  disabled: true,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.warning,
-                  text: "警告链接",
-                  disabled: true,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.danger,
-                  text: "危险链接",
-                  disabled: true,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.info,
-                  text: "信息链接",
-                  disabled: true,
-                ),
-              ],
-            ),
-          ],
+          child: LinkDemo2(),
         ),
-        const DemoTitle(
+        DemoTitle(
           title: "下划线",
           descr: "文字链接下划线。",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                const SkyLink(
-                  type: SkyLinkType.normal,
-                  text: "无下划线",
-                  underline: false,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.normal,
-                  text: "有下划线",
-                ),
-              ],
-            ),
-          ],
+          child: LinkDemo3(),
         ),
-        const DemoTitle(
+        DemoTitle(
           title: "图标",
           descr: "文字链接下划线。",
         ),
         DisplayBlock(
-          children: [
-            SkyRow(
-              children: [
-                const SkyLink(
-                  text: "编辑",
-                  type: SkyLinkType.normal,
-                  leftIcon: ElementIcons.edit,
-                ),
-                SizedBox(width: SkySpacings().mainSpacing),
-                const SkyLink(
-                  type: SkyLinkType.primary,
-                  text: "查看",
-                  rightIcon: ElementIcons.view,
-                ),
-              ],
-            ),
-          ],
+          child: LinkDemo4(),
         ),
       ],
     );

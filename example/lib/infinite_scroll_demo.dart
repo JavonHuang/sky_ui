@@ -5,6 +5,7 @@ import 'package:sky_ui/sky_ui.dart';
 
 import 'common/display_block.dart';
 import 'common/title.dart';
+import 'infinite_scroll_demo/infinite_scroll_demo_1.dart';
 
 class InfiniteScrollDemo extends StatefulWidget {
   const InfiniteScrollDemo({super.key});
@@ -14,39 +15,6 @@ class InfiniteScrollDemo extends StatefulWidget {
 }
 
 class _InfiniteScrollDemoState extends State<InfiniteScrollDemo> {
-  late List<int> listData = [];
-  late bool loadFinish = false;
-  late bool loading = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    setState(() {
-      listData = List.generate(10, (index) => index);
-    });
-  }
-
-  void loadMore() async {
-    if (loading) {
-      return;
-    }
-    setState(() {
-      loading = true;
-    });
-    await Future.delayed(const Duration(seconds: 2), () {
-      listData = [
-        ...listData,
-        ...List.generate(10, (index) => index + listData.length),
-      ];
-      if (mounted) {
-        setState(() {
-          loadFinish = listData.length > 50;
-          loading = false;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,26 +28,7 @@ class _InfiniteScrollDemoState extends State<InfiniteScrollDemo> {
           title: "基础用法",
         ),
         DisplayBlock(
-          children: [
-            SizedBox(
-              height: 400,
-              child: SkyInfiniteScroll(
-                loadFinish: loadFinish,
-                loading: loading,
-                loadMore: loadMore,
-                data: listData,
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 40,
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    color: const Color(0xFF7dbcfc),
-                    child: Text("选项$index"),
-                  );
-                },
-              ),
-            ),
-          ],
+          child: InfiniteScrollDemo1(),
         ),
       ],
     );

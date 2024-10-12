@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class InputDemo5 extends StatefulWidget {
+  const InputDemo5({super.key});
+
+  @override
+  State<InputDemo5> createState() => _InputDemo5State();
+}
+
+class _InputDemo5State extends State<InputDemo5> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 4,
+              child: SkyInput(
+                rightIcon: ElementIcons.date,
+                showPassword: true,
+                clearable: true,
+                placeholder: "请输入内容",
+              ),
+            ),
+            SkyCol(
+              span: 4,
+              child: SkyInput(
+                leftIcon: ElementIcons.search,
+                showPassword: true,
+                clearable: true,
+                placeholder: "请输入内容",
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

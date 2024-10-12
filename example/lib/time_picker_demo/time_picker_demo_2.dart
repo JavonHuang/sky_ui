@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class TimePickerDemo2 extends StatefulWidget {
+  const TimePickerDemo2({super.key});
+
+  @override
+  State<TimePickerDemo2> createState() => _TimePickerDemo2State();
+}
+
+class _TimePickerDemo2State extends State<TimePickerDemo2> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyTimePicker(
+                arrowControl: true,
+                clearable: true,
+                model: DateTime.now().millisecondsSinceEpoch,
+                pickerOptions: SkyTimeSelectPickerOptions(
+                  step: "00:10:20",
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              child: SkyTimePicker(
+                arrowControl: true,
+                clearable: true,
+                model: DateTime.now().millisecondsSinceEpoch,
+                pickerOptions: SkyTimeSelectPickerOptions(
+                  step: "00:10:20",
+                  minTime: "08:10:30",
+                  maxTime: "10:20:54",
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
