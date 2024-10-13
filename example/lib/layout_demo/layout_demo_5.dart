@@ -12,9 +12,117 @@ class LayoutDemo5 extends StatefulWidget {
 class _LayoutDemo5State extends State<LayoutDemo5> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [],
+      children: [
+        SkyRow(
+          crossAxisAlignment: WrapCrossAlignment.start,
+          children: [
+            SkyCol(
+              span: 6,
+              height: 80,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              height: 60,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFe5e9f2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SkyCol(
+              span: 6,
+              height: 80,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              height: 60,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFe5e9f2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          crossAxisAlignment: WrapCrossAlignment.end,
+          children: [
+            SkyCol(
+              span: 6,
+              height: 80,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              height: 60,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFe5e9f2),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
