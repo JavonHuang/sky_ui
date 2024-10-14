@@ -45,6 +45,7 @@ class _PopoverOverlayState extends State<_PopoverOverlay> {
               boxSize: widget.boxSize,
             ),
             child: Container(
+              padding: ,
               decoration: BoxDecoration(
                 color: SkyColors().white,
                 boxShadow: [SkyShadows.context],
