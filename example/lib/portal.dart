@@ -19,6 +19,7 @@ import 'loading_demo.dart';
 import 'menu_demo.dart';
 import 'message_box_demo.dart';
 import 'message_demo.dart';
+import 'popover_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
 import 'tabs_demo.dart';
@@ -325,12 +326,21 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
+            label: 'Popover 弹出框',
+            ext: {
+              "widget": PopoverDemo(),
+            },
+          ),
+          index: "5-1",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
             label: 'Collapse 折叠面板',
             ext: {
               "widget": CollapseDemo(),
             },
           ),
-          index: "5-1",
+          index: "5-2",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -339,7 +349,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": InfiniteScrollDemo(),
             },
           ),
-          index: "5-2",
+          index: "5-3",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -348,7 +358,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": TestDemo(),
             },
           ),
-          index: "5-3",
+          index: "5-4",
         ),
       ],
     )
@@ -383,8 +393,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
 
   void jampPage(int i) {
     setState(() {
-      showWiget =SingleChildScrollView(
-                          child: pageNodeList[i].data.ext!['widget']);
+      showWiget = SingleChildScrollView(child: pageNodeList[i].data.ext!['widget']);
       controller.reset();
       controller.forward();
     });

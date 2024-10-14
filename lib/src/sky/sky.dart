@@ -15,6 +15,7 @@ export 'loading/index.dart';
 export 'menu/index.dart';
 export 'message/index.dart';
 export 'message_box/index.dart';
+export 'popover/index.dart';
 export 'radio/index.dart';
 export 'register/index.dart';
 export 'switch/index.dart';

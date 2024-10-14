@@ -14,4 +14,10 @@ class SkyShadows {
     blurRadius: 2,
     spreadRadius: 1,
   );
+  static BoxShadow context = BoxShadow(
+    color: Colors.black.withOpacity(0.1),
+    offset: const Offset(0, 2),
+    blurRadius: 6,
+    spreadRadius: 0,
+  );
 }
