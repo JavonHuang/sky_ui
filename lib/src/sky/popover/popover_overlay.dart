@@ -1,11 +1,13 @@
 part of 'index.dart';
 
 class _PopoverOverlay extends StatefulWidget {
+  final Widget? child;
   final Offset target;
   final Offset? clickPosition;
   final SkyPopoverController? tapRegionGroup;
   final Size boxSize;
   final Animation<double> animation;
+  final SkyPlacement placement;
 
   const _PopoverOverlay({
     super.key,
@@ -14,6 +16,8 @@ class _PopoverOverlay extends StatefulWidget {
     required this.tapRegionGroup,
     required this.boxSize,
     required this.animation,
+    this.child,
+    required this.placement,
   });
 
   @override
@@ -31,39 +35,28 @@ class _PopoverOverlayState extends State<_PopoverOverlay> {
             delegate: PopoverPositionDelegate(
               clickPosition: widget.clickPosition,
               // offsetCalculator: widget.offsetCalculator,
-              // onPlacementShift: _onPlacementShift,
-              // onSizeFind: (Size size){
-              //   if(_size!=null) return;
+              // onPlacementShift: _onPlacementShift,3
+              // onSizeFind: (Size size){zauu8
+              //   if(_size!=null) return;sa
               //   _size = size;
               //   setState(() {
               //
               //   });
               // },
               target: widget.target,
-              // placement: widget.placement,
-              gap: 10,
+              placement: widget.placement,
+              gap: 20,
               boxSize: widget.boxSize,
             ),
             child: Container(
-              padding: ,
+              padding: EdgeInsets.symmetric(horizontal: 12.scaleSpacing, vertical: 12.scaleSpacing),
               decoration: BoxDecoration(
                 color: SkyColors().white,
                 boxShadow: [SkyShadows.context],
               ),
-              child: Text("78788"),
+              child: widget.child ?? const SizedBox(),
             )),
       ),
     );
-    // return ConstrainedBox(
-    //   constraints: BoxConstraints(maxHeight: 50, maxWidth: 100),
-    //   child: UnconstrainedBox(
-    //     child: Container(
-    //       height: 50,
-    //       width: 100,
-    //       color: Colors.blue,
-    //       child: Text("78788"),
-    //     ),
-    //   ),
-    // );
   }
 }

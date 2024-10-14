@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/src/sky/common/sky_hover.dart';
-import 'package:sky_ui/src/sky/sky.dart';
 
 import '../../../sky_ui.dart';
 import '../common/position_delegate.dart';
@@ -11,17 +10,21 @@ part 'model/enum.dart';
 
 class SkyPopover extends StatefulWidget {
   final Widget child;
+  final Widget? popoverChild;
   final SkyPopoverTrigger trigger;
   final SkyPopoverController? controller;
   final Duration reverseDuration;
   final Duration animDuration;
+  final SkyPlacement placement;
   const SkyPopover({
     super.key,
     required this.child,
+    this.popoverChild,
     this.trigger = SkyPopoverTrigger.hover,
+    this.placement = SkyPlacement.top,
     this.controller,
-    this.animDuration = const Duration(milliseconds: 250),
-    this.reverseDuration = const Duration(milliseconds: 250),
+    this.animDuration = const Duration(milliseconds: 100),
+    this.reverseDuration = const Duration(milliseconds: 100),
   });
 
   @override
@@ -120,10 +123,12 @@ class _SkyPopoverState extends State<SkyPopover> with TickerProviderStateMixin, 
               ancestor: overlayState.context.findRenderObject(),
             );
             return _PopoverOverlay(
+              placement: widget.placement,
               target: target,
               boxSize: box.size,
               tapRegionGroup: null,
               animation: animationPopoverController,
+              child: widget.popoverChild,
             );
           },
           child: widget.child,

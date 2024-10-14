@@ -11,6 +11,8 @@ class PopoverDemo2 extends StatefulWidget {
 
 class _PopoverDemo2State extends State<PopoverDemo2> {
   SkyPopoverController controller = SkyPopoverController();
+  SkyPopoverController controller2 = SkyPopoverController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,11 +20,25 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
       children: [
         SkyPopover(
           trigger: SkyPopoverTrigger.manual,
+          placement: SkyPlacement.top,
           controller: controller,
+          popoverChild: Text("32456789"),
           child: SkyButton(
             text: "测试",
             onTap: () {
               controller.open();
+            },
+          ),
+        ),
+        SkyPopover(
+          trigger: SkyPopoverTrigger.manual,
+          placement: SkyPlacement.bottom,
+          controller: controller2,
+          popoverChild: Text("32456789"),
+          child: SkyButton(
+            text: "测试",
+            onTap: () {
+              controller2.open();
             },
           ),
         ),
