@@ -25,6 +25,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
   SkyPopoverController controllerRightStart = SkyPopoverController();
   SkyPopoverController controllerRightCenter = SkyPopoverController();
   SkyPopoverController controllerRightEnd = SkyPopoverController();
+  Size customSize = const Size(100, 38);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerTopStart,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "topStart",
                 onTap: () {
                   controllerTopStart.open();
@@ -57,6 +59,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerTopCenter,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "topCenter",
                 onTap: () {
                   controllerTopCenter.open();
@@ -69,6 +72,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerTopEnd,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "topEnd",
                 onTap: () {
                   controllerTopEnd.open();
@@ -87,6 +91,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerlLeftStart,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "leftStart",
                 onTap: () {
                   controllerlLeftStart.open();
@@ -99,6 +104,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerLeftCenter,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "leftCenter",
                 onTap: () {
                   controllerLeftCenter.open();
@@ -111,6 +117,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerLeftEnd,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "leftEnd",
                 onTap: () {
                   controllerLeftEnd.open();
@@ -129,6 +136,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerlBottomStart,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "bottomStart",
                 onTap: () {
                   controllerlBottomStart.open();
@@ -141,6 +149,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerBottomCenter,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "bottomCenter",
                 onTap: () {
                   controllerBottomCenter.open();
@@ -153,6 +162,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerBottomEnd,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "bottomEnd",
                 onTap: () {
                   controllerBottomEnd.open();
@@ -171,6 +181,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerRightStart,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "rightStart",
                 onTap: () {
                   controllerRightStart.open();
@@ -183,6 +194,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerRightCenter,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "rightCenter",
                 onTap: () {
                   controllerRightCenter.open();
@@ -195,6 +207,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
               controller: controllerRightEnd,
               popoverChild: context,
               child: SkyButton(
+                customSize: customSize,
                 text: "rightEnd",
                 onTap: () {
                   controllerRightEnd.open();

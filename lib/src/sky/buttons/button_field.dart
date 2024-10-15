@@ -17,6 +17,7 @@ class ButtonField<T> extends StatefulWidget {
     this.buttonKey,
     this.customTextColor,
     this.customHoverColor,
+    this.customSize,
 
     // required this.builder,
   });
@@ -37,7 +38,7 @@ class ButtonField<T> extends StatefulWidget {
   final String? buttonKey;
   final Color? customTextColor;
   final Color? customHoverColor;
-
+  final Size? customSize;
   @override
   ButtonFieldState<T> createState() => ButtonFieldState<T>();
 }
@@ -125,7 +126,9 @@ class ButtonFieldState<T> extends State<ButtonField<T>> {
         },
         child: UnconstrainedBox(
           child: Container(
-            padding: widget.size.padding(circle: widget.circle),
+            height: widget.customSize?.height,
+            width: widget.customSize?.width,
+            padding: widget.customSize == null ? widget.size.padding(circle: widget.circle) : null,
             decoration: BoxDecoration(
               color: type.getBtnBackgroundColor(
                 context: context,
