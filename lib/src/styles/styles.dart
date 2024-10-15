@@ -1,5 +1,7 @@
 library styles;
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 part 'colors.dart';

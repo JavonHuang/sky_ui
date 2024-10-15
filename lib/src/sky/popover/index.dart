@@ -16,15 +16,18 @@ class SkyPopover extends StatefulWidget {
   final Duration reverseDuration;
   final Duration animDuration;
   final SkyPlacement placement;
+  final double gutter;
+
   const SkyPopover({
     super.key,
     required this.child,
     this.popoverChild,
     this.trigger = SkyPopoverTrigger.hover,
-    this.placement = SkyPlacement.top,
+    this.placement = SkyPlacement.topCenter,
     this.controller,
     this.animDuration = const Duration(milliseconds: 100),
     this.reverseDuration = const Duration(milliseconds: 100),
+    this.gutter = 10,
   });
 
   @override
@@ -80,6 +83,8 @@ class _SkyPopoverState extends State<SkyPopover> with TickerProviderStateMixin, 
     }
     popController._detach(this);
     initPopController = null;
+    // animationPopoverController.dispose();
+    scrollPosition?.isScrollingNotifier.removeListener(handleScroll);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -89,7 +94,7 @@ class _SkyPopoverState extends State<SkyPopover> with TickerProviderStateMixin, 
   }
 
   void handleStatusChanged(AnimationStatus status) {
-    if (status == AnimationStatus.dismissed) {
+    if (status == AnimationStatus.dismissed && mounted) {
       if (isOpen) {
         overlayController.hide();
       }
@@ -129,6 +134,7 @@ class _SkyPopoverState extends State<SkyPopover> with TickerProviderStateMixin, 
               tapRegionGroup: null,
               animation: animationPopoverController,
               child: widget.popoverChild,
+              gutter: widget.gutter,
             );
           },
           child: widget.child,

@@ -3,21 +3,20 @@ part of 'index.dart';
 class _PopoverOverlay extends StatefulWidget {
   final Widget? child;
   final Offset target;
-  final Offset? clickPosition;
   final SkyPopoverController? tapRegionGroup;
   final Size boxSize;
   final Animation<double> animation;
   final SkyPlacement placement;
+  final double gutter;
 
   const _PopoverOverlay({
-    super.key,
     required this.target,
-    this.clickPosition,
     required this.tapRegionGroup,
     required this.boxSize,
     required this.animation,
     this.child,
     required this.placement,
+    required this.gutter,
   });
 
   @override
@@ -25,6 +24,13 @@ class _PopoverOverlay extends StatefulWidget {
 }
 
 class _PopoverOverlayState extends State<_PopoverOverlay> {
+  late SkyPlacement effectPlacement = widget.placement;
+
+  void onPlacementChanged(SkyPlacement placement) {
+    effectPlacement = placement;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
@@ -33,26 +39,23 @@ class _PopoverOverlayState extends State<_PopoverOverlay> {
         opacity: widget.animation,
         child: CustomSingleChildLayout(
             delegate: PopoverPositionDelegate(
-              clickPosition: widget.clickPosition,
-              // offsetCalculator: widget.offsetCalculator,
-              // onPlacementShift: _onPlacementShift,3
-              // onSizeFind: (Size size){zauu8
-              //   if(_size!=null) return;sa
-              //   _size = size;
-              //   setState(() {
-              //
-              //   });
-              // },
               target: widget.target,
               placement: widget.placement,
-              gap: 20,
+              gutter: widget.gutter,
               boxSize: widget.boxSize,
+              onPlacementChanged: onPlacementChanged,
             ),
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12.scaleSpacing, vertical: 12.scaleSpacing),
-              decoration: BoxDecoration(
-                color: SkyColors().white,
-                boxShadow: [SkyShadows.context],
+              decoration: SkyDecoration(
+                color: Colors.black,
+                boxSize: widget.boxSize,
+                shiftX: 0,
+                shadows: [SkyShadows.context],
+                placement: effectPlacement,
+                borderColor: const Color(0xff414243),
+                radius: const Radius.circular(4),
+                style: PaintingStyle.fill,
               ),
               child: widget.child ?? const SizedBox(),
             )),

@@ -1,37 +1,21 @@
 import 'dart:async';
-import 'dart:ui';
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 
-import '../popover/index.dart';
+import '../../styles/styles.dart';
 
 class PopoverPositionDelegate extends SingleChildLayoutDelegate {
-  /// Creates a delegate for computing the layout of a tooltip.
   PopoverPositionDelegate({
     required this.target,
     required this.boxSize,
-    required this.clickPosition,
-    // this.offsetCalculator,
-    this.onSizeFind,
-    required this.gap,
+    required this.gutter,
     required this.placement,
-    // required this.onPlacementShift,
+    required this.onPlacementChanged,
   });
-
-  /// The offset of the target the tooltip is positioned near in the global
-  /// coordinate system.
   final Offset target;
   final SkyPlacement placement;
-  // final OffsetCalculator? offsetCalculator;
-  final Offset? clickPosition;
-
-  // final ValueChanged<PlacementShift> onPlacementShift;
-  final ValueChanged<Size>? onSizeFind;
   final Size boxSize;
-
-  /// The amount of vertical distance between the target and the displayed
-  /// tooltip.
-  final double gap;
+  final double gutter;
+  final ValueChanged<SkyPlacement> onPlacementChanged;
 
   /// constraints 为 SingleChildLayoutDelegate 的父传给 SingleChildLayoutDelegate 的约束
   /// 返回值为 SingleChildLayoutDelegate 根据约束决定的自己的尺寸
@@ -51,21 +35,35 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     SkyPlacement effectPlacement = placement;
 
     SkyPlacement shiftToVertical() {
-      if (outTop) return SkyPlacement.bottom;
-      return SkyPlacement.top;
+      if (outTop) return SkyPlacement.bottomCenter;
+      return SkyPlacement.topCenter;
     }
 
     if (outLeft && outRight) {
       return shiftToVertical();
     }
 
-    /// TODO: ::边界响应策略:: 可以将转换策略作为函数参数，使用者来自定义。
-    // if(placement.isHorizontal&&(outTop||outBottom)){
-    //   return shiftToVertical();
-    // }
     switch (placement) {
-      case SkyPlacement.left:
-        if (outLeft) return SkyPlacement.right;
+      case SkyPlacement.topStart:
+        if (outTop) return SkyPlacement.bottomStart;
+        break;
+      case SkyPlacement.topCenter:
+        if (outTop) return SkyPlacement.bottomCenter;
+        break;
+      case SkyPlacement.topEnd:
+        if (outTop) return SkyPlacement.bottomEnd;
+        break;
+      case SkyPlacement.bottomStart:
+        if (outBottom) return SkyPlacement.topStart;
+        break;
+      case SkyPlacement.bottomCenter:
+        if (outBottom) return SkyPlacement.topCenter;
+        break;
+      case SkyPlacement.bottomEnd:
+        if (outBottom) return SkyPlacement.topEnd;
+        break;
+      case SkyPlacement.leftCenter:
+        if (outLeft) return SkyPlacement.rightCenter;
         if (outBottom) return SkyPlacement.leftEnd;
         if (outTop) return SkyPlacement.leftStart;
         break;
@@ -77,8 +75,8 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
         if (outTop) return SkyPlacement.leftStart;
         if (outLeft) return SkyPlacement.rightEnd;
         break;
-      case SkyPlacement.right:
-        if (outRight) return SkyPlacement.left;
+      case SkyPlacement.rightCenter:
+        if (outRight) return SkyPlacement.leftCenter;
         if (outBottom) return SkyPlacement.rightEnd;
         if (outTop) return SkyPlacement.rightStart;
 
@@ -98,52 +96,35 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
   }
 
   /// 用于根据 CustomSingleChildLayout 自己的尺寸以及 CustomSingleChildLayout 的子的尺寸，决定 CustomSingleChildLayout 的子的位置
-  /// size 为 CustomSingleChildLayout 的尺寸
+  /// size 为 CustomSingleChildLayout 的尺寸-这里是整个视窗大小
   /// childSize 为 CustomSingleChildLayout 的子的尺寸
   /// 返回值为 CustomSingleChildLayout 的子的位置
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    // onSizeFind?.call(childSize);
-    if (onSizeFind != null) {
-      scheduleMicrotask(() {
-        onSizeFind!(childSize);
-      });
-    }
-    if (clickPosition != null) {
-      Offset offset = clickPosition!.translate(target.dx - boxSize.width / 2, target.dy - boxSize.height / 2);
-
-      /// 底部边界检测
-      double bottom = offset.dy + childSize.height - (size.height - gap);
-      if (bottom > 0) {
-        offset = offset.translate(0, -bottom);
-      }
-      return offset;
-    }
-
-    bool outBottom = target.dy > size.height - (childSize.height + boxSize.height / 2 + gap);
+    bool outBottom = target.dy > size.height - (childSize.height + boxSize.height / 2 + gutter);
     bool outTop = target.dy < childSize.height + boxSize.height / 2;
-    bool outLeft = target.dx < childSize.width + boxSize.width / 2 + gap;
-    bool outRight = target.dx > size.width - (childSize.width + boxSize.width / 2 + gap);
+    bool outLeft = target.dx < childSize.width + boxSize.width / 2 + gutter;
+    bool outRight = target.dx > size.width - (childSize.width + boxSize.width / 2 + gutter);
 
     SkyPlacement effectPlacement = shiftPlacement(outTop, outBottom, outLeft, outRight);
 
     Offset center = target.translate(-childSize.width / 2, -childSize.height / 2);
     double halfWidth = (childSize.width - boxSize.width) / 2;
-    double halfLeftWidth = (childSize.width + boxSize.width) / 2 + gap;
+    double halfLeftWidth = (childSize.width + boxSize.width) / 2 + gutter;
     double halfHeight = (childSize.height - boxSize.height) / 2;
 
-    double verticalHeight = (childSize.height + boxSize.height) / 2 + gap;
+    double verticalHeight = (childSize.height + boxSize.height) / 2 + gutter;
     Offset translation = switch (effectPlacement) {
-      SkyPlacement.top => Offset(0, -verticalHeight),
+      SkyPlacement.topCenter => Offset(0, -verticalHeight),
       SkyPlacement.topStart => Offset(halfWidth, -verticalHeight),
       SkyPlacement.topEnd => Offset(-halfWidth, -verticalHeight),
-      SkyPlacement.bottom => Offset(0, verticalHeight),
+      SkyPlacement.bottomCenter => Offset(0, verticalHeight),
       SkyPlacement.bottomStart => Offset(halfWidth, verticalHeight),
       SkyPlacement.bottomEnd => Offset(-halfWidth, verticalHeight),
-      SkyPlacement.left => Offset(-halfLeftWidth, 0),
+      SkyPlacement.leftCenter => Offset(-halfLeftWidth, 0),
       SkyPlacement.leftStart => Offset(-halfLeftWidth, halfHeight),
       SkyPlacement.leftEnd => Offset(-halfLeftWidth, -halfHeight),
-      SkyPlacement.right => Offset(halfLeftWidth, 0),
+      SkyPlacement.rightCenter => Offset(halfLeftWidth, 0),
       SkyPlacement.rightStart => Offset(halfLeftWidth, halfHeight),
       SkyPlacement.rightEnd => Offset(halfLeftWidth, -halfHeight),
     };
@@ -166,17 +147,18 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     //   result += offsetCalculator!(Calculator(placement: effectPlacement, boxSize: boxSize, overlaySize: childSize, gap: gap));
     // }
 
-    // if (effectPlacement != placement || dx != 0) {
-    //   scheduleMicrotask(() {
-    //     onPlacementShift(PlacementShift(effectPlacement, dx));
-    //   });
-    // }
+    ///如果方位发生变化，通过微任务反向修改父元素的变量，以防阻塞主任务
+    if (effectPlacement != placement || dx != 0) {
+      scheduleMicrotask(() {
+        onPlacementChanged(effectPlacement);
+      });
+    }
 
     return result;
   }
 
   @override
   bool shouldRelayout(PopoverPositionDelegate oldDelegate) {
-    return target != oldDelegate.target || gap != oldDelegate.gap || boxSize != oldDelegate.boxSize;
+    return target != oldDelegate.target || gutter != oldDelegate.gutter || boxSize != oldDelegate.boxSize;
   }
 }
