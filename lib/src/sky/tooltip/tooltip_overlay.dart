@@ -1,17 +1,15 @@
 part of 'index.dart';
 
-class _PopoverOverlay extends StatefulWidget {
+class _TooltipOverlay extends StatefulWidget {
   final Widget? child;
   final Offset target;
-  final SkyPopoverController? tapRegionGroup;
   final Size boxSize;
   final Animation<double> animation;
   final SkyPlacement placement;
   final double gutter;
   final Color color;
-  const _PopoverOverlay({
+  const _TooltipOverlay({
     required this.target,
-    required this.tapRegionGroup,
     required this.boxSize,
     required this.animation,
     this.child,
@@ -21,10 +19,10 @@ class _PopoverOverlay extends StatefulWidget {
   });
 
   @override
-  State<_PopoverOverlay> createState() => _PopoverOverlayState();
+  State<_TooltipOverlay> createState() => _TooltipOverlayState();
 }
 
-class _PopoverOverlayState extends State<_PopoverOverlay> {
+class _TooltipOverlayState extends State<_TooltipOverlay> {
   late SkyPlacement effectPlacement = widget.placement;
 
   void onPlacementChanged(SkyPlacement placement) {

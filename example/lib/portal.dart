@@ -26,6 +26,7 @@ import 'tabs_demo.dart';
 import 'tag_demo.dart';
 import 'tes.dart';
 import 'time_picker_demo.dart';
+import 'tooltip_demo.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -326,12 +327,21 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
+            label: 'Tooltip 文字提示',
+            ext: {
+              "widget": TooltipDemo(),
+            },
+          ),
+          index: "5-1",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
             label: 'Popover 弹出框',
             ext: {
               "widget": PopoverDemo(),
             },
           ),
-          index: "5-1",
+          index: "5-2",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -340,7 +350,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": CollapseDemo(),
             },
           ),
-          index: "5-2",
+          index: "5-3",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -349,7 +359,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": InfiniteScrollDemo(),
             },
           ),
-          index: "5-3",
+          index: "5-4",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -358,7 +368,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": TestDemo(),
             },
           ),
-          index: "5-4",
+          index: "5-5",
         ),
       ],
     )

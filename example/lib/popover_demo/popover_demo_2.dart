@@ -32,6 +32,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
     Widget context = Container(
       height: 200,
       width: 100,
+      color: SkyColors().white,
       child: Text("567890"),
     );
     return Column(

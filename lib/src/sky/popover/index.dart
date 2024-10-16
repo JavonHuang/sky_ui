@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/src/sky/common/sky_hover.dart';
+import 'package:sky_ui/src/src.dart';
 
 import '../../../sky_ui.dart';
 import '../common/position_delegate.dart';
@@ -17,7 +18,8 @@ class SkyPopover extends StatefulWidget {
   final Duration animDuration;
   final SkyPlacement placement;
   final double gutter;
-
+  final Color popoverbgColor;
+  final bool disabled;
   const SkyPopover({
     super.key,
     required this.child,
@@ -28,6 +30,8 @@ class SkyPopover extends StatefulWidget {
     this.animDuration = const Duration(milliseconds: 100),
     this.reverseDuration = const Duration(milliseconds: 100),
     this.gutter = 10,
+    this.popoverbgColor = Colors.white,
+    this.disabled = false,
   });
 
   @override
@@ -128,13 +132,14 @@ class _SkyPopoverState extends State<SkyPopover> with TickerProviderStateMixin, 
               ancestor: overlayState.context.findRenderObject(),
             );
             return _PopoverOverlay(
+              color: widget.popoverbgColor,
               placement: widget.placement,
               target: target,
               boxSize: box.size,
               tapRegionGroup: null,
               animation: animationPopoverController,
-              child: widget.popoverChild,
               gutter: widget.gutter,
+              child: widget.popoverChild,
             );
           },
           child: widget.child,
@@ -144,7 +149,7 @@ class _SkyPopoverState extends State<SkyPopover> with TickerProviderStateMixin, 
   }
 
   void open({Offset? position}) {
-    if (isOpen) return;
+    if (isOpen || widget.disabled) return;
     animationPopoverController.forward();
     overlayController.show();
   }
