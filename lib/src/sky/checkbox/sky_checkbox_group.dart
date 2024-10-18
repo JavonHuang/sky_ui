@@ -130,7 +130,7 @@ class SkyCheckboxGroupState extends SkyFormFieldBridgeState<SkyCheckboxGroup> {
     for (int i = 0; i < keys.length; i++) {
       bool checked = keys[i].currentState?.getValue();
       if (checked) {
-        value.add(keys[i].currentState!._widget.label);
+        value.add(keys[i].currentState!._widget.label ?? '');
       }
     }
     return value;

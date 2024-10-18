@@ -23,7 +23,7 @@ class SkyCheckbox extends SkyFormFieldBridge<SkyCheckbox> {
   final bool disabled;
   final Function()? onTap;
   final bool? model;
-  final String label;
+  final String? label;
   final bool buttonStyle;
 
   final Function(bool label)? onChanged;
@@ -237,7 +237,7 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
                   ),
                 )
               : Container(
-                  padding: _widget.size.padding(),
+                  padding: _widget.label == null || _widget.label == '' ? null : _widget.size.padding(),
                   decoration: _widget.border
                       ? BoxDecoration(
                           border: outLineBorder,

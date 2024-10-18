@@ -6,12 +6,13 @@ class MenuItem extends StatefulWidget {
   final List<SkyMenuNode> children;
   final SkyMenuController controller;
   final SkyMenuNode? parentNode;
-
+  final bool accordion;
   const MenuItem({
     super.key,
     required this.children,
     required this.controller,
     this.parentNode,
+    required this.accordion,
   });
 
   @override
@@ -29,7 +30,9 @@ class _MenuItemState extends State<MenuItem> {
           contentPadding: EdgeInsets.only(left: 10.scaleSpacing),
           controller: widget.controller.getCollapse(e),
           onOpen: () {
-            widget.controller.closeOtherCollapse(e);
+            if (widget.accordion) {
+              widget.controller.closeOtherCollapse(e);
+            }
           },
           titleBuilder: (context, anima, ctrl, icon) {
             return SkyHover(
@@ -38,7 +41,7 @@ class _MenuItemState extends State<MenuItem> {
                 if (e.children.isEmpty) {
                   widget.controller.setActiveIndex(e.index, e);
                 }
-                if (e.children.isEmpty) {
+                if (e.children.isEmpty && widget.accordion) {
                   widget.controller.closeOtherCollapse(e);
                 }
               },
@@ -82,6 +85,7 @@ class _MenuItemState extends State<MenuItem> {
           },
           content: e.children.isNotEmpty
               ? MenuItem(
+                  accordion: widget.accordion,
                   children: e.children,
                   controller: widget.controller,
                   parentNode: e,

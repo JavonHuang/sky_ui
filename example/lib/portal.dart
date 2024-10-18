@@ -27,6 +27,7 @@ import 'tag_demo.dart';
 import 'tes.dart';
 import 'time_picker_demo.dart';
 import 'tooltip_demo.dart';
+import 'tree_demo.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -210,18 +211,18 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
-            label: 'Badge 标记',
+            label: 'Tree 树形控件',
             ext: {
-              "widget": BadgeDemo(),
+              "widget": TreeDemo(),
             },
           ),
           index: "2-1",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
-            label: 'Descriptions 描述列表',
+            label: 'Badge 标记',
             ext: {
-              "widget": DescriptionsDemo(),
+              "widget": BadgeDemo(),
             },
           ),
           index: "2-2",
@@ -234,6 +235,15 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
             },
           ),
           index: "2-3",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
+            label: 'Descriptions 描述列表',
+            ext: {
+              "widget": DescriptionsDemo(),
+            },
+          ),
+          index: "2-4",
         ),
       ],
     ),

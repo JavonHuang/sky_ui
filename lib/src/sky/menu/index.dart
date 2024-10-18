@@ -8,6 +8,7 @@ class SkyMenu extends StatefulWidget {
   final List<SkyMenuNode> children;
   final SkyMenuController? controller;
   final String? activeIndex;
+  final bool accordion;
   final Function(String? e, SkyMenuNode node)? onchanged;
   const SkyMenu({
     super.key,
@@ -15,6 +16,7 @@ class SkyMenu extends StatefulWidget {
     this.controller,
     this.activeIndex,
     this.onchanged,
+    this.accordion = false,
   });
 
   @override
@@ -51,6 +53,7 @@ class _SkyMenuState extends State<SkyMenu> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: MenuItem(
+        accordion: widget.accordion,
         children: widget.children,
         controller: _controller,
       ),
@@ -67,7 +70,7 @@ class _SkyMenuState extends State<SkyMenu> {
 class SkyMenuController {
   _SkyMenuState? _state;
   String? activeIndex;
-  final Map<String, CollapseController> collapseCtrMap = {};
+  final Map<String, SkyCollapseController> collapseCtrMap = {};
 
   void setActiveIndex(String index, SkyMenuNode e) {
     activeIndex = index;
@@ -75,12 +78,12 @@ class SkyMenuController {
     _state?.widget.onchanged?.call(activeIndex, e);
   }
 
-  CollapseController? getCollapse(SkyMenuNode node) {
+  SkyCollapseController? getCollapse(SkyMenuNode node) {
     if (node.children.isEmpty) {
       return null;
     }
     if (collapseCtrMap[node.index] == null) {
-      collapseCtrMap[node.index] = CollapseController();
+      collapseCtrMap[node.index] = SkyCollapseController();
     }
     return collapseCtrMap[node.index]!;
   }

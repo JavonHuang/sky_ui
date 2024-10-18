@@ -7,12 +7,13 @@ import 'dart:math';
 import 'package:flutter/material.dart' hide CrossFadeState;
 import 'package:flutter/rendering.dart';
 import 'package:sky_ui/sky_ui.dart';
+import 'package:sky_ui/src/src.dart';
 import 'package:sky_ui/src/styles/styles.dart';
 
 typedef AnimatedTitleBuilder = Widget Function(
   BuildContext context,
   Animation<double> anima,
-  CollapseController ctrl,
+  SkyCollapseController ctrl,
   Widget icon,
 );
 
@@ -33,6 +34,8 @@ class SkyCollapse extends StatefulWidget {
     this.onOpen,
     this.onClose,
     this.excludeBottomFocus = true,
+    this.icon = ElementIcons.arrowRight,
+    this.iconColor,
   }) : assert(title == null && titleBuilder != null || titleBuilder == null && title != null || titleBuilder != null && title != null);
 
   final Widget? content;
@@ -42,7 +45,7 @@ class SkyCollapse extends StatefulWidget {
   final AnimatedTitleBuilder? titleBuilder;
   final EdgeInsetsGeometry titlePadding;
   final EdgeInsetsGeometry contentPadding;
-  final CollapseController? controller;
+  final SkyCollapseController? controller;
 
   final Duration duration;
   final Duration? reverseDuration;
@@ -50,6 +53,8 @@ class SkyCollapse extends StatefulWidget {
   final Curve sizeCurve;
   final AlignmentGeometry alignment;
   final bool excludeBottomFocus;
+  final IconData icon;
+  final Color? iconColor;
 
   @override
   State<SkyCollapse> createState() => _SkyCollapseState();
@@ -68,15 +73,15 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
   late Animation<double> _firstAnimation;
   late Animation<double> _secondAnimation;
 
-  CollapseController? _internalController;
+  SkyCollapseController? _internalController;
 
-  CollapseController get _collapseCtrl => widget.controller ?? _internalController!;
+  SkyCollapseController get _collapseCtrl => widget.controller ?? _internalController!;
 
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _internalController = CollapseController();
+      _internalController = SkyCollapseController();
     }
     _collapseCtrl._attach(this);
     _controller = AnimationController(
@@ -223,7 +228,8 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
                 child: child,
               ),
               child: Icon(
-                ElementIcons.arrowRight,
+                widget.icon,
+                color: widget.iconColor ?? SkyColors().placeholderText,
                 size: SkyIconSizes().mediumFont,
               ),
             )),
@@ -251,7 +257,8 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
                     child: child,
                   ),
                   child: Icon(
-                    ElementIcons.arrowRight,
+                    widget.icon,
+                    color: widget.iconColor ?? SkyColors().placeholderText,
                     size: SkyIconSizes().mediumFont,
                   ),
                 )
@@ -326,7 +333,7 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
   }
 }
 
-class CollapseController {
+class SkyCollapseController {
   _SkyCollapseState? _state;
 
   bool get isOpen {

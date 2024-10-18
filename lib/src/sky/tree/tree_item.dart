@@ -1,0 +1,127 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/src/utils/utils.dart';
+import '../../styles/styles.dart';
+import '../checkbox/index.dart';
+import '../collapse/index.dart';
+import '../common/sky_hover.dart';
+import 'index.dart';
+
+class TreeItem extends StatefulWidget {
+  final List<SkyTreeNode> children;
+  final SkyTreeController controller;
+  final SkyTreeNode? parentNode;
+  final bool accordion;
+  final IconData icon;
+  final Color? iconColor;
+  final bool showCheckbox;
+  final Function(bool checked, SkyTreeNode node)? onCheckChanged;
+  const TreeItem({
+    super.key,
+    required this.children,
+    required this.controller,
+    this.parentNode,
+    required this.accordion,
+    required this.icon,
+    this.iconColor,
+    required this.showCheckbox,
+    this.onCheckChanged,
+  });
+
+  @override
+  State<TreeItem> createState() => _TreeItemState();
+}
+
+class _TreeItemState extends State<TreeItem> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: widget.children.map((e) {
+        e.parentNode = widget.parentNode;
+        return SkyCollapse(
+          titlePadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.only(left: 10.scaleSpacing),
+          controller: widget.controller.getCollapse(e),
+          icon: widget.icon,
+          iconColor: widget.iconColor,
+          onOpen: () {
+            if (widget.accordion) {
+              widget.controller.closeOtherCollapse(e);
+            }
+          },
+          titleBuilder: (context, anima, ctrl, icon) {
+            return SkyHover(
+              disabled: false,
+              onTap: () {
+                widget.controller.setActiveIndex(e.index, e);
+                if (e.children.isEmpty && widget.accordion) {
+                  widget.controller.closeOtherCollapse(e);
+                }
+              },
+              builder: (context, onHover) {
+                Color color = onHover || e.isCurrent(widget.controller.activeIndex) || e.isInChildren(widget.controller.activeIndex) ? SkyColors().primary : SkyColors().primaryText;
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 2.scaleSpacing),
+                  padding: EdgeInsets.symmetric(horizontal: 10.scaleSpacing),
+                  color: e.isCurrent(widget.controller.activeIndex) || onHover ? SkyColors().defaultBg : SkyColors().transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: e.children.isNotEmpty ? icon : null,
+                      ),
+                      if (widget.showCheckbox)
+                        SkyCheckbox(
+                          label: "",
+                          model: e.checked,
+                          onChanged: (checked) {
+                            widget.onCheckChanged?.call(checked, e);
+                            widget.controller.checkedChildren(e, checked);
+                          },
+                        ),
+                      if (e.data.icon != null)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Icon(
+                              e.data.icon,
+                              color: color,
+                              size: SkyIconSizes().largeFont,
+                            ),
+                          ),
+                        ),
+                      Expanded(
+                        child: Text(
+                          e.data.label,
+                          style: TextStyle(
+                            color: color,
+                            fontSize: SkyFontSizes().titleSmallFont,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+          content: e.children.isNotEmpty
+              ? TreeItem(
+                  accordion: widget.accordion,
+                  children: e.children,
+                  controller: widget.controller,
+                  parentNode: e,
+                  icon: widget.icon,
+                  iconColor: widget.iconColor,
+                  showCheckbox: widget.showCheckbox,
+                )
+              : null,
+          duration: Duration(milliseconds: 200),
+        );
+      }).toList(),
+    );
+  }
+}

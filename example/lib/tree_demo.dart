@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+
+import 'common/display_block.dart';
+import 'common/title.dart';
+import 'tree_demo/tree_demo_1.dart';
+import 'tree_demo/tree_demo_2.dart';
+
+class TreeDemo extends StatefulWidget {
+  const TreeDemo({super.key});
+
+  @override
+  State<TreeDemo> createState() => _TreeDemoState();
+}
+
+class _TreeDemoState extends State<TreeDemo> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DemoTitle(
+          title: "Tree 树形控件",
+          descr: "用清晰的层级结构展示信息，可展开或折叠。",
+        ),
+        DemoTitle(
+          title: "基础用法",
+          descr: "基础的树形结构展示。",
+        ),
+        DisplayBlock(
+          description: "",
+          child: TreeDemo1(),
+        ),
+        DemoTitle(
+          title: "可选择",
+          descr: "适用于需要选择层级时使用。",
+        ),
+        DisplayBlock(
+          description: "",
+          child: TreeDemo2(),
+        ),
+      ],
+    );
+  }
+}

@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+import '../common/space.dart';
+
+class TreeDemo1 extends StatefulWidget {
+  const TreeDemo1({super.key});
+
+  @override
+  State<TreeDemo1> createState() => _TreeDemo1State();
+}
+
+class _TreeDemo1State extends State<TreeDemo1> {
+  List<SkyTreeNode> childrenData = [
+    SkyTreeNode(
+      index: "1",
+      isopen: true,
+      data: SkyTreeMeta(
+        label: "一级1",
+      ),
+      children: [
+        SkyTreeNode(
+          index: "1-1",
+          data: SkyTreeMeta(
+            label: "二级1-1",
+          ),
+        ),
+        SkyTreeNode(
+          index: "1-2",
+          data: SkyTreeMeta(
+            label: "二级1-2",
+          ),
+          children: [
+            SkyTreeNode(
+              index: "1-2-1",
+              data: SkyTreeMeta(
+                label: "三级1-2-1",
+              ),
+            )
+          ],
+        ),
+      ],
+    ),
+    SkyTreeNode(
+        index: "2",
+        data: SkyTreeMeta(
+          label: "一级2",
+        ),
+        children: [
+          SkyTreeNode(
+            index: "2-1",
+            data: SkyTreeMeta(
+              label: "二级2-1",
+            ),
+          ),
+        ]),
+    SkyTreeNode(
+      index: "3",
+      data: SkyTreeMeta(
+        label: "一级3",
+      ),
+    ),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyTree(
+          children: childrenData,
+        ),
+      ],
+    );
+  }
+}
