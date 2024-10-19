@@ -12,15 +12,34 @@ class TestDemo extends StatefulWidget {
 class _TestDemoState extends State<TestDemo> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 500,
-      child: PageView(
-        children: [
-          Page1(),
-          Page2(),
-          Page3(),
-          Page4(),
+    return GestureDetector(
+      onTap: () {
+        print('Parent tapped');
+      },
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 100,
+            color: Colors.lightBlue,
+            alignment: Alignment.center,
+            child: Text('Tap me (Parent)'),
+          ),
+          AbsorbPointer(
+            absorbing: false,
+            child: GestureDetector(
+              behavior: HitTestBehavior.deferToChild, // 显式指定，但默认就是 opaque
+              onTap: () {
+                // 这个回调不应该被调用
+                print('Child tapped (this should not print)');
+              },
+              child: Container(
+                height: 100,
+                color: Colors.lightGreen,
+                alignment: Alignment.center,
+                child: Text('Tap me (Child)'),
+              ),
+            ),
+          ),
         ],
       ),
     );

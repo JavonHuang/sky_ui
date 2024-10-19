@@ -36,6 +36,7 @@ class SkyCollapse extends StatefulWidget {
     this.excludeBottomFocus = true,
     this.icon = ElementIcons.arrowRight,
     this.iconColor,
+    this.disabled = false,
   }) : assert(title == null && titleBuilder != null || titleBuilder == null && title != null || titleBuilder != null && title != null);
 
   final Widget? content;
@@ -55,7 +56,7 @@ class SkyCollapse extends StatefulWidget {
   final bool excludeBottomFocus;
   final IconData icon;
   final Color? iconColor;
-
+  final bool disabled;
   @override
   State<SkyCollapse> createState() => _SkyCollapseState();
 
@@ -215,7 +216,9 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
       title = GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
-          _toggleCodePanel();
+          if (!widget.disabled) {
+            _toggleCodePanel();
+          }
         },
         child: widget.titleBuilder!(
             context,
@@ -238,7 +241,9 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
       title = GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            _toggleCodePanel();
+            if (!widget.disabled) {
+              _toggleCodePanel();
+            }
           },
           child: Row(
             children: [

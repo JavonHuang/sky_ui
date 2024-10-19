@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 import '../common/space.dart';
 
-class TreeDemo1 extends StatefulWidget {
-  const TreeDemo1({super.key});
+class TreeDemo4 extends StatefulWidget {
+  const TreeDemo4({super.key});
 
   @override
-  State<TreeDemo1> createState() => _TreeDemo1State();
+  State<TreeDemo4> createState() => _TreeDemo4State();
 }
 
-class _TreeDemo1State extends State<TreeDemo1> {
+class _TreeDemo4State extends State<TreeDemo4> {
   List<SkyTreeNode> childrenData = [
     SkyTreeNode(
       index: "1",
-      isExpend: true,
       data: SkyTreeMeta(
         label: "一级1",
       ),
@@ -66,6 +65,9 @@ class _TreeDemo1State extends State<TreeDemo1> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SkyTree(
+          showCheckbox: true,
+          defaultCheckedIndex: ['2'],
+          defaultExpandedIndexs: ['2'],
           children: childrenData,
         ),
       ],

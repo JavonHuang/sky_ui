@@ -15,6 +15,9 @@ class TreeItem extends StatefulWidget {
   final Color? iconColor;
   final bool showCheckbox;
   final Function(bool checked, SkyTreeNode node)? onCheckChanged;
+  final bool lazy;
+  final Future<List<SkyTreeNode>> Function(SkyTreeNode e)? load;
+
   const TreeItem({
     super.key,
     required this.children,
@@ -25,13 +28,31 @@ class TreeItem extends StatefulWidget {
     this.iconColor,
     required this.showCheckbox,
     this.onCheckChanged,
+    required this.lazy,
+    this.load,
   });
 
   @override
   State<TreeItem> createState() => _TreeItemState();
 }
 
-class _TreeItemState extends State<TreeItem> {
+class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(microseconds: 1500),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,18 +64,32 @@ class _TreeItemState extends State<TreeItem> {
           controller: widget.controller.getCollapse(e),
           icon: widget.icon,
           iconColor: widget.iconColor,
+          disabled: e.disabled,
           onOpen: () {
             if (widget.accordion) {
               widget.controller.closeOtherCollapse(e);
             }
+            e.isExpend = true;
+          },
+          onClose: () {
+            e.isExpend = false;
           },
           titleBuilder: (context, anima, ctrl, icon) {
             return SkyHover(
-              disabled: false,
-              onTap: () {
+              disabled: e.disabled,
+              eventUp: widget.lazy,
+              onTap: () async {
                 widget.controller.setActiveIndex(e.index, e);
                 if (e.children.isEmpty && widget.accordion) {
                   widget.controller.closeOtherCollapse(e);
+                }
+                if (widget.lazy && widget.load != null && !e.loadFinish) {
+                  setState(() {
+                    e.pinding = true;
+                  });
+                  List<SkyTreeNode> ls = await widget.load!(e);
+                  e.loadFinish = true;
+                  widget.controller.insertChildren(ls, e);
                 }
               },
               builder: (context, onHover) {
@@ -69,11 +104,21 @@ class _TreeItemState extends State<TreeItem> {
                       SizedBox(
                         width: 20,
                         height: 20,
-                        child: e.children.isNotEmpty ? icon : null,
+                        child: e.children.isNotEmpty || (widget.lazy && !e.loadFinish) ? icon : null,
                       ),
+                      if (widget.lazy && !e.loadFinish && e.pinding)
+                        RotationTransition(
+                          turns: Tween(begin: 1.0, end: 0.0).animate(_animationController),
+                          child: Icon(
+                            size: SkyIconSizes().mediumFont,
+                            ElementIcons.loading,
+                            color: SkyColors().placeholderText,
+                          ),
+                        ),
                       if (widget.showCheckbox)
                         SkyCheckbox(
                           label: "",
+                          indeterminate: widget.controller.getIndeterminate(e),
                           model: e.checked,
                           onChanged: (checked) {
                             widget.onCheckChanged?.call(checked, e);
@@ -117,6 +162,8 @@ class _TreeItemState extends State<TreeItem> {
                   icon: widget.icon,
                   iconColor: widget.iconColor,
                   showCheckbox: widget.showCheckbox,
+                  lazy: widget.lazy,
+                  load: widget.load,
                 )
               : null,
           duration: Duration(milliseconds: 200),

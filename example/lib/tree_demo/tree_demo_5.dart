@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 import '../common/space.dart';
 
-class TreeDemo1 extends StatefulWidget {
-  const TreeDemo1({super.key});
+class TreeDemo5 extends StatefulWidget {
+  const TreeDemo5({super.key});
 
   @override
-  State<TreeDemo1> createState() => _TreeDemo1State();
+  State<TreeDemo5> createState() => _TreeDemo5State();
 }
 
-class _TreeDemo1State extends State<TreeDemo1> {
+class _TreeDemo5State extends State<TreeDemo5> {
   List<SkyTreeNode> childrenData = [
     SkyTreeNode(
       index: "1",
@@ -20,12 +20,14 @@ class _TreeDemo1State extends State<TreeDemo1> {
       children: [
         SkyTreeNode(
           index: "1-1",
+          disabled: true,
           data: SkyTreeMeta(
             label: "二级1-1",
           ),
         ),
         SkyTreeNode(
           index: "1-2",
+          disabled: true,
           data: SkyTreeMeta(
             label: "二级1-2",
           ),

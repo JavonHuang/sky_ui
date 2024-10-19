@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
+import 'model/common.dart';
 import 'tree_item.dart';
 part 'model/tree_node.dart';
 part 'tree_controller.dart';
@@ -16,7 +17,10 @@ class SkyTree extends StatefulWidget {
   final IconData icon;
   final Color? iconColor;
   final bool showCheckbox;
-
+  final bool lazy;
+  final Future<List<SkyTreeNode>> Function(SkyTreeNode e)? load;
+  final List<String> defaultExpandedIndexs;
+  final List<String> defaultCheckedIndex;
   const SkyTree({
     super.key,
     required this.children,
@@ -27,6 +31,10 @@ class SkyTree extends StatefulWidget {
     this.icon = ElementIcons.caretRight,
     this.iconColor,
     this.showCheckbox = false,
+    this.lazy = false,
+    this.load,
+    this.defaultExpandedIndexs = const [],
+    this.defaultCheckedIndex = const [],
   });
 
   @override
@@ -44,14 +52,38 @@ class _SkyTreeState extends State<SkyTree> {
       _internalController = SkyTreeController();
     }
     _controller._attach(this);
+    init();
+  }
+
+  void init() {
+    if (widget.children.isNotEmpty) {
+      for (String index in widget.defaultCheckedIndex) {
+        for (SkyTreeNode item in widget.children) {
+          SkyTreeNode? result = SkyTreeCommon.find(item, index);
+          if (result != null) {
+            _controller.checkedChildren(result, true);
+          }
+        }
+      }
+      for (String index in widget.defaultExpandedIndexs) {
+        for (SkyTreeNode item in widget.children) {
+          SkyTreeNode? result = SkyTreeCommon.find(item, index);
+          if (result != null && result.children.isNotEmpty) {
+            result.isExpend = true;
+          }
+        }
+      }
+    }
     if (widget.activeIndex != null) {
       SkyTreeNode? activeItem;
       for (SkyTreeNode item in widget.children) {
-        activeItem = item.find(widget.activeIndex!);
+        activeItem = SkyTreeCommon.find(item, widget.activeIndex!);
       }
       _controller.setActiveIndex(widget.activeIndex!, activeItem!);
     }
   }
+
+  void initValue(List<SkyTreeNode> nodeList) {}
 
   void reflesh() {
     if (mounted) {
@@ -69,6 +101,8 @@ class _SkyTreeState extends State<SkyTree> {
         icon: widget.icon,
         iconColor: widget.iconColor,
         showCheckbox: widget.showCheckbox,
+        lazy: widget.lazy,
+        load: widget.load,
       ),
     );
   }

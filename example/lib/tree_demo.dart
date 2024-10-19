@@ -4,6 +4,9 @@ import 'common/display_block.dart';
 import 'common/title.dart';
 import 'tree_demo/tree_demo_1.dart';
 import 'tree_demo/tree_demo_2.dart';
+import 'tree_demo/tree_demo_3.dart';
+import 'tree_demo/tree_demo_4.dart';
+import 'tree_demo/tree_demo_5.dart';
 
 class TreeDemo extends StatefulWidget {
   const TreeDemo({super.key});
@@ -37,6 +40,30 @@ class _TreeDemoState extends State<TreeDemo> {
         DisplayBlock(
           description: "",
           child: TreeDemo2(),
+        ),
+        DemoTitle(
+          title: "懒加载自定义叶子节点",
+          descr: "",
+        ),
+        DisplayBlock(
+          description: "",
+          child: TreeDemo3(),
+        ),
+        DemoTitle(
+          title: "默认展开和默认选中",
+          descr: "",
+        ),
+        DisplayBlock(
+          description: "",
+          child: TreeDemo4(),
+        ),
+        DemoTitle(
+          title: "禁用状态",
+          descr: "可将 Tree 的某些节点设置为禁用状态",
+        ),
+        DisplayBlock(
+          description: "",
+          child: TreeDemo5(),
         ),
       ],
     );
