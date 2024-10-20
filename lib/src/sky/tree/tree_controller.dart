@@ -109,6 +109,16 @@ class SkyTreeController {
     });
   }
 
+  void expendItem(SkyTreeNode e) {
+    if (collapseCtrMap[e.index] != null) {
+      if (collapseCtrMap[e.index]!.isOpen) {
+        collapseCtrMap[e.index]!.close();
+      } else {
+        collapseCtrMap[e.index]!.open();
+      }
+    }
+  }
+
   void _attach(_SkyTreeState state) {
     _state = state;
   }

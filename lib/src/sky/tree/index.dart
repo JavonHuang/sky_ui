@@ -21,6 +21,7 @@ class SkyTree extends StatefulWidget {
   final Future<List<SkyTreeNode>> Function(SkyTreeNode e)? load;
   final List<String> defaultExpandedIndexs;
   final List<String> defaultCheckedIndex;
+  final Widget Function(SkyTreeNode e)? buildContent;
   const SkyTree({
     super.key,
     required this.children,
@@ -35,6 +36,7 @@ class SkyTree extends StatefulWidget {
     this.load,
     this.defaultExpandedIndexs = const [],
     this.defaultCheckedIndex = const [],
+    this.buildContent,
   });
 
   @override
@@ -103,6 +105,7 @@ class _SkyTreeState extends State<SkyTree> {
         showCheckbox: widget.showCheckbox,
         lazy: widget.lazy,
         load: widget.load,
+        buildContent: widget.buildContent,
       ),
     );
   }

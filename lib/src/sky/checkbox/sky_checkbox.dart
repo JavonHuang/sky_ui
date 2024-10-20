@@ -180,115 +180,112 @@ class _SkyCheckboxState extends SkyFormFieldBridgeState<SkyCheckbox> {
     if (SkyCheckboxGroup.maybeOf(context) == null) {
       super.build(context);
     }
-    return AbsorbPointer(
-      absorbing: false,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        if (_widget.disabled) {
+          return;
+        }
+        _widget.onChanged?.call(!value);
+        if (SkyCheckboxGroup.maybeOf(context) == null) {
+          setValue(!value);
+        }
+        _widget.onTap?.call();
+      },
+      child: MouseRegion(
+        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+        onEnter: (e) {
           if (_widget.disabled) {
             return;
           }
-          _widget.onChanged?.call(!value);
-          if (SkyCheckboxGroup.maybeOf(context) == null) {
-            setValue(!value);
-          }
-          _widget.onTap?.call();
+          setState(() {
+            onHover = true;
+          });
         },
-        child: MouseRegion(
-          cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-          onEnter: (e) {
-            if (_widget.disabled) {
-              return;
-            }
-            setState(() {
-              onHover = true;
-            });
-          },
-          onExit: (e) {
-            if (_widget.disabled) {
-              return;
-            }
-            setState(() {
-              onHover = false;
-            });
-          },
-          child: UnconstrainedBox(
-            child: _widget.buttonStyle
-                ? Container(
-                    decoration: BoxDecoration(
-                      color: bgColor,
-                      border: outLineBorder,
-                      borderRadius: borderRadius,
-                    ),
-                    child: Padding(
-                      padding: _widget.size.padding(),
-                      child: Center(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              _widget.text ?? '',
-                              style: TextStyle(
-                                fontSize: _widget.size.textSize,
-                                color: textColor,
-                              ),
+        onExit: (e) {
+          if (_widget.disabled) {
+            return;
+          }
+          setState(() {
+            onHover = false;
+          });
+        },
+        child: UnconstrainedBox(
+          child: _widget.buttonStyle
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    border: outLineBorder,
+                    borderRadius: borderRadius,
+                  ),
+                  child: Padding(
+                    padding: _widget.size.padding(),
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _widget.text ?? '',
+                            style: TextStyle(
+                              fontSize: _widget.size.textSize,
+                              color: textColor,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  )
-                : Container(
-                    padding: _widget.label == null || _widget.label == '' ? null : _widget.size.padding(),
-                    decoration: _widget.border
-                        ? BoxDecoration(
-                            border: outLineBorder,
-                            borderRadius: borderRadius,
-                          )
-                        : null,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Container(
-                            height: _widget.size.height * 0.4,
-                            width: _widget.size.height * 0.4,
-                            margin: EdgeInsets.only(right: 4.scaleSpacing),
-                            decoration: BoxDecoration(
-                              color: checkedBgColor,
-                              border: Border.all(
-                                width: 1,
-                                color: outLineBorderColor,
-                              ),
-                              borderRadius: SkyBorderRadius().smallBorderRadius,
-                            ),
-                            child: Center(
-                              child: _widget.indeterminate
-                                  ? Container(
-                                      height: 1.scaleSpacing,
-                                      width: _widget.size.height * 0.15,
-                                      color: SkyColors().white,
-                                    )
-                                  : Icon(
-                                      ElementIcons.check,
-                                      size: _widget.size.textSize - 2.scaleFontSize,
-                                      color: checkedTextColor,
-                                    ),
-                            ),
-                          ),
-                        ),
-                        Text(
-                          _widget.text ?? '',
-                          style: TextStyle(
-                            fontSize: _widget.size.textSize,
-                            color: textColor,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
-          ),
+                )
+              : Container(
+                  padding: _widget.label == null || _widget.label == '' ? null : _widget.size.padding(),
+                  decoration: _widget.border
+                      ? BoxDecoration(
+                          border: outLineBorder,
+                          borderRadius: borderRadius,
+                        )
+                      : null,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: _widget.size.height * 0.4,
+                          width: _widget.size.height * 0.4,
+                          margin: EdgeInsets.only(right: 4.scaleSpacing),
+                          decoration: BoxDecoration(
+                            color: checkedBgColor,
+                            border: Border.all(
+                              width: 1,
+                              color: outLineBorderColor,
+                            ),
+                            borderRadius: SkyBorderRadius().smallBorderRadius,
+                          ),
+                          child: Center(
+                            child: _widget.indeterminate
+                                ? Container(
+                                    height: 1.scaleSpacing,
+                                    width: _widget.size.height * 0.15,
+                                    color: SkyColors().white,
+                                  )
+                                : Icon(
+                                    ElementIcons.check,
+                                    size: _widget.size.textSize - 2.scaleFontSize,
+                                    color: checkedTextColor,
+                                  ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        _widget.text ?? '',
+                        style: TextStyle(
+                          fontSize: _widget.size.textSize,
+                          color: textColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
         ),
       ),
     );

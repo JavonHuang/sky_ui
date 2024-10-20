@@ -17,6 +17,7 @@ class TreeItem extends StatefulWidget {
   final Function(bool checked, SkyTreeNode node)? onCheckChanged;
   final bool lazy;
   final Future<List<SkyTreeNode>> Function(SkyTreeNode e)? load;
+  final Widget Function(SkyTreeNode e)? buildContent;
 
   const TreeItem({
     super.key,
@@ -30,6 +31,7 @@ class TreeItem extends StatefulWidget {
     this.onCheckChanged,
     required this.lazy,
     this.load,
+    this.buildContent,
   });
 
   @override
@@ -77,77 +79,85 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
           titleBuilder: (context, anima, ctrl, icon) {
             return SkyHover(
               disabled: e.disabled,
-              eventUp: widget.lazy,
-              onTap: () async {
-                widget.controller.setActiveIndex(e.index, e);
-                if (e.children.isEmpty && widget.accordion) {
-                  widget.controller.closeOtherCollapse(e);
-                }
-                if (widget.lazy && widget.load != null && !e.loadFinish) {
-                  setState(() {
-                    e.pinding = true;
-                  });
-                  List<SkyTreeNode> ls = await widget.load!(e);
-                  e.loadFinish = true;
-                  widget.controller.insertChildren(ls, e);
-                }
-              },
               builder: (context, onHover) {
                 Color color = onHover || e.isCurrent(widget.controller.activeIndex) || e.isInChildren(widget.controller.activeIndex) ? SkyColors().primary : SkyColors().primaryText;
-                return Container(
-                  margin: EdgeInsets.symmetric(vertical: 2.scaleSpacing),
-                  padding: EdgeInsets.symmetric(horizontal: 10.scaleSpacing),
-                  color: e.isCurrent(widget.controller.activeIndex) || onHover ? SkyColors().defaultBg : SkyColors().transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: e.children.isNotEmpty || (widget.lazy && !e.loadFinish) ? icon : null,
-                      ),
-                      if (widget.lazy && !e.loadFinish && e.pinding)
-                        RotationTransition(
-                          turns: Tween(begin: 1.0, end: 0.0).animate(_animationController),
-                          child: Icon(
-                            size: SkyIconSizes().mediumFont,
-                            ElementIcons.loading,
-                            color: SkyColors().placeholderText,
-                          ),
+                return GestureDetector(
+                  onTap: () async {
+                    if (e.disabled) {
+                      return;
+                    }
+                    widget.controller.setActiveIndex(e.index, e);
+                    if (e.children.isEmpty && widget.accordion) {
+                      widget.controller.closeOtherCollapse(e);
+                    }
+                    if (widget.lazy && widget.load != null && !e.loadFinish) {
+                      setState(() {
+                        e.pinding = true;
+                      });
+                      List<SkyTreeNode> ls = await widget.load!(e);
+                      e.loadFinish = true;
+                      widget.controller.insertChildren(ls, e);
+                    } else {
+                      widget.controller.expendItem(e);
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 2.scaleSpacing),
+                    padding: EdgeInsets.symmetric(horizontal: 10.scaleSpacing),
+                    color: e.isCurrent(widget.controller.activeIndex) || onHover ? SkyColors().defaultBg : SkyColors().transparent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: e.children.isNotEmpty || (widget.lazy && !e.loadFinish) ? icon : null,
                         ),
-                      if (widget.showCheckbox)
-                        SkyCheckbox(
-                          label: "",
-                          indeterminate: widget.controller.getIndeterminate(e),
-                          model: e.checked,
-                          onChanged: (checked) {
-                            widget.onCheckChanged?.call(checked, e);
-                            widget.controller.checkedChildren(e, checked);
-                          },
-                        ),
-                      if (e.data.icon != null)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
+                        if (widget.lazy && !e.loadFinish && e.pinding)
+                          RotationTransition(
+                            turns: Tween(begin: 1.0, end: 0.0).animate(_animationController),
                             child: Icon(
-                              e.data.icon,
-                              color: color,
-                              size: SkyIconSizes().largeFont,
+                              size: SkyIconSizes().mediumFont,
+                              ElementIcons.loading,
+                              color: SkyColors().placeholderText,
                             ),
                           ),
-                        ),
-                      Expanded(
-                        child: Text(
-                          e.data.label,
-                          style: TextStyle(
-                            color: color,
-                            fontSize: SkyFontSizes().titleSmallFont,
+                        if (widget.showCheckbox)
+                          SkyCheckbox(
+                            label: "",
+                            indeterminate: widget.controller.getIndeterminate(e),
+                            model: e.checked,
+                            onChanged: (checked) {
+                              widget.onCheckChanged?.call(checked, e);
+                              widget.controller.checkedChildren(e, checked);
+                            },
                           ),
+                        if (e.data.icon != null)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                e.data.icon,
+                                color: color,
+                                size: SkyIconSizes().largeFont,
+                              ),
+                            ),
+                          ),
+                        Expanded(
+                          child: widget.buildContent != null
+                              ? widget.buildContent!(e)
+                              : Text(
+                                  e.data.label,
+                                  style: TextStyle(
+                                    color: color,
+                                    fontSize: SkyFontSizes().titleSmallFont,
+                                  ),
+                                ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -164,9 +174,10 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                   showCheckbox: widget.showCheckbox,
                   lazy: widget.lazy,
                   load: widget.load,
+                  buildContent: widget.buildContent,
                 )
               : null,
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
         );
       }).toList(),
     );

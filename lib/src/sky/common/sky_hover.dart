@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../styles/styles.dart';
-
 class SkyHover extends StatefulWidget {
   const SkyHover({
     super.key,
@@ -11,7 +9,6 @@ class SkyHover extends StatefulWidget {
     this.onTap,
     this.onchanged,
     this.alignment = Alignment.centerLeft,
-    this.eventUp = false,
   });
   final bool disabled;
 
@@ -20,7 +17,6 @@ class SkyHover extends StatefulWidget {
   final Function()? onTap;
   final Function(bool e)? onchanged;
   final AlignmentGeometry? alignment;
-  final bool eventUp;
   @override
   State<SkyHover> createState() => _SkyHoverState();
 }

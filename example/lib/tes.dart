@@ -25,7 +25,7 @@ class _TestDemoState extends State<TestDemo> {
             child: Text('Tap me (Parent)'),
           ),
           AbsorbPointer(
-            absorbing: false,
+            absorbing: true,
             child: GestureDetector(
               behavior: HitTestBehavior.deferToChild, // 显式指定，但默认就是 opaque
               onTap: () {

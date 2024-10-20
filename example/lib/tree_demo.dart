@@ -7,6 +7,7 @@ import 'tree_demo/tree_demo_2.dart';
 import 'tree_demo/tree_demo_3.dart';
 import 'tree_demo/tree_demo_4.dart';
 import 'tree_demo/tree_demo_5.dart';
+import 'tree_demo/tree_demo_6.dart';
 
 class TreeDemo extends StatefulWidget {
   const TreeDemo({super.key});
@@ -64,6 +65,14 @@ class _TreeDemoState extends State<TreeDemo> {
         DisplayBlock(
           description: "",
           child: TreeDemo5(),
+        ),
+        DemoTitle(
+          title: "自定义节点内容",
+          descr: "节点的内容支持自定义，可以在节点区添加按钮或图标等内容",
+        ),
+        DisplayBlock(
+          description: "",
+          child: TreeDemo6(),
         ),
       ],
     );

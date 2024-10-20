@@ -98,6 +98,9 @@ extension SkyButtonType on SkyType {
         borderColor = SkyColors().white;
       }
     }
+    if (this == SkyType.text) {
+      borderColor = SkyColors().transparent;
+    }
     return (disabled || loading) ? borderColor.withOpacity(0.4) : borderColor;
   }
 
@@ -137,7 +140,7 @@ extension SkyButtonType on SkyType {
         backgroundColor = SkyColors().info;
         break;
       case SkyType.text:
-        backgroundColor = SkyColors().white;
+        backgroundColor = SkyColors().transparent;
         break;
     }
     if (plain) {
@@ -148,6 +151,9 @@ extension SkyButtonType on SkyType {
     }
     if (active && this != SkyType.text) {
       backgroundColor = darkenColor(backgroundColor.withOpacity(1));
+    }
+    if (this == SkyType.text) {
+      backgroundColor = SkyColors().transparent;
     }
     if (plain) {
       return (disabled || loading) ? backgroundColor.withOpacity(0.1) : backgroundColor;
