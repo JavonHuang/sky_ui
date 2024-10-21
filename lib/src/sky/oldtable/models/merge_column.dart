@@ -1,4 +1,4 @@
-part of './../sky_table.dart';
+part of '../sky_table.dart';
 
 class SkyMergeColumn<T> {
   final String key;

@@ -8,10 +8,10 @@ import 'controller/linked_scroll_controller.dart';
 import 'core/measure_util.dart';
 import 'widgets/icon/sort_icon.dart';
 
-part './controller/table_controller.dart';
+part 'controller/table_controller.dart';
 
 part 'models/sky_table_event.dart';
-part 'models/Widget_title.dart';
+part '../oldtable/models/Widget_title.dart';
 part 'models/merge_column.dart';
 part 'models/table_column.dart';
 

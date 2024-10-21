@@ -1,4 +1,4 @@
-part of './../sky_table.dart';
+part of '../sky_table.dart';
 
 /// * headerTitle 表头渲染
 /// * itemBuilder 单元格渲染

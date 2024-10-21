@@ -1,4 +1,4 @@
-part of './../sky_table.dart';
+part of '../../oldtable/sky_table.dart';
 
 /// * text 文本渲染
 /// * widgetTitle 自定义组件渲染

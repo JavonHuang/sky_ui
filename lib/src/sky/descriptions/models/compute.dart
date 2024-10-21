@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../../table/core/measure_util.dart';
+import '../../oldtable/core/measure_util.dart';
 
 class Compute {
   final List<DescriptionsItem> children;
