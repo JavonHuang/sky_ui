@@ -19,4 +19,14 @@ class SkyTreeCommon {
     }
     return null;
   }
+
+  ///遍历节点
+  static void traverseNode(List<SkyTreeNode> list, Function(SkyTreeNode e) func) {
+    for (SkyTreeNode node in list) {
+      func(node);
+      if (node.children.isNotEmpty) {
+        traverseNode(node.children, func);
+      }
+    }
+  }
 }

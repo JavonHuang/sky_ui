@@ -61,6 +61,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
       children: widget.children.map((e) {
         e.parentNode = widget.parentNode;
         return SkyCollapse(
+          key: ValueKey(e.index),
           titlePadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.only(left: 10.scaleSpacing),
           controller: widget.controller.getCollapse(e),
@@ -75,6 +76,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
           },
           onClose: () {
             e.isExpend = false;
+            widget.controller.closeChildrenCollapse(e);
           },
           titleBuilder: (context, anima, ctrl, icon) {
             return SkyHover(
@@ -87,9 +89,9 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                       return;
                     }
                     widget.controller.setActiveIndex(e.index, e);
-                    if (e.children.isEmpty && widget.accordion) {
-                      widget.controller.closeOtherCollapse(e);
-                    }
+                    // if (e.children.isEmpty && widget.accordion) {
+                    //   widget.controller.closeOtherCollapse(e);
+                    // }
                     if (widget.lazy && widget.load != null && !e.loadFinish) {
                       setState(() {
                         e.pinding = true;
@@ -129,7 +131,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                             model: e.checked,
                             onChanged: (checked) {
                               widget.onCheckChanged?.call(checked, e);
-                              widget.controller.checkedChildren(e, checked);
+                              widget.controller.checkedNode(e, checked);
                             },
                           ),
                         if (e.data.icon != null)

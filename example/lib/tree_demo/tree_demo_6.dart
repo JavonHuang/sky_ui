@@ -10,6 +10,7 @@ class TreeDemo6 extends StatefulWidget {
 }
 
 class _TreeDemo6State extends State<TreeDemo6> {
+  SkyTreeController controller = SkyTreeController();
   List<SkyTreeNode> childrenData = [
     SkyTreeNode(
       index: "1",
@@ -68,23 +69,38 @@ class _TreeDemo6State extends State<TreeDemo6> {
         SkyTree(
           children: childrenData,
           accordion: true,
+          controller: controller,
           buildContent: (e) {
             return Row(
               children: [
                 Text(e.data.label),
-                const Expanded(
+                Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SkyButton(
                         type: SkyType.text,
                         text: "Append",
-                        customSize: Size(70, 20),
+                        customSize: const Size(70, 20),
+                        onTap: () {
+                          controller.append(
+                            e.index,
+                            SkyTreeNode(
+                              index: "3-1",
+                              data: const SkyTreeMeta(
+                                label: "二级3-1",
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       SkyButton(
                         type: SkyType.text,
                         text: "Delete",
                         customSize: Size(70, 20),
+                        onTap: () {
+                          controller.remove(e);
+                        },
                       )
                     ],
                   ),

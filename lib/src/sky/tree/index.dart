@@ -47,6 +47,7 @@ class _SkyTreeState extends State<SkyTree> {
   SkyTreeController? _internalController;
   final innerController = ScrollController();
   SkyTreeController get _controller => widget.controller ?? _internalController!;
+  late List<SkyTreeNode> dataList = [];
   @override
   void initState() {
     super.initState();
@@ -58,17 +59,18 @@ class _SkyTreeState extends State<SkyTree> {
   }
 
   void init() {
-    if (widget.children.isNotEmpty) {
+    dataList = [...widget.children];
+    if (dataList.isNotEmpty) {
       for (String index in widget.defaultCheckedIndex) {
-        for (SkyTreeNode item in widget.children) {
+        for (SkyTreeNode item in dataList) {
           SkyTreeNode? result = SkyTreeCommon.find(item, index);
           if (result != null) {
-            _controller.checkedChildren(result, true);
+            _controller.checkedNode(result, true);
           }
         }
       }
       for (String index in widget.defaultExpandedIndexs) {
-        for (SkyTreeNode item in widget.children) {
+        for (SkyTreeNode item in dataList) {
           SkyTreeNode? result = SkyTreeCommon.find(item, index);
           if (result != null && result.children.isNotEmpty) {
             result.isExpend = true;
@@ -78,7 +80,7 @@ class _SkyTreeState extends State<SkyTree> {
     }
     if (widget.activeIndex != null) {
       SkyTreeNode? activeItem;
-      for (SkyTreeNode item in widget.children) {
+      for (SkyTreeNode item in dataList) {
         activeItem = SkyTreeCommon.find(item, widget.activeIndex!);
       }
       _controller.setActiveIndex(widget.activeIndex!, activeItem!);
@@ -94,10 +96,18 @@ class _SkyTreeState extends State<SkyTree> {
   }
 
   @override
+  void didUpdateWidget(SkyTree oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.children != widget.children || oldWidget.activeIndex != widget.activeIndex) {
+      init();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: TreeItem(
-        children: widget.children,
+        children: dataList,
         controller: _controller,
         accordion: widget.accordion,
         icon: widget.icon,

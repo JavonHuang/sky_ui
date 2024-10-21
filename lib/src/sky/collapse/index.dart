@@ -81,6 +81,10 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  void init() {
     if (widget.controller == null) {
       _internalController = SkyCollapseController();
     }
@@ -129,6 +133,9 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
     }
     if (widget.opacityCurve != oldWidget.opacityCurve) {
       _secondAnimation = _initAnimation(widget.opacityCurve, false);
+    }
+    if (widget.controller != oldWidget.controller) {
+      _collapseCtrl._attach(this);
     }
   }
 
@@ -329,11 +336,23 @@ class _SkyCollapseState extends State<SkyCollapse> with TickerProviderStateMixin
   }
 
   // 折叠代码面板
+  void _toggleCodePanelOpen() {
+    _controller.forward();
+  }
+
+  // 折叠代码面板
+  void _toggleCodePanelClose() {
+    _controller.reverse();
+  }
+
+  // 折叠代码面板
   void _toggleCodePanel() {
     if (_isOpen) {
-      _close();
+      _controller.reverse();
+      widget.onClose?.call();
     } else {
-      _open();
+      _controller.forward();
+      widget.onOpen?.call();
     }
   }
 }
@@ -346,12 +365,12 @@ class SkyCollapseController {
     return _state!._isOpen;
   }
 
-  void toggle() {
-    if (isOpen) {
-      close();
-    } else {
-      open();
-    }
+  void toggleClose() {
+    _state!._toggleCodePanelClose();
+  }
+
+  void toggleOpen() {
+    _state!._toggleCodePanelOpen();
   }
 
   void close() {
