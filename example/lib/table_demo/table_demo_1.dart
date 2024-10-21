@@ -13,7 +13,9 @@ class _TableDemo1State extends State<TableDemo1> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [],
+      children: [
+        SkyTable(),
+      ],
     );
   }
 }
