@@ -10,11 +10,22 @@ class TableDemo1 extends StatefulWidget {
 }
 
 class _TableDemo1State extends State<TableDemo1> {
+  List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-14", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SkyTable(),
+        SizedBox(
+          height: 200,
+          child: SkyTable(
+            data: dataList,
+            columns: [
+              SkyTableColumn(prop: "date", width: 200),
+              SkyTableColumn(prop: "name"),
+              SkyTableColumn(prop: "address"),
+            ],
+          ),
+        ),
       ],
     );
   }

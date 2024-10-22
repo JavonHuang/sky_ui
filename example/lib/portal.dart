@@ -22,6 +22,7 @@ import 'message_demo.dart';
 import 'popover_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
+import 'table_demo.dart';
 import 'tabs_demo.dart';
 import 'tag_demo.dart';
 import 'tes.dart';
@@ -202,12 +203,21 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
       children: [
         SkyMenuNode(
           data: const SkyMenuMeta(
+            label: 'Table 表格',
+            ext: {
+              "widget": TableDemo(),
+            },
+          ),
+          index: "2-0",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
             label: 'Tag 标签',
             ext: {
               "widget": TagDemo(),
             },
           ),
-          index: "2-0",
+          index: "2-1",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -216,22 +226,13 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": TreeDemo(),
             },
           ),
-          index: "2-1",
+          index: "2-2",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
             label: 'Badge 标记',
             ext: {
               "widget": BadgeDemo(),
-            },
-          ),
-          index: "2-2",
-        ),
-        SkyMenuNode(
-          data: const SkyMenuMeta(
-            label: 'Descriptions 描述列表',
-            ext: {
-              "widget": DescriptionsDemo(),
             },
           ),
           index: "2-3",
@@ -244,6 +245,15 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
             },
           ),
           index: "2-4",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
+            label: 'Descriptions 描述列表',
+            ext: {
+              "widget": DescriptionsDemo(),
+            },
+          ),
+          index: "2-5",
         ),
       ],
     ),
