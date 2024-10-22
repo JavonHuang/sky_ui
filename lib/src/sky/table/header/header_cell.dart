@@ -4,22 +4,19 @@ import '../../../styles/styles.dart';
 import '../index.dart';
 import '../styles.dart';
 
-class SkyTableBodyCell extends StatelessWidget {
-  final Map<dynamic, dynamic> rowData;
+class HeaderCell extends StatelessWidget {
   final SkyTableColumn column;
 
-  const SkyTableBodyCell({
+  const HeaderCell({
     super.key,
-    required this.rowData,
     required this.column,
   });
 
   @override
   Widget build(BuildContext context) {
     Widget cellWidget = Container(
-      padding: SkyGridTableStyle.padding,
       // color: Colors.red,
-
+      padding: SkyGridTableStyle.padding,
       decoration: BoxDecoration(
         border: Border(
           right: BorderSide(
@@ -29,7 +26,7 @@ class SkyTableBodyCell extends StatelessWidget {
         ),
       ),
       width: column.getWidth == 0 ? null : column.getWidth,
-      child: Text(rowData[column.prop]),
+      child: Text(column.label),
     );
     if (column.getFlex) {
       return Expanded(child: cellWidget);

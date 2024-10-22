@@ -1,28 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:sky_ui/src/sky/common/sky_hover.dart';
 
+import '../../../styles/styles.dart';
 import '../index.dart';
 import 'body_cell.dart';
 
 class SkyTableBodyRow extends StatelessWidget {
-  final Map<dynamic, dynamic> rowData;
-  final List<SkyTableColumn> columns;
-
   const SkyTableBodyRow({
     super.key,
-    required this.rowData,
-    required this.columns,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: rowData.keys.map((key) {
-        SkyTableColumn column = columns.firstWhere((e) => e.prop == key);
-        return SkyTableBodyCell(
-          rowData: rowData,
-          column: column,
-        );
-      }).toList(),
+    SkyTableController controller = SkyTable.maybeOf(context)!.controller;
+
+    return Expanded(
+      child: ListView.builder(
+          shrinkWrap: true,
+          primary: false,
+          itemCount: controller.data.length,
+          itemBuilder: (context, index) {
+            return IntrinsicHeight(
+              child: SkyHover(
+                disabled: false,
+                builder: (context, onHover) => Container(
+                  decoration: BoxDecoration(
+                    color: index % 2 == 1 || onHover ? SkyColors().tableRowBg : SkyColors().tableDefaultRowBg,
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 1,
+                        color: SkyColors().baseBorder,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: controller.columns.map((column) {
+                      return SkyTableBodyCell(
+                        rowData: controller.data[index],
+                        column: column,
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            );
+          }),
     );
   }
 }

@@ -20,9 +20,21 @@ class _TableDemo1State extends State<TableDemo1> {
           child: SkyTable(
             data: dataList,
             columns: [
-              SkyTableColumn(prop: "date", width: 200),
-              SkyTableColumn(prop: "name"),
-              SkyTableColumn(prop: "address"),
+              SkyTableColumn(
+                prop: "date",
+                width: 200,
+                label: "日期",
+              ),
+              SkyTableColumn(
+                prop: "name",
+                label: "姓名",
+                // width: 80,
+              ),
+              SkyTableColumn(
+                prop: "address",
+                label: "地址",
+                width: 200,
+              ),
             ],
           ),
         ),
