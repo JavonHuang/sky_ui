@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class MessageDemo2 extends StatefulWidget {
   const MessageDemo2({super.key});
@@ -33,28 +32,28 @@ class _MessageDemo2State extends State<MessageDemo2> {
               text: "成功",
               onTap: () {
                 count++;
-                SkyMessage(message: "测常提示${count}", type: SkyAlertType.success, showIcon: true).open();
+                SkyMessage(message: "测常提示$count", type: SkyAlertType.success, showIcon: true).open();
               },
             ),
             SkyButton(
               text: "警告",
               onTap: () {
                 count++;
-                SkyMessage(message: "测常提示${count}", type: SkyAlertType.warning, showIcon: true).open();
+                SkyMessage(message: "测常提示$count", type: SkyAlertType.warning, showIcon: true).open();
               },
             ),
             SkyButton(
               text: "消息",
               onTap: () {
                 count++;
-                SkyMessage(message: "测常提示${count}", type: SkyAlertType.info, showIcon: true).open();
+                SkyMessage(message: "测常提示$count", type: SkyAlertType.info, showIcon: true).open();
               },
             ),
             SkyButton(
               text: "错误",
               onTap: () {
                 count++;
-                SkyMessage(message: "测常提示${count}", type: SkyAlertType.error, showIcon: true).open();
+                SkyMessage(message: "测常提示$count", type: SkyAlertType.error, showIcon: true).open();
               },
             ),
           ],

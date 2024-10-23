@@ -30,7 +30,6 @@ class _MyContextMenuState extends State<MyContextMenu> {
   final FocusNode _buttonFocusNode = FocusNode(debugLabel: 'Menu Button');
   final MenuController _menuController = MenuController();
   ShortcutRegistryEntry? _shortcutsEntry;
-  bool _menuWasEnabled = false;
 
   Color get backgroundColor => _backgroundColor;
   Color _backgroundColor = Colors.red;
@@ -90,10 +89,6 @@ class _MyContextMenuState extends State<MyContextMenu> {
     //   return;
     // }
     return;
-    _menuWasEnabled = BrowserContextMenu.enabled;
-    if (_menuWasEnabled) {
-      await BrowserContextMenu.disableContextMenu();
-    }
   }
 
   void _reenableContextMenu() {
@@ -102,9 +97,6 @@ class _MyContextMenuState extends State<MyContextMenu> {
     //   return;
     // }
     return;
-    if (_menuWasEnabled && !BrowserContextMenu.enabled) {
-      BrowserContextMenu.enableContextMenu();
-    }
   }
 
   @override
@@ -240,6 +232,6 @@ class ContextMenuApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyContextMenu(message: kMessage);
+    return const MyContextMenu(message: kMessage);
   }
 }

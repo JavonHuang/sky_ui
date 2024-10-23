@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class LayoutDemo2 extends StatefulWidget {
   const LayoutDemo2({super.key});

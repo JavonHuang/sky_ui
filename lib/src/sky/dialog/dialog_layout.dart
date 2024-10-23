@@ -39,6 +39,7 @@ class DialogLayout extends StatefulWidget {
 }
 
 class _DialogLayoutState extends State<DialogLayout> {
+  // ignore: avoid_init_to_null
   late dynamic _value = null;
   void setValue(dynamic e) {
     _value = e;

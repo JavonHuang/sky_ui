@@ -117,7 +117,6 @@ class SkyFormFieldState extends State<SkyFormField> {
       case SkyFormType.skyDataPicker:
         break;
       case null:
-      // TODO: Handle this case.
     }
     SkyForm.maybeOf(context)?._register(this);
   }
@@ -177,7 +176,6 @@ class SkyFormFieldState extends State<SkyFormField> {
       case SkyFormType.skyDataPicker:
         break;
       case null:
-      // TODO: Handle this case.
     }
     _validatorResult = ValidatorResult(result: true, message: '');
     opacity = 0;
@@ -236,7 +234,6 @@ class SkyFormFieldState extends State<SkyFormField> {
       case SkyFormType.skyDataPicker:
         break;
       case null:
-      // TODO: Handle this case.
     }
     _validatorResult = ValidatorResult(result: true, message: '');
     opacity = 1;
@@ -307,7 +304,6 @@ class SkyFormFieldState extends State<SkyFormField> {
       case SkyFormType.skyDataPicker:
         break;
       case null:
-      // TODO: Handle this case.
     }
     return Future.value({"prop": widget.prop, "result": _validatorResult.result, "value": value});
   }

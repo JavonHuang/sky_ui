@@ -5,14 +5,14 @@ import '../index.dart';
 import 'header_cell.dart';
 
 class HeaderRow extends StatelessWidget {
+  final List<SkyTableColumn> columns;
   const HeaderRow({
     super.key,
+    required this.columns,
   });
 
   @override
   Widget build(BuildContext context) {
-    SkyTableController controller = SkyTable.maybeOf(context)!.controller;
-
     return IntrinsicHeight(
       child: Container(
         decoration: BoxDecoration(
@@ -25,7 +25,7 @@ class HeaderRow extends StatelessWidget {
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: controller.columns.map((column) {
+          children: columns.map((column) {
             return HeaderCell(
               column: column,
             );

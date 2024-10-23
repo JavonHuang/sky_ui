@@ -302,7 +302,7 @@ class _IconDemoState extends State<IconDemo> {
       children: iconList
           .map(
             (e) => Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               width: 180,
               child: Column(
                 children: [

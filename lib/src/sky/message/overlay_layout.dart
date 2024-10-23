@@ -127,11 +127,9 @@ class LayoutState extends State<Layout> {
     }
     String firstItem = delQueueList.removeAt(0);
     int last = -1;
-    MessageFuture? future;
     for (var e in MessageManager().MessageSet) {
       last += 1;
       if (e.id == firstItem) {
-        future = e;
         break;
       }
     }

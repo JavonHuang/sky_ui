@@ -115,7 +115,7 @@ class _SkyTabsState extends State<SkyTabs> {
                         onTap: () {
                           _controller._offsetXMove("left");
                         },
-                        builder: (ctx, hover) {
+                        builder: (ctx, hover, setvalue) {
                           return Container(
                             width: 20.scaleSpacing,
                             alignment: Alignment.centerLeft,
@@ -156,7 +156,7 @@ class _SkyTabsState extends State<SkyTabs> {
                         onTap: () {
                           _controller._offsetXMove("right");
                         },
-                        builder: (ctx, hover) {
+                        builder: (ctx, hover, setvalue) {
                           return Container(
                             width: 20.scaleSpacing,
                             alignment: Alignment.centerRight,

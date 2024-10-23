@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sky_ui/sky_ui.dart';
 import 'common/display_block.dart';
 import 'common/title.dart';
 import 'message_box_demo/message_box_demo_1.dart';

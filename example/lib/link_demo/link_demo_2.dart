@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class LinkDemo2 extends StatefulWidget {
   const LinkDemo2({super.key});

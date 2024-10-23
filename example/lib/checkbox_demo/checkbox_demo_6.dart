@@ -18,7 +18,7 @@ class _CheckboxDemo6State extends State<CheckboxDemo6> {
         SkyRow(
           children: [
             SkyCheckboxGroup(
-              model: ["val1"],
+              model: const ["val1"],
               buttonStyle: true,
               size: SkySize.large,
               children: [
@@ -46,7 +46,7 @@ class _CheckboxDemo6State extends State<CheckboxDemo6> {
         SkyRow(
           children: [
             SkyCheckboxGroup(
-              model: ["val1"],
+              model: const ["val1"],
               buttonStyle: true,
               size: SkySize.medium,
               children: [
@@ -74,7 +74,7 @@ class _CheckboxDemo6State extends State<CheckboxDemo6> {
         SkyRow(
           children: [
             SkyCheckboxGroup(
-              model: ["val1"],
+              model: const ["val1"],
               buttonStyle: true,
               size: SkySize.small,
               children: [
@@ -102,7 +102,7 @@ class _CheckboxDemo6State extends State<CheckboxDemo6> {
         SkyRow(
           children: [
             SkyCheckboxGroup(
-              model: ["val1"],
+              model: const ["val1"],
               buttonStyle: true,
               size: SkySize.mini,
               children: [

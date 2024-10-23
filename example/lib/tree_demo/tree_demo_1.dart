@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class TreeDemo1 extends StatefulWidget {
   const TreeDemo1({super.key});
@@ -14,25 +13,25 @@ class _TreeDemo1State extends State<TreeDemo1> {
     SkyTreeNode(
       index: "1",
       isExpend: true,
-      data: SkyTreeMeta(
+      data: const SkyTreeMeta(
         label: "一级1",
       ),
       children: [
         SkyTreeNode(
           index: "1-1",
-          data: SkyTreeMeta(
+          data: const SkyTreeMeta(
             label: "二级1-1",
           ),
         ),
         SkyTreeNode(
           index: "1-2",
-          data: SkyTreeMeta(
+          data: const SkyTreeMeta(
             label: "二级1-2",
           ),
           children: [
             SkyTreeNode(
               index: "1-2-1",
-              data: SkyTreeMeta(
+              data: const SkyTreeMeta(
                 label: "三级1-2-1",
               ),
             )
@@ -42,20 +41,20 @@ class _TreeDemo1State extends State<TreeDemo1> {
     ),
     SkyTreeNode(
         index: "2",
-        data: SkyTreeMeta(
+        data: const SkyTreeMeta(
           label: "一级2",
         ),
         children: [
           SkyTreeNode(
             index: "2-1",
-            data: SkyTreeMeta(
+            data: const SkyTreeMeta(
               label: "二级2-1",
             ),
           ),
         ]),
     SkyTreeNode(
       index: "3",
-      data: SkyTreeMeta(
+      data: const SkyTreeMeta(
         label: "一级3",
       ),
     ),

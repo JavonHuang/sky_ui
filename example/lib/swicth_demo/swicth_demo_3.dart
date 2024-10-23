@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class SwicthDemo3 extends StatefulWidget {
   const SwicthDemo3({super.key});

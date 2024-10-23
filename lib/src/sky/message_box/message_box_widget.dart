@@ -35,6 +35,7 @@ class MessageBoxWidget extends StatefulWidget {
 }
 
 class _MessageBoxWidgetState extends State<MessageBoxWidget> {
+  // ignore: avoid_init_to_null
   late dynamic _value = null;
   void setValue(dynamic e) {
     _value = e;

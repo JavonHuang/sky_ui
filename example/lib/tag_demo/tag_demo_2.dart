@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class TagDemo2 extends StatefulWidget {
   const TagDemo2({super.key});

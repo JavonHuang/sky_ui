@@ -10,30 +10,75 @@ class TableDefault extends StatelessWidget {
     SkyTableController controller = SkyTable.maybeOf(context)!.controller;
     final innerController = ScrollController();
 
+    Widget tableBody = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        HeaderRow(columns: controller.showColumns),
+        SkyTableBodyContent(
+          columns: controller.showColumns,
+          scrollController: controller._scrollController,
+        ),
+      ],
+    );
     if (controller.widthOverflow) {
-      return Scrollbar(
+      tableBody = Scrollbar(
         controller: innerController,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           controller: innerController,
           child: SizedBox(
             width: controller.columnWidth,
-            child: Column(
-              children: [
-                HeaderRow(),
-                SkyTableBodyRow(),
-              ],
-            ),
+            child: tableBody,
           ),
         ),
       );
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        HeaderRow(),
-        SkyTableBodyRow(),
-      ],
-    );
+
+    if (controller.hasFixed) {
+      tableBody = Stack(
+        children: [
+          tableBody,
+          if (controller.fixedRightColumns.isNotEmpty)
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 10,
+              width: 80,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    HeaderRow(columns: controller.fixedRightColumns),
+                    SkyTableBodyContent(
+                      columns: controller.fixedRightColumns,
+                      scrollController: controller._rightScrollController,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (controller.fixedLeftColumns.isNotEmpty)
+            Positioned(
+              left: 0,
+              top: 0,
+              bottom: 10,
+              width: 80,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  HeaderRow(columns: controller.fixedLeftColumns),
+                  SkyTableBodyContent(
+                    columns: controller.fixedLeftColumns,
+                    scrollController: controller._leftScrollController,
+                  ),
+                ],
+              ),
+            ),
+        ],
+      );
+    }
+
+    return tableBody;
   }
 }

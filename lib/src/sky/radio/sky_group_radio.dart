@@ -34,6 +34,7 @@ class SkyGroupRadio extends SkyFormFieldBridge<SkyGroupRadio> {
 
 class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
   SkyGroupRadio get _widget => super.widget as SkyGroupRadio;
+  // ignore: avoid_init_to_null
   late String? value = null;
   late List<GlobalKey<_SkyRadioState>> keys = [];
   late List<_RadioOption> childrenList = [];
@@ -44,7 +45,7 @@ class SkyGroupRadioState extends SkyFormFieldBridgeState<SkyGroupRadio> {
       _RadioOption item = childrenList[i];
       result.add(
         Container(
-          padding: EdgeInsets.only(right: _widget.buttonStyle! ? 0 : 4.scaleSpacing),
+          padding: EdgeInsets.only(right: _widget.buttonStyle ? 0 : 4.scaleSpacing),
           child: SkyRadio(
             key: item.key,
             size: _widget.size,

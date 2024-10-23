@@ -38,6 +38,7 @@ class _SkyTimePickerState extends SkyFormFieldBridgeState<SkyTimePicker> with Si
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
 
+  // ignore: avoid_init_to_null
   late dynamic value = null;
   late List<String> showOptions = [];
   late bool onHover = false;

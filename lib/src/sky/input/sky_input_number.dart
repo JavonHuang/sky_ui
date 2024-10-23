@@ -67,6 +67,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   }
 
   _focusNodeListener() {
+    // ignore: no_leading_underscores_for_local_identifiers
     String _text = _textController.text;
     if (_focusNode.hasFocus) {
       setState(() {

@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../../styles/styles.dart';
 import '../common/generate_uuid.dart';
+import 'body/body_content.dart';
 import 'body/body_row.dart';
 import 'header/header_row.dart';
+import 'linked_scroll_controller.dart';
+import 'model/sky_table_event.dart';
 part 'table_controller.dart';
 part 'table_default.dart';
 part 'model/table_column.dart';
@@ -51,6 +56,12 @@ class _SkyTableState extends State<SkyTable> {
   }
 
   @override
+  void dispose() {
+    controller._detach(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -64,7 +75,7 @@ class _SkyTableState extends State<SkyTable> {
         child: LayoutBuilder(
           builder: (ctx, box) {
             controller.viewWidth = box.maxWidth;
-            return TableDefault();
+            return const TableDefault();
           },
         ),
       ),

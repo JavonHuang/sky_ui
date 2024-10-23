@@ -30,6 +30,5 @@ class DemoTitle extends StatelessWidget {
           )
       ],
     );
-    ;
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 class TestDemo extends StatefulWidget {
@@ -13,16 +12,14 @@ class _TestDemoState extends State<TestDemo> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print('Parent tapped');
-      },
+      onTap: () {},
       child: Column(
         children: <Widget>[
           Container(
             height: 100,
             color: Colors.lightBlue,
             alignment: Alignment.center,
-            child: Text('Tap me (Parent)'),
+            child: const Text('Tap me (Parent)'),
           ),
           AbsorbPointer(
             absorbing: true,
@@ -30,13 +27,12 @@ class _TestDemoState extends State<TestDemo> {
               behavior: HitTestBehavior.deferToChild, // 显式指定，但默认就是 opaque
               onTap: () {
                 // 这个回调不应该被调用
-                print('Child tapped (this should not print)');
               },
               child: Container(
                 height: 100,
                 color: Colors.lightGreen,
                 alignment: Alignment.center,
-                child: Text('Tap me (Child)'),
+                child: const Text('Tap me (Child)'),
               ),
             ),
           ),
@@ -58,6 +54,7 @@ class _Page1State extends State<Page1> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return const Column(
       children: [SkyInput()],
     );

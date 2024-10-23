@@ -7,6 +7,7 @@ class MessageManager {
 
   static final MessageManager _instance = MessageManager._();
 
+  // ignore: non_constant_identifier_names
   final Set<MessageFuture> MessageSet = <MessageFuture>{};
 
   void dismissAll() {

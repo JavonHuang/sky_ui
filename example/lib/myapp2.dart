@@ -27,7 +27,7 @@ import 'tes.dart';
 import 'time_picker_demo.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,6 @@ class _MyMainState extends State<MyMain> {
             style: TextStyle(color: SkyColors().placeholderText, fontSize: SkyFontSizes().auxiliaryFont),
           );
         }
-        ;
       }).toList(),
     );
   }

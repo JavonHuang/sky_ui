@@ -12,7 +12,7 @@ class SkyHover extends StatefulWidget {
   });
   final bool disabled;
 
-  final Widget? Function(BuildContext context, bool onHover)? builder;
+  final Widget? Function(BuildContext context, bool onHover, void Function(bool e) setvalue)? builder;
   final Widget? child;
   final Function()? onTap;
   final Function(bool e)? onchanged;
@@ -56,7 +56,7 @@ class _SkyHoverState extends State<SkyHover> {
 
           _setValue(false);
         },
-        child: widget.child ?? widget.builder?.call(context, onHover),
+        child: widget.child ?? widget.builder?.call(context, onHover, _setValue),
       ),
     );
   }

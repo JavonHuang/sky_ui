@@ -6,13 +6,15 @@ class SkyTableColumn {
   final double? width;
   final String prop;
   final String label;
-
+  final SkyFixed? fixed;
   SkyTableColumn({
     this.width,
     this.flex = false,
     required this.prop,
     required this.label,
-  }) : key = GenerateUuid.keyV1();
+    this.fixed,
+  })  : assert(!(fixed != null && width == null), 'When flex is true, width does not need to be assigned'),
+        key = GenerateUuid.keyV1();
 
   double get getWidth {
     if (flex) {
@@ -22,4 +24,9 @@ class SkyTableColumn {
   }
 
   bool get getFlex => flex;
+}
+
+enum SkyFixed {
+  right,
+  left;
 }

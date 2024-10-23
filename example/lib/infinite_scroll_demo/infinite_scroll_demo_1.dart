@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class InfiniteScrollDemo1 extends StatefulWidget {
   const InfiniteScrollDemo1({super.key});
@@ -15,7 +14,6 @@ class _InfiniteScrollDemo1State extends State<InfiniteScrollDemo1> {
   late bool loading = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       listData = List.generate(10, (index) => index);

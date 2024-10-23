@@ -33,6 +33,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
   late GlobalKey<SkyDatePickerItemState> endPicker = GlobalKey<SkyDatePickerItemState>();
 
   late List<DateTime> valueList = [];
+  // ignore: avoid_init_to_null
   late DateTime? hoverTime = null;
 
   bool get linkPanels => widget.linkPanels;
@@ -75,7 +76,7 @@ class _SkyDatePickerRangeMenuState extends State<SkyDatePickerRangeMenu> {
                   DateTime t = DateTime.now();
                   e.onTap(DateTime(t.year, t.month, t.day), setQuicKValue);
                 },
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     e.text,
                     style: TextStyle(

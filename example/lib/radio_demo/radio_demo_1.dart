@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class RadioDemo1 extends StatefulWidget {
   const RadioDemo1({super.key});

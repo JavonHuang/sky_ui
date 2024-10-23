@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sky_ui/sky_ui.dart';
-
 import 'common/display_block.dart';
-import 'common/space.dart';
 import 'common/title.dart';
 import 'swicth_demo/swicth_demo_1.dart';
 import 'swicth_demo/swicth_demo_2.dart';

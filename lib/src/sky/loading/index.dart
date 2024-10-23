@@ -79,7 +79,7 @@ class SkyLoading {
       },
     );
 
-    navigatorKey!.currentState!.overlay!.insert(_overlayEntry!);
+    navigatorKey.currentState!.overlay!.insert(_overlayEntry!);
     if (time != null) {
       Future.delayed(time).then((e) {
         close();

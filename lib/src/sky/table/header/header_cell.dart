@@ -14,16 +14,20 @@ class HeaderCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SkyTableController controller = SkyTable.maybeOf(context)!.controller;
+
     Widget cellWidget = Container(
       // color: Colors.red,
       padding: SkyGridTableStyle.padding,
       decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            width: 1,
-            color: SkyColors().baseBorder,
-          ),
-        ),
+        border: controller.border
+            ? Border(
+                right: BorderSide(
+                  width: 1,
+                  color: SkyColors().baseBorder,
+                ),
+              )
+            : null,
       ),
       width: column.getWidth == 0 ? null : column.getWidth,
       child: Text(column.label),

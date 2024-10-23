@@ -121,61 +121,59 @@ class _SkySwitchState<T> extends SkyFormFieldBridgeState<SkySwitch> {
     double leftTrue = _widget.size.height * 0.5;
     double leftFalse = _widget.size.height * 0.05;
     super.build(context);
-    return Container(
-      child: Row(
-        children: [
-          if (_widget.inactiveText != null) renderText(_widget.inactiveText!, 1),
-          GestureDetector(
-            onTap: () {
-              if (_widget.disabled) {
-                return;
-              }
-              if (_widget.activeValue != null && _widget.inactiveValue != null) {
-                setValue(!value ? _widget.activeValue : _widget.inactiveValue);
-              } else {
-                setValue(!value);
-              }
-            },
-            child: MouseRegion(
-              cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-              child: UnconstrainedBox(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: bHeight,
-                      width: bWidth,
-                      decoration: BoxDecoration(
-                        color: bgColor,
-                        borderRadius: BorderRadius.circular(
-                          MediaQuery.of(context).size.height * 0.25,
-                        ),
+    return Row(
+      children: [
+        if (_widget.inactiveText != null) renderText(_widget.inactiveText!, 1),
+        GestureDetector(
+          onTap: () {
+            if (_widget.disabled) {
+              return;
+            }
+            if (_widget.activeValue != null && _widget.inactiveValue != null) {
+              setValue(!value ? _widget.activeValue : _widget.inactiveValue);
+            } else {
+              setValue(!value);
+            }
+          },
+          child: MouseRegion(
+            cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+            child: UnconstrainedBox(
+              child: Stack(
+                children: [
+                  Container(
+                    height: bHeight,
+                    width: bWidth,
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.height * 0.25,
                       ),
                     ),
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 200),
-                      left: value ? leftTrue : leftFalse,
-                      height: bHeight,
-                      child: Center(
-                        child: Container(
-                          height: cSize,
-                          width: cSize,
-                          decoration: BoxDecoration(
-                            color: SkyColors().white,
-                            borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.5,
-                            ),
+                  ),
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 200),
+                    left: value ? leftTrue : leftFalse,
+                    height: bHeight,
+                    child: Center(
+                      child: Container(
+                        height: cSize,
+                        width: cSize,
+                        decoration: BoxDecoration(
+                          color: SkyColors().white,
+                          borderRadius: BorderRadius.circular(
+                            MediaQuery.of(context).size.height * 0.5,
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-          if (_widget.activeText != null) renderText(_widget.activeText!, 2),
-        ],
-      ),
+        ),
+        if (_widget.activeText != null) renderText(_widget.activeText!, 2),
+      ],
     );
   }
 }

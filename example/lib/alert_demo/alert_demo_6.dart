@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class AlertDemo6 extends StatefulWidget {
   const AlertDemo6({super.key});

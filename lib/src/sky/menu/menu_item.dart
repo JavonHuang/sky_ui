@@ -45,7 +45,7 @@ class _MenuItemState extends State<MenuItem> {
                   widget.controller.closeOtherCollapse(e);
                 }
               },
-              builder: (context, onHover) {
+              builder: (context, onHover, setvalue) {
                 Color color = onHover || e.isCurrent(widget.controller.activeIndex) || e.isInChildren(widget.controller.activeIndex) ? SkyColors().primary : SkyColors().primaryText;
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: SkySpacings().textSpacing),
@@ -91,7 +91,7 @@ class _MenuItemState extends State<MenuItem> {
                   parentNode: e,
                 )
               : null,
-          duration: Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 200),
         );
       }).toList(),
     );

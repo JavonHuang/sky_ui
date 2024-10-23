@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class CheckboxDemo3 extends StatefulWidget {
   const CheckboxDemo3({super.key});
@@ -19,7 +18,7 @@ class _CheckboxDemo3State extends State<CheckboxDemo3> {
           gutter: 10,
           children: [
             SkyCheckboxGroup(
-              model: ["val1", "val5"],
+              model: const ["val1", "val5"],
               children: [
                 SkyCheckboxOption(
                   text: "复选A",

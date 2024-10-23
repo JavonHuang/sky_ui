@@ -30,7 +30,7 @@ class _SkyTabBarState extends State<SkyTabBar> {
       onChange: widget.onSizeChange,
       child: SkyHover(
         onTap: widget.onTap,
-        builder: (context, onHover) {
+        builder: (context, onHover, setvalue) {
           return Container(
             alignment: Alignment.center,
             padding: widget.padding,

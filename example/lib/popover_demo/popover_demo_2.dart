@@ -33,7 +33,7 @@ class _PopoverDemo2State extends State<PopoverDemo2> {
       height: 200,
       width: 100,
       color: SkyColors().white,
-      child: Text("567890"),
+      child: const Text("567890"),
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

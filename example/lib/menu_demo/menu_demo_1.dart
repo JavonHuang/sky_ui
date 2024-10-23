@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class MenuDemo1 extends StatefulWidget {
   const MenuDemo1({super.key});
@@ -18,7 +17,7 @@ class _MenuDemo1State extends State<MenuDemo1> {
         UnconstrainedBox(
           // height: 500,
           // width: 200,
-          child: Container(
+          child: SizedBox(
             width: 200,
             // color: Colors.red,
             height: 200,

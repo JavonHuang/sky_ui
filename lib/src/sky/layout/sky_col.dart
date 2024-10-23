@@ -20,6 +20,7 @@ class SkyCol extends StatelessWidget {
     double vwidth = (width ?? SkyRow.maybeOf(context)!.unit * span) as double;
     double voffset = (SkyRow.maybeOf(context)!.unit * offset) as double;
     double gutter = (width ?? SkyRow.maybeOf(context)!._gutter);
+    // ignore: no_leading_underscores_for_local_identifiers
     double _width = vwidth - gutter + voffset;
     return SizedBox(
       width: _width < 0 ? 0 : _width,

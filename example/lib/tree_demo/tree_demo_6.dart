@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class TreeDemo6 extends StatefulWidget {
   const TreeDemo6({super.key});
@@ -15,25 +14,25 @@ class _TreeDemo6State extends State<TreeDemo6> {
     SkyTreeNode(
       index: "1",
       isExpend: true,
-      data: SkyTreeMeta(
+      data: const SkyTreeMeta(
         label: "一级1",
       ),
       children: [
         SkyTreeNode(
           index: "1-1",
-          data: SkyTreeMeta(
+          data: const SkyTreeMeta(
             label: "二级1-1",
           ),
         ),
         SkyTreeNode(
           index: "1-2",
-          data: SkyTreeMeta(
+          data: const SkyTreeMeta(
             label: "二级1-2",
           ),
           children: [
             SkyTreeNode(
               index: "1-2-1",
-              data: SkyTreeMeta(
+              data: const SkyTreeMeta(
                 label: "三级1-2-1",
               ),
             )
@@ -43,20 +42,20 @@ class _TreeDemo6State extends State<TreeDemo6> {
     ),
     SkyTreeNode(
         index: "2",
-        data: SkyTreeMeta(
+        data: const SkyTreeMeta(
           label: "一级2",
         ),
         children: [
           SkyTreeNode(
             index: "2-1",
-            data: SkyTreeMeta(
+            data: const SkyTreeMeta(
               label: "二级2-1",
             ),
           ),
         ]),
     SkyTreeNode(
       index: "3",
-      data: SkyTreeMeta(
+      data: const SkyTreeMeta(
         label: "一级3",
       ),
     ),
@@ -97,7 +96,7 @@ class _TreeDemo6State extends State<TreeDemo6> {
                       SkyButton(
                         type: SkyType.text,
                         text: "Delete",
-                        customSize: Size(70, 20),
+                        customSize: const Size(70, 20),
                         onTap: () {
                           controller.remove(e);
                         },

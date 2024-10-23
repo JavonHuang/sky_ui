@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:sky_ui/sky_ui.dart';
 import 'alert_demo/alert_demo_1.dart';
 import 'alert_demo/alert_demo_2.dart';
 import 'alert_demo/alert_demo_3.dart';
@@ -9,7 +7,6 @@ import 'alert_demo/alert_demo_5.dart';
 import 'alert_demo/alert_demo_6.dart';
 import 'alert_demo/alert_demo_7.dart';
 import 'common/display_block.dart';
-import 'common/space.dart';
 import 'common/title.dart';
 // import 'package:flutter_highlight/theme_map.dart';
 

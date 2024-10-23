@@ -37,6 +37,7 @@ class _SkyDatePickerSingleState<T> extends SkyFormFieldBridgeState<SkyDatePicker
   final FocusNode focusNode = FocusNode();
   final MenuController menuController = MenuController();
 
+  // ignore: avoid_init_to_null
   late dynamic value = null;
   late List<dynamic> valueList = [];
 

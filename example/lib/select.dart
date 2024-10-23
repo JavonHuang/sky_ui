@@ -13,7 +13,6 @@ class _SelectTestState extends State<SelectTest> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       options = List.generate(100, (i) => SkySelectOption(label: "选项$i", value: "1$i")).toList();
@@ -51,16 +50,15 @@ class _SelectTestState extends State<SelectTest> {
           label: const Text('Color'),
           menuHeight: 150,
           menuStyle: const MenuStyle(
-            backgroundColor: MaterialStatePropertyAll<Color>(Colors.white),
-            surfaceTintColor: MaterialStatePropertyAll<Color>(Colors.white),
-            padding: MaterialStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20)),
+            backgroundColor: WidgetStatePropertyAll<Color>(Colors.white),
+            surfaceTintColor: WidgetStatePropertyAll<Color>(Colors.white),
+            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20)),
           ),
           dropdownMenuEntries: options.map((value) {
             return DropdownMenuEntry<String>(value: value.value, label: value.label);
           }).toList(),
         ),
         PopupMenuButton(
-          child: Text("8989"),
           tooltip: "",
           itemBuilder: (context) {
             // return <PopupMenuItem<String>>[
@@ -69,9 +67,9 @@ class _SelectTestState extends State<SelectTest> {
               PopupMenuItem<String>(
                 value: 'one',
                 onTap: () => debugPrint('tap one'),
-                child: SizedBox(
+                child: const SizedBox(
                   // height: 600,
-                  child: const Text('1'),
+                  child: Text('1'),
                 ),
               ),
               PopupMenuItem<String>(
@@ -93,6 +91,7 @@ class _SelectTestState extends State<SelectTest> {
               ),
             ];
           },
+          child: const Text("8989"),
         )
       ],
     );

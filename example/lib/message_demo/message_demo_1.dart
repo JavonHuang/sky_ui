@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../../common/space.dart';
 
 class MessageDemo1 extends StatefulWidget {
   const MessageDemo1({super.key});
@@ -33,7 +32,7 @@ class _MessageDemo1State extends State<MessageDemo1> {
               text: "打开消息提示",
               onTap: () {
                 count++;
-                SkyMessage(message: "测常提示${count}", type: SkyAlertType.success, showIcon: true).open();
+                SkyMessage(message: "测常提示$count", type: SkyAlertType.success, showIcon: true).open();
               },
             ),
           ],

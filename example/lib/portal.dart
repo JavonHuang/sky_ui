@@ -31,7 +31,7 @@ import 'tooltip_demo.dart';
 import 'tree_demo.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -396,7 +396,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
 
   late AnimationController controller;
   late Animation<Offset> slideAnimation;
-  late Widget? showWiget = null;
+  late Widget? showWiget;
   @override
   void initState() {
     super.initState();
@@ -439,7 +439,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
           children: [
             Container(
               height: 40,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                 color: SkyColors().white,
                 border: Border(
@@ -489,7 +489,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: SlideTransition(
                         position: slideAnimation,
                         child: showWiget,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class TimePickerDemo3 extends StatefulWidget {
   const TimePickerDemo3({super.key});
@@ -11,6 +10,7 @@ class TimePickerDemo3 extends StatefulWidget {
 
 class _TimePickerDemo3State extends State<TimePickerDemo3> {
   late int model = DateTime.now().millisecondsSinceEpoch;
+  // ignore: avoid_init_to_null
   late String? startTime = null;
   @override
   Widget build(BuildContext context) {

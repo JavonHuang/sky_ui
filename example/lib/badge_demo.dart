@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sky_ui/sky_ui.dart';
 import 'badge_demo/badge_demo_1.dart';
 import 'badge_demo/badge_demo_2.dart';
 import 'common/display_block.dart';

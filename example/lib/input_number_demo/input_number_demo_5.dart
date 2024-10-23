@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class InputNumberDemo5 extends StatefulWidget {
   const InputNumberDemo5({super.key});

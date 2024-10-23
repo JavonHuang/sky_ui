@@ -81,7 +81,7 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
           titleBuilder: (context, anima, ctrl, icon) {
             return SkyHover(
               disabled: e.disabled,
-              builder: (context, onHover) {
+              builder: (context, onHover, setvalue) {
                 Color color = onHover || e.isCurrent(widget.controller.activeIndex) || e.isInChildren(widget.controller.activeIndex) ? SkyColors().primary : SkyColors().primaryText;
                 return GestureDetector(
                   onTap: () async {

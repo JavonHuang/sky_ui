@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class CheckboxDemo4 extends StatefulWidget {
   const CheckboxDemo4({super.key});

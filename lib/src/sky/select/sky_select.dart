@@ -36,8 +36,10 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
   TextEditingController _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final MenuController _menuController = MenuController();
+  // ignore: avoid_init_to_null
   late T? value = null;
   late List<SkySelectOption<T>> _valueList = [];
+  // ignore: avoid_init_to_null
   late SkySelectOption<T>? _valueItem = null;
   late bool onHover = false;
   late AnimationController _animationController;
@@ -234,6 +236,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
             disabled: e.disabled,
             label: e.label,
             width: optionWidth - padding,
+            // ignore: unnecessary_cast
             selectColor: _selectTextColors(e as SkySelectOption<T>),
             height: _widget.size.height,
             showIcon: _selectShowIcon(e),

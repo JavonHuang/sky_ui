@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class TabsDemo1 extends StatefulWidget {
   const TabsDemo1({super.key});
@@ -20,7 +19,7 @@ class _TabsDemo1State extends State<TabsDemo1> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           height: 100,
           child: SkyTabs(
             activeKey: "Tab3",

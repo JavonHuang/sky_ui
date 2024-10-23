@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class TreeDemo4 extends StatefulWidget {
   const TreeDemo4({super.key});
@@ -13,25 +12,25 @@ class _TreeDemo4State extends State<TreeDemo4> {
   List<SkyTreeNode> childrenData = [
     SkyTreeNode(
       index: "1",
-      data: SkyTreeMeta(
+      data: const SkyTreeMeta(
         label: "一级1",
       ),
       children: [
         SkyTreeNode(
           index: "1-1",
-          data: SkyTreeMeta(
+          data: const SkyTreeMeta(
             label: "二级1-1",
           ),
         ),
         SkyTreeNode(
           index: "1-2",
-          data: SkyTreeMeta(
+          data: const SkyTreeMeta(
             label: "二级1-2",
           ),
           children: [
             SkyTreeNode(
               index: "1-2-1",
-              data: SkyTreeMeta(
+              data: const SkyTreeMeta(
                 label: "三级1-2-1",
               ),
             )
@@ -41,20 +40,20 @@ class _TreeDemo4State extends State<TreeDemo4> {
     ),
     SkyTreeNode(
         index: "2",
-        data: SkyTreeMeta(
+        data: const SkyTreeMeta(
           label: "一级2",
         ),
         children: [
           SkyTreeNode(
             index: "2-1",
-            data: SkyTreeMeta(
+            data: const SkyTreeMeta(
               label: "二级2-1",
             ),
           ),
         ]),
     SkyTreeNode(
       index: "3",
-      data: SkyTreeMeta(
+      data: const SkyTreeMeta(
         label: "一级3",
       ),
     ),
@@ -66,8 +65,8 @@ class _TreeDemo4State extends State<TreeDemo4> {
       children: [
         SkyTree(
           showCheckbox: true,
-          defaultCheckedIndex: ['2'],
-          defaultExpandedIndexs: ['2'],
+          defaultCheckedIndex: const ['2'],
+          defaultExpandedIndexs: const ['2'],
           children: childrenData,
         ),
       ],

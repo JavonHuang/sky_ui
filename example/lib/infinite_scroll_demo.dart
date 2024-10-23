@@ -1,8 +1,4 @@
-import 'package:example/common/space.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:sky_ui/sky_ui.dart';
-
 import 'common/display_block.dart';
 import 'common/title.dart';
 import 'infinite_scroll_demo/infinite_scroll_demo_1.dart';
@@ -17,14 +13,14 @@ class InfiniteScrollDemo extends StatefulWidget {
 class _InfiniteScrollDemoState extends State<InfiniteScrollDemo> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const DemoTitle(
+        DemoTitle(
           title: "InfiniteScroll 无限滚动",
           descr: "滚动至底部时，加载更多数据。",
         ),
-        const DemoTitle(
+        DemoTitle(
           title: "基础用法",
         ),
         DisplayBlock(

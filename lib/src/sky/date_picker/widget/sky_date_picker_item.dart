@@ -201,8 +201,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
           onTap: () {
             preYear(linkPanels);
           },
-          builder: (ctx, h) {
-            Color? textColor = null;
+          builder: (ctx, h, setvalue) {
+            Color? textColor;
             if (showControlsDisabled('left', 'year')) {
               textColor = SkyColors().placeholderText;
             } else {
@@ -226,8 +226,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
           onTap: () {
             preMonth(linkPanels);
           },
-          builder: (ctx, h) {
-            Color? textColor = null;
+          builder: (ctx, h, setvalue) {
+            Color? textColor;
             if (showControlsDisabled('left', 'month')) {
               textColor = SkyColors().placeholderText;
             } else {
@@ -257,7 +257,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                   //   showType = "year";
                   // });
                 },
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     "$year年",
                     textAlign: TextAlign.center,
@@ -274,7 +274,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
               ),
               SkyHover(
                 disabled: false,
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     "$month月",
                     textAlign: TextAlign.center,
@@ -318,7 +318,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                   //   showType = "year";
                   // });
                 },
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     "$year年",
                     textAlign: TextAlign.center,
@@ -339,8 +339,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
           onTap: () {
             nextMonth(linkPanels);
           },
-          builder: (ctx, h) {
-            Color? textColor = null;
+          builder: (ctx, h, setvalue) {
+            Color? textColor;
             if (showControlsDisabled('right', 'month')) {
               textColor = SkyColors().placeholderText;
             } else {
@@ -364,8 +364,8 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
           onTap: () {
             nextYear(linkPanels);
           },
-          builder: (ctx, h) {
-            Color? textColor = null;
+          builder: (ctx, h, setvalue) {
+            Color? textColor;
             if (showControlsDisabled('right', 'year')) {
               textColor = SkyColors().placeholderText;
             } else {
@@ -456,7 +456,6 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
         color: SkyColors().white,
       );
     }
-    return null;
   }
 
   bool isSelect(DateTime time) {
@@ -521,7 +520,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
             SkyDatePickerRangeMenu.maybeOf(context)?.setHoverTime(time);
           }
         },
-        builder: (ctx, h) {
+        builder: (ctx, h, setvalue) {
           return Container(
             alignment: Alignment.center,
             height: widget.size.height * 0.8,
@@ -601,7 +600,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
                 SkyDatePickerRangeMenu.maybeOf(context)?.setHoverTime(DateTime(year, e));
               }
             },
-            builder: (ctx, h) {
+            builder: (ctx, h, setvalue) {
               return Container(
                 alignment: Alignment.center,
                 height: widget.size.height * 1,
@@ -639,7 +638,7 @@ class SkyDatePickerItemState extends State<SkyDatePickerItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
+          SizedBox(
             height: widget.size.height,
             child: Row(
               children: renderHeaderControls(),

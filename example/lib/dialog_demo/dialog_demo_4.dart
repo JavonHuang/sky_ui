@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
-import '../common/space.dart';
 
 class DialogDemo5 extends StatefulWidget {
   const DialogDemo5({super.key});

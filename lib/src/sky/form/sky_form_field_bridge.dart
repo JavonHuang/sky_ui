@@ -25,8 +25,8 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
   SkySize get size {
     SkyForm? skyForm = SkyFormField.maybeOf(context)?.skyForm;
 
-    if (skyForm != null && skyForm!.size != null) {
-      return skyForm!.size!;
+    if (skyForm != null && skyForm.size != null) {
+      return skyForm.size!;
     } else {
       return widget.fieldSize;
     }
@@ -35,8 +35,8 @@ class SkyFormFieldBridgeState<T> extends State<SkyFormFieldBridge<T>> with Resto
   bool get disabled {
     SkyForm? skyForm = SkyFormField.maybeOf(context)?.skyForm;
 
-    if (skyForm != null && skyForm!.disabled != null) {
-      return skyForm!.disabled!;
+    if (skyForm != null && skyForm.disabled != null) {
+      return skyForm.disabled!;
     } else {
       return widget.fieldDisabled;
     }

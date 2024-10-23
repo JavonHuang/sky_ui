@@ -6,17 +6,27 @@ class SkyTableController {
   ///数据源
   List<Map<dynamic, dynamic>> data = [];
   List<SkyTableColumn> columns = [];
-
-  ///渲染最后一行后回调
+  //渲染最后一行后回调
   Function(SkyTableController ctr)? loadFinish;
-
-  ///显示边框
+  //显示边框
   bool border = false;
 
   ///视窗宽度
   double viewWidth = 0;
 
-  ///列宽加总
+  List<SkyTableColumn> get fixedRightColumns => columns.where((e) => e.fixed == SkyFixed.right).toList();
+  List<SkyTableColumn> get fixedLeftColumns => columns.where((e) => e.fixed == SkyFixed.left).toList();
+  List<SkyTableColumn> get showColumns {
+    return [
+      ...fixedLeftColumns,
+      ...columns.where((e) => e.fixed == null),
+      ...fixedRightColumns,
+    ];
+  }
+
+  //存在浮动列
+  bool get hasFixed => fixedRightColumns.isNotEmpty || fixedLeftColumns.isNotEmpty;
+  //列宽加总
   double get columnWidth {
     double t = 0;
     for (SkyTableColumn item in columns) {
@@ -25,8 +35,17 @@ class SkyTableController {
     return t;
   }
 
-  ///宽度超出视窗宽度
-  bool get widthOverflow => viewWidth < columnWidth;
+  //宽度超出视窗宽度
+  bool get widthOverflow => columns.isNotEmpty;
+
+  ///悬浮列滚动条同步
+  LinkedScrollControllerGroup _controllers = LinkedScrollControllerGroup();
+  late ScrollController _leftScrollController = _controllers.addAndGet();
+  late ScrollController _scrollController = _controllers.addAndGet();
+  late ScrollController _rightScrollController = _controllers.addAndGet();
+
+  ///表格内事件广播
+  final skyTableEventStreamController = StreamController<SkyTableEvent>.broadcast();
 
   void _attach(_SkyTableState state) {
     _state = state;

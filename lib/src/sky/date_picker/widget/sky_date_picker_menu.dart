@@ -250,7 +250,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
         onTap: () {
           setValue(time);
         },
-        builder: (ctx, h) {
+        builder: (ctx, h, setvalue) {
           return Container(
             alignment: Alignment.center,
             height: widget.size.height * 0.8,
@@ -301,7 +301,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
           onTap: () {
             selectYear(e);
           },
-          builder: (ctx, h) {
+          builder: (ctx, h, setvalue) {
             TextStyle? yearItemTextColor;
             if (widget.model != null && e == widget.model!.year) {
               yearItemTextColor = TextStyle(
@@ -384,7 +384,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
             onTap: () {
               selectMonth(e);
             },
-            builder: (ctx, h) {
+            builder: (ctx, h, setvalue) {
               return Text(
                 textAlign: TextAlign.center,
                 str,
@@ -421,7 +421,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
       SkyHover(
         disabled: false,
         onTap: preYear,
-        builder: (ctx, h) {
+        builder: (ctx, h, setvalue) {
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: SkySpacings().textSpacing,
@@ -438,7 +438,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
         SkyHover(
           disabled: false,
           onTap: preMonth,
-          builder: (ctx, h) {
+          builder: (ctx, h, setvalue) {
             return Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: SkySpacings().textSpacing,
@@ -463,7 +463,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                     showType = "year";
                   });
                 },
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     "$year年",
                     textAlign: TextAlign.center,
@@ -480,7 +480,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
               ),
               SkyHover(
                 disabled: false,
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     "$month月",
                     textAlign: TextAlign.center,
@@ -524,7 +524,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                     showType = "year";
                   });
                 },
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     "$year年",
                     textAlign: TextAlign.center,
@@ -543,7 +543,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
         SkyHover(
           disabled: false,
           onTap: nextMonth,
-          builder: (ctx, h) {
+          builder: (ctx, h, setvalue) {
             return Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: SkySpacings().textSpacing,
@@ -559,7 +559,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
       SkyHover(
         disabled: false,
         onTap: nextYear,
-        builder: (ctx, h) {
+        builder: (ctx, h, setvalue) {
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: SkySpacings().textSpacing,
@@ -601,7 +601,7 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
                 onTap: () {
                   e.onTap(today, setValue);
                 },
-                builder: (ctx, h) {
+                builder: (ctx, h, setvalue) {
                   return Text(
                     e.text,
                     style: TextStyle(
@@ -624,12 +624,12 @@ class _SkyDatePickerMenuState extends State<SkyDatePickerMenu> {
       child: Row(
         children: [
           if (widget.pickerOptions.shortcuts != null) renderQuickMenu(),
-          Container(
+          SizedBox(
             width: widget.size.height * itemScale * 7,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
+                SizedBox(
                   height: widget.size.height,
                   child: Row(
                     children: renderHeaderControls(),
