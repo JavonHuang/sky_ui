@@ -5,8 +5,13 @@ class SkyTableController {
 
   ///数据源
   List<Map<dynamic, dynamic>> data = [];
-
   List<SkyTableColumn> columns = [];
+
+  ///渲染最后一行后回调
+  Function(SkyTableController ctr)? loadFinish;
+
+  ///显示边框
+  bool border = false;
 
   ///视窗宽度
   double viewWidth = 0;

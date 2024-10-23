@@ -11,11 +11,16 @@ class SkyTable extends StatefulWidget {
   final List<Map<dynamic, dynamic>> data;
   final List<SkyTableColumn> columns;
   final SkyTableController? controller;
+  final Function(SkyTableController ctr)? loadFinish;
+  final bool border;
+
   const SkyTable({
     super.key,
     this.controller,
     required this.data,
     required this.columns,
+    this.loadFinish,
+    this.border = false,
   });
 
   static _SkyTableState? maybeOf(BuildContext context) {
@@ -41,6 +46,8 @@ class _SkyTableState extends State<SkyTable> {
     controller._attach(this);
     controller.data = [...widget.data];
     controller.columns = [...widget.columns];
+    controller.loadFinish = widget.loadFinish;
+    controller.border = widget.border;
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sky_ui/src/sky/common/sky_hover.dart';
 
@@ -20,6 +22,11 @@ class SkyTableBodyRow extends StatelessWidget {
           primary: false,
           itemCount: controller.data.length,
           itemBuilder: (context, index) {
+            if (index == controller.data.length - 1 && controller.loadFinish != null) {
+              scheduleMicrotask(() {
+                controller.loadFinish?.call(controller);
+              });
+            }
             return IntrinsicHeight(
               child: SkyHover(
                 disabled: false,
