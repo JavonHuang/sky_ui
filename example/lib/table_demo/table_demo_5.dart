@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
+
+class TableDemo5 extends StatefulWidget {
+  const TableDemo5({super.key});
+
+  @override
+  State<TableDemo5> createState() => _TableDemo5State();
+}
+
+class _TableDemo5State extends State<TableDemo5> {
+  List<Map<dynamic, dynamic>> dataList = List.generate(
+      20,
+      (index) => {
+            "date": "2024-10-${1 + index}",
+            "name": "王小虎$index",
+            "province": "上海",
+            "city": "普陀区",
+            "address": "上海市普陀区金沙江路 $index 弄",
+            "zip": "20033$index",
+          });
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: 240,
+          child: SkyTable(
+            data: dataList,
+            columns: [
+              SkyTableColumn(
+                prop: "date",
+                width: 200,
+                label: "日期",
+              ),
+              SkyTableColumn(
+                prop: "name",
+                label: "姓名",
+                width: 80,
+              ),
+              SkyTableColumn(
+                prop: "province",
+                label: "省份",
+                width: 80,
+              ),
+              SkyTableColumn(
+                prop: "city",
+                label: "市区",
+                width: 80,
+              ),
+              SkyTableColumn(
+                prop: "address",
+                label: "地址",
+                width: 1200,
+              ),
+              SkyTableColumn(
+                prop: "zip",
+                label: "邮编",
+                width: 100,
+              ),
+              SkyTableColumn(
+                label: "操作",
+                fixed: SkyFixed.right,
+                width: 200,
+                action: true,
+                actionBuilder: (rowData, rowIndex) {
+                  return const Row(
+                    children: [
+                      SkyButton(
+                        type: SkyType.text,
+                        text: "查询",
+                      ),
+                      SkyButton(
+                        type: SkyType.text,
+                        text: "编辑",
+                      )
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

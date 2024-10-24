@@ -22,7 +22,7 @@ class SkyTableBodyRow extends StatefulWidget {
 }
 
 class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
-  Color? triangleColor;
+  Color? onHoverColor;
 
   late final StreamSubscription<SkyTableEvent> _listener;
 
@@ -32,7 +32,7 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
     _listener = widget.controller.skyTableEventStreamController.stream.listen((_) {
       if (_.eventName == SkyTableEventType.rowHover && _.key == widget.rowIndex.toString()) {
         setState(() {
-          triangleColor = _.value ? SkyColors().tableRowBgHover : null;
+          onHoverColor = _.value ? SkyColors().tableRowBgHover : null;
         });
       }
     });
@@ -47,6 +47,12 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
 
   @override
   Widget build(BuildContext context) {
+    SkyRowStyle? rowStyle = widget.controller.rowStyle?.call(widget.controller.data[widget.rowIndex], widget.rowIndex);
+    Color? rowbgColor = widget.controller.stripe ? (widget.rowIndex % 2 == 1 ? SkyColors().tableRowBg : SkyColors().tableDefaultRowBg) : null;
+    if (rowStyle != null) {
+      rowbgColor = rowStyle.backgroundColor;
+    }
+
     return IntrinsicHeight(
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -58,7 +64,7 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: triangleColor,
+            color: onHoverColor ?? rowbgColor,
             border: Border(
               bottom: BorderSide(
                 width: 1,
@@ -72,6 +78,7 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
               return SkyTableBodyCell(
                 rowData: widget.controller.data[widget.rowIndex],
                 column: column,
+                rowIndex: widget.rowIndex,
               );
             }).toList(),
           ),

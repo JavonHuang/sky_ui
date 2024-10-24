@@ -10,6 +10,10 @@ class SkyTableController {
   Function(SkyTableController ctr)? loadFinish;
   //显示边框
   bool border = false;
+  //带斑马纹
+  bool stripe = false;
+  //行样式设置
+  SkyRowStyle? Function(dynamic rowDate, int rowIndex)? rowStyle;
 
   ///视窗宽度
   double viewWidth = 0;
@@ -52,7 +56,7 @@ class SkyTableController {
   }
 
   //宽度超出视窗宽度
-  bool get widthOverflow => columns.isNotEmpty;
+  bool get widthOverflow => columnWidth > viewWidth;
 
   ///悬浮列滚动条同步
   LinkedScrollControllerGroup _controllers = LinkedScrollControllerGroup();

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
-class TableDemo1 extends StatefulWidget {
-  const TableDemo1({super.key});
+class TableDemo2 extends StatefulWidget {
+  const TableDemo2({super.key});
 
   @override
-  State<TableDemo1> createState() => _TableDemo1State();
+  State<TableDemo2> createState() => _TableDemo2State();
 }
 
-class _TableDemo1State extends State<TableDemo1> {
+class _TableDemo2State extends State<TableDemo2> {
   List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,7 @@ class _TableDemo1State extends State<TableDemo1> {
         SizedBox(
           height: 240,
           child: SkyTable(
+            stripe: true,
             data: dataList,
             columns: [
               SkyTableColumn(

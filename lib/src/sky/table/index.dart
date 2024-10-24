@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import '../../styles/styles.dart';
 import '../common/generate_uuid.dart';
 import 'body/body_content.dart';
-import 'body/body_row.dart';
 import 'header/header_row.dart';
 import 'linked_scroll_controller.dart';
 import 'model/sky_table_event.dart';
 part 'table_controller.dart';
 part 'table_default.dart';
 part 'model/table_column.dart';
+part 'model/table_style.dart';
 
 class SkyTable extends StatefulWidget {
   final List<Map<dynamic, dynamic>> data;
@@ -18,6 +18,8 @@ class SkyTable extends StatefulWidget {
   final SkyTableController? controller;
   final Function(SkyTableController ctr)? loadFinish;
   final bool border;
+  final bool stripe;
+  final SkyRowStyle? Function(dynamic rowDate, int rowIndex)? rowStyle;
 
   const SkyTable({
     super.key,
@@ -26,6 +28,8 @@ class SkyTable extends StatefulWidget {
     required this.columns,
     this.loadFinish,
     this.border = false,
+    this.stripe = false,
+    this.rowStyle,
   });
 
   static _SkyTableState? maybeOf(BuildContext context) {
@@ -53,6 +57,8 @@ class _SkyTableState extends State<SkyTable> {
     controller.columns = [...widget.columns];
     controller.loadFinish = widget.loadFinish;
     controller.border = widget.border;
+    controller.stripe = widget.stripe;
+    controller.rowStyle = widget.rowStyle;
   }
 
   @override
@@ -65,10 +71,12 @@ class _SkyTableState extends State<SkyTable> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: SkyColors().baseBorder,
-          width: 1,
-        ),
+        border: controller.border
+            ? Border.all(
+                color: SkyColors().baseBorder,
+                width: 1,
+              )
+            : null,
       ),
       child: _SkyTableScope(
         skyTableState: this,

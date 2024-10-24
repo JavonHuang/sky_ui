@@ -7,11 +7,13 @@ import '../styles.dart';
 class SkyTableBodyCell extends StatelessWidget {
   final Map<dynamic, dynamic> rowData;
   final SkyTableColumn column;
+  final int rowIndex;
 
   const SkyTableBodyCell({
     super.key,
     required this.rowData,
     required this.column,
+    required this.rowIndex,
   });
 
   @override
@@ -33,7 +35,7 @@ class SkyTableBodyCell extends StatelessWidget {
             : null,
       ),
       width: column.getWidth == 0 ? null : column.getWidth,
-      child: Text(rowData[column.prop]),
+      child: column.action ? (column.actionBuilder?.call(rowData, rowIndex)) : Text(rowData[column.prop]),
     );
     if (column.getFlex) {
       return Expanded(child: cellWidget);
