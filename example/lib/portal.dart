@@ -1,3 +1,4 @@
+import 'package:example/test2.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
@@ -389,6 +390,15 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
             },
           ),
           index: "5-5",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
+            label: 'Test 测试页面',
+            ext: {
+              // "widget": CustomScrollContainer(),
+            },
+          ),
+          index: "5-6",
         ),
       ],
     )

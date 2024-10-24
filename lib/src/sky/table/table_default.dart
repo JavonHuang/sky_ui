@@ -17,6 +17,8 @@ class TableDefault extends StatelessWidget {
         SkyTableBodyContent(
           columns: controller.showColumns,
           scrollController: controller._scrollController,
+          content: true,
+          controller: controller,
         ),
       ],
     );
@@ -42,8 +44,8 @@ class TableDefault extends StatelessWidget {
             Positioned(
               right: 0,
               top: 0,
-              bottom: 10,
-              width: 80,
+              bottom: 0,
+              width: controller.fixedRightColumnsWidth,
               child: Container(
                 color: Colors.white,
                 child: Column(
@@ -53,6 +55,7 @@ class TableDefault extends StatelessWidget {
                     SkyTableBodyContent(
                       columns: controller.fixedRightColumns,
                       scrollController: controller._rightScrollController,
+                      controller: controller,
                     ),
                   ],
                 ),
@@ -62,17 +65,22 @@ class TableDefault extends StatelessWidget {
             Positioned(
               left: 0,
               top: 0,
-              bottom: 10,
-              width: 80,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  HeaderRow(columns: controller.fixedLeftColumns),
-                  SkyTableBodyContent(
-                    columns: controller.fixedLeftColumns,
-                    scrollController: controller._leftScrollController,
-                  ),
-                ],
+              bottom: 0,
+              width: controller.fixedLeftColumnsWidth,
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    HeaderRow(columns: controller.fixedLeftColumns),
+                    SkyTableBodyContent(
+                      columns: controller.fixedLeftColumns,
+                      scrollController: controller._leftScrollController,
+                      controller: controller,
+                      scrollbars: false,
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

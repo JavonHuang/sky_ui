@@ -25,6 +25,12 @@ class _TableDemo1State extends State<TableDemo1> {
                 prop: "date",
                 width: 200,
                 label: "日期",
+                fixed: SkyFixed.left,
+              ),
+              SkyTableColumn(
+                prop: "date",
+                width: 200,
+                label: "日期",
               ),
               SkyTableColumn(
                 prop: "name",

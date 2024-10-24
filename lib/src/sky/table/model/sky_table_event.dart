@@ -10,6 +10,7 @@ class SkyTableEvent<T> {
 }
 
 enum SkyTableEventType {
+    contentHover,
   rowHover,
   sort;
 

@@ -15,7 +15,23 @@ class SkyTableController {
   double viewWidth = 0;
 
   List<SkyTableColumn> get fixedRightColumns => columns.where((e) => e.fixed == SkyFixed.right).toList();
+  double get fixedRightColumnsWidth {
+    double t = 0;
+    for (SkyTableColumn item in fixedRightColumns) {
+      t = t + item.getWidth;
+    }
+    return t;
+  }
+
   List<SkyTableColumn> get fixedLeftColumns => columns.where((e) => e.fixed == SkyFixed.left).toList();
+  double get fixedLeftColumnsWidth {
+    double t = 0;
+    for (SkyTableColumn item in fixedLeftColumns) {
+      t = t + item.getWidth;
+    }
+    return t;
+  }
+
   List<SkyTableColumn> get showColumns {
     return [
       ...fixedLeftColumns,

@@ -32,7 +32,7 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
     _listener = widget.controller.skyTableEventStreamController.stream.listen((_) {
       if (_.eventName == SkyTableEventType.rowHover && _.key == widget.rowIndex.toString()) {
         setState(() {
-          triangleColor = _.value;
+          triangleColor = _.value ? SkyColors().tableRowBgHover : null;
         });
       }
     });
@@ -51,10 +51,10 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         onEnter: (e) {
-          widget.controller.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: SkyColors().tableRowBgHover));
+          widget.controller.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: true));
         },
         onExit: (e) {
-          widget.controller.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: null));
+          widget.controller.skyTableEventStreamController.add(SkyTableEvent(key: widget.rowIndex.toString(), eventName: SkyTableEventType.rowHover, value: false));
         },
         child: Container(
           decoration: BoxDecoration(
