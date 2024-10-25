@@ -70,6 +70,7 @@ class _SkyTableState extends State<SkyTable> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 240,
       decoration: BoxDecoration(
         border: controller.border
             ? Border.all(

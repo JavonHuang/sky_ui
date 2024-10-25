@@ -11,7 +11,7 @@ class TableDefault extends StatelessWidget {
     final innerController = ScrollController();
 
     Widget tableBody = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         HeaderRow(columns: controller.showColumns),
         SkyTableBodyContent(
@@ -47,17 +47,23 @@ class TableDefault extends StatelessWidget {
               bottom: 0,
               width: controller.fixedRightColumnsWidth,
               child: Container(
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    HeaderRow(columns: controller.fixedRightColumns),
-                    SkyTableBodyContent(
-                      columns: controller.fixedRightColumns,
-                      scrollController: controller._rightScrollController,
-                      controller: controller,
+                color: Colors.transparent,
+                child: ClipPath(
+                  clipper: _MyCustomClipper(),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        HeaderRow(columns: controller.fixedRightColumns),
+                        SkyTableBodyContent(
+                          columns: controller.fixedRightColumns,
+                          scrollController: controller._rightScrollController,
+                          controller: controller,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -68,18 +74,24 @@ class TableDefault extends StatelessWidget {
               bottom: 0,
               width: controller.fixedLeftColumnsWidth,
               child: Container(
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    HeaderRow(columns: controller.fixedLeftColumns),
-                    SkyTableBodyContent(
-                      columns: controller.fixedLeftColumns,
-                      scrollController: controller._leftScrollController,
-                      controller: controller,
-                      scrollbars: false,
+                color: Colors.transparent,
+                child: ClipPath(
+                  clipper: _MyCustomClipper(),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        HeaderRow(columns: controller.fixedLeftColumns),
+                        SkyTableBodyContent(
+                          columns: controller.fixedLeftColumns,
+                          scrollController: controller._leftScrollController,
+                          controller: controller,
+                          scrollbars: false,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -88,5 +100,23 @@ class TableDefault extends StatelessWidget {
     }
 
     return tableBody;
+  }
+}
+
+class _MyCustomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.moveTo(0, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height - 10);
+    path.lineTo(0, size.height - 10);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

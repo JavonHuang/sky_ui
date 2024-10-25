@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../common/generate_uuid.dart';
+import '../core/measure_util.dart';
 import '../index.dart';
 import '../model/sky_table_event.dart';
 import 'body_row.dart';
@@ -71,10 +72,26 @@ class _SkyTableBodyContentState extends State<SkyTableBodyContent> {
             controller.loadFinish?.call(controller);
           });
         }
-        return SkyTableBodyRow(
+        double? height = 0;
+        Widget rowWidget = SkyTableBodyRow(
           rowIndex: index,
           columns: widget.columns,
           controller: controller,
+          compute: true,
+        );
+        if (widget.content) {
+          height = MeasureUtil.measureWidget(Directionality(
+            textDirection: TextDirection.ltr,
+            child: SizedBox(width: controller.columnWidth, child: rowWidget),
+          )).height;
+          controller.setRowHeight(index, height);
+        } else {
+          height = controller.getRowHeight(index);
+        }
+
+        return SizedBox(
+          height: height,
+          child: rowWidget,
         );
       },
     );

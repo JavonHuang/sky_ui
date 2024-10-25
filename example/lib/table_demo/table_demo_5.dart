@@ -52,7 +52,7 @@ class _TableDemo5State extends State<TableDemo5> {
               SkyTableColumn(
                 prop: "address",
                 label: "地址",
-                width: 1200,
+                width: 800,
               ),
               SkyTableColumn(
                 prop: "zip",
@@ -62,16 +62,18 @@ class _TableDemo5State extends State<TableDemo5> {
               SkyTableColumn(
                 label: "操作",
                 fixed: SkyFixed.right,
-                width: 200,
+                width: 160,
                 action: true,
                 actionBuilder: (rowData, rowIndex) {
                   return const Row(
                     children: [
                       SkyButton(
+                        customSize: Size(60, 40),
                         type: SkyType.text,
                         text: "查询",
                       ),
                       SkyButton(
+                        customSize: Size(60, 40),
                         type: SkyType.text,
                         text: "编辑",
                       )

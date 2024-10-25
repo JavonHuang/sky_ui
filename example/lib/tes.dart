@@ -36,9 +36,47 @@ class _TestDemoState extends State<TestDemo> {
               ),
             ),
           ),
+          Container(
+            color: Colors.lightGreen,
+            height: 100,
+            child: ClipPath(
+              clipper: MyCustomClipper(),
+              // borderRadius: BorderRadius.circular(10),
+              child: Container(
+                color: Colors.red,
+                child: Center(
+                  child: Text(
+                    '按钮',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
+  }
+}
+
+class MyCustomClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.moveTo(0, 0);
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height - 10);
+    path.lineTo(0, size.height - 10);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return false;
   }
 }
 
@@ -72,7 +110,7 @@ class _Page2State extends State<Page2> {
   // Size childSize  =ChildLayoutHelper.layoutChild(Text("34567890") as RenderBox, constraints)
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         SkyInput(),
       ],

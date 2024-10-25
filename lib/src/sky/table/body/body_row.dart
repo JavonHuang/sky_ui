@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../styles/styles.dart';
+import '../core/measure_util.dart';
 import '../index.dart';
 import '../model/sky_table_event.dart';
 import 'body_cell.dart';
@@ -9,12 +10,13 @@ class SkyTableBodyRow extends StatefulWidget {
   final int rowIndex;
   final SkyTableController controller;
   final List<SkyTableColumn> columns;
-
+  final bool compute;
   const SkyTableBodyRow({
     super.key,
     required this.rowIndex,
     required this.controller,
     required this.columns,
+    this.compute = false,
   });
 
   @override
@@ -52,7 +54,6 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
     if (rowStyle != null) {
       rowbgColor = rowStyle.backgroundColor;
     }
-
     return IntrinsicHeight(
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -74,11 +75,14 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisSize: MainAxisSize.min,
             children: widget.columns.map((column) {
               return SkyTableBodyCell(
+                controller: widget.controller,
                 rowData: widget.controller.data[widget.rowIndex],
                 column: column,
                 rowIndex: widget.rowIndex,
+                compute: widget.compute,
               );
             }).toList(),
           ),

@@ -36,6 +36,8 @@ class SkyTableController {
     return t;
   }
 
+  List<SkyTableColumn> get flexColumns => columns.where((e) => e.flex).toList();
+
   List<SkyTableColumn> get showColumns {
     return [
       ...fixedLeftColumns,
@@ -52,7 +54,25 @@ class SkyTableController {
     for (SkyTableColumn item in columns) {
       t = t + item.getWidth;
     }
-    return t;
+
+    ///横向滚动的，自适应列给默认宽度值
+    if (t > viewWidth) {
+      double r = 0;
+      for (SkyTableColumn item in columns) {
+        r = r + item.getMinWidth;
+      }
+      return r;
+    } else {
+      return t;
+    }
+  }
+
+  ///没有横向滚动条的，给自适应列模拟分摊个宽度
+  double flexWidth(SkyTableColumn column) {
+    if (widthOverflow && flexColumns.isNotEmpty) {
+      return (viewWidth - columnWidth) / flexColumns.length;
+    }
+    return column.getWidth;
   }
 
   //宽度超出视窗宽度
@@ -66,6 +86,16 @@ class SkyTableController {
 
   ///表格内事件广播
   final skyTableEventStreamController = StreamController<SkyTableEvent>.broadcast();
+
+  late Map<int, double> _rowHeight = {};
+
+  void setRowHeight(int rowIndex, double height) {
+    _rowHeight[rowIndex] = height;
+  }
+
+  double? getRowHeight(int rowIndex) {
+    return _rowHeight[rowIndex];
+  }
 
   void _attach(_SkyTableState state) {
     _state = state;

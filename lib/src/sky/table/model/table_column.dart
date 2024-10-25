@@ -17,7 +17,8 @@ class SkyTableColumn {
     this.fixed,
     this.action = false,
     this.actionBuilder,
-  })  : assert(!(fixed != null && width == null), 'When flex is true, width does not need to be assigned'),
+  })  : assert(!(fixed != null && width == null), 'When fixed is true, width does not need to be assigned'),
+        assert(!(!flex && width == null), 'When flex is false, width does not need to be assigned'),
         assert(!(!action && prop == null), 'When action is false, prop does not need to be assigned'),
         key = GenerateUuid.keyV1();
 
@@ -25,7 +26,14 @@ class SkyTableColumn {
     if (flex) {
       return 0;
     }
-    return width ?? 80;
+    return width!;
+  }
+
+  double get getMinWidth {
+    if (flex) {
+      return 80;
+    }
+    return width!;
   }
 
   bool get getFlex => flex;
