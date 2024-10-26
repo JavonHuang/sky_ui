@@ -11,6 +11,7 @@ class SkyTableBodyRow extends StatefulWidget {
   final SkyTableController controller;
   final List<SkyTableColumn> columns;
   final bool compute;
+
   const SkyTableBodyRow({
     super.key,
     required this.rowIndex,
@@ -54,6 +55,8 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
     if (rowStyle != null) {
       rowbgColor = rowStyle.backgroundColor;
     }
+    int cellIndex = 0;
+
     return IntrinsicHeight(
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
@@ -82,6 +85,7 @@ class _SkyTableBodyRowState extends State<SkyTableBodyRow> {
                 rowData: widget.controller.data[widget.rowIndex],
                 column: column,
                 rowIndex: widget.rowIndex,
+                cellIndex: cellIndex++,
                 compute: widget.compute,
               );
             }).toList(),

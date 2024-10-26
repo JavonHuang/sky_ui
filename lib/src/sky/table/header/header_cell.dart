@@ -6,15 +6,29 @@ import '../styles.dart';
 
 class HeaderCell extends StatelessWidget {
   final SkyTableColumn column;
+  final bool compute;
+  final SkyTableController controller;
+  final int headerCellIndex;
+  final int headerRowIndex;
 
   const HeaderCell({
     super.key,
     required this.column,
+    this.compute = false,
+    required this.controller,
+    required this.headerCellIndex,
+    required this.headerRowIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    SkyTableController controller = SkyTable.maybeOf(context)!.controller;
+    double width = column.getWidth;
+    if (controller.widthOverflow && column.getFlex) {
+      width = column.getMinWidth;
+    }
+    if (compute && !controller.widthOverflow) {
+      width = controller.flexWidth(column);
+    }
 
     Widget cellWidget = Container(
       // color: Colors.red,
@@ -29,10 +43,11 @@ class HeaderCell extends StatelessWidget {
               )
             : null,
       ),
-      width: column.getWidth == 0 ? null : column.getWidth,
-      child: Text(column.label),
+      width: width == 0 ? null : width,
+      child: column.headerCellBuilder != null ? column.headerCellBuilder!(headerRowIndex, headerCellIndex) : Text(column.label),
     );
-    if (column.getFlex) {
+
+    if (column.getFlex && width == 0 && !compute) {
       return Expanded(child: cellWidget);
     } else {
       return cellWidget;

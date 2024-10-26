@@ -47,7 +47,7 @@ class _TableDemo5State extends State<TableDemo5> {
               SkyTableColumn(
                 prop: "city",
                 label: "市区",
-                width: 80,
+                width: 200,
               ),
               SkyTableColumn(
                 prop: "address",
@@ -68,12 +68,12 @@ class _TableDemo5State extends State<TableDemo5> {
                   return const Row(
                     children: [
                       SkyButton(
-                        customSize: Size(60, 40),
+                        customSize: Size(60, 30),
                         type: SkyType.text,
                         text: "查询",
                       ),
                       SkyButton(
-                        customSize: Size(60, 40),
+                        customSize: Size(60, 30),
                         type: SkyType.text,
                         text: "编辑",
                       )

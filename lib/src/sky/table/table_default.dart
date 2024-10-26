@@ -11,9 +11,13 @@ class TableDefault extends StatelessWidget {
     final innerController = ScrollController();
 
     Widget tableBody = Column(
-      // crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        HeaderRow(columns: controller.showColumns),
+        SkyHeaderContent(
+          columns: controller.showColumns,
+          controller: controller,
+          content: true,
+        ),
         SkyTableBodyContent(
           columns: controller.showColumns,
           scrollController: controller._scrollController,
@@ -36,7 +40,7 @@ class TableDefault extends StatelessWidget {
       );
     }
 
-    if (controller.hasFixed) {
+    if (controller.hasFixed || controller.widthOverflow) {
       tableBody = Stack(
         children: [
           tableBody,
@@ -53,9 +57,12 @@ class TableDefault extends StatelessWidget {
                   child: Container(
                     color: Colors.white,
                     child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        HeaderRow(columns: controller.fixedRightColumns),
+                        SkyHeaderContent(
+                          columns: controller.fixedRightColumns,
+                          controller: controller,
+                        ),
                         SkyTableBodyContent(
                           columns: controller.fixedRightColumns,
                           scrollController: controller._rightScrollController,
@@ -80,14 +87,47 @@ class TableDefault extends StatelessWidget {
                   child: Container(
                     color: Colors.white,
                     child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        HeaderRow(columns: controller.fixedLeftColumns),
+                        SkyHeaderContent(
+                          columns: controller.fixedLeftColumns,
+                          controller: controller,
+                        ),
                         SkyTableBodyContent(
                           columns: controller.fixedLeftColumns,
                           scrollController: controller._leftScrollController,
                           controller: controller,
                           scrollbars: false,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (controller.fixedRightColumns.isEmpty && controller.widthOverflow)
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: controller.scrollColumnsWidth,
+              child: Container(
+                color: Colors.transparent,
+                child: ClipPath(
+                  clipper: _MyCustomClipper(),
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SkyHeaderContent(
+                          columns: controller.scrollColumns,
+                          controller: controller,
+                        ),
+                        SkyTableBodyContent(
+                          columns: controller.scrollColumns,
+                          scrollController: controller._extScrollController,
+                          controller: controller,
                         ),
                       ],
                     ),

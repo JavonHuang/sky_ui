@@ -23,7 +23,7 @@ class _TableDemo3State extends State<TableDemo3> {
             columns: [
               SkyTableColumn(
                 prop: "date",
-                width: 200,
+                width: 2000,
                 label: "日期",
               ),
               SkyTableColumn(
@@ -32,9 +32,8 @@ class _TableDemo3State extends State<TableDemo3> {
                 width: 80,
               ),
               SkyTableColumn(
-                prop: "address",
-                label: "地址",
-                flex: true,
+                prop: "address", label: "地址", width: 200,
+                // flex: true,
               ),
             ],
           ),

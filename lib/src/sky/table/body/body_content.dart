@@ -10,6 +10,7 @@ class SkyTableBodyContent extends StatefulWidget {
   final List<SkyTableColumn> columns;
   final ScrollController? scrollController;
   final bool content;
+
   final SkyTableController controller;
   final bool scrollbars;
   const SkyTableBodyContent({
@@ -60,38 +61,41 @@ class _SkyTableBodyContentState extends State<SkyTableBodyContent> {
 
   @override
   Widget build(BuildContext context) {
-    SkyTableController controller = SkyTable.maybeOf(context)!.controller;
     Widget body = ListView.builder(
       shrinkWrap: true,
       primary: false,
       controller: widget.scrollController,
-      itemCount: controller.data.length,
+      itemCount: widget.controller.data.length,
       itemBuilder: (context, index) {
-        if (index == controller.data.length - 1 && controller.loadFinish != null && widget.content) {
+        if (index == widget.controller.data.length - 1 && widget.controller.loadFinish != null && widget.content) {
           scheduleMicrotask(() {
-            controller.loadFinish?.call(controller);
+            widget.controller.loadFinish?.call(widget.controller);
           });
         }
         double? height = 0;
         Widget rowWidget = SkyTableBodyRow(
           rowIndex: index,
           columns: widget.columns,
-          controller: controller,
+          controller: widget.controller,
           compute: true,
         );
         if (widget.content) {
           height = MeasureUtil.measureWidget(Directionality(
             textDirection: TextDirection.ltr,
-            child: SizedBox(width: controller.columnWidth, child: rowWidget),
+            child: SizedBox(width: widget.controller.columnWidth, child: rowWidget),
           )).height;
-          controller.setRowHeight(index, height);
+          widget.controller.setRowHeight(index, height);
         } else {
-          height = controller.getRowHeight(index);
+          height = widget.controller.getRowHeight(index);
         }
 
         return SizedBox(
           height: height,
-          child: rowWidget,
+          child: SkyTableBodyRow(
+            rowIndex: index,
+            columns: widget.columns,
+            controller: widget.controller,
+          ),
         );
       },
     );

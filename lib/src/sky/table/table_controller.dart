@@ -14,6 +14,8 @@ class SkyTableController {
   bool stripe = false;
   //行样式设置
   SkyRowStyle? Function(dynamic rowDate, int rowIndex)? rowStyle;
+//表头行数
+  int headerRowCount = 1;
 
   ///视窗宽度
   double viewWidth = 0;
@@ -31,6 +33,23 @@ class SkyTableController {
   double get fixedLeftColumnsWidth {
     double t = 0;
     for (SkyTableColumn item in fixedLeftColumns) {
+      t = t + item.getWidth;
+    }
+    return t;
+  }
+
+  List<SkyTableColumn> scrollColumns = [
+    SkyTableColumn(
+      prop: "",
+      label: "",
+      rowCellBuilder: (rowIndex, cellIndex) => const Text(""),
+      headerCellBuilder: (headerRowIndex, headerCellIndex) => const Text(""),
+      width: 10,
+    ),
+  ];
+  double get scrollColumnsWidth {
+    double t = 0;
+    for (SkyTableColumn item in scrollColumns) {
       t = t + item.getWidth;
     }
     return t;
@@ -69,7 +88,7 @@ class SkyTableController {
 
   ///没有横向滚动条的，给自适应列模拟分摊个宽度
   double flexWidth(SkyTableColumn column) {
-    if (widthOverflow && flexColumns.isNotEmpty) {
+    if (!widthOverflow && flexColumns.isNotEmpty) {
       return (viewWidth - columnWidth) / flexColumns.length;
     }
     return column.getWidth;
@@ -83,6 +102,7 @@ class SkyTableController {
   late ScrollController _leftScrollController = _controllers.addAndGet();
   late ScrollController _scrollController = _controllers.addAndGet();
   late ScrollController _rightScrollController = _controllers.addAndGet();
+  late ScrollController _extScrollController = _controllers.addAndGet();
 
   ///表格内事件广播
   final skyTableEventStreamController = StreamController<SkyTableEvent>.broadcast();
@@ -95,6 +115,16 @@ class SkyTableController {
 
   double? getRowHeight(int rowIndex) {
     return _rowHeight[rowIndex];
+  }
+
+  late Map<int, double> _headerRowHeight = {};
+
+  void setHeaderRowHeight(int rowIndex, double height) {
+    _headerRowHeight[rowIndex] = height;
+  }
+
+  double? getHeaderRowHeight(int rowIndex) {
+    return _headerRowHeight[rowIndex];
   }
 
   void _attach(_SkyTableState state) {
