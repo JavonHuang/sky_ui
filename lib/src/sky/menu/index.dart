@@ -103,7 +103,18 @@ class SkyMenuController {
 
     for (String indexkey in collapseCtrMap.keys) {
       if (!openList.contains(indexkey)) {
-        collapseCtrMap[indexkey]!.close();
+        collapseCtrMap[indexkey]!.toggleClose();
+      }
+    }
+  }
+
+  ///展开节点
+  void expendItem(SkyMenuNode e) {
+    if (collapseCtrMap[e.index] != null) {
+      if (collapseCtrMap[e.index]!.isOpen) {
+        collapseCtrMap[e.index]!.toggleClose();
+      } else {
+        collapseCtrMap[e.index]!.toggleOpen();
       }
     }
   }

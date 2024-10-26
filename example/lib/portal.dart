@@ -488,6 +488,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
                       ),
                     ),
                     child: SkyMenu(
+                      // accordion: true,
                       children: menuData,
                       onchanged: (index, node) {
                         int i = pageNodeList.indexWhere((e) => e.index == index);

@@ -68,12 +68,12 @@ class _TableDemo5State extends State<TableDemo5> {
                   return const Row(
                     children: [
                       SkyButton(
-                        customSize: Size(60, 30),
+                        customSize: Size(60, 25),
                         type: SkyType.text,
                         text: "查询",
                       ),
                       SkyButton(
-                        customSize: Size(60, 30),
+                        customSize: Size(60, 25),
                         type: SkyType.text,
                         text: "编辑",
                       )

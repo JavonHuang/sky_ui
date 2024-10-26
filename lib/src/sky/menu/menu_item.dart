@@ -29,11 +29,11 @@ class _MenuItemState extends State<MenuItem> {
           titlePadding: EdgeInsets.zero,
           contentPadding: EdgeInsets.only(left: 10.scaleSpacing),
           controller: widget.controller.getCollapse(e),
-          onOpen: () {
-            if (widget.accordion) {
-              widget.controller.closeOtherCollapse(e);
-            }
-          },
+          // onOpen: () {
+          //   if (widget.accordion) {
+          //     widget.controller.closeOtherCollapse(e);
+          //   }
+          // },
           titleBuilder: (context, anima, ctrl, icon) {
             return SkyHover(
               disabled: false,
@@ -41,7 +41,7 @@ class _MenuItemState extends State<MenuItem> {
                 if (e.children.isEmpty) {
                   widget.controller.setActiveIndex(e.index, e);
                 }
-                if (e.children.isEmpty && widget.accordion) {
+                if (widget.accordion) {
                   widget.controller.closeOtherCollapse(e);
                 }
               },
