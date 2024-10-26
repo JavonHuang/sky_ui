@@ -33,7 +33,11 @@ class SkyTableBodyCell extends StatelessWidget {
       width = controller.flexWidth(column);
     }
 
-    Widget? buildWidget = column.rowCellBuilder != null ? column.rowCellBuilder!(rowIndex, cellIndex) : Text(rowData[column.prop]);
+    Widget? buildWidget = column.action
+        ? (column.actionBuilder?.call(rowData, rowIndex))
+        : column.rowCellBuilder != null
+            ? column.rowCellBuilder!(rowIndex, cellIndex)
+            : Text(rowData[column.prop]);
 
     Widget cellWidget = Container(
       padding: SkyGridTableStyle.padding,
@@ -48,7 +52,7 @@ class SkyTableBodyCell extends StatelessWidget {
             : null,
       ),
       width: width == 0 ? null : width,
-      child: column.action ? (column.actionBuilder?.call(rowData, rowIndex)) : buildWidget,
+      child: buildWidget,
     );
 
     if (column.getFlex && width == 0 && !compute) {

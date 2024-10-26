@@ -88,6 +88,8 @@ class _TreeItemState extends State<TreeItem> with TickerProviderStateMixin {
                     if (e.disabled) {
                       return;
                     }
+                    e.isExpend = !e.isExpend;
+
                     widget.controller.setActiveIndex(e.index, e);
                     // if (e.children.isEmpty && widget.accordion) {
                     //   widget.controller.closeOtherCollapse(e);
