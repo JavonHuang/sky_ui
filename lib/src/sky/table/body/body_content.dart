@@ -75,19 +75,19 @@ class _SkyTableBodyContentState extends State<SkyTableBodyContent> {
         double? height = 0;
         Widget rowWidget = SkyTableBodyRow(
           rowIndex: index,
-          columns: widget.columns,
+          columns: widget.controller.showColumns,
           controller: widget.controller,
           compute: true,
         );
-        if (widget.content) {
-          height = MeasureUtil.measureWidget(Directionality(
-            textDirection: TextDirection.ltr,
-            child: SizedBox(width: widget.controller.columnWidth, child: rowWidget),
-          )).height;
-          widget.controller.setRowHeight(index, height);
-        } else {
-          height = widget.controller.getRowHeight(index);
-        }
+        // if (widget.content) {
+        height = MeasureUtil.measureWidget(Directionality(
+          textDirection: TextDirection.ltr,
+          child: SizedBox(width: widget.controller.columnWidth, child: rowWidget),
+        )).height;
+        widget.controller.setRowHeight(index, height);
+        // } else {
+        //   height = widget.controller.getRowHeight(index);
+        // }
 
         return SizedBox(
           height: height,

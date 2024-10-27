@@ -99,10 +99,12 @@ class SkyTableController {
 
   ///悬浮列滚动条同步
   LinkedScrollControllerGroup _controllers = LinkedScrollControllerGroup();
-  late ScrollController _leftScrollController = _controllers.addAndGet();
-  late ScrollController _scrollController = _controllers.addAndGet();
-  late ScrollController _rightScrollController = _controllers.addAndGet();
-  late ScrollController _extScrollController = _controllers.addAndGet();
+
+  ScrollController get createLinkedScrollController => _controllers.addAndGet();
+  // late ScrollController _leftScrollController = _controllers.addAndGet();
+  // late ScrollController _scrollController = _controllers.addAndGet();
+  // late ScrollController _rightScrollController = _controllers.addAndGet();
+  // late ScrollController _extScrollController = _controllers.addAndGet();
 
   ///表格内事件广播
   final skyTableEventStreamController = StreamController<SkyTableEvent>.broadcast();

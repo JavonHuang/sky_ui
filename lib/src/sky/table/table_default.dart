@@ -20,7 +20,7 @@ class TableDefault extends StatelessWidget {
         ),
         SkyTableBodyContent(
           columns: controller.showColumns,
-          scrollController: controller._scrollController,
+          scrollController: controller.createLinkedScrollController,
           content: true,
           controller: controller,
         ),
@@ -65,7 +65,7 @@ class TableDefault extends StatelessWidget {
                         ),
                         SkyTableBodyContent(
                           columns: controller.fixedRightColumns,
-                          scrollController: controller._rightScrollController,
+                          scrollController: controller.createLinkedScrollController,
                           controller: controller,
                         ),
                       ],
@@ -95,7 +95,7 @@ class TableDefault extends StatelessWidget {
                         ),
                         SkyTableBodyContent(
                           columns: controller.fixedLeftColumns,
-                          scrollController: controller._leftScrollController,
+                          scrollController: controller.createLinkedScrollController,
                           controller: controller,
                           scrollbars: false,
                         ),
@@ -126,7 +126,7 @@ class TableDefault extends StatelessWidget {
                         ),
                         SkyTableBodyContent(
                           columns: controller.scrollColumns,
-                          scrollController: controller._extScrollController,
+                          scrollController: controller.createLinkedScrollController,
                           controller: controller,
                         ),
                       ],

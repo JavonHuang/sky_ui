@@ -10,7 +10,7 @@ class TableDemo5 extends StatefulWidget {
 
 class _TableDemo5State extends State<TableDemo5> {
   List<Map<dynamic, dynamic>> dataList = List.generate(
-      20,
+      20000,
       (index) => {
             "date": "2024-10-${1 + index}",
             "name": "王小虎$index",
@@ -65,12 +65,12 @@ class _TableDemo5State extends State<TableDemo5> {
                 width: 160,
                 action: true,
                 actionBuilder: (rowData, rowIndex) {
-                  return const Row(
+                  return Row(
                     children: [
                       SkyButton(
                         customSize: Size(60, 25),
                         type: SkyType.text,
-                        text: "查询",
+                        text: "查询${(rowIndex + 1).toString()}",
                       ),
                       SkyButton(
                         customSize: Size(60, 25),
