@@ -20,6 +20,7 @@ import 'loading_demo.dart';
 import 'menu_demo.dart';
 import 'message_box_demo.dart';
 import 'message_demo.dart';
+import 'pagination_demo.dart';
 import 'popover_demo.dart';
 import 'radio_demo.dart';
 import 'swicth_demo.dart';
@@ -231,18 +232,18 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
-            label: 'Badge 标记',
+            label: 'Pagination 分页',
             ext: {
-              "widget": BadgeDemo(),
+              "widget": PaginationDemo(),
             },
           ),
           index: "2-3",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
-            label: 'Descriptions 描述列表',
+            label: 'Badge 标记',
             ext: {
-              "widget": DescriptionsDemo(),
+              "widget": BadgeDemo(),
             },
           ),
           index: "2-4",
@@ -255,6 +256,15 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
             },
           ),
           index: "2-5",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
+            label: 'Descriptions 描述列表',
+            ext: {
+              "widget": DescriptionsDemo(),
+            },
+          ),
+          index: "2-6",
         ),
       ],
     ),
