@@ -44,13 +44,19 @@ class _SkyHoverState extends State<SkyHover> {
         cursor: widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
         onEnter: (e) {
           if (widget.disabled) {
+            if (onHover) {
+              _setValue(false);
+            }
+
             return;
           }
-
           _setValue(true);
         },
         onExit: (e) {
           if (widget.disabled) {
+            if (onHover) {
+              _setValue(false);
+            }
             return;
           }
 

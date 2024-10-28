@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
 import 'package:sky_ui/src/sky/common/sky_hover.dart';
 import '../../styles/styles.dart';
 part 'pagination_controller.dart';
@@ -13,6 +14,7 @@ class SkyPagination extends StatefulWidget {
   final String? preText;
   final String? nextText;
   final SkyPaginationLayout layout;
+  final bool background;
   const SkyPagination({
     super.key,
     this.controller,
@@ -23,6 +25,7 @@ class SkyPagination extends StatefulWidget {
     this.preText,
     this.nextText,
     this.layout = const SkyPaginationLayout(prev: true, pager: true, next: true, jumper: true, total: true, sizes: true),
+    this.background = false,
   });
 
   @override
@@ -31,25 +34,32 @@ class SkyPagination extends StatefulWidget {
 
 class _SkyPaginationState extends State<SkyPagination> {
   SkyPaginationController? _internalController;
-
+  late Size boxSize = const Size(25, 25);
+  late EdgeInsetsGeometry margin = EdgeInsets.symmetric(horizontal: 2.scaleSpacing);
   late int _currentPage = 1;
+  late int _pageSize = 10;
+  late int _total = 0;
+  late int _pagerCount = 7;
 
   SkyPaginationController get controller => widget.controller ?? _internalController!;
-  List<int> get pageList => List.generate((widget.total / widget.pageSize).ceil(), (e) => e + 1);
-  int get median => widget.pagerCount - 2;
+  List<int> get pageList => List.generate((_total / _pageSize).ceil(), (e) => e + 1);
+  int get median => _pagerCount - 2;
   int get span => (median / 2).floor();
 
   List<int> get showPageList {
     List<int> result = [];
     int start = 0;
     int end = 0;
+    if (pageList.last < 7) {
+      return pageList;
+    }
     if (_currentPage < median) {
       start = 0;
     } else {
       start = _currentPage - span - 1;
     }
-    if (_currentPage + span < widget.pagerCount) {
-      end = widget.pagerCount - 1;
+    if (_currentPage + span < _pagerCount) {
+      end = _pagerCount - 1;
     } else {
       end = _currentPage + span;
       if (end >= pageList.length) {
@@ -68,14 +78,14 @@ class _SkyPaginationState extends State<SkyPagination> {
   }
 
   bool get showPrePagerCount {
-    if (pageList.length > widget.pagerCount && showPageList[1] - showPageList[0] > 1) {
+    if (pageList.length > _pagerCount && showPageList[1] - showPageList[0] > 1) {
       return true;
     }
     return false;
   }
 
   bool get showNextPagerCount {
-    if (pageList.length > widget.pagerCount && showPageList.last - showPageList[showPageList.length - 2] > 1) {
+    if (pageList.length > _pagerCount && showPageList.last - showPageList[showPageList.length - 2] > 1) {
       return true;
     }
     return false;
@@ -88,6 +98,9 @@ class _SkyPaginationState extends State<SkyPagination> {
       _internalController = SkyPaginationController();
     }
     _currentPage = widget.currentPage;
+    _pageSize = widget.pageSize;
+    _total = widget.total;
+    _pagerCount = widget.pagerCount;
     controller._attach(this);
   }
 
@@ -97,6 +110,21 @@ class _SkyPaginationState extends State<SkyPagination> {
     super.dispose();
   }
 
+  void changedCurrentPage(int offset) {
+    if (_currentPage + offset > pageList.last) {
+      _currentPage = pageList.last;
+    } else if (_currentPage + offset < 1) {
+      _currentPage = 1;
+    } else {
+      _currentPage = _currentPage + offset;
+    }
+    reflesh();
+  }
+
+  void reflesh() {
+    setState(() {});
+  }
+
   List<Widget> renderPageItem() {
     List<Widget> result = [];
     result = showPageList.map(
@@ -104,19 +132,28 @@ class _SkyPaginationState extends State<SkyPagination> {
         return SkyHover(
           disabled: false,
           onTap: () {
-            setState(() {
-              _currentPage = e;
-            });
+            _currentPage = e;
+            changedCurrentPage(0);
           },
           builder: (context, onHover, setvalue) {
+            Color textColor = SkyColors().primaryText;
+            if (widget.background && _currentPage == e) {
+              textColor = SkyColors().white;
+            } else {
+              textColor = onHover || _currentPage == e ? SkyColors().primary : SkyColors().primaryText;
+            }
             return Container(
               alignment: Alignment.center,
-              width: 35,
+              margin: margin,
+              width: boxSize.width,
+              height: boxSize.height,
+              decoration: BoxDecoration(
+                color: widget.background ? (_currentPage == e ? SkyColors().primary : SkyColors().defaultBg) : null,
+                borderRadius: SkyBorderRadius().smallBorderRadius,
+              ),
               child: Text(
                 e.toString(),
-                style: TextStyle(
-                  color: onHover || _currentPage == e ? SkyColors().primary : SkyColors().primaryText,
-                ),
+                style: TextStyle(color: textColor, fontSize: SkyFontSizes().auxiliaryFont),
               ),
             );
           },
@@ -128,10 +165,19 @@ class _SkyPaginationState extends State<SkyPagination> {
         1,
         SkyHover(
           disabled: false,
+          onTap: () {
+            changedCurrentPage(-_pagerCount);
+          },
           builder: (context, onHover, setvalue) {
             return Container(
               alignment: Alignment.center,
-              width: 35,
+              margin: margin,
+              width: boxSize.width,
+              height: boxSize.height,
+              decoration: BoxDecoration(
+                color: widget.background ? SkyColors().defaultBg : null,
+                borderRadius: SkyBorderRadius().smallBorderRadius,
+              ),
               child: Icon(
                 onHover ? ElementIcons.dArrowLeft : ElementIcons.more,
                 color: onHover ? SkyColors().primary : SkyColors().primaryText,
@@ -144,13 +190,22 @@ class _SkyPaginationState extends State<SkyPagination> {
     }
     if (showNextPagerCount) {
       result.insert(
-        result.length - 2,
+        result.length - 1,
         SkyHover(
           disabled: false,
+          onTap: () {
+            changedCurrentPage(_pagerCount);
+          },
           builder: (context, onHover, setvalue) {
             return Container(
               alignment: Alignment.center,
-              width: 35,
+              margin: margin,
+              width: boxSize.width,
+              height: boxSize.height,
+              decoration: BoxDecoration(
+                color: widget.background ? SkyColors().defaultBg : null,
+                borderRadius: SkyBorderRadius().smallBorderRadius,
+              ),
               child: Icon(
                 onHover ? ElementIcons.dArrowRight : ElementIcons.more,
                 color: onHover ? SkyColors().primary : SkyColors().primaryText,
@@ -170,14 +225,31 @@ class _SkyPaginationState extends State<SkyPagination> {
       child: Row(
         children: [
           SkyHover(
-            disabled: false,
+            disabled: _currentPage == 1,
+            onTap: () {
+              changedCurrentPage(-1);
+            },
             builder: (context, onHover, setvalue) {
+              Color preColor = SkyColors().primaryText;
+              if (onHover) {
+                preColor = SkyColors().primary;
+              }
+              if (_currentPage == 1) {
+                preColor = SkyColors().placeholderText;
+              }
+
               return Container(
                 alignment: Alignment.center,
-                width: 35,
+                margin: margin,
+                width: boxSize.width,
+                height: boxSize.height,
+                decoration: BoxDecoration(
+                  color: widget.background ? SkyColors().defaultBg : null,
+                  borderRadius: SkyBorderRadius().smallBorderRadius,
+                ),
                 child: Icon(
                   ElementIcons.arrowLeft,
-                  color: onHover ? SkyColors().primary : SkyColors().primaryText,
+                  color: preColor,
                   size: SkyIconSizes().mediumFont,
                 ),
               );
@@ -185,18 +257,46 @@ class _SkyPaginationState extends State<SkyPagination> {
           ),
           ...renderPageItem(),
           SkyHover(
-            disabled: false,
+            disabled: _currentPage == pageList.last,
+            onTap: () {
+              changedCurrentPage(1);
+            },
             builder: (context, onHover, setvalue) {
+              Color nextColor = SkyColors().primaryText;
+              if (onHover) {
+                nextColor = SkyColors().primary;
+              }
+              if (_currentPage == pageList.last) {
+                nextColor = SkyColors().placeholderText;
+              }
               return Container(
                 alignment: Alignment.center,
-                width: 35,
+                margin: margin,
+                width: boxSize.width,
+                height: boxSize.height,
+                decoration: BoxDecoration(
+                  color: widget.background ? SkyColors().defaultBg : null,
+                  borderRadius: SkyBorderRadius().smallBorderRadius,
+                ),
                 child: Icon(
                   ElementIcons.arrowRight,
-                  color: onHover ? SkyColors().primary : SkyColors().primaryText,
+                  color: nextColor,
                   size: SkyIconSizes().mediumFont,
                 ),
               );
             },
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: margin,
+            height: boxSize.height,
+            child: Text(
+              "共 $_total 条",
+              style: TextStyle(
+                color: SkyColors().regularText,
+                fontSize: SkyFontSizes().auxiliaryFont,
+              ),
+            ),
           ),
         ],
       ),

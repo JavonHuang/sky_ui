@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
-class PaginationDemo1 extends StatefulWidget {
-  const PaginationDemo1({super.key});
+class PaginationDemo2 extends StatefulWidget {
+  const PaginationDemo2({super.key});
 
   @override
-  State<PaginationDemo1> createState() => _PaginationDemo1State();
+  State<PaginationDemo2> createState() => _PaginationDemo2State();
 }
 
-class _PaginationDemo1State extends State<PaginationDemo1> {
+class _PaginationDemo2State extends State<PaginationDemo2> {
   List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
   @override
   Widget build(BuildContext context) {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text("页数较少时的效果"),
         SkyPagination(
-          total: 14,
-        ),
-        Text("大于 7 页时的效果"),
-        SkyPagination(
-          total: 100,
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
         ),
       ],
     );
