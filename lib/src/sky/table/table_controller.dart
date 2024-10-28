@@ -14,8 +14,10 @@ class SkyTableController {
   bool stripe = false;
   //行样式设置
   SkyRowStyle? Function(dynamic rowDate, int rowIndex)? rowStyle;
-//表头行数
+  //表头行数
   int headerRowCount = 1;
+  //设置行高，当数据量过大的时候，不设置行高，List.builder组件会出现卡顿，设置行高减少布局计算
+  double? rowHeight;
 
   ///视窗宽度
   double viewWidth = 0;
@@ -94,6 +96,7 @@ class SkyTableController {
     return column.getWidth;
   }
 
+  bool get computeRowHeight => (fixedRightColumns.isNotEmpty || (fixedRightColumns.isEmpty && widthOverflow)) && rowHeight == null;
   //宽度超出视窗宽度
   bool get widthOverflow => columnWidth > viewWidth;
 

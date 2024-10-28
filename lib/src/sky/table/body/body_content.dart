@@ -66,36 +66,41 @@ class _SkyTableBodyContentState extends State<SkyTableBodyContent> {
       primary: false,
       controller: widget.scrollController,
       itemCount: widget.controller.data.length,
+      itemExtent: widget.controller.rowHeight,
       itemBuilder: (context, index) {
         if (index == widget.controller.data.length - 1 && widget.controller.loadFinish != null && widget.content) {
           scheduleMicrotask(() {
             widget.controller.loadFinish?.call(widget.controller);
           });
         }
-        double? height = 0;
-        Widget rowWidget = SkyTableBodyRow(
-          rowIndex: index,
-          columns: widget.controller.showColumns,
-          controller: widget.controller,
-          compute: true,
-        );
-        // if (widget.content) {
-        height = MeasureUtil.measureWidget(Directionality(
-          textDirection: TextDirection.ltr,
-          child: SizedBox(width: widget.controller.columnWidth, child: rowWidget),
-        )).height;
-        widget.controller.setRowHeight(index, height);
-        // } else {
-        //   height = widget.controller.getRowHeight(index);
-        // }
-
-        return SizedBox(
-          height: height,
-          child: SkyTableBodyRow(
+        if (widget.controller.computeRowHeight) {
+          double? height = 0;
+          Widget rowWidget = SkyTableBodyRow(
             rowIndex: index,
-            columns: widget.columns,
+            columns: widget.controller.showColumns,
             controller: widget.controller,
-          ),
+            compute: true,
+          );
+          height = MeasureUtil.measureWidget(Directionality(
+            textDirection: TextDirection.ltr,
+            child: SizedBox(width: widget.controller.columnWidth, child: rowWidget),
+          )).height;
+          widget.controller.setRowHeight(index, height);
+
+          return SizedBox(
+            height: height,
+            child: SkyTableBodyRow(
+              rowIndex: index,
+              columns: widget.columns,
+              controller: widget.controller,
+            ),
+          );
+        }
+
+        return SkyTableBodyRow(
+          rowIndex: index,
+          columns: widget.columns,
+          controller: widget.controller,
         );
       },
     );

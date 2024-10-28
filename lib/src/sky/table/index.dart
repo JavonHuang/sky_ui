@@ -5,7 +5,6 @@ import '../../styles/styles.dart';
 import '../common/generate_uuid.dart';
 import 'body/body_content.dart';
 import 'header/header_content.dart';
-import 'header/header_row.dart';
 import 'linked_scroll_controller.dart';
 import 'model/sky_table_event.dart';
 part 'table_controller.dart';
@@ -22,7 +21,7 @@ class SkyTable extends StatefulWidget {
   final bool stripe;
   final SkyRowStyle? Function(dynamic rowDate, int rowIndex)? rowStyle;
   final int headerRowCount;
-
+  final double? rowHeight;
   const SkyTable({
     super.key,
     this.controller,
@@ -33,6 +32,7 @@ class SkyTable extends StatefulWidget {
     this.stripe = false,
     this.rowStyle,
     this.headerRowCount = 1,
+    this.rowHeight,
   });
 
   static _SkyTableState? maybeOf(BuildContext context) {
@@ -63,6 +63,7 @@ class _SkyTableState extends State<SkyTable> {
     controller.stripe = widget.stripe;
     controller.rowStyle = widget.rowStyle;
     controller.headerRowCount = widget.headerRowCount;
+    controller.rowHeight = widget.rowHeight;
   }
 
   @override

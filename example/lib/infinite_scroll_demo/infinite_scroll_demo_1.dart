@@ -16,7 +16,7 @@ class _InfiniteScrollDemo1State extends State<InfiniteScrollDemo1> {
   void initState() {
     super.initState();
     setState(() {
-      listData = List.generate(10, (index) => index);
+      listData = List.generate(10000, (index) => index);
     });
   }
 

@@ -405,7 +405,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
           data: const SkyMenuMeta(
             label: 'Test 测试页面',
             ext: {
-              // "widget": CustomScrollContainer(),
+              "widget": Test2(),
             },
           ),
           index: "5-6",

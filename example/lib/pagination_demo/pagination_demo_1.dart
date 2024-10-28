@@ -15,7 +15,9 @@ class _PaginationDemo1State extends State<PaginationDemo1> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SkyPagination(),
+        SkyPagination(
+          total: 102,
+        ),
       ],
     );
   }

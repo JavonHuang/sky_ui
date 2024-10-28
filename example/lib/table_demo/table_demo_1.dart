@@ -9,7 +9,7 @@ class TableDemo1 extends StatefulWidget {
 }
 
 class _TableDemo1State extends State<TableDemo1> {
-  List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
+  List<Map<dynamic, dynamic>> dataList = List.generate(20000, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,6 +19,7 @@ class _TableDemo1State extends State<TableDemo1> {
           height: 240,
           child: SkyTable(
             data: dataList,
+            rowHeight: 60,
             columns: [
               SkyTableColumn(
                 prop: "date",

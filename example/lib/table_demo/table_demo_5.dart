@@ -27,6 +27,7 @@ class _TableDemo5State extends State<TableDemo5> {
         SizedBox(
           height: 240,
           child: SkyTable(
+            rowHeight: 60,
             data: dataList,
             columns: [
               SkyTableColumn(
@@ -62,18 +63,18 @@ class _TableDemo5State extends State<TableDemo5> {
               SkyTableColumn(
                 label: "操作",
                 fixed: SkyFixed.right,
-                width: 160,
+                width: 200,
                 action: true,
                 actionBuilder: (rowData, rowIndex) {
                   return Row(
                     children: [
                       SkyButton(
-                        customSize: Size(60, 25),
+                        customSize: const Size(80, 25),
                         type: SkyType.text,
                         text: "查询${(rowIndex + 1).toString()}",
                       ),
-                      SkyButton(
-                        customSize: Size(60, 25),
+                      const SkyButton(
+                        customSize: Size(80, 25),
                         type: SkyType.text,
                         text: "编辑",
                       )
