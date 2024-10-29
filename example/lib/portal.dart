@@ -10,6 +10,7 @@ import 'collapse_demo.dart';
 import 'date_picker_demo.dart';
 import 'descriptions_demo.dart';
 import 'dialog_demo.dart';
+import 'empty_demo.dart';
 import 'icon_demo.dart';
 import 'infinite_scroll_demo.dart';
 import 'input_demo.dart';
@@ -250,9 +251,9 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
-            label: 'Descriptions 描述列表',
+            label: 'Empty 空状态',
             ext: {
-              "widget": DescriptionsDemo(),
+              "widget": EmptyDemo(),
             },
           ),
           index: "2-5",
@@ -265,6 +266,15 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
             },
           ),
           index: "2-6",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
+            label: 'Descriptions 描述列表',
+            ext: {
+              "widget": DescriptionsDemo(),
+            },
+          ),
+          index: "2-7",
         ),
       ],
     ),

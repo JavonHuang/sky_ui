@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.10+1
   intl: ^0.19.0
   uuid: ^4.4.2
   
@@ -56,5 +57,8 @@ flutter:
     - family: element
       fonts:
       - asset: lib/asset/element.ttf
+
+  assets: 
+    - lib/asset/empty.svg  
   # For details regarding fonts in packages, see
   # https://flutter.dev/custom-fonts/#from-packages

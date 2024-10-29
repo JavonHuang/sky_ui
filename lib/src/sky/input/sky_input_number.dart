@@ -16,6 +16,10 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
     this.precision = 0,
     this.placeholder,
     this.rightPosition = false,
+    this.blur,
+    this.focus,
+    this.onEnter,
+    this.showCtr = true,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyInputNumber,
@@ -34,7 +38,10 @@ class SkyInputNumber extends SkyFormFieldBridge<SkyInputNumber> {
   final int precision;
   final String? placeholder;
   final bool rightPosition;
-
+  final Function(double? e)? blur;
+  final Function(double? e)? focus;
+  final Function(double? e)? onEnter;
+  final bool showCtr;
   @override
   SkyFormFieldBridgeState<SkyInputNumber> createState() => _SkyInputNumberState();
 }
@@ -74,6 +81,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
         hasFocus = true;
       });
       _lastValue = _text;
+      _widget.focus?.call(getNumberValue());
     } else {
       Future.delayed(const Duration(milliseconds: 100)).then((e) {
         setState(() {
@@ -92,6 +100,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
           setValue(_textController.text);
         }
       }
+      _widget.blur?.call(getNumberValue());
     }
   }
 
@@ -108,7 +117,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
     super.didUpdateWidget(oldWidget);
     SkyInputNumber widget = super.widget as SkyInputNumber;
     if (oldWidget.model != widget.model && mounted) {
-      setValue(widget.model.toString());
+      setValue(widget.model!.getMaxPrecision(maxDigits: _widget.precision).toString());
     }
   }
 
@@ -150,6 +159,18 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   @override
   dynamic getValue() {
     return _textController.text;
+  }
+
+  double? getNumberValue() {
+    String _text = _textController.text;
+
+    if (_text == "") {
+      return null;
+    }
+    if (!_text.doubleTryParse && _text != "") {
+      return double.parse(_lastValue);
+    }
+    return double.parse(_textController.text);
   }
 
   @override
@@ -281,36 +302,55 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
         placeholder: _widget.placeholder,
         onChanged: _onChanged,
         textAlign: TextAlign.center,
+        onSubmitted: (e) {
+          _widget.onEnter?.call(getNumberValue());
+        },
       ),
     );
-    return Container(
-      height: super.size.height,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: outLineBorder,
+    if (_widget.showCtr) {
+      return Container(
+        height: super.size.height,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+            color: outLineBorder,
+          ),
+          borderRadius: SkyBorderRadius().normalBorderRadius,
         ),
-        borderRadius: SkyBorderRadius().normalBorderRadius,
-      ),
-      child: _widget.rightPosition
-          ? Row(
-              children: [
-                intpuWidget,
-                Column(
-                  children: [
-                    plusWidget,
-                    minusWidget,
-                  ],
-                )
-              ],
-            )
-          : Row(
-              children: [
-                minusWidget,
-                intpuWidget,
-                plusWidget,
-              ],
-            ),
-    );
+        child: _widget.rightPosition
+            ? Row(
+                children: [
+                  intpuWidget,
+                  Column(
+                    children: [
+                      plusWidget,
+                      minusWidget,
+                    ],
+                  )
+                ],
+              )
+            : Row(
+                children: [
+                  minusWidget,
+                  intpuWidget,
+                  plusWidget,
+                ],
+              ),
+      );
+    } else {
+      return Container(
+        height: super.size.height,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+            color: outLineBorder,
+          ),
+          borderRadius: SkyBorderRadius().normalBorderRadius,
+        ),
+        child: Row(
+          children: [intpuWidget],
+        ),
+      );
+    }
   }
 }

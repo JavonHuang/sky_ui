@@ -1,7 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 import 'package:sky_ui/src/sky/common/sky_hover.dart';
-import '../../styles/styles.dart';
 part 'pagination_controller.dart';
 part 'setting.dart';
 
@@ -285,6 +286,49 @@ class _SkyPaginationState extends State<SkyPagination> {
                 ),
               );
             },
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: margin,
+            // height: boxSize.height,
+            width: 100,
+            child: Row(
+              children: [
+                Text(
+                  "前往",
+                  style: TextStyle(
+                    color: SkyColors().regularText,
+                    fontSize: SkyFontSizes().auxiliaryFont,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing),
+                    child: SkyInputNumber(
+                      size: SkySize.small,
+                      showCtr: false,
+                      model: _currentPage.toDouble(),
+                      precision: 0,
+                      blur: (e) {
+                        if ((int.tryParse(e.toString()) ?? 0) > pageList.last) {
+                          _currentPage = pageList.last;
+                        } else {
+                          _currentPage = int.tryParse(e.toString()) ?? 0;
+                        }
+                        reflesh();
+                      },
+                    ),
+                  ),
+                ),
+                Text(
+                  "页",
+                  style: TextStyle(
+                    color: SkyColors().regularText,
+                    fontSize: SkyFontSizes().auxiliaryFont,
+                  ),
+                ),
+              ],
+            ),
           ),
           Container(
             alignment: Alignment.center,

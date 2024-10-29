@@ -16,6 +16,9 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
     this.maxLines,
     this.minLines,
     this.maxLength,
+    this.blur,
+    this.focus,
+    this.onEnter,
   }) : super(
           fieldSize: size,
           itemType: SkyFormType.skyInput,
@@ -34,6 +37,9 @@ class SkyInput extends SkyFormFieldBridge<SkyInput> {
   final int? maxLines;
   final int? minLines;
   final int? maxLength;
+  final Function(String e)? blur;
+  final Function(String e)? focus;
+  final Function(String)? onEnter;
 
   @override
   SkyFormFieldBridgeState<SkyInput> createState() => _SkyInputState();
@@ -69,7 +75,9 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
       setState(() {
         outLineBorder = SkyColors().primary;
       });
+      _widget.focus?.call(_textController.text);
     } else {
+      _widget.blur?.call(_textController.text);
       Future.delayed(const Duration(milliseconds: 100)).then((e) {
         setState(() {
           outLineBorder = SkyColors().baseBorder;
@@ -173,6 +181,7 @@ class _SkyInputState extends SkyFormFieldBridgeState<SkyInput> {
                   maxLines: _widget.maxLines,
                   minLines: _widget.minLines,
                   maxLength: _widget.maxLength,
+                  onSubmitted: _widget.onEnter,
                 ),
               ),
               if (_showCloseIcon)

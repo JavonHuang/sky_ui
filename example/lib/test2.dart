@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sky_ui/sky_ui.dart';
 
 class Test2 extends StatefulWidget {
   const Test2({super.key});
@@ -10,26 +11,17 @@ class Test2 extends StatefulWidget {
 class _Test2State extends State<Test2> {
   @override
   Widget build(BuildContext context) {
-    List<Map<dynamic, dynamic>> dataList = List.generate(
-        20000,
-        (index) => {
-              "date": "2024-10-${1 + index}",
-              "name": "王小虎$index",
-              "province": "上海",
-              "city": "普陀区",
-              "address": "上海市普陀区金沙江路 $index 弄",
-              "zip": "20033$index",
-            });
     return Container(
       height: 500,
-      child: ListView.builder(
-        shrinkWrap: true,
-        primary: true,
-        itemCount: dataList.length,
-        itemExtent: 40,
-        itemBuilder: (context, index) {
-          return Text(dataList[index]['date']);
-        },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ParentSizeProvider(
+              size: Size(300, 200), // 假设这是父元素的大小
+              child: SkyEmpty(),
+            )
+          ],
+        ),
       ),
     );
   }

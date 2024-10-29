@@ -94,5 +94,8 @@ flutter:
     - family: Helvetica
       fonts:
       - asset: lib/asset/Helvetica.ttf
+      
+  assets: 
+    - lib/asset/empty.svg  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
