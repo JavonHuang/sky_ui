@@ -95,13 +95,30 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
         if (_text == "") {
           setValue(_text);
         } else {
-          double val = double.parse(_textController.text);
-          _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
-          setValue(_textController.text);
+          if (!checkedRange(double.parse(_textController.text))) {
+            setValue(_lastValue);
+          } else {
+            double val = double.parse(_textController.text);
+            _textController.text = val.getMaxPrecision(maxDigits: _widget.precision).toString();
+            setValue(_textController.text);
+          }
         }
       }
       _widget.blur?.call(getNumberValue());
     }
+  }
+
+  bool checkedRange(double v) {
+    if (_widget.max != null && _widget.min == null && v <= _widget.max!) {
+      return true;
+    }
+    if (_widget.min != null && _widget.max == null && v >= _widget.min!) {
+      return true;
+    }
+    if (_widget.min != null && _widget.max != null) {
+      return v >= _widget.min! && v <= _widget.max!;
+    }
+    return true;
   }
 
   @override

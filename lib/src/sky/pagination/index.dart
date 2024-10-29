@@ -308,14 +308,18 @@ class _SkyPaginationState extends State<SkyPagination> {
                       size: SkySize.small,
                       showCtr: false,
                       model: _currentPage.toDouble(),
+                      max: pageList.last.toDouble(),
                       precision: 0,
                       blur: (e) {
-                        if ((int.tryParse(e.toString()) ?? 0) > pageList.last) {
-                          _currentPage = pageList.last;
+                        int val = int.tryParse(e.toString()) ?? e!.toInt();
+                        int result = 0;
+
+                        if (val > pageList.last) {
+                          result = pageList.last;
                         } else {
-                          _currentPage = int.tryParse(e.toString()) ?? 0;
+                          result = val;
                         }
-                        reflesh();
+                        changedCurrentPage(result - _currentPage);
                       },
                     ),
                   ),
