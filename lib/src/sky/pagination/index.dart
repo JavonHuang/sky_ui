@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 import 'package:sky_ui/src/sky/common/sky_hover.dart';
@@ -10,12 +8,18 @@ class SkyPagination extends StatefulWidget {
   final SkyPaginationController? controller;
   final int currentPage;
   final int pageSize;
+  final List<int> pageSizes;
   final int total;
   final int pagerCount;
   final String? preText;
   final String? nextText;
   final SkyPaginationLayout layout;
   final bool background;
+  final Function(int size)? sizeChange;
+  final Function(int currentPage)? currentChange;
+  final Function(int currentPage)? prevClick;
+  final Function(int currentPage)? nextClick;
+
   const SkyPagination({
     super.key,
     this.controller,
@@ -27,6 +31,11 @@ class SkyPagination extends StatefulWidget {
     this.nextText,
     this.layout = const SkyPaginationLayout(prev: true, pager: true, next: true, jumper: true, total: true, sizes: true),
     this.background = false,
+    this.pageSizes = const [10, 20, 30, 50],
+    this.sizeChange,
+    this.currentChange,
+    this.prevClick,
+    this.nextClick,
   });
 
   @override
@@ -34,6 +43,8 @@ class SkyPagination extends StatefulWidget {
 }
 
 class _SkyPaginationState extends State<SkyPagination> {
+  SkyPopoverController controllerPageSize = SkyPopoverController();
+
   SkyPaginationController? _internalController;
   late Size boxSize = const Size(25, 25);
   late EdgeInsetsGeometry margin = EdgeInsets.symmetric(horizontal: 2.scaleSpacing);
@@ -119,6 +130,16 @@ class _SkyPaginationState extends State<SkyPagination> {
     } else {
       _currentPage = _currentPage + offset;
     }
+    widget.currentChange?.call(_currentPage);
+    reflesh();
+  }
+
+  void pageSizeChanged(int val) {
+    _pageSize = val;
+    if (_currentPage > pageList.last) {
+      _currentPage = pageList.last;
+    }
+    widget.sizeChange?.call(_pageSize);
     reflesh();
   }
 
@@ -222,130 +243,219 @@ class _SkyPaginationState extends State<SkyPagination> {
 
   @override
   Widget build(BuildContext context) {
+    Widget pageSizeWidget = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: widget.pageSizes.map((e) {
+        return SkyHover(
+          disabled: false,
+          onTap: () {
+            pageSizeChanged(e);
+          },
+          builder: (context, onHover, setvalue) {
+            return Container(
+              color: onHover ? SkyColors().defaultBg : null,
+              padding: EdgeInsets.symmetric(vertical: 4.scaleSpacing),
+              child: Text(
+                "$e条/页",
+                style: TextStyle(
+                  color: onHover ? SkyColors().primary : SkyColors().regularText,
+                  fontSize: SkyFontSizes().auxiliaryFont,
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
+    );
     return IntrinsicHeight(
       child: Row(
         children: [
-          SkyHover(
-            disabled: _currentPage == 1,
-            onTap: () {
-              changedCurrentPage(-1);
-            },
-            builder: (context, onHover, setvalue) {
-              Color preColor = SkyColors().primaryText;
-              if (onHover) {
-                preColor = SkyColors().primary;
-              }
-              if (_currentPage == 1) {
-                preColor = SkyColors().placeholderText;
-              }
+          if (widget.layout.prev)
+            SkyHover(
+              disabled: _currentPage == 1,
+              onTap: () {
+                changedCurrentPage(-1);
+                widget.prevClick?.call(_currentPage);
+              },
+              builder: (context, onHover, setvalue) {
+                Color preColor = SkyColors().primaryText;
+                if (onHover) {
+                  preColor = SkyColors().primary;
+                }
+                if (_currentPage == 1) {
+                  preColor = SkyColors().placeholderText;
+                }
 
-              return Container(
-                alignment: Alignment.center,
-                margin: margin,
-                width: boxSize.width,
-                height: boxSize.height,
-                decoration: BoxDecoration(
-                  color: widget.background ? SkyColors().defaultBg : null,
-                  borderRadius: SkyBorderRadius().smallBorderRadius,
-                ),
-                child: Icon(
-                  ElementIcons.arrowLeft,
-                  color: preColor,
-                  size: SkyIconSizes().mediumFont,
-                ),
-              );
-            },
-          ),
-          ...renderPageItem(),
-          SkyHover(
-            disabled: _currentPage == pageList.last,
-            onTap: () {
-              changedCurrentPage(1);
-            },
-            builder: (context, onHover, setvalue) {
-              Color nextColor = SkyColors().primaryText;
-              if (onHover) {
-                nextColor = SkyColors().primary;
-              }
-              if (_currentPage == pageList.last) {
-                nextColor = SkyColors().placeholderText;
-              }
-              return Container(
-                alignment: Alignment.center,
-                margin: margin,
-                width: boxSize.width,
-                height: boxSize.height,
-                decoration: BoxDecoration(
-                  color: widget.background ? SkyColors().defaultBg : null,
-                  borderRadius: SkyBorderRadius().smallBorderRadius,
-                ),
-                child: Icon(
-                  ElementIcons.arrowRight,
-                  color: nextColor,
-                  size: SkyIconSizes().mediumFont,
-                ),
-              );
-            },
-          ),
-          Container(
-            alignment: Alignment.center,
-            margin: margin,
-            // height: boxSize.height,
-            width: 100,
-            child: Row(
-              children: [
-                Text(
-                  "前往",
-                  style: TextStyle(
-                    color: SkyColors().regularText,
-                    fontSize: SkyFontSizes().auxiliaryFont,
+                return Container(
+                  alignment: Alignment.center,
+                  margin: margin,
+                  width: widget.preText != null ? null : boxSize.width,
+                  height: boxSize.height,
+                  decoration: BoxDecoration(
+                    color: widget.background ? SkyColors().defaultBg : null,
+                    borderRadius: SkyBorderRadius().smallBorderRadius,
                   ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing),
-                    child: SkyInputNumber(
-                      size: SkySize.small,
-                      showCtr: false,
-                      model: _currentPage.toDouble(),
-                      max: pageList.last.toDouble(),
-                      precision: 0,
-                      blur: (e) {
-                        int val = int.tryParse(e.toString()) ?? e!.toInt();
-                        int result = 0;
-
-                        if (val > pageList.last) {
-                          result = pageList.last;
-                        } else {
-                          result = val;
-                        }
-                        changedCurrentPage(result - _currentPage);
-                      },
+                  child: widget.preText != null
+                      ? Text(
+                          widget.preText!,
+                          style: TextStyle(
+                            color: preColor,
+                            fontSize: SkyFontSizes().auxiliaryFont,
+                          ),
+                        )
+                      : Icon(
+                          ElementIcons.arrowLeft,
+                          color: preColor,
+                          size: SkyIconSizes().mediumFont,
+                        ),
+                );
+              },
+            ),
+          if (widget.layout.pager) ...renderPageItem(),
+          if (widget.layout.next)
+            SkyHover(
+              disabled: _currentPage == pageList.last,
+              onTap: () {
+                changedCurrentPage(1);
+                widget.nextClick?.call(_currentPage);
+              },
+              builder: (context, onHover, setvalue) {
+                Color nextColor = SkyColors().primaryText;
+                if (onHover) {
+                  nextColor = SkyColors().primary;
+                }
+                if (_currentPage == pageList.last) {
+                  nextColor = SkyColors().placeholderText;
+                }
+                return Container(
+                  alignment: Alignment.center,
+                  margin: margin,
+                  width: widget.nextText != null ? null : boxSize.width,
+                  height: boxSize.height,
+                  decoration: BoxDecoration(
+                    color: widget.background ? SkyColors().defaultBg : null,
+                    borderRadius: SkyBorderRadius().smallBorderRadius,
+                  ),
+                  child: widget.nextText != null
+                      ? Text(
+                          widget.nextText!,
+                          style: TextStyle(
+                            color: nextColor,
+                            fontSize: SkyFontSizes().auxiliaryFont,
+                          ),
+                        )
+                      : Icon(
+                          ElementIcons.arrowRight,
+                          color: nextColor,
+                          size: SkyIconSizes().mediumFont,
+                        ),
+                );
+              },
+            ),
+          if (widget.layout.jumper)
+            Container(
+              alignment: Alignment.center,
+              margin: margin,
+              // height: boxSize.height,
+              width: 100,
+              child: Row(
+                children: [
+                  Text(
+                    "前往",
+                    style: TextStyle(
+                      color: SkyColors().regularText,
+                      fontSize: SkyFontSizes().auxiliaryFont,
                     ),
                   ),
-                ),
-                Text(
-                  "页",
-                  style: TextStyle(
-                    color: SkyColors().regularText,
-                    fontSize: SkyFontSizes().auxiliaryFont,
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing),
+                      child: SkyInputNumber(
+                        size: SkySize.small,
+                        showCtr: false,
+                        model: _currentPage.toDouble(),
+                        max: pageList.last.toDouble(),
+                        precision: 0,
+                        blur: (e) {
+                          int val = int.tryParse(e.toString()) ?? e!.toInt();
+                          int result = 0;
+
+                          if (val > pageList.last) {
+                            result = pageList.last;
+                          } else {
+                            result = val;
+                          }
+                          changedCurrentPage(result - _currentPage);
+                        },
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            margin: margin,
-            height: boxSize.height,
-            child: Text(
-              "共 $_total 条",
-              style: TextStyle(
-                color: SkyColors().regularText,
-                fontSize: SkyFontSizes().auxiliaryFont,
+                  Text(
+                    "页",
+                    style: TextStyle(
+                      color: SkyColors().regularText,
+                      fontSize: SkyFontSizes().auxiliaryFont,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
+          if (widget.layout.sizes)
+            SkyHover(
+              disabled: false,
+              onTap: () {
+                if (controllerPageSize.isOpen) {
+                  controllerPageSize.close();
+                } else {
+                  controllerPageSize.open();
+                }
+              },
+              child: SkyPopover(
+                trigger: SkyPopoverTrigger.manual,
+                controller: controllerPageSize,
+                popoverChild: pageSizeWidget,
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: margin,
+                  padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: SkyColors().baseBorder,
+                    ),
+                    borderRadius: SkyBorderRadius().normalBorderRadius,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        " $_total 条/页",
+                        style: TextStyle(
+                          color: SkyColors().regularText,
+                          fontSize: SkyFontSizes().auxiliaryFont,
+                        ),
+                      ),
+                      Icon(
+                        ElementIcons.arrowDown,
+                        size: SkyIconSizes().smallFont,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          if (widget.layout.total)
+            Container(
+              alignment: Alignment.center,
+              margin: margin,
+              height: boxSize.height,
+              child: Text(
+                "共 $_total 条",
+                style: TextStyle(
+                  color: SkyColors().regularText,
+                  fontSize: SkyFontSizes().auxiliaryFont,
+                ),
+              ),
+            ),
         ],
       ),
     );

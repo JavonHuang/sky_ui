@@ -1,3 +1,4 @@
+import 'package:example/common/space.dart';
 import 'package:flutter/material.dart';
 import 'package:sky_ui/sky_ui.dart';
 
@@ -15,6 +16,44 @@ class _PaginationDemo3State extends State<PaginationDemo3> {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          background: true,
+          layout: SkyPaginationLayout(total: false, sizes: false, jumper: false, prev: false, next: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          preText: "上一页",
+          nextText: "下一页",
+          background: true,
+          layout: SkyPaginationLayout(total: false, sizes: false, jumper: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          preText: "上一页",
+          nextText: "下一页",
+          background: true,
+          layout: SkyPaginationLayout(sizes: false, jumper: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          preText: "上一页",
+          nextText: "下一页",
+          background: true,
+          layout: SkyPaginationLayout(jumper: false),
+        ),
+        DemoSpace.vGap20,
         SkyPagination(
           pageSize: 20,
           pagerCount: 11,
