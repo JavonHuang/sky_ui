@@ -83,7 +83,7 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
       _lastValue = _text;
       _widget.focus?.call(getNumberValue());
     } else {
-      Future.delayed(const Duration(milliseconds: 100)).then((e) {
+      scheduleMicrotask(() {
         setState(() {
           hasFocus = false;
         });
@@ -143,6 +143,9 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   }
 
   void _onMinus() {
+    if (super.disabled) {
+      return;
+    }
     double val = double.parse(_textController.text != '' ? _textController.text : '0') - _widget.step;
     if (_widget.min != null && val < _widget.min!) {
       return;
@@ -151,6 +154,9 @@ class _SkyInputNumberState extends SkyFormFieldBridgeState<SkyInputNumber> {
   }
 
   void _onPluss() {
+    if (super.disabled) {
+      return;
+    }
     double val = double.parse(_textController.text != '' ? _textController.text : '0') + _widget.step;
     if (_widget.max != null && val > _widget.max!) {
       return;

@@ -19,6 +19,7 @@ class SkyBaseInput extends StatelessWidget {
     this.maxLength,
     this.textAlign = TextAlign.start,
     this.onSubmitted,
+    this.blPlaceholder = true,
   });
 
   final TextEditingController controller;
@@ -38,6 +39,7 @@ class SkyBaseInput extends StatelessWidget {
   final int? maxLength;
   final TextAlign textAlign;
   final Function(String)? onSubmitted;
+  final bool blPlaceholder;
   @override
   Widget build(BuildContext context) {
     return UnmanagedRestorationScope(
@@ -73,7 +75,7 @@ class SkyBaseInput extends StatelessWidget {
           contentPadding: size.contentPadding,
           hintText: placeholder,
           hintStyle: TextStyle(
-            color: SkyColors().placeholderText,
+            color: blPlaceholder ? SkyColors().placeholderText : SkyColors().primaryText,
             fontSize: size.textSize,
           ),
           isDense: true,

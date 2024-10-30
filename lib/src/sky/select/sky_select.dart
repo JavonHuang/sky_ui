@@ -48,7 +48,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
   late List<SkySelectOption<T>> showOptions = [];
   late bool _hasOpen = false;
   bool get _textIsNotEmpty => value != null;
-  String? get _placeholder => _valueItem?.label;
+  String? get _selectLabel => _valueItem?.label;
   Color get outLineBorder {
     if (_hasOpen) {
       return SkyColors().primary;
@@ -166,6 +166,10 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
   }
 
   _onTap() {
+    if (_widget.disabled) {
+      return;
+    }
+
     if (_menuController.isOpen && _focusNode.hasFocus) {
       _menuController.close();
     } else {
@@ -307,8 +311,8 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
       });
     } else {
       _animationController.reverse();
-      if (_widget.filterable && _placeholder != null) {
-        _textController.text = _placeholder!;
+      if (_widget.filterable && _selectLabel != null) {
+        _textController.text = _selectLabel!;
       } else {
         _textController.text = "";
       }
@@ -389,15 +393,17 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
                   children: [
                     _renderTag(),
                     Expanded(
-                        child: SkyBaseInput(
-                      controller: _textController,
-                      focusNode: _focusNode,
-                      disabled: _widget.disabled,
-                      readOnly: !_widget.filterable,
-                      size: _widget.size,
-                      onTap: _onTap,
-                      placeholder: _placeholder ?? _widget.placeholder,
-                    )),
+                      child: SkyBaseInput(
+                        controller: _textController,
+                        focusNode: _focusNode,
+                        disabled: _widget.disabled,
+                        readOnly: !_widget.filterable,
+                        size: _widget.size,
+                        onTap: _onTap,
+                        placeholder: _selectLabel ?? _widget.placeholder,
+                        blPlaceholder: _selectLabel == "" || _selectLabel == null,
+                      ),
+                    ),
                     if (_showCloseIcon)
                       GestureDetector(
                         onTap: _onClear,

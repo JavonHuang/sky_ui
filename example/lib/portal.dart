@@ -24,6 +24,7 @@ import 'message_demo.dart';
 import 'pagination_demo.dart';
 import 'popover_demo.dart';
 import 'radio_demo.dart';
+import 'select_demo.dart';
 import 'swicth_demo.dart';
 import 'table_demo.dart';
 import 'tabs_demo.dart';
@@ -170,12 +171,21 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
+            label: 'Select 选择器',
+            ext: {
+              "widget": SelectDemo(),
+            },
+          ),
+          index: "1-4",
+        ),
+        SkyMenuNode(
+          data: const SkyMenuMeta(
             label: 'Switch 开关',
             ext: {
               "widget": SwicthDemo(),
             },
           ),
-          index: "1-4",
+          index: "1-5",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -184,7 +194,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": TimePickerDemo(),
             },
           ),
-          index: "1-5",
+          index: "1-6",
         ),
         SkyMenuNode(
           data: const SkyMenuMeta(
@@ -193,7 +203,7 @@ class _MyMainState extends State<MyMain> with TickerProviderStateMixin {
               "widget": DatePickerDemo(),
             },
           ),
-          index: "1-6",
+          index: "1-7",
         ),
       ],
     ),
