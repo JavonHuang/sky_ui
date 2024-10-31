@@ -41,7 +41,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     GlobalKey<NavigatorState> globalNavigatorState = GlobalKey<NavigatorState>();
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'SkyUI',
       navigatorKey: globalNavigatorState,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
