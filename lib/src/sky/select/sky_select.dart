@@ -170,7 +170,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
       return;
     }
 
-    if (_menuController.isOpen && _focusNode.hasFocus) {
+    if (_menuController.isOpen) {
       _menuController.close();
     } else {
       _menuController.open();
@@ -250,7 +250,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
         .toList();
   }
 
-  Widget _renderTag() {
+  Widget _renderTag(double width) {
     List<Widget> itemList = [];
     if (_widget.collapseTags && _valueList.length > 1) {
       itemList.add(SkySelectTag(
@@ -261,23 +261,25 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
         },
       ));
       itemList.add(
-        Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing, vertical: 2.scaleSpacing),
-          margin: EdgeInsets.symmetric(horizontal: 4.scaleSpacing, vertical: 2.scaleSpacing),
-          decoration: BoxDecoration(
-            color: SkyColors().defaultBg,
-            borderRadius: SkyBorderRadius().normalBorderRadius,
-            border: Border.all(
-              width: 1,
-              color: SkyColors().lighterBorder,
+        UnconstrainedBox(
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 4.scaleSpacing, vertical: 2.scaleSpacing),
+            margin: EdgeInsets.symmetric(horizontal: 4.scaleSpacing, vertical: 2.scaleSpacing),
+            decoration: BoxDecoration(
+              color: SkyColors().defaultBg,
+              borderRadius: SkyBorderRadius().normalBorderRadius,
+              border: Border.all(
+                width: 1,
+                color: SkyColors().lighterBorder,
+              ),
             ),
-          ),
-          child: Text(
-            '+${(_valueList.length - 1).toString()}',
-            style: TextStyle(
-              fontSize: _widget.size.textSize,
-              color: SkyColors().secondaryText,
+            child: Text(
+              '+${(_valueList.length - 1).toString()}',
+              style: TextStyle(
+                fontSize: _widget.size.textSize,
+                color: SkyColors().secondaryText,
+              ),
             ),
           ),
         ),
@@ -294,8 +296,13 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
         ));
       }
     }
-    return Row(
-      children: itemList,
+    return Container(
+      constraints: BoxConstraints(maxWidth: width - 50),
+      child: Wrap(
+        spacing: 0, // 主轴(水平)方向间距
+        runSpacing: 0, // 纵轴（垂直）方向间距
+        children: itemList,
+      ),
     );
   }
 
@@ -330,7 +337,7 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
   Widget build(BuildContext context) {
     double padding = 0;
     return Container(
-      height: super.size.height,
+      // height: super.size.height,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1,
@@ -338,108 +345,114 @@ class _SkySelectState<T> extends SkyFormFieldBridgeState<SkySelect> with SingleT
         ),
         borderRadius: SkyBorderRadius().normalBorderRadius,
       ),
-      child: MouseRegion(
-        cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-        onEnter: (e) {
-          if (_widget.disabled) {
-            return;
-          }
-          setState(() {
-            onHover = true;
-          });
-        },
-        onExit: (e) {
-          if (_widget.disabled) {
-            return;
-          }
-          setState(() {
-            onHover = false;
-          });
-        },
-        child: LayoutBuilder(
-          builder: (_, constraints) {
-            final optionWidth = constraints.maxWidth;
-            return MenuAnchor(
-              onOpen: () => _setPopupIsOpen(true),
-              onClose: () => _setPopupIsOpen(false),
-              controller: _menuController,
-              alignmentOffset: const Offset(0, 4),
-              style: MenuStyle(
-                minimumSize: WidgetStatePropertyAll(
-                  Size(
-                    optionWidth,
-                    40,
-                  ),
-                ),
-                maximumSize: WidgetStatePropertyAll(
-                  Size(
-                    optionWidth,
-                    200,
-                  ),
-                ),
-                visualDensity: VisualDensity.comfortable,
-                side: WidgetStatePropertyAll(BorderSide(
-                  color: SkyColors().baseBorder,
-                  width: 1,
-                  style: BorderStyle.solid,
-                )),
-                backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-                surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
-                padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20, horizontal: padding)),
-              ),
-              menuChildren: _renderOptionItem(optionWidth, padding * 2),
-              builder: (context, controller, child) {
-                return Row(
-                  children: [
-                    _renderTag(),
-                    Expanded(
-                      child: SkyBaseInput(
-                        controller: _textController,
-                        focusNode: _focusNode,
-                        disabled: _widget.disabled,
-                        readOnly: !_widget.filterable,
-                        size: _widget.size,
-                        onTap: _onTap,
-                        placeholder: _selectLabel ?? _widget.placeholder,
-                        blPlaceholder: _selectLabel == "" || _selectLabel == null,
-                      ),
+      child: GestureDetector(
+        onTap: _onTap,
+        behavior: HitTestBehavior.translucent,
+        child: MouseRegion(
+          cursor: _widget.disabled ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+          onEnter: (e) {
+            if (_widget.disabled) {
+              return;
+            }
+            setState(() {
+              onHover = true;
+            });
+          },
+          onExit: (e) {
+            if (_widget.disabled) {
+              return;
+            }
+            setState(() {
+              onHover = false;
+            });
+          },
+          child: LayoutBuilder(
+            builder: (_, constraints) {
+              final optionWidth = constraints.maxWidth;
+              return MenuAnchor(
+                onOpen: () => _setPopupIsOpen(true),
+                onClose: () => _setPopupIsOpen(false),
+                controller: _menuController,
+                alignmentOffset: const Offset(0, 4),
+                style: MenuStyle(
+                  minimumSize: WidgetStatePropertyAll(
+                    Size(
+                      optionWidth,
+                      40,
                     ),
-                    if (_showCloseIcon)
-                      GestureDetector(
-                        onTap: _onClear,
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Padding(
+                  ),
+                  maximumSize: WidgetStatePropertyAll(
+                    Size(
+                      optionWidth,
+                      200,
+                    ),
+                  ),
+                  visualDensity: VisualDensity.comfortable,
+                  side: WidgetStatePropertyAll(BorderSide(
+                    color: SkyColors().baseBorder,
+                    width: 1,
+                    style: BorderStyle.solid,
+                  )),
+                  backgroundColor: WidgetStatePropertyAll<Color>(SkyColors().white),
+                  surfaceTintColor: WidgetStatePropertyAll<Color>(SkyColors().white),
+                  padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(EdgeInsets.symmetric(vertical: 20, horizontal: padding)),
+                ),
+                menuChildren: _renderOptionItem(optionWidth, padding * 2),
+                builder: (context, controller, child) {
+                  return IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        _renderTag(optionWidth),
+                        Expanded(
+                          child: SkyBaseInput(
+                            controller: _textController,
+                            focusNode: _focusNode,
+                            disabled: _widget.disabled,
+                            readOnly: !_widget.filterable,
+                            size: _widget.size,
+                            placeholder: _selectLabel ?? _widget.placeholder,
+                            blPlaceholder: _selectLabel == "" || _selectLabel == null,
+                            onTap: _onTap,
+                          ),
+                        ),
+                        if (_showCloseIcon)
+                          GestureDetector(
+                            onTap: _onClear,
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 4.scaleSpacing,
+                                ),
+                                child: Icon(
+                                  color: SkyColors().baseBorder,
+                                  ElementIcons.circleClose,
+                                  size: super.size.iconSize,
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (!_showCloseIcon)
+                          Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: 4.scaleSpacing,
                             ),
-                            child: Icon(
-                              color: SkyColors().baseBorder,
-                              ElementIcons.circleClose,
-                              size: super.size.iconSize,
+                            child: RotationTransition(
+                              turns: _rotateAnimation,
+                              child: Icon(
+                                color: SkyColors().baseBorder,
+                                ElementIcons.arrowDown,
+                                size: super.size.iconSize,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    if (!_showCloseIcon)
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 4.scaleSpacing,
-                        ),
-                        child: RotationTransition(
-                          turns: _rotateAnimation,
-                          child: Icon(
-                            color: SkyColors().baseBorder,
-                            ElementIcons.arrowDown,
-                            size: super.size.iconSize,
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              },
-            );
-          },
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

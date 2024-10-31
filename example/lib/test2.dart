@@ -9,18 +9,26 @@ class Test2 extends StatefulWidget {
 }
 
 class _Test2State extends State<Test2> {
+  bool _absorb = false;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ParentSizeProvider(
-              size: Size(300, 200), // 假设这是父元素的大小
-              child: SkyEmpty(),
-            )
-          ],
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        print('GestureDetector clicked');
+      },
+      child: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.symmetric(horizontal: 100),
+        child: TextField(
+          decoration: InputDecoration(
+            labelText: 'Enter text',
+          ),
+          onTap: () {
+            print('TextField clicked');
+            // 这里可以添加额外的逻辑
+          },
         ),
       ),
     );
