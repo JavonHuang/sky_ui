@@ -1,0 +1,88 @@
+class LayoutDemo4 extends StatefulWidget {
+  const LayoutDemo4({super.key});
+
+  @override
+  State<LayoutDemo4> createState() => _LayoutDemo4State();
+}
+
+class _LayoutDemo4State extends State<LayoutDemo4> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              offset: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 6,
+              offset: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              offset: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 12,
+              offset: 6,
+              height: 36,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFd3dce6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}

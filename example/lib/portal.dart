@@ -1,5 +1,6 @@
 import 'package:example/test2.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sky_ui/sky_ui.dart';
 
 import 'alert_demo.dart';
@@ -63,6 +64,9 @@ class App extends StatelessWidget {
 class MyMain extends StatefulWidget {
   MyMain({super.key, globalNavigatorState}) {
     SkyInit().register(globalNavigatorState);
+    // getLibraryDirectory().then((directory) {
+    //   print(directory.path);
+    // });
   }
 
   @override

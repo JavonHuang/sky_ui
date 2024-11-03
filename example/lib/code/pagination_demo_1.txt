@@ -1,0 +1,26 @@
+class PaginationDemo1 extends StatefulWidget {
+  const PaginationDemo1({super.key});
+
+  @override
+  State<PaginationDemo1> createState() => _PaginationDemo1State();
+}
+
+class _PaginationDemo1State extends State<PaginationDemo1> {
+  List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text("页数较少时的效果"),
+        SkyPagination(
+          total: 14,
+        ),
+        Text("大于 7 页时的效果"),
+        SkyPagination(
+          total: 100,
+        ),
+      ],
+    );
+  }
+}

@@ -1,0 +1,56 @@
+class InputDemo8 extends StatefulWidget {
+  const InputDemo8({super.key});
+
+  @override
+  State<InputDemo8> createState() => _InputDemo8State();
+}
+
+class _InputDemo8State extends State<InputDemo8> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyInput(
+                placeholder: "请输入内容",
+                size: SkySize.large,
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              child: SkyInput(
+                placeholder: "请输入内容",
+                size: SkySize.medium,
+              ),
+            ),
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          gutter: 20,
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyInput(
+                placeholder: "请输入内容",
+                size: SkySize.small,
+              ),
+            ),
+            SkyCol(
+              span: 6,
+              child: SkyInput(
+                placeholder: "请输入内容",
+                size: SkySize.mini,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

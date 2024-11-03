@@ -1,12 +1,58 @@
+import 'package:example/common/space.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/theme_map.dart';
 import 'package:sky_ui/sky_ui.dart';
 
-class DisplayBlock extends StatelessWidget {
+import '../read_file.dart';
+
+class DisplayBlock extends StatefulWidget {
   final List<Widget>? children;
   final Widget? child;
 
   final String? description;
-  const DisplayBlock({super.key, this.children = const [], this.description, this.child});
+  const DisplayBlock({
+    super.key,
+    this.children = const [],
+    this.description,
+    this.child,
+  });
+
+  @override
+  State<DisplayBlock> createState() => _DisplayBlockState();
+}
+
+class _DisplayBlockState extends State<DisplayBlock> {
+  late String code = "";
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  void init() {
+    ReadFile.read("lib/code/${camelToSnakeCase(widget.child.toString())}.txt").then((e) {
+      setState(() {
+        code = e;
+      });
+    });
+  }
+
+  String camelToSnakeCase(String camelCaseStr) {
+    String result = camelCaseStr.replaceAllMapped(RegExp(r'([A-Z][a-z0-9]*)'), (match) {
+      if (match.start == 0) {
+        // 对于字符串的第一个大写字母，我们不需要前导下划线
+        return match.group(0)?.toLowerCase() ?? '';
+      } else {
+        // 对于其他大写字母，我们在前面添加下划线
+        return '_${match.group(0)?.toLowerCase() ?? ''}';
+      }
+    }).toLowerCase();
+
+    result = result.replaceRange(result.length - 1, result.length - 1, "_");
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +72,7 @@ class DisplayBlock extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: SkyColors().white,
-              border: description != null
+              border: widget.description != null
                   ? Border(
                       bottom: BorderSide(
                         width: 1,
@@ -36,13 +82,13 @@ class DisplayBlock extends StatelessWidget {
                   : null,
               borderRadius: SkyBorderRadius().normalBorderRadius,
             ),
-            child: child ??
+            child: widget.child ??
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children ?? [],
+                  children: widget.children ?? [],
                 ),
           ),
-          if (description != null)
+          if (widget.description != null)
             Container(
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.all(24),
@@ -55,10 +101,67 @@ class DisplayBlock extends StatelessWidget {
                 borderRadius: SkyBorderRadius().normalBorderRadius,
               ),
               child: Text(
-                description!,
+                widget.description!,
                 style: const TextStyle(color: Color(0xFF5e6d82)),
               ),
-            )
+            ),
+          SkyCollapse(
+              contentPadding: EdgeInsets.zero,
+              titleBuilder: (context, anima, ctrl, icon) {
+                return Container(
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: SkyColors().white,
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: SkyColors().baseBorder,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        child: Icon(
+                          ElementIcons.copyDocument,
+                          size: SkyIconSizes().mediumFont,
+                        ),
+                        onTap: () async {
+                          await Clipboard.setData(ClipboardData(text: code));
+                          SkyMessage(message: "代码复制成功", type: SkyAlertType.success, showIcon: true).open();
+                        },
+                      ),
+                      DemoSpace.hGap20,
+                      Icon(
+                        ElementIcons.arrowLeft,
+                        size: SkyIconSizes().mediumFont,
+                      ),
+                      Icon(
+                        ElementIcons.arrowRight,
+                        size: SkyIconSizes().mediumFont,
+                      ),
+                      DemoSpace.hGap20,
+                    ],
+                  ),
+                );
+              },
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    color: SkyColors().white,
+                    padding: const EdgeInsets.all(12),
+                    child: HighlightView(
+                      code,
+                      language: "dart",
+                      theme: themeMap['github']!,
+                      padding: const EdgeInsets.all(12),
+                      // textStyle: TextStyle(fontFamily: 'SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace'),
+                    ),
+                  )
+                ],
+              )),
         ],
       ),
     );

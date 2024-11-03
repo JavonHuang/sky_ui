@@ -1,0 +1,43 @@
+class RadioDemo1 extends StatefulWidget {
+  const RadioDemo1({super.key});
+
+  @override
+  State<RadioDemo1> createState() => _RadioDemo1State();
+}
+
+class _RadioDemo1State extends State<RadioDemo1> {
+  late String example1 = "1";
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyRadio(
+              text: "备选项",
+              label: "1",
+              model: example1,
+              onChanged: (e) {
+                setState(() {
+                  example1 = e;
+                });
+              },
+            ),
+            SkyRadio(
+              text: "备选项",
+              label: "2",
+              model: example1,
+              onChanged: (e) {
+                setState(() {
+                  example1 = e;
+                });
+              },
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}

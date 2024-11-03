@@ -1,0 +1,77 @@
+class DescriptionsDemo3 extends StatefulWidget {
+  const DescriptionsDemo3({super.key});
+
+  @override
+  State<DescriptionsDemo3> createState() => _DescriptionsDemo3State();
+}
+
+class _DescriptionsDemo3State extends State<DescriptionsDemo3> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("垂直无边框列表"),
+        DemoSpace.vGap20,
+        SkyDescriptions(
+          title: "用户信息",
+          axis: Axis.vertical,
+          border: true,
+          children: [
+            DescriptionsItem(
+              label: "用户名：",
+              value: "kooriookami",
+            ),
+            DescriptionsItem(label: "手机号：", value: "18100000000"),
+            DescriptionsItem(label: "居住地：", value: "苏州市"),
+            DescriptionsItem(
+              label: "备注：",
+              valueWidget: Container(
+                alignment: Alignment.centerLeft,
+                child: const UnconstrainedBox(
+                  child: SkyTag(
+                    text: "学校",
+                    type: SkyType.primary,
+                    plain: true,
+                    size: SkySize.mini,
+                  ),
+                ),
+              ),
+            ),
+            DescriptionsItem(label: "联系地址：", value: "江苏省苏州市吴中区吴中大道 1188 号"),
+          ],
+        ),
+        DemoSpace.vGap20,
+        const Text("垂直无边框列表"),
+        DemoSpace.vGap20,
+        SkyDescriptions(
+          title: "用户信息",
+          axis: Axis.vertical,
+          children: [
+            DescriptionsItem(
+              label: "用户名：",
+              value: "kooriookami",
+            ),
+            DescriptionsItem(label: "手机号：", value: "18100000000"),
+            DescriptionsItem(label: "居住地：", value: "苏州市"),
+            DescriptionsItem(
+              label: "备注：",
+              valueWidget: Container(
+                alignment: Alignment.centerLeft,
+                child: const UnconstrainedBox(
+                  child: SkyTag(
+                    text: "学校",
+                    type: SkyType.primary,
+                    plain: true,
+                    size: SkySize.mini,
+                  ),
+                ),
+              ),
+            ),
+            DescriptionsItem(label: "联系地址：", value: "江苏省苏州市吴中区吴中大道 1188 号"),
+          ],
+        ),
+      ],
+    );
+  }
+}

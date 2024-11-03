@@ -1,0 +1,111 @@
+class TreeDemo6 extends StatefulWidget {
+  const TreeDemo6({super.key});
+
+  @override
+  State<TreeDemo6> createState() => _TreeDemo6State();
+}
+
+class _TreeDemo6State extends State<TreeDemo6> {
+  SkyTreeController controller = SkyTreeController();
+  List<SkyTreeNode> childrenData = [
+    SkyTreeNode(
+      index: "1",
+      isExpend: true,
+      data: const SkyTreeMeta(
+        label: "一级1",
+      ),
+      children: [
+        SkyTreeNode(
+          index: "1-1",
+          data: const SkyTreeMeta(
+            label: "二级1-1",
+          ),
+        ),
+        SkyTreeNode(
+          index: "1-2",
+          data: const SkyTreeMeta(
+            label: "二级1-2",
+          ),
+          children: [
+            SkyTreeNode(
+              index: "1-2-1",
+              data: const SkyTreeMeta(
+                label: "三级1-2-1",
+              ),
+            )
+          ],
+        ),
+      ],
+    ),
+    SkyTreeNode(
+        index: "2",
+        data: const SkyTreeMeta(
+          label: "一级2",
+        ),
+        children: [
+          SkyTreeNode(
+            index: "2-1",
+            data: const SkyTreeMeta(
+              label: "二级2-1",
+            ),
+          ),
+        ]),
+    SkyTreeNode(
+      index: "3",
+      data: const SkyTreeMeta(
+        label: "一级3",
+      ),
+    ),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyTree(
+          children: childrenData,
+          accordion: true,
+          controller: controller,
+          buildContent: (e) {
+            return Row(
+              children: [
+                Text(e.data.label),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SkyButton(
+                        type: SkyType.text,
+                        text: "Append",
+                        customSize: const Size(70, 20),
+                        onTap: () {
+                          controller.append(
+                            e.index,
+                            SkyTreeNode(
+                              index: "3-1",
+                              data: const SkyTreeMeta(
+                                label: "二级3-1",
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SkyButton(
+                        type: SkyType.text,
+                        text: "Delete",
+                        customSize: const Size(70, 20),
+                        onTap: () {
+                          controller.remove(e);
+                        },
+                      )
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}

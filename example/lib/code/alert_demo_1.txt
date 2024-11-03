@@ -1,0 +1,64 @@
+class AlertDemo1 extends StatefulWidget {
+  const AlertDemo1({super.key});
+
+  @override
+  State<AlertDemo1> createState() => _AlertDemo1State();
+}
+
+class _AlertDemo1State extends State<AlertDemo1> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 24,
+              child: SkyAlert(
+                title: "成功提示的文案",
+                type: SkyAlertType.success,
+              ),
+            )
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 24,
+              child: SkyAlert(
+                title: "消息提示的文案",
+                type: SkyAlertType.info,
+              ),
+            )
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 24,
+              child: SkyAlert(
+                title: "警告提示的文案",
+                type: SkyAlertType.warning,
+              ),
+            )
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 24,
+              child: SkyAlert(
+                title: "错误提示的文案",
+                type: SkyAlertType.error,
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

@@ -1,0 +1,44 @@
+class SwicthDemo2 extends StatefulWidget {
+  const SwicthDemo2({super.key});
+
+  @override
+  State<SwicthDemo2> createState() => _SwicthDemo2State();
+}
+
+class _SwicthDemo2State extends State<SwicthDemo2> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 8,
+              child: SkySwitch(
+                model: true,
+                activeText: "按月付费",
+                inactiveText: "按年付费",
+              ),
+            )
+          ],
+        ),
+        DemoSpace.vGap20,
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 8,
+              child: SkySwitch(
+                model: true,
+                activeColor: Color(0xff13ce66),
+                inactiveColor: Color(0xffff4949),
+                activeText: "按月付费",
+                inactiveText: "按年付费",
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

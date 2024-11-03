@@ -1,0 +1,42 @@
+class TableDemo2 extends StatefulWidget {
+  const TableDemo2({super.key});
+
+  @override
+  State<TableDemo2> createState() => _TableDemo2State();
+}
+
+class _TableDemo2State extends State<TableDemo2> {
+  List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(
+          height: 240,
+          child: SkyTable(
+            stripe: true,
+            data: dataList,
+            columns: [
+              SkyTableColumn(
+                prop: "date",
+                width: 200,
+                label: "日期",
+              ),
+              SkyTableColumn(
+                prop: "name",
+                label: "姓名",
+                width: 80,
+              ),
+              SkyTableColumn(
+                prop: "address",
+                label: "地址",
+                flex: true,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

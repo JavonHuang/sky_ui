@@ -1,0 +1,34 @@
+class TimePickerDemo1 extends StatefulWidget {
+  const TimePickerDemo1({super.key});
+
+  @override
+  State<TimePickerDemo1> createState() => _TimePickerDemo1State();
+}
+
+class _TimePickerDemo1State extends State<TimePickerDemo1> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyTimePicker(
+                model: DateTime.now().millisecondsSinceEpoch,
+                editable: false,
+                clearable: true,
+                pickerOptions: SkyTimeSelectPickerOptions(
+                  start: "09:10:30",
+                  step: "00:10:20",
+                  end: "10:01:50",
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}

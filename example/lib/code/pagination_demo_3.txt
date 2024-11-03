@@ -1,0 +1,66 @@
+import 'package:example/common/space.dart';
+
+
+
+class PaginationDemo3 extends StatefulWidget {
+  const PaginationDemo3({super.key});
+
+  @override
+  State<PaginationDemo3> createState() => _PaginationDemo3State();
+}
+
+class _PaginationDemo3State extends State<PaginationDemo3> {
+  List<Map<dynamic, dynamic>> dataList = List.generate(20, (index) => {"date": "2024-10-${1 + index}", "name": "王小虎$index", "address": "上海市普陀区金沙江路 $index 弄"});
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          background: true,
+          layout: SkyPaginationLayout(total: false, sizes: false, jumper: false, prev: false, next: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          preText: "上一页",
+          nextText: "下一页",
+          background: true,
+          layout: SkyPaginationLayout(total: false, sizes: false, jumper: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          preText: "上一页",
+          nextText: "下一页",
+          background: true,
+          layout: SkyPaginationLayout(sizes: false, jumper: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          preText: "上一页",
+          nextText: "下一页",
+          background: true,
+          layout: SkyPaginationLayout(jumper: false),
+        ),
+        DemoSpace.vGap20,
+        SkyPagination(
+          pageSize: 20,
+          pagerCount: 11,
+          total: 1000,
+          background: true,
+        ),
+      ],
+    );
+  }
+}

@@ -27,7 +27,7 @@ class SkyCollapse extends StatefulWidget {
     this.alignment = Alignment.topCenter,
     this.titlePadding = const EdgeInsets.symmetric(vertical: 12.0),
     this.contentPadding = const EdgeInsets.only(top: 0, right: 8, left: 8, bottom: 8),
-    required this.duration,
+    this.duration = const Duration(milliseconds: 200),
     this.reverseDuration,
     this.titleBuilder,
     this.controller,

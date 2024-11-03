@@ -1,0 +1,72 @@
+class TreeDemo4 extends StatefulWidget {
+  const TreeDemo4({super.key});
+
+  @override
+  State<TreeDemo4> createState() => _TreeDemo4State();
+}
+
+class _TreeDemo4State extends State<TreeDemo4> {
+  List<SkyTreeNode> childrenData = [
+    SkyTreeNode(
+      index: "1",
+      data: const SkyTreeMeta(
+        label: "一级1",
+      ),
+      children: [
+        SkyTreeNode(
+          index: "1-1",
+          data: const SkyTreeMeta(
+            label: "二级1-1",
+          ),
+        ),
+        SkyTreeNode(
+          index: "1-2",
+          data: const SkyTreeMeta(
+            label: "二级1-2",
+          ),
+          children: [
+            SkyTreeNode(
+              index: "1-2-1",
+              data: const SkyTreeMeta(
+                label: "三级1-2-1",
+              ),
+            )
+          ],
+        ),
+      ],
+    ),
+    SkyTreeNode(
+        index: "2",
+        data: const SkyTreeMeta(
+          label: "一级2",
+        ),
+        children: [
+          SkyTreeNode(
+            index: "2-1",
+            data: const SkyTreeMeta(
+              label: "二级2-1",
+            ),
+          ),
+        ]),
+    SkyTreeNode(
+      index: "3",
+      data: const SkyTreeMeta(
+        label: "一级3",
+      ),
+    ),
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyTree(
+          showCheckbox: true,
+          defaultCheckedIndex: const ['2'],
+          defaultExpandedIndexs: const ['2'],
+          children: childrenData,
+        ),
+      ],
+    );
+  }
+}

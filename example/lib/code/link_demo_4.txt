@@ -1,0 +1,32 @@
+class LinkDemo4 extends StatefulWidget {
+  const LinkDemo4({super.key});
+
+  @override
+  State<LinkDemo4> createState() => _LinkDemo4State();
+}
+
+class _LinkDemo4State extends State<LinkDemo4> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            const SkyLink(
+              text: "编辑",
+              type: SkyLinkType.normal,
+              leftIcon: ElementIcons.edit,
+            ),
+            SizedBox(width: SkySpacings().mainSpacing),
+            const SkyLink(
+              type: SkyLinkType.primary,
+              text: "查看",
+              rightIcon: ElementIcons.view,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

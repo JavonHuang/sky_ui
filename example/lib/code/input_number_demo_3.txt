@@ -1,0 +1,29 @@
+class InputNumberDemo3 extends StatefulWidget {
+  const InputNumberDemo3({super.key});
+
+  @override
+  State<InputNumberDemo3> createState() => _InputNumberDemo3State();
+}
+
+class _InputNumberDemo3State extends State<InputNumberDemo3> {
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkyRow(
+          children: [
+            SkyCol(
+              span: 6,
+              child: SkyInputNumber(
+                placeholder: "请输入数字",
+                model: 1,
+                step: 2,
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
