@@ -30,6 +30,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
           descr: "使用单一分栏创建基础的栅格布局。",
         ),
         DisplayBlock(
+          path: "layout_demo_1",
           child: LayoutDemo1(),
         ),
         DemoTitle(
@@ -38,6 +39,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
         ),
         DisplayBlock(
           description: "SkyRow 组件 提供 gutter 属性来指定每一栏之间的间隔，默认间隔为 0。",
+          path: "layout_demo_2",
           child: LayoutDemo2(),
         ),
         DemoTitle(
@@ -45,6 +47,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
           descr: "通过基础的 1/24 分栏任意扩展组合形成较为复杂的混合布局。",
         ),
         DisplayBlock(
+          path: "layout_demo_3",
           child: LayoutDemo3(),
         ),
         DemoTitle(
@@ -52,6 +55,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
           descr: "支持偏移指定的栏数。",
         ),
         DisplayBlock(
+          path: "layout_demo_4",
           child: LayoutDemo4(),
         ),
         DemoTitle(
@@ -60,6 +64,7 @@ class _LayoutDemoState extends State<LayoutDemo> {
         ),
         DisplayBlock(
           description: "通过 Wrap 布局,及 crossAxisAlignment 属性来指定 start, center, end, 其中的值来定义子元素的排版方式。",
+          path: "layout_demo_5",
           child: LayoutDemo5(),
         ),
       ],

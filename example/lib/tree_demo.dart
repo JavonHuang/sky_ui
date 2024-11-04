@@ -32,6 +32,7 @@ class _TreeDemoState extends State<TreeDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tree_demo_1",
           child: TreeDemo1(),
         ),
         DemoTitle(
@@ -40,6 +41,7 @@ class _TreeDemoState extends State<TreeDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tree_demo_2",
           child: TreeDemo2(),
         ),
         DemoTitle(
@@ -48,6 +50,7 @@ class _TreeDemoState extends State<TreeDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tree_demo_3",
           child: TreeDemo3(),
         ),
         DemoTitle(
@@ -56,6 +59,7 @@ class _TreeDemoState extends State<TreeDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tree_demo_4",
           child: TreeDemo4(),
         ),
         DemoTitle(
@@ -64,6 +68,7 @@ class _TreeDemoState extends State<TreeDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tree_demo_5",
           child: TreeDemo5(),
         ),
         DemoTitle(
@@ -72,6 +77,7 @@ class _TreeDemoState extends State<TreeDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tree_demo_6",
           child: TreeDemo6(),
         ),
       ],

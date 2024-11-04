@@ -10,6 +10,7 @@ import '../read_file.dart';
 class DisplayBlock extends StatefulWidget {
   final List<Widget>? children;
   final Widget? child;
+  final String path;
 
   final String? description;
   const DisplayBlock({
@@ -17,6 +18,7 @@ class DisplayBlock extends StatefulWidget {
     this.children = const [],
     this.description,
     this.child,
+    required this.path,
   });
 
   @override
@@ -32,7 +34,7 @@ class _DisplayBlockState extends State<DisplayBlock> {
   }
 
   void init() {
-    ReadFile.read("lib/code/${camelToSnakeCase(widget.child.toString())}.txt").then((e) {
+    ReadFile.read("lib/code/${widget.path}.txt").then((e) {
       setState(() {
         code = e;
       });

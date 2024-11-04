@@ -28,6 +28,7 @@ class _MessageBoxDemoState extends State<MessageBoxDemo> {
         ),
         DisplayBlock(
           description: "当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。",
+          path: "message_box_demo_1",
           child: MessageBoxDemo1(),
         ),
         DemoTitle(
@@ -35,6 +36,7 @@ class _MessageBoxDemoState extends State<MessageBoxDemo> {
           descr: "提示用户确认其已经触发的动作，并询问是否进行此操作时会用到此对话框。",
         ),
         DisplayBlock(
+          path: "message_box_demo_2",
           child: MessageBoxDemo2(),
         ),
         DemoTitle(
@@ -42,6 +44,7 @@ class _MessageBoxDemoState extends State<MessageBoxDemo> {
           descr: "用户可在自定义组件中将信息共享给弹窗，并通过弹窗回传给调用处的父级节点",
         ),
         DisplayBlock(
+          path: "message_box_demo_3",
           child: MessageBoxDemo3(),
         ),
       ],

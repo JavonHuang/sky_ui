@@ -39,6 +39,7 @@ class _DialogDemoState extends State<DialogDemo> {
           descr: "Dialog 弹出一个对话框，适合需要定制性更大的场景。",
         ),
         DisplayBlock(
+          path: "dialog_demo_1",
           description: "当用户进行操作时会被触发，该对话框中断用户操作，直到用户确认知晓后才可关闭。",
           child: DialogDemo1(),
         ),
@@ -47,6 +48,7 @@ class _DialogDemoState extends State<DialogDemo> {
           descr: "用户可在根据业务需求，自定义页脚按钮",
         ),
         DisplayBlock(
+          path: "dialog_demo_2",
           child: DialogDemo2(),
         ),
         DemoTitle(
@@ -54,6 +56,7 @@ class _DialogDemoState extends State<DialogDemo> {
           descr: "如果需要在一个 Dialog 内部嵌套另一个 Dialog，在相应事件内创建新的实例。",
         ),
         DisplayBlock(
+          path: "dialog_demo_3",
           child: DialogDemo3(),
         ),
         DemoTitle(
@@ -61,6 +64,7 @@ class _DialogDemoState extends State<DialogDemo> {
           descr: "用户可在自定义组件中将信息共享给弹窗，并通过弹窗回传给调用处的父级节点",
         ),
         DisplayBlock(
+          path: "dialog_demo_5",
           child: DialogDemo5(),
         ),
       ],

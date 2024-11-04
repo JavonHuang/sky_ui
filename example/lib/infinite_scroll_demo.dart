@@ -24,6 +24,7 @@ class _InfiniteScrollDemoState extends State<InfiniteScrollDemo> {
           title: "基础用法",
         ),
         DisplayBlock(
+          path: "infinite_scroll_demo_1",
           child: InfiniteScrollDemo1(),
         ),
       ],

@@ -29,6 +29,7 @@ class _SwicthDemoState extends State<SwicthDemo> {
         ),
         DisplayBlock(
           description: "绑定model到一个Boolean类型的变量。可以使用active-color属性与inactive-color属性来设置开关的背景色。",
+          path: "swicth_demo_1",
           child: SwicthDemo1(),
         ),
         DemoTitle(
@@ -37,6 +38,7 @@ class _SwicthDemoState extends State<SwicthDemo> {
         ),
         DisplayBlock(
           description: "使用active-text属性与inactive-text属性来设置开关的文字描述。",
+          path: "swicth_demo_2",
           child: SwicthDemo2(),
         ),
         DemoTitle(
@@ -45,6 +47,7 @@ class _SwicthDemoState extends State<SwicthDemo> {
         ),
         DisplayBlock(
           description: "设置active-value和inactive-value属性，接受Boolean, String或Number类型的值。",
+          path: "swicth_demo_3",
           child: SwicthDemo3(),
         ),
         DemoTitle(
@@ -52,6 +55,7 @@ class _SwicthDemoState extends State<SwicthDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "swicth_demo_4",
           child: SwicthDemo4(),
         ),
       ],

@@ -34,6 +34,7 @@ class _TabsDemoState extends State<TabsDemo> {
           descr: "基础的、简洁的标签页。",
         ),
         DisplayBlock(
+          path: "tabs_demo_1",
           child: TabsDemo1(),
         ),
         DemoTitle(
@@ -41,6 +42,7 @@ class _TabsDemoState extends State<TabsDemo> {
           descr: "选项卡样式的标签页。",
         ),
         DisplayBlock(
+          path: "tabs_demo_2",
           child: TabsDemo2(),
         ),
         DemoTitle(
@@ -48,6 +50,7 @@ class _TabsDemoState extends State<TabsDemo> {
           descr: "卡片化的标签页。",
         ),
         DisplayBlock(
+          path: "tabs_demo_3",
           child: TabsDemo3(),
         ),
       ],

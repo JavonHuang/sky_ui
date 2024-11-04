@@ -25,6 +25,7 @@ class _CollapseDemoState extends State<CollapseDemo> {
           descr: "可同时展开多个面板，面板之间不影响",
         ),
         DisplayBlock(
+          path: "collapse_demo_1",
           child: CollapseDemo1(),
         ),
       ],

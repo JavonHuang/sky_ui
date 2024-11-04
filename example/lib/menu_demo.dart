@@ -27,6 +27,7 @@ class _MenuDemoState extends State<MenuDemo> {
         ),
         DisplayBlock(
           description: "Alert 组件提供四种主题，由type属性指定，默认值为info。",
+          path: "menu_demo_1",
           child: MenuDemo1(),
         ),
       ],

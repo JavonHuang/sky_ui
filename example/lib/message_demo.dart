@@ -27,6 +27,7 @@ class _MessageDemoState extends State<MessageDemo> {
         ),
         DisplayBlock(
           description: "Message 在配置上与与Alert相识，显示内容实际是Alert组件，可以结合 Alert 的文档理解它们。",
+          path: "mssage_demo_1",
           child: MessageDemo1(),
         ),
         DemoTitle(
@@ -35,6 +36,7 @@ class _MessageDemoState extends State<MessageDemo> {
         ),
         DisplayBlock(
           description: "参考Alert的类型配置",
+          path: "mssage_demo_2",
           child: MessageDemo2(),
         ),
       ],

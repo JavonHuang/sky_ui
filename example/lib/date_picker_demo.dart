@@ -25,6 +25,7 @@ class _DatePickerDemoState extends State<DatePickerDemo> {
           descr: "以「日」为基本单位，基础的日期选择控件",
         ),
         DisplayBlock(
+          path: "date_picker_demo_1",
           child: DatePickerDemo1(),
         ),
       ],

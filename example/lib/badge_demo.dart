@@ -27,6 +27,7 @@ class _BadgeDemoState extends State<BadgeDemo> {
         ),
         DisplayBlock(
           description: "Alert 组件提供四种主题，由type属性指定，默认值为info。",
+          path: "badge_demo_1",
           child: BadgeDemo1(),
         ),
         DemoTitle(
@@ -34,6 +35,7 @@ class _BadgeDemoState extends State<BadgeDemo> {
           descr: "以红点的形式标注需要关注的内容。",
         ),
         DisplayBlock(
+          path: "badge_demo_2",
           child: BadgeDemo2(),
         ),
       ],

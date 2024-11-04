@@ -31,6 +31,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "要使用它，只需要在SkyInputNumber中使用model绑定变量即可，变量的初始值即为默认值。",
+          path: "input_number_demo_1",
           child: InputNumberDemo1(),
         ),
         DemoTitle(
@@ -38,6 +39,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "input_number_demo_2",
           child: InputNumberDemo2(),
         ),
         DemoTitle(
@@ -46,6 +48,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "设置step属性可以控制步长，接受一个Number。",
+          path: "input_number_demo_3",
           child: InputNumberDemo3(),
         ),
         DemoTitle(
@@ -54,6 +57,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "precision 的值必须是一个非负整数，并且不能小于 step 的小数位数。",
+          path: "input_number_demo_4",
           child: InputNumberDemo4(),
         ),
         DemoTitle(
@@ -62,6 +66,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "precision 的值必须是一个非负整数，并且不能小于 step 的小数位数。",
+          path: "input_number_demo_5",
           child: InputNumberDemo5(),
         ),
         DemoTitle(
@@ -70,6 +75,7 @@ class _InputNumberDemoState extends State<InputNumberDemo> {
         ),
         DisplayBlock(
           description: "precision 的值必须是一个非负整数，并且不能小于 step 的小数位数。",
+          path: "input_number_demo_6",
           child: InputNumberDemo6(),
         ),
       ],

@@ -30,6 +30,7 @@ class _RadioDemoState extends State<RadioDemo> {
         ),
         DisplayBlock(
           description: "要使用 Radio 组件，只需要设置model绑定变量，选中意味着变量的值为相应 Radio label属性的值，label仅限String",
+          path: "radio_demo_1",
           child: RadioDemo1(),
         ),
         DemoTitle(
@@ -37,6 +38,7 @@ class _RadioDemoState extends State<RadioDemo> {
           descr: "单选框不可用的状态。",
         ),
         DisplayBlock(
+          path: "radio_demo_2",
           child: RadioDemo2(),
         ),
         DemoTitle(
@@ -44,6 +46,7 @@ class _RadioDemoState extends State<RadioDemo> {
           descr: "适用于在多个互斥的选项中选择的场景",
         ),
         DisplayBlock(
+          path: "radio_demo_3",
           child: RadioDemo3(),
         ),
         DemoTitle(
@@ -52,6 +55,7 @@ class _RadioDemoState extends State<RadioDemo> {
         ),
         DisplayBlock(
           description: "设置border属性可以渲染为带有边框的单选框。",
+          path: "radio_demo_4",
           child: RadioDemo4(),
         ),
         DemoTitle(
@@ -60,6 +64,7 @@ class _RadioDemoState extends State<RadioDemo> {
         ),
         DisplayBlock(
           description: "设置border属性可以渲染为带有边框的单选框。",
+          path: "radio_demo_5",
           child: RadioDemo5(),
         ),
       ],

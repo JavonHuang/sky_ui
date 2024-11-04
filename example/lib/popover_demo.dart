@@ -28,6 +28,7 @@ class _PopoverDemoState extends State<PopoverDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "popover_demo_1",
           child: PopoverDemo1(),
         ),
         DemoTitle(
@@ -36,6 +37,7 @@ class _PopoverDemoState extends State<PopoverDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "popover_demo_2",
           child: PopoverDemo2(),
         ),
       ],

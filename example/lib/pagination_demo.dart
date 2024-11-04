@@ -28,6 +28,7 @@ class _PaginationDemoState extends State<PaginationDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "pagination_demo_1",
           child: PaginationDemo1(),
         ),
         DemoTitle(
@@ -36,6 +37,7 @@ class _PaginationDemoState extends State<PaginationDemo> {
         ),
         DisplayBlock(
           description: "默认情况下，当总页数超过 7 页时，Pagination 会折叠多余的页码按钮。通过pager-count属性可以设置最大页码按钮数。",
+          path: "pagination_demo_2",
           child: PaginationDemo2(),
         ),
         DemoTitle(
@@ -44,6 +46,7 @@ class _PaginationDemoState extends State<PaginationDemo> {
         ),
         DisplayBlock(
           description: "设置background属性可以为分页按钮添加背景色。",
+          path: "pagination_demo_3",
           child: PaginationDemo3(),
         ),
       ],

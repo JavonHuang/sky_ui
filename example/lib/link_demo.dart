@@ -29,6 +29,7 @@ class _LinkDemoState extends State<LinkDemo> {
           descr: "基础的文字链接用法。",
         ),
         DisplayBlock(
+          path: "link_demo_1",
           child: LinkDemo1(),
         ),
         DemoTitle(
@@ -36,6 +37,7 @@ class _LinkDemoState extends State<LinkDemo> {
           descr: "文字链接不可用状态。",
         ),
         DisplayBlock(
+          path: "link_demo_2",
           child: LinkDemo2(),
         ),
         DemoTitle(
@@ -43,6 +45,7 @@ class _LinkDemoState extends State<LinkDemo> {
           descr: "文字链接下划线。",
         ),
         DisplayBlock(
+          path: "link_demo_3",
           child: LinkDemo3(),
         ),
         DemoTitle(
@@ -50,6 +53,7 @@ class _LinkDemoState extends State<LinkDemo> {
           descr: "文字链接下划线。",
         ),
         DisplayBlock(
+          path: "link_demo_4",
           child: LinkDemo4(),
         ),
       ],

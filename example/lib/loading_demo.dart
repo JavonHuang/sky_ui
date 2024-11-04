@@ -37,6 +37,7 @@ class _LoadingDemoState extends State<LoadingDemo> {
         ),
         DisplayBlock(
           description: "Sky-ui 提供了类对象的服务控制。通过SkyLoading实例对象可以在指定实现局部加载，通过hide，show函数可以实现显示隐藏。",
+          path: "loading_demo_1",
           child: LoadingDemo1(),
         ),
         DemoTitle(
@@ -45,6 +46,7 @@ class _LoadingDemoState extends State<LoadingDemo> {
         ),
         DisplayBlock(
           description: "Sky-ui 提供了类对象的服务控制。通过SkyLoading实例对象可以在指定实现局部加载，通过hide，show函数可以实现显示隐藏。",
+          path: "loading_demo_2",
           child: LoadingDemo2(),
         ),
         DemoTitle(
@@ -53,6 +55,7 @@ class _LoadingDemoState extends State<LoadingDemo> {
         ),
         DisplayBlock(
           description: "Sky-ui SkyLoading静态对象实现了全局遮罩，通过service，close控制显示隐藏",
+          path: "loading_demo_3",
           child: LoadingDemo3(),
         ),
       ],

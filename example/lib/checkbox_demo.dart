@@ -31,6 +31,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "单独使用可以表示两种状态之间的切换，写在标签中的内容为 checkbox 按钮后的介绍。",
         ),
         DisplayBlock(
+          path: "checkbox_demo_1",
           child: CheckboxDemo1(),
         ),
         DemoTitle(
@@ -38,6 +39,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "多选框不可用状态。",
         ),
         DisplayBlock(
+          path: "checkbox_demo_2",
           child: CheckboxDemo2(),
         ),
         DemoTitle(
@@ -45,6 +47,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "适用于多个勾选框绑定到同一个数组的情景，通过是否勾选来表示这一组选项中选中的项。",
         ),
         DisplayBlock(
+          path: "checkbox_demo_3",
           child: CheckboxDemo3(),
         ),
         DemoTitle(
@@ -52,6 +55,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "indeterminate 属性用以表示 checkbox 的不确定状态，一般用于实现全选的效果",
         ),
         DisplayBlock(
+          path: "checkbox_demo_4",
           child: CheckboxDemo4(),
         ),
         DemoTitle(
@@ -59,6 +63,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "使用 min 和 max 属性能够限制可以被勾选的项目的数量。",
         ),
         DisplayBlock(
+          path: "checkbox_demo_5",
           child: CheckboxDemo5(),
         ),
         DemoTitle(
@@ -66,6 +71,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "按钮样式的多选组合。",
         ),
         DisplayBlock(
+          path: "checkbox_demo_6",
           child: CheckboxDemo6(),
         ),
         DemoTitle(
@@ -73,6 +79,7 @@ class _CheckboxDemoState extends State<CheckboxDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "checkbox_demo_7",
           child: CheckboxDemo7(),
         ),
       ],

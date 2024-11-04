@@ -30,6 +30,7 @@ class _TableDemoState extends State<TableDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "table_demo_1",
           child: TableDemo1(),
         ),
         DemoTitle(
@@ -38,6 +39,7 @@ class _TableDemoState extends State<TableDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "table_demo_2",
           child: TableDemo2(),
         ),
         DemoTitle(
@@ -46,6 +48,7 @@ class _TableDemoState extends State<TableDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "table_demo_3",
           child: TableDemo3(),
         ),
         DemoTitle(
@@ -54,6 +57,7 @@ class _TableDemoState extends State<TableDemo> {
         ),
         DisplayBlock(
           description: "可以通过指定 Table 组件的 rowStyle 函数钩子来为 Table 中的某一行设置样式，表明该行处于某种状态。",
+          path: "table_demo_4",
           child: TableDemo4(),
         ),
         DemoTitle(
@@ -62,6 +66,7 @@ class _TableDemoState extends State<TableDemo> {
         ),
         DisplayBlock(
           description: "固定列需要使用fixed属性，它接受 SkyFixed ，表示左边固定还是右边固定。",
+          path: "table_demo_4",
           child: TableDemo5(),
         ),
       ],

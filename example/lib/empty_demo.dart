@@ -29,6 +29,7 @@ class _EmptyDemoState extends State<EmptyDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "empty_demo_1",
           child: EmptyDemo1(),
         ),
         DemoTitle(
@@ -37,6 +38,7 @@ class _EmptyDemoState extends State<EmptyDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "empty_demo_2",
           child: EmptyDemo2(),
         ),
         DemoTitle(
@@ -45,6 +47,7 @@ class _EmptyDemoState extends State<EmptyDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "empty_demo_3",
           child: EmptyDemo3(),
         ),
       ],

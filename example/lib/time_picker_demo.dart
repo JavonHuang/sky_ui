@@ -31,6 +31,7 @@ class _TimePickerDemoState extends State<TimePickerDemo> {
         ),
         DisplayBlock(
           description: "分别通过start、end和step指定可选的起始时间、结束时间和步长",
+          path: "time_picker_demo_1",
           child: TimePickerDemo1(),
         ),
         DemoTitle(
@@ -39,6 +40,7 @@ class _TimePickerDemoState extends State<TimePickerDemo> {
         ),
         DisplayBlock(
           description: "通过minTime,maxTime,限制可选时间范围。",
+          path: "time_picker_demo_2",
           child: TimePickerDemo2(),
         ),
         DemoTitle(
@@ -46,6 +48,7 @@ class _TimePickerDemoState extends State<TimePickerDemo> {
           descr: "若先选择开始时间，则结束时间内备选项的状态会随之改变",
         ),
         DisplayBlock(
+          path: "time_picker_demo_3",
           child: TimePickerDemo3(),
         ),
         DemoTitle(
@@ -53,6 +56,7 @@ class _TimePickerDemoState extends State<TimePickerDemo> {
           descr: "可选择任意的时间范围",
         ),
         DisplayBlock(
+          path: "time_picker_demo_4",
           child: TimePickerDemo4(),
         ),
       ],

@@ -27,6 +27,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "常用的操作按钮。",
         ),
         DisplayBlock(
+          path: "button_demo_1",
           child: ButtonDemo1(),
         ),
         DemoTitle(
@@ -34,6 +35,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "按钮不可用状态。",
         ),
         DisplayBlock(
+          path: "button_demo_2",
           child: ButtonDemo2(),
         ),
         DemoTitle(
@@ -41,6 +43,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "没有边框和背景色的按钮。",
         ),
         DisplayBlock(
+          path: "button_demo_3",
           child: ButtonDemo3(),
         ),
         DemoTitle(
@@ -48,6 +51,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "带图标的按钮可增强辨识度（有文字）或节省空间（无文字）。",
         ),
         DisplayBlock(
+          path: "button_demo_4",
           child: ButtonDemo4(),
         ),
         DemoTitle(
@@ -55,6 +59,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "以按钮组的方式出现，常用于多项类似操作。",
         ),
         DisplayBlock(
+          path: "button_demo_5",
           child: ButtonDemo5(),
         ),
         DemoTitle(
@@ -62,6 +67,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "点击按钮后进行数据加载操作，在按钮上显示加载状态。",
         ),
         DisplayBlock(
+          path: "button_demo_6",
           child: ButtonDemo6(),
         ),
         DemoTitle(
@@ -69,6 +75,7 @@ class _ButtonDemoState extends State<ButtonDemo> {
           descr: "Button 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。",
         ),
         DisplayBlock(
+          path: "button_demo_7",
           child: ButtonDemo7(),
         ),
       ],

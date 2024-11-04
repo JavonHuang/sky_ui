@@ -28,18 +28,21 @@ class _DescriptionsDemoState extends State<DescriptionsDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "descriptions_demo_1",
           child: DescriptionsDemo1(),
         ),
         DemoTitle(
           title: "不同尺寸",
         ),
         DisplayBlock(
+          path: "descriptions_demo_2",
           child: DescriptionsDemo2(),
         ),
         DemoTitle(
           title: "垂直列表",
         ),
         DisplayBlock(
+          path: "descriptions_demo_3",
           child: DescriptionsDemo3(),
         ),
         DemoTitle(
@@ -47,6 +50,7 @@ class _DescriptionsDemoState extends State<DescriptionsDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "descriptions_demo_4",
           child: DescriptionsDemo4(),
         ),
       ],

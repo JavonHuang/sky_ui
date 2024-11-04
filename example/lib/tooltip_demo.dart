@@ -27,6 +27,7 @@ class _TooltipDemoState extends State<TooltipDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "tooltip_demo_1",
           child: TooltipDemo1(),
         ),
       ],

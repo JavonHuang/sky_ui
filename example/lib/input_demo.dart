@@ -33,6 +33,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "input_demo_1",
           child: InputDemo1(),
         ),
         DemoTitle(
@@ -41,6 +42,7 @@ class _InputDemoState extends State<InputDemo> {
         ),
         DisplayBlock(
           description: "通过 disabled 属性指定是否禁用 input 组件",
+          path: "input_demo_2",
           child: InputDemo2(),
         ),
         DemoTitle(
@@ -48,6 +50,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "input_demo_3",
           child: InputDemo3(),
         ),
         DemoTitle(
@@ -55,6 +58,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "input_demo_4",
           child: InputDemo4(),
         ),
         DemoTitle(
@@ -63,6 +67,7 @@ class _InputDemoState extends State<InputDemo> {
         ),
         DisplayBlock(
           description: "可以通过 rightIcon 和 leftIcon 属性在 input 组件首部和尾部增加显示图标",
+          path: "input_demo_5",
           child: InputDemo5(),
         ),
         DemoTitle(
@@ -70,6 +75,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "用于输入多行文本信息，通过将 type 属性的值指定为 textarea。",
         ),
         DisplayBlock(
+          path: "input_demo_6",
           child: InputDemo6(),
         ),
         DemoTitle(
@@ -77,6 +83,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "通过设置 minLines，maxLines，属性可以使得文本域的高度能够根据文本内容自动进行调整，并且 autosize 还可以设定为一个对象，指定最小行数和最大行数。",
         ),
         DisplayBlock(
+          path: "input_demo_7",
           child: InputDemo7(),
         ),
         DemoTitle(
@@ -84,6 +91,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "input_demo_8",
           child: InputDemo8(),
         ),
         DemoTitle(
@@ -91,6 +99,7 @@ class _InputDemoState extends State<InputDemo> {
           descr: "",
         ),
         DisplayBlock(
+          path: "input_demo_9",
           child: InputDemo9(),
         ),
       ],

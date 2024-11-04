@@ -28,6 +28,7 @@ class _TagDemoState extends State<TagDemo> {
         ),
         DisplayBlock(
           description: "由type属性来选择tag的类型，也可以通过color属性来自定义背景色。",
+          path: "tag_demo_1",
           child: TagDemo1(),
         ),
         DemoTitle(
@@ -35,6 +36,7 @@ class _TagDemoState extends State<TagDemo> {
         ),
         DisplayBlock(
           description: "设置closable属性可以定义一个标签是否可移除。默认的标签移除时会附带渐变动画，如果不想使用，",
+          path: "tag_demo_2",
           child: TagDemo2(),
         ),
         DemoTitle(
@@ -42,12 +44,14 @@ class _TagDemoState extends State<TagDemo> {
         ),
         DisplayBlock(
           description: "Tag 组件提供除了默认值以外的三种尺寸，可以在不同场景下选择合适的按钮尺寸。",
+          path: "tag_demo_3",
           child: TagDemo3(),
         ),
         DemoTitle(
           title: "不同主题",
         ),
         DisplayBlock(
+          path: "tag_demo_4",
           child: TagDemo4(),
         ),
       ],

@@ -30,6 +30,7 @@ class _SelectDemoState extends State<SelectDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "select_demo_1",
           child: SelectDemo1(),
         ),
         DemoTitle(
@@ -38,6 +39,7 @@ class _SelectDemoState extends State<SelectDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "select_demo_2",
           child: SelectDemo2(),
         ),
         DemoTitle(
@@ -46,6 +48,7 @@ class _SelectDemoState extends State<SelectDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "select_demo_3",
           child: SelectDemo3(),
         ),
         DemoTitle(
@@ -54,6 +57,7 @@ class _SelectDemoState extends State<SelectDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "select_demo_4",
           child: SelectDemo4(),
         ),
         DemoTitle(
@@ -62,6 +66,7 @@ class _SelectDemoState extends State<SelectDemo> {
         ),
         DisplayBlock(
           description: "",
+          path: "select_demo_5",
           child: SelectDemo5(),
         ),
       ],
